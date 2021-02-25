@@ -65,6 +65,26 @@ namespace HNM.WebApiNC.Controllers
             }
             return output;
         }
+
+        [HttpGet]
+        public async Task<List<ListAllProductCategoryDTO>> GetAllProductcategory()
+        {
+            var output = new List<ListAllProductCategoryDTO>();
+            var result = await _repoWrapper.ProductCategory.GetAllProductcategory();
+            if(result !=null)
+            {
+                
+                foreach ( var p in result)
+                {
+                    ListAllProductCategoryDTO listItem = new ListAllProductCategoryDTO();
+                    listItem.Parent = _mapper.Map<ProductCategoryDTO>(p); 
+                    var lstChild = await _repoWrapper.ProductCategory.GetTopCateByParentId("", (int)p.ProductCategory_ID);
+                    listItem.Child = _mapper.Map<IEnumerable<ProductCategoryDTO>>(lstChild);
+                    output.Add(listItem);
+                }
+            }
+            return output;
+        }
         /// <summary>
         /// Get ProdCate From Menu
         /// </summary>

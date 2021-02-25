@@ -40,48 +40,18 @@ namespace CMS_V3.Controllers
             //Get Home Carousel
             await GetHomeCarousel();
             //Get Menu
-            ViewBag.MenuMachine = await GetLstMenuByParentId(654);
-            ViewBag.MenuMaterials = await GetLstMenuByParentId(652);
-            ViewBag.MenuServices = await GetLstMenuByParentId(651);
-
-            //Get Sell Product
-            ViewBag.HomeSellProduct = await GetHomeBlockProduct(1, 654);
-            
+            ViewBag.ProductCategory = await GetAllProductCategory();
             return View();
         }
 
-        public async Task<ActionResult> GetHomeSellProduct()
+        public async Task<ActionResult> GetHomeProductCategory(string BlockName , int ProductCategoryId)
         {
-            ViewBag.MenuMachine = await GetLstMenuByParentId(654);
-            var jsonResult = await GetHomeBlockProduct(1, 654);
+            ViewBag.MenuMachine = await GetLstMenuByParentId(ProductCategoryId);
+            var jsonResult = await GetHomeBlockProduct(1, ProductCategoryId);
+            ViewBag.BlockName = BlockName;
             return PartialView("HomeSellProduct", jsonResult);
         }
-        public async Task<ActionResult> GetHomeRentProduct()
-        {
-            ViewBag.MenuMachine = await GetLstMenuByParentId(654);
-            var jsonResult = await GetHomeBlockProduct(3, 654);
-            return PartialView("HomeRentProduct", jsonResult);
-        }
-
-        public async Task<ActionResult> GetHomeAccesoriesProduct()
-        {
-            ViewBag.MenuMachine = await GetLstMenuByParentId(654);
-            var jsonResult = await GetHomeBlockProduct(5, 654);
-            return PartialView("HomeAccesoriesProduct", jsonResult);
-        }
-
-        public async Task<ActionResult> GetHomeMaterialProduct()
-        {
-            ViewBag.MenuMaterials = await GetLstMenuByParentId(652);
-            var jsonResult = await GetHomeBlockProduct(7, 652);
-            return PartialView("HomeMaterialProduct", jsonResult);
-        }
-        public async Task<ActionResult> GetHomeServices()
-        {
-            ViewBag.MenuServices = await GetLstMenuByParentId(651);
-            var jsonResult = await GetHomeBlockProduct(11, 651);
-            return PartialView("HomeServices", jsonResult);
-        }
+ 
 
         public async Task<ActionResult> GetHomeLibrary()
         {
@@ -147,6 +117,21 @@ namespace CMS_V3.Controllers
             return output;
         }
 
+        public async Task<List<ListAllProductCategoryDTO>> GetAllProductCategory()
+        {
+            List<ListAllProductCategoryDTO> output = new List<ListAllProductCategoryDTO>();
+            try
+            {                
+               
+                 output = await _repoWrapper.ProductCategory.GetAllProductCategory();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"HomeController- GetAllProductCategory {ex.ToString()}");
+            }
+
+            return output;
+        }
         /// <summary>
         /// Get HomeBock Product
         /// </summary>

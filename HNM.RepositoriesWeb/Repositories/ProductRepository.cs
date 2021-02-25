@@ -40,6 +40,8 @@ namespace HNM.RepositoriesWeb.Repositories
         Task<ModelBaseStatus> ActionInCV(int? Id, string Action);
         Task<ModelBaseStatus> ActionInRec(int? Id, string Action);
         Task<ReturnPostCVDTO> UpdateCV(SumPostCurriculumnViateDTO SumPostCurriculumnViateDTO, int CVId, int IsRepair);
+
+        
     }
     public class ProductRepository : IProductRepository
     {

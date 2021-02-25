@@ -1,4 +1,5 @@
 ﻿{
+   "CodeGenerationMode": 1,
    "ContextClassName": "HanomaContext",
    "ContextNamespace": null,
    "DefaultDacpacSchema": null,
@@ -13,421 +14,449 @@
    "SelectedToBeGenerated": 0,
    "Tables": [
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[Advertising]"
+         "Name": "[dbo].[Advertising]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[AdvertisingBlock]"
+         "Name": "[dbo].[AdvertisingBlock]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[Article]"
+         "Name": "[dbo].[Article]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ArticleBlock]"
+         "Name": "[dbo].[ArticleBlock]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ArticleBlockArticle]"
+         "Name": "[dbo].[ArticleBlockArticle]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ArticleCategory]"
+         "Name": "[dbo].[ArticleCategory]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ArticleCategoryArticle]"
+         "Name": "[dbo].[ArticleCategoryArticle]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ArticleComment]"
+         "Name": "[dbo].[ArticleComment]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ArticleRelationArticle]"
+         "Name": "[dbo].[ArticleRelationArticle]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ArticleTop]"
+         "Name": "[dbo].[ArticleTop]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ArticleType]"
+         "Name": "[dbo].[ArticleType]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ArticleVoice]"
+         "Name": "[dbo].[ArticleVoice]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ArticleVoiceType]"
+         "Name": "[dbo].[ArticleVoiceType]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[AspNetRoleClaims]"
+         "Name": "[dbo].[AspNetRoleClaims]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[AspNetRoles]"
+         "Name": "[dbo].[AspNetRoles]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[AspNetUserClaims]"
+         "Name": "[dbo].[AspNetUserClaims]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[AspNetUserLogins]"
+         "Name": "[dbo].[AspNetUserLogins]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[AspNetUserProfiles]"
+         "Name": "[dbo].[AspNetUserProfiles]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[AspNetUserRoles]"
+         "Name": "[dbo].[AspNetUserRoles]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[AspNetUsers]"
+         "Name": "[dbo].[AspNetUsers]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[CareerCategory]"
+         "Name": "[dbo].[CareerCategory]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[Contact]"
+         "Name": "[dbo].[Contact]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ContactAds]"
+         "Name": "[dbo].[ContactAds]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[Country]"
+         "Name": "[dbo].[Country]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[Customer]"
+         "Name": "[dbo].[Customer]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[DeliveryAddress]"
+         "Name": "[dbo].[DeliveryAddress]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[Department]"
+         "Name": "[dbo].[Department]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[DepartmentMan]"
+         "Name": "[dbo].[DepartmentMan]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[District]"
+         "Name": "[dbo].[District]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[Email]"
+         "Name": "[dbo].[Email]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[Emailcampaign]"
+         "Name": "[dbo].[Emailcampaign]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[EmailList]"
+         "Name": "[dbo].[EmailList]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[EmailSubscriber]"
+         "Name": "[dbo].[EmailSubscriber]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[EmailTemplate]"
+         "Name": "[dbo].[EmailTemplate]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ExchangeRate]"
+         "Name": "[dbo].[ExchangeRate]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[FCMClient]"
+         "Name": "[dbo].[FCMClient]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[FCMMessage]"
+         "Name": "[dbo].[FCMMessage]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[FCMMessageForTokken]"
+         "Name": "[dbo].[FCMMessageForTokken]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[GoldPrice]"
+         "Name": "[dbo].[GoldPrice]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[GoogleIndexSetting]"
+         "Name": "[dbo].[GoogleIndexSetting]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[HighLightBlock]"
+         "Name": "[dbo].[HighLightBlock]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[HighLightProduct]"
+         "Name": "[dbo].[HighLightProduct]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[Language]"
+         "Name": "[dbo].[Language]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[Location]"
+         "Name": "[dbo].[Library]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[Log]"
+         "Name": "[dbo].[LibraryCategory]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[LogAPI]"
+         "Name": "[dbo].[Location]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[LogEvent]"
+         "Name": "[dbo].[Log]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[Major]"
+         "Name": "[dbo].[LogAPI]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[Menu]"
+         "Name": "[dbo].[LogEvent]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[MetaKeyword]"
+         "Name": "[dbo].[Major]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[MetaKeywordMap]"
+         "Name": "[dbo].[Menu]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[MetaResume]"
+         "Name": "[dbo].[MetaKeyword]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[Minor]"
+         "Name": "[dbo].[MetaKeywordMap]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[NotifyMessage]"
+         "Name": "[dbo].[MetaResume]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[PhoneList]"
+         "Name": "[dbo].[Minor]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[PhoneListAdd]"
+         "Name": "[dbo].[NotifyMessage]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[Product]"
+         "Name": "[dbo].[PageLayout]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ProductBlock]"
+         "Name": "[dbo].[PhoneList]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ProductBlockProduct]"
+         "Name": "[dbo].[PhoneListAdd]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ProductBrand]"
+         "Name": "[dbo].[Product]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ProductBrandBlock]"
+         "Name": "[dbo].[ProductBlock]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ProductBrandBlockProductBrand]"
+         "Name": "[dbo].[ProductBlockProduct]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ProductBrandCategory]"
+         "Name": "[dbo].[ProductBrand]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ProductBrandType]"
+         "Name": "[dbo].[ProductBrandBlock]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ProductCategory]"
+         "Name": "[dbo].[ProductBrandBlockProductBrand]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ProductModel]"
+         "Name": "[dbo].[ProductBrandCategory]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ProductOrder]"
+         "Name": "[dbo].[ProductBrandType]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ProductOrderDetails]"
+         "Name": "[dbo].[ProductCategory]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ProductOrderStatus]"
+         "Name": "[dbo].[ProductManufacture]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ProductPicture]"
+         "Name": "[dbo].[ProductModel]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ProductProperty]"
+         "Name": "[dbo].[ProductOrder]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ProductPropertyCategory]"
+         "Name": "[dbo].[ProductOrderDetails]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ProductPropertyType]"
+         "Name": "[dbo].[ProductOrderStatus]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ProductRelationProduct]"
+         "Name": "[dbo].[ProductPicture]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ProductRenew]"
+         "Name": "[dbo].[ProductProperty]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ProductSearchCriteria]"
+         "Name": "[dbo].[ProductPropertyCategory]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ProductTop]"
+         "Name": "[dbo].[ProductPropertyType]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ProductType]"
+         "Name": "[dbo].[ProductRelationProduct]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[Province]"
+         "Name": "[dbo].[ProductRenew]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[QuoteAds]"
+         "Name": "[dbo].[ProductSearchCriteria]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[RecruimentPicture]"
+         "Name": "[dbo].[ProductTop]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[Register]"
+         "Name": "[dbo].[ProductType]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[RegisterPicture]"
+         "Name": "[dbo].[Province]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ReplaceChar]"
+         "Name": "[dbo].[QuoteAds]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[Resume]"
+         "Name": "[dbo].[RecruimentPicture]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ResumeCategory]"
+         "Name": "[dbo].[Register]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[Setting]"
+         "Name": "[dbo].[RegisterPicture]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ShoppingCartDetail]"
+         "Name": "[dbo].[ReplaceChar]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[ShoppingCartMaster]"
+         "Name": "[dbo].[Resume]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[Sitemap]"
+         "Name": "[dbo].[ResumeCategory]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[Skin]"
+         "Name": "[dbo].[Setting]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[SMSMessage]"
+         "Name": "[dbo].[ShoppingCartDetail]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[StatsProduct]"
+         "Name": "[dbo].[ShoppingCartMaster]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[StatusType]"
+         "Name": "[dbo].[Sitemap]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[Store]"
+         "Name": "[dbo].[Skin]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[Subscription]"
+         "Name": "[dbo].[SMSMessage]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[SysLog]"
+         "Name": "[dbo].[StatsProduct]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[SystemMessage]"
+         "Name": "[dbo].[StatusType]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[TagType]"
+         "Name": "[dbo].[Store]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[Unit]"
+         "Name": "[dbo].[Subscription]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[UserNotify]"
+         "Name": "[dbo].[SysLog]",
+         "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
-         "Name": "[dbo].[VideoCategory]"
+         "Name": "[dbo].[SystemMessage]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Tag]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TagMap]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TagType]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Unit]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[UserNotify]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[VideoCategory]",
+         "ObjectType": 0
       }
    ],
+   "UiHint": "WIN-JG1E0O7FSBS\\SQLEXPRESS.DaVinhQuang",
+   "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": true,
    "UseDbContextSplitting": false,
    "UseFluentApiOnly": true,
    "UseHandleBars": false,
    "UseInflector": false,
    "UseLegacyPluralizer": false,
+   "UseNoConstructor": false,
+   "UseNoNavigations": false,
    "UseNodaTime": false,
-   "UseSpatial": false,
-   "UseStoredProcedures": false
+   "UseNullableReferences": false,
+   "UseSpatial": false
 }

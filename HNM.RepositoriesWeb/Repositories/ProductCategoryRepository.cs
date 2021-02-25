@@ -16,6 +16,8 @@ namespace HNM.RepositoriesWeb.Repositories
         Task<ListProductCategoryDTO> GetLstMenuByParentId(int parentID);
         Task<List<ProductCategoryTwoLevelDTO>> GetProdCateTwoLevel(int ProductCategoryId);
         Task<ProductCategoryDTO> GetDetailProductCategory(int ProductCategoryId);
+
+        Task<List<ListAllProductCategoryDTO>> GetAllProductCategory();
     }
     public class ProductCategoryRepository :IRepositoryBase, IProductCategoryRepository
     {
@@ -64,6 +66,19 @@ namespace HNM.RepositoriesWeb.Repositories
             {
                 string responseStream = await response.Content.ReadAsStringAsync();
                 output = JsonConvert.DeserializeObject<ProductCategoryDTO>(responseStream);
+            }
+            return output;
+        }
+
+        public async Task<List<ListAllProductCategoryDTO>> GetAllProductCategory()
+        {
+            List<ListAllProductCategoryDTO> output = new List<ListAllProductCategoryDTO>();
+            string apiUrl = $"/api/v1/ProductCategory/GetAllProductcategory";            
+            var response = await _client.GetAsync(apiUrl);
+            if (response.IsSuccessStatusCode)
+            {
+                string responseStream = await response.Content.ReadAsStringAsync();
+                output = JsonConvert.DeserializeObject<List<ListAllProductCategoryDTO>>(responseStream);
             }
             return output;
         }

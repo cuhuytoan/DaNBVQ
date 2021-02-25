@@ -4,14 +4,14 @@ using System.Collections.Generic;
 
 namespace HNM.DataNC.Models
 {
-    public partial class TagType
+    public partial class Tag
     {
-        public TagType()
+        public Tag()
         {
             TagMap = new HashSet<TagMap>();
         }
 
-        public int TagType_ID { get; set; }
+        public int Tag_ID { get; set; }
         public string Name { get; set; }
 
         public virtual ICollection<TagMap> TagMap { get; set; }

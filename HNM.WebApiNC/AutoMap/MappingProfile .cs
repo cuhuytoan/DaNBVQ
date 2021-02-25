@@ -47,11 +47,11 @@ namespace HNM.WebApiNC.AutoMap
 
 
             // Recruitment
-            CreateMap<Recruitment, RecruitmentDTO>().ReverseMap();
+            
             CreateMap<RecruitmentTop, RecruitmentDTO>().ReverseMap();
             CreateMap<Recruitment_Search_Result, RecruitmentSearchResultDTO>().ReverseMap();
             CreateMap<RecruitmentSearchResultDTO, Recruitment_Search_V2_Result>().ReverseMap();
-            CreateMap<RecPictureDTO, RecruitmentPicture>().ReverseMap();
+            
 
             // Resume
             CreateMap<Resume_Search_Result, ResumeDTO>().ReverseMap();
@@ -100,7 +100,7 @@ namespace HNM.WebApiNC.AutoMap
             CreateMap<ProductModel, ProductModelDTO>().ReverseMap();
             CreateMap<ProductModel_SearchByCategory_Result_DTO, ProductModel>().ReverseMap();
             //Recruitment Category
-            CreateMap<RecruitmentCategoryDTO, RecruitmentCategory>().ReverseMap();
+            
 
             // Page Layout
             CreateMap<ProductCategoryHighLightDTO, PageLayout>().ReverseMap();
@@ -109,7 +109,7 @@ namespace HNM.WebApiNC.AutoMap
             CreateMap<KeywordDTO, MetaKeyword>().ReverseMap();
 
             // IntroScreen
-            CreateMap<IntroScreenDTO, AppIntroScreen>().ReverseMap();
+            
 
             //Library
             CreateMap<LibraryDTO, Library>().ReverseMap();
@@ -122,13 +122,9 @@ namespace HNM.WebApiNC.AutoMap
             CreateMap<PatchNumberDTO, PatchNumber_SearchByCategory_Result>().ReverseMap();
 
             // CurriculumnVitae
-            CreateMap<CurriculumVitaeDTO, CurriculumVitae>().ReverseMap();
+            
             CreateMap<CVSearchDTO, CV_Search_Result>().ReverseMap();
-            CreateMap<PostCurriculumnViateDTO, CurriculumVitae>().ReverseMap();
-            CreateMap<CVPicture, CVPictureDTO>().ReverseMap();               
-            CreateMap<RecruitmentPicture, RecruitmentPictureDTO>().ReverseMap();
-
-
+            
 
             //DashBoard
             CreateMap<DashBoashProductBrandDTO, GetDashBoard_Result>().ReverseMap();
@@ -147,7 +143,7 @@ namespace HNM.WebApiNC.AutoMap
             CreateMap<UnitDTO, Unit>().ReverseMap();
 
             //Accessories
-            CreateMap<AccessoriesFit, AccessoriesFitDTO>().ReverseMap();
+            
 
             //Payment
             CreateMap<ServicesDTO, HNM.DataNC.ModelsPayment.Services>().ReverseMap();

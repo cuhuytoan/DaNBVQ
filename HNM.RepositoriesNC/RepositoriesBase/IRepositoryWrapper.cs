@@ -16,24 +16,22 @@ namespace HNM.RepositoriesNC.RepositoriesBase
         IProductModelRepository ProductModel { get; }
         IProductManufactureRepository ProductManufacture { get; }
         IProductCategoryRepository ProductCategory { get; }
-        IMenuRepository Menu { get; }
-        IRecruitmentRepository Recruitment { get; }
-        IResumeRepository Resume { get; }
+        IMenuRepository Menu { get; }        
         IBrandRepository Brand { get; }
         IArticleCategoryRepository ArticleCategory { get; }
         IElasticRepository Elastic { get; }
         IArticleRepository Article { get; }
         ILocationRepository Location { get; }
         IManufactureRepository Manufacture { get; }
-        IRecruitmentCategoryRepository RecruitmentCategory { get; }
+        
         IPageLayoutRepository PageLayout { get; }
-        IIntroRepository IntroScreen { get; }
+        //IIntroRepository IntroScreen { get; }
         IKeywordRepository Keyword { get; }
         ILibraryRepository Library { get; }
         ILibraryCategoryRepository LibraryCategory { get; }
-        ICurriculumVitaeRepository CurriculumVitae { get; }
+        //ICurriculumVitaeRepository CurriculumVitae { get; }
         IDashBoardRepository DashBoard { get; }
-        ICareerCategoryRepository CareerCategory { get; }
+        
         ICountryRepository Country { get; }
         IUnitRepository Unit { get; }
         ISettingRepository Setting { get; }

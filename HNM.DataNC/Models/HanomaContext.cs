@@ -60,6 +60,8 @@ namespace HNM.DataNC.Models
         public virtual DbSet<HighLightBlock> HighLightBlock { get; set; }
         public virtual DbSet<HighLightProduct> HighLightProduct { get; set; }
         public virtual DbSet<Language> Language { get; set; }
+        public virtual DbSet<Library> Library { get; set; }
+        public virtual DbSet<LibraryCategory> LibraryCategory { get; set; }
         public virtual DbSet<Location> Location { get; set; }
         public virtual DbSet<Log> Log { get; set; }
         public virtual DbSet<LogAPI> LogAPI { get; set; }
@@ -71,6 +73,7 @@ namespace HNM.DataNC.Models
         public virtual DbSet<MetaResume> MetaResume { get; set; }
         public virtual DbSet<Minor> Minor { get; set; }
         public virtual DbSet<NotifyMessage> NotifyMessage { get; set; }
+        public virtual DbSet<PageLayout> PageLayout { get; set; }
         public virtual DbSet<PhoneList> PhoneList { get; set; }
         public virtual DbSet<PhoneListAdd> PhoneListAdd { get; set; }
         public virtual DbSet<Product> Product { get; set; }
@@ -82,6 +85,7 @@ namespace HNM.DataNC.Models
         public virtual DbSet<ProductBrandCategory> ProductBrandCategory { get; set; }
         public virtual DbSet<ProductBrandType> ProductBrandType { get; set; }
         public virtual DbSet<ProductCategory> ProductCategory { get; set; }
+        public virtual DbSet<ProductManufacture> ProductManufacture { get; set; }
         public virtual DbSet<ProductModel> ProductModel { get; set; }
         public virtual DbSet<ProductOrder> ProductOrder { get; set; }
         public virtual DbSet<ProductOrderDetails> ProductOrderDetails { get; set; }
@@ -115,10 +119,13 @@ namespace HNM.DataNC.Models
         public virtual DbSet<Subscription> Subscription { get; set; }
         public virtual DbSet<SysLog> SysLog { get; set; }
         public virtual DbSet<SystemMessage> SystemMessage { get; set; }
+        public virtual DbSet<Tag> Tag { get; set; }
+        public virtual DbSet<TagMap> TagMap { get; set; }
         public virtual DbSet<TagType> TagType { get; set; }
         public virtual DbSet<Unit> Unit { get; set; }
         public virtual DbSet<UserNotify> UserNotify { get; set; }
         public virtual DbSet<VideoCategory> VideoCategory { get; set; }
+
         //Custom
         public virtual DbSet<Product_Search_Result> Product_Search_Result { get; set; }
         public virtual DbSet<Resume_Search_Result> Resume_Search_Result { get; set; }
@@ -150,7 +157,6 @@ namespace HNM.DataNC.Models
         public virtual DbSet<HistoryShopingCart_Result> HistoryShopingCart_Result { get; set; }
         public virtual DbSet<TimeLinePost_Result> TimeLinePost_Result { get; set; }
         public virtual DbSet<CountHistoryShopingCart_Result> CountHistoryShopingCart_Result { get; set; }
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -864,6 +870,74 @@ namespace HNM.DataNC.Models
                 entity.Property(e => e.WebsiteName).HasMaxLength(500);
             });
 
+            modelBuilder.Entity<Library>(entity =>
+            {
+                entity.HasKey(e => e.Library_ID);
+
+                entity.Property(e => e.AuthorCompany).HasMaxLength(200);
+
+                entity.Property(e => e.AuthorEmail).HasMaxLength(200);
+
+                entity.Property(e => e.AuthorJob).HasMaxLength(200);
+
+                entity.Property(e => e.AuthorPhone).HasMaxLength(50);
+
+                entity.Property(e => e.BannerImages).HasMaxLength(50);
+
+                entity.Property(e => e.Content).HasColumnType("ntext");
+
+                entity.Property(e => e.CreateDate).HasColumnType("datetime");
+
+                entity.Property(e => e.EndDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Image).HasMaxLength(50);
+
+                entity.Property(e => e.ImageDescription).HasMaxLength(200);
+
+                entity.Property(e => e.LastEditDate).HasColumnType("datetime");
+
+                entity.Property(e => e.MetaDescription).HasMaxLength(500);
+
+                entity.Property(e => e.MetaKeywords).HasMaxLength(500);
+
+                entity.Property(e => e.MetaTitle).HasMaxLength(500);
+
+                entity.Property(e => e.ReferralCode).HasMaxLength(50);
+
+                entity.Property(e => e.SKU).HasMaxLength(50);
+
+                entity.Property(e => e.StartDate).HasColumnType("datetime");
+
+                entity.Property(e => e.SubTitle).HasMaxLength(200);
+
+                entity.Property(e => e.Title).HasMaxLength(1000);
+
+                entity.Property(e => e.URL).HasMaxLength(1000);
+            });
+
+            modelBuilder.Entity<LibraryCategory>(entity =>
+            {
+                entity.HasKey(e => e.LibraryCategory_ID);
+
+                entity.Property(e => e.CreateDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Image).HasMaxLength(500);
+
+                entity.Property(e => e.LastEditedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.MenuIconUrl).HasMaxLength(100);
+
+                entity.Property(e => e.MetaDescription).HasMaxLength(500);
+
+                entity.Property(e => e.MetaKeywords).HasMaxLength(500);
+
+                entity.Property(e => e.MetaTitle).HasMaxLength(500);
+
+                entity.Property(e => e.Name).HasMaxLength(500);
+
+                entity.Property(e => e.URL).HasMaxLength(500);
+            });
+
             modelBuilder.Entity<Location>(entity =>
             {
                 entity.HasKey(e => e.Location_ID)
@@ -1017,6 +1091,25 @@ namespace HNM.DataNC.Models
                 entity.Property(e => e.Name).HasMaxLength(500);
 
                 entity.Property(e => e.ProductBrand_ID).HasDefaultValueSql("((0))");
+            });
+
+            modelBuilder.Entity<PageLayout>(entity =>
+            {
+                entity.Property(e => e.AreaIdentity)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.AreaName).HasMaxLength(500);
+
+                entity.Property(e => e.AreaTitle).HasMaxLength(500);
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifieldOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Page_ID).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.URL_GET).HasMaxLength(500);
             });
 
             modelBuilder.Entity<PhoneList>(entity =>
@@ -1376,6 +1469,19 @@ namespace HNM.DataNC.Models
                     .HasForeignKey(d => d.Language_ID)
                     .OnDelete(DeleteBehavior.SetNull)
                     .HasConstraintName("FK_ProductCategory_Language");
+            });
+
+            modelBuilder.Entity<ProductManufacture>(entity =>
+            {
+                entity.HasKey(e => e.ProductManufacture_ID);
+
+                entity.Property(e => e.CreateDate).HasColumnType("datetime");
+
+                entity.Property(e => e.LastEditDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(1000);
+
+                entity.Property(e => e.Website).HasMaxLength(100);
             });
 
             modelBuilder.Entity<ProductModel>(entity =>
@@ -1973,6 +2079,28 @@ namespace HNM.DataNC.Models
                 entity.Property(e => e.Code).HasMaxLength(10);
 
                 entity.Property(e => e.Message).HasMaxLength(500);
+            });
+
+            modelBuilder.Entity<Tag>(entity =>
+            {
+                entity.HasKey(e => e.Tag_ID);
+            });
+
+            modelBuilder.Entity<TagMap>(entity =>
+            {
+                entity.HasKey(e => e.TagMap_ID);
+
+                entity.HasOne(d => d.TagType_)
+                    .WithMany(p => p.TagMap)
+                    .HasForeignKey(d => d.TagType_ID)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK_TagMap_TagType");
+
+                entity.HasOne(d => d.Tag_)
+                    .WithMany(p => p.TagMap)
+                    .HasForeignKey(d => d.Tag_ID)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK_TagMap_Tag");
             });
 
             modelBuilder.Entity<TagType>(entity =>

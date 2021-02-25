@@ -10,7 +10,7 @@
             <div class="card-body p-0" id="my-menu">
                 <ul>
                     <li class="has-child">
-                        <a href="/may-de-ban">Máy để bán</a>
+                        <a href="/lang-mo-da">Lăng mộ đá</a>
                         <ul>
                             @foreach (var p in CategoryMenuHeader.MenuMachine.Data)
                             {
@@ -20,7 +20,7 @@
                         </ul>
                     </li>
                     <li class="has-child">
-                        <a href="/ban-phu-tung">Phụ Tùng</a>
+                        <a href="/do-tho-da">Đồ thờ đá</a>
                         <ul>
                             @foreach (var p in CategoryMenuHeader.MenuMachine.Data)
                             {
@@ -30,7 +30,7 @@
                         </ul>
                     </li>
                     <li class="has-child">
-                        <a href="/ban-vat-tu">Vật tư</a>
+                        <a href="/noi-ngoai-that-da">Nội ngoại thất đá</a>
                         <ul>
                             @foreach (var p in CategoryMenuHeader.MenuMaterials.Data)
                             {
@@ -40,7 +40,7 @@
                         </ul>
                     </li>
                     <li class="has-child">
-                        <a href="/cho-thue-may">Máy cho thuê</a>
+                        <a href="/tuong-da">Tượng đá</a>
                         <ul>
                             @foreach (var p in CategoryMenuHeader.MenuMachine.Data)
                             {
@@ -49,30 +49,14 @@
                         </ul>
                     </li>
                     <li class="has-child">
-                        <a href="/dich-vu">Dịch vụ</a>
+                        <a href="/san-pham-khac">Sản phẩm khác</a>
                         <ul>
                             @foreach (var p in CategoryMenuHeader.MenuServices.Data)
                             {
                                 <li><a href=@($"dich-vu-{p.URL}.pcat")>@p.Name</a></li>
                             }
                         </ul>
-                    </li>
-                    <li>
-                        <a href="/ho-so">Hồ sơ xin việc</a>
-                    </li>
-                    <li>
-                        <a href="/viec-lam">Tin tuyển dụng</a>
-                    </li>
-                    <li class="has-child">
-                        <a href="javascript:void(0)">Nhu cầu</a>
-                        <ul>
-                            <li><a href="/can-mua-thiet-bi">Cần mua thiết bị</a></li>
-                            <li><a href="/can-mua-phu-tung">Cần mua phụ tùng</a></li>
-                            <li><a href="/can-mua-vat-tu">Cần mua vật tư</a></li>
-                            <li><a href="/can-thue-thiet-bi">Cần thuê thiết bị</a></li>
-                            <li><a href="/can-thue-dich-vu">Cần thuê dịch vụ</a></li>
-                        </ul>
-                    </li>
+                    </li>                   
                 </ul>
             </div>
         </div>

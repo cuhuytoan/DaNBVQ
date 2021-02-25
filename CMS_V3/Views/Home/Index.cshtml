@@ -19,23 +19,21 @@
 <!--HomeBanner-->
 @await Html.PartialAsync("HomeBanner.cshtml")
 <!--HomeSellProduct-->
-@await Html.PartialAsync("HomeSellProduct.cshtml", HomeSellProduct)
+@*@await Html.PartialAsync("HomeSellProduct.cshtml", HomeSellProduct)*@
 
-<div id="home-rent">
-
-</div>
-<div id="home-accesories">
+<div id="home-lang-mo-da">
 
 </div>
-<div id="home-material">
+<div id="home-do-tho-da">
 
 </div>
-<div id="home-service">
+<div id="home-tuong-da">
 
 </div>
 <div id="home-library">
 
 </div>
+
 
 <script>
     var fired = false;
@@ -48,7 +46,7 @@
         // calculate the percentage the user has scrolled down the page
         var scrollPercent = (scrollAmount / documentHeight) * 100;
         //if (scrollPercent > 50) {
-        if (scrollAmount >= 1200 && fired === false) {
+        if (scrollAmount >= 50 && fired === false) {
             // run a function called doSomething
             doSomething();
             fired = true;
@@ -58,11 +56,11 @@
         function doSomething() {
             $.ajax({
                 type: "GET",
-                url: "/Home/GetHomeRentProduct",
+                url: "/Home/GetHomeProductCategory?BlockName='Lăng Mộ Đá'&ProductCategoryId=1924",
                 dataType: "html",
                 cache: true,
                 success: function (response) {
-                    $('#home-rent').html(response);
+                    $('#home-lang-mo-da').html(response);
                 },
                 failure: function (response) {
                     alert(response.responseText);
@@ -74,11 +72,11 @@
 
             $.ajax({
                 type: "GET",
-                url: "/Home/GetHomeAccesoriesProduct",
+                url: "/Home/GetHomeProductCategory?BlockName='Đồ Thờ Đá'&ProductCategoryId=1925",
                 dataType: "html",
                 cache: true,
                 success: function (response) {
-                    $('#home-accesories').html(response);
+                    $('#home-do-tho-da').html(response);
                 },
                 failure: function (response) {
                     alert(response.responseText);
@@ -90,11 +88,11 @@
 
             $.ajax({
                 type: "GET",
-                url: "/Home/GetHomeMaterialProduct",
+                url: "/Home/GetHomeProductCategory?BlockName='Tượng Đá'&ProductCategoryId=1928",
                 dataType: "html",
                 cache: true,
                 success: function (response) {
-                    $('#home-material').html(response);
+                    $('#home-tuong-da').html(response);
                 },
                 failure: function (response) {
                     alert(response.responseText);
@@ -103,22 +101,7 @@
                     alert(response.responseText);
                 }
             });
-
-            $.ajax({
-                type: "GET",
-                url: "/Home/GetHomeServices",
-                dataType: "html",
-                cache: true,
-                success: function (response) {
-                    $('#home-service').html(response);
-                },
-                failure: function (response) {
-                    alert(response.responseText);
-                },
-                error: function (response) {
-                    alert(response.responseText);
-                }
-            });
+           
             $.ajax({
                 type: "GET",
                 url: "/Home/GetHomeLibrary",

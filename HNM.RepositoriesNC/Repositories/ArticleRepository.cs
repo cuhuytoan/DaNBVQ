@@ -39,16 +39,14 @@ namespace HNM.RepositoriesNC.Repositories
             {
 
                 //return await HanomaContext.Article.Where(p => p.ArticleCategory_ID == ArticleCategoryId && p.Article_ID != ArticleId && p.ArticleType_ID == ArticleTypeId && p.StatusType_ID == 4 && p.Article_ID <28600).OrderByDescending(x => x.LastEditDate).Take(5).ToListAsync();
-                return await HanomaContext.Article.Where(p => p.ArticleCategory_ID == ArticleCategoryId && p.Article_ID != ArticleId && p.ArticleType_ID == ArticleTypeId && p.StatusType_ID == 4
-                && !HanomaContext.ArticleCovid.Any(d => d.Article_ID == p.Article_ID)
+                return await HanomaContext.Article.Where(p => p.ArticleCategory_ID == ArticleCategoryId && p.Article_ID != ArticleId && p.ArticleType_ID == ArticleTypeId && p.StatusType_ID == 4                
                 ).OrderByDescending(x => x.LastEditDate).Take(8).ToListAsync();
 
             }
             else
             {
                 //return await HanomaContext.Article.Where(p =>   p.Article_ID != ArticleId && p.ArticleType_ID == ArticleTypeId && p.StatusType_ID == 4 && p.Article_ID < 28600).OrderByDescending(x => x.LastEditDate).Take(5).ToListAsync();
-                return await HanomaContext.Article.Where(p => p.Article_ID != ArticleId && p.ArticleType_ID == ArticleTypeId && p.StatusType_ID == 4
-                && !HanomaContext.ArticleCovid.Any(d => d.Article_ID == p.Article_ID)
+                return await HanomaContext.Article.Where(p => p.Article_ID != ArticleId && p.ArticleType_ID == ArticleTypeId && p.StatusType_ID == 4                
                 ).OrderByDescending(x => x.LastEditDate).Take(8).ToListAsync();
             }
 
@@ -71,8 +69,7 @@ namespace HNM.RepositoriesNC.Repositories
             else
             {
                 //return await HanomaContext.Article.Where(p =>   p.Article_ID != ArticleId && p.ArticleType_ID == ArticleTypeId && p.StatusType_ID == 4 && p.Article_ID < 28600).OrderByDescending(x => x.LastEditDate).Take(5).ToListAsync();
-                return await HanomaContext.Article.Where(p => p.Article_ID != ArticleId && p.ArticleType_ID == ArticleTypeId && p.StatusType_ID == 4
-                && !HanomaContext.ArticleCovid.Any(d => d.Article_ID == p.Article_ID)
+                return await HanomaContext.Article.Where(p => p.Article_ID != ArticleId && p.ArticleType_ID == ArticleTypeId && p.StatusType_ID == 4                
                 ).OrderByDescending(x => x.LastEditDate).Skip(page * pageSize).Take(pageSize).ToListAsync(); 
             }
 

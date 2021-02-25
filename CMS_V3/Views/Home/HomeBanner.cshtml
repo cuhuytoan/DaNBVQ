@@ -1,6 +1,5 @@
-﻿@{ var MenuMachine = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuMachine;
-    var MenuMaterials = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuMaterials;
-    var MenuServices = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuServices; }
+﻿@{ var Menu = (List<HNM.DataNC.ModelsNC.ModelsDTO.ListAllProductCategoryDTO>)ViewBag.ProductCategory; }
+
 <div class=" container p-0">
     <div class="d-flex banner ">
         <div class="menu-home col-lg-3 col-md-4 d-none d-lg-block ">
@@ -9,116 +8,32 @@
                     <h4 class="d-flex align-items-center"><img class="mr-2" src="~/Assets/images/category.webp">Danh Mục</h4>
 
                 </div>
-                <!--original menu location--><div class="card-body p-0 mm-spn--light mm-spn--navbar mm-spn--main" id="my-menu" data-mm-spn-title="Danh Mục">
+                <!--original menu location-->
+                <div class="card-body p-0 mm-spn--light mm-spn--navbar mm-spn--main" id="my-menu" data-mm-spn-title="Danh Mục">
                     <ul>
-                        <li class="has-child">
-                            <a href="/may-de-ban">Máy để bán</a>
-                            <ul>
-                                @foreach (var p in MenuMachine.Data)
-                                {
-                                    <li><a href=@($"ban-{p.URL}.pcat")>@p.Name</a></li>
-                                }
+                        @foreach (var p in Menu)
+                        {
+                            <li class="has-child">
+                                <a href=@($"ban-{p.Parent.URL}.pcat")>@p.Parent.Name</a>
+                                <ul>
+                                    @{
+                                        if (p.Child.Count() > 0)
+                                        {
+                                            foreach (var x in p.Child)
+                                            {
+                                                <li><a href=@($"ban-{x.URL}.pcat")>@x.Name</a></li>
+                                            }
+                                        }
 
-                            </ul>
-                        </li>
-                        <li class="has-child">
-                            <a href="/cho-thue-may">Máy cho thuê</a>
-                            <ul>
-                                @foreach (var p in MenuMachine.Data)
-                                {
-                                    <li><a href=@($"cho-thue-may-{p.URL}.pcat")>@p.Name</a></li>
-                                }
-
-                            </ul>
-                        </li>
-                        <li class="has-child">
-                            <a href="/ban-phu-tung">Phụ Tùng</a>
-                            <ul>
-                                @foreach (var p in MenuMachine.Data)
-                                {
-                                    <li><a href=@($"ban-phu-tung-{p.URL}.pcat")>@p.Name</a></li>
-                                }
-
-                            </ul>
-                        </li>
-                        <li class="has-child">
-                            <a href="/ban-vat-tu">Vật tư</a>
-                            <ul>
-                                @foreach (var p in MenuMaterials.Data)
-                                {
-                                    <li><a href=@($"ban-vat-tu-{p.URL}.pcat")>@p.Name</a></li>
-                                }
-
-                            </ul>
-                        </li>
-                        <li class="has-child">
-                            <a href="/dich-vu">Dịch vụ</a>
-                            <ul>
-                                @foreach (var p in MenuServices.Data)
-                                {
-                                    <li><a href=@($"dich-vu-{p.URL}.pcat")>@p.Name</a></li>
-                                }
-
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="/ho-so">Hồ sơ xin việc</a>
-                        </li>
-
-                        <li>
-                            <a href="/viec-lam">Tuyển dụng</a>
-                        </li>
-
-                        <li class="has-child">
-                            <a href="javascript:void(0)">Nhu cầu</a>
-                            <ul>
-                                <li><a href="/can-mua-thiet-bi">Cần mua thiết bị</a></li>
-                                <li><a href="/can-mua-phu-tung">Cần mua phụ tùng</a></li>
-                                <li><a href="/can-mua-vat-tu">Cần mua vật tư</a></li>
-                                <li><a href="/can-thue-thiet-bi">Cần thuê thiết bị</a></li>
-                                <li><a href="/can-thue-dich-vu">Cần thuê dịch vụ</a></li>
-                            </ul>
-                        </li>
+                                    }
+                                </ul>
+                            </li>
+                        }                   
                     </ul>
                 </div>
             </div>
         </div>
-        <!-- <div class = "col-lg-6 col-md-12 col-xs-12 px-3 px-sm-3 pl-lg-0">
-            <div class = "col-12 pl-0 mb-3 p-0 px-sm-0">
-                <div class = "banner-container swiper-container">
-                    <div class ="swiper-wrapper">
-                        <div class="swiper-slide"><img src = "./images/banner.jpg" alt = "Banner" /> </div>
-                        <div class="swiper-slide"><img src = "./images/banner.jpg" alt = "Banner" /> </div>
-                        <div class="swiper-slide"><img src = "./images/banner.jpg" alt = "Banner" /> </div>
-                        <div class="swiper-slide"><img src = "./images/banner.jpg" alt = "Banner" /> </div>
-                        <div class="swiper-slide"><img src = "./images/banner.jpg" alt = "Banner" /> </div>
-                        <div class="swiper-slide"><img src = "./images/banner.jpg" alt = "Banner" /> </div>
-                    </div>
-                    <div class="swiper-pagination paging-right"></div>
-                    <div class="swiper-button-next swiper-button"></div>
-                    <div class="swiper-button-prev swiper-button"></div>
-                </div>
-            </div>
-            <div class = "d-flex">
-                <div class = "col-6 pl-0 pr-2" >
-                    <a href = "./detail.html" class = "d-flex flex-column"> <img  src = "./images/banner-b2.jpg" alt = "Banner" /></a>
-                </div>
-                <div class = "col-6 pl-0 pr-0 pl-sm-2 pr-sm-0 " >
-                    <a href = "./detail.html" class = "d-flex flex-column"> <img  src = "./images/banner-b1.jpg" alt = "Banner" /></a>
-                </div>
-            </div>
-        </div>
-        <div class = "col-3 pl-0 d-none d-lg-block">
-            <div class = "mb-3" >
-                <a href = "#"><img  src = "./images/r-banner1.jpg" alt = "Banner" /></a>
-            </div>
-            <div class = "mb-3" >
-                <a href = "#"><img  src = "./images/r-banner2.jpg" alt = "Banner" /></a>
-            </div>
-            <div >
-                <a href = "#"><img  src = "./images/r-banner3.jpg" alt = "Banner" /></a>
-            </div>
-        </div> -->
+ 
 
         <div class="col-lg-9 col-md-12 col-xs-12 row pr-0">
             <div class="col-lg-8 mb-3 pl-3 pr-0 pl-lg-0 pr-lg-2 ">

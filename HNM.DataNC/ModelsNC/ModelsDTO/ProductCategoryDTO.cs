@@ -26,6 +26,16 @@ namespace HNM.DataNC.ModelsNC.ModelsDTO
         }
 
     }
+    public class ListAllProductCategoryDTO : ModelBaseStatus
+    {
+        public ListAllProductCategoryDTO()
+        {
+            Parent = new ProductCategoryDTO();
+            Child = new List<ProductCategoryDTO>();
+        }
+        public ProductCategoryDTO Parent { get; set; }
+        public IEnumerable<ProductCategoryDTO> Child { get; set; }
+    }
     public class ProductCategoryHighLightDTO
     {
         public int Id { get; set; }

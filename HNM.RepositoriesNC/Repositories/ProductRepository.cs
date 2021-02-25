@@ -37,14 +37,14 @@ namespace HNM.RepositoriesNC.Repositories
         Task<IEnumerable<Product_Search_Result>> GetLstProductShopMan(ProductShopManFilter filter);
         Task<ProductIdDTO> ActionProductShopman(ProductIdDTO model, string Action);
         Task<ProductIdDTO> CheckRenewProductByBrandId(ProductIdDTO model);
-        int PostProductShopman(Product model, List<AccessoriesFit> accessoriesFit, ImageUploadDTO MainImage, List<ImageUploadDTO> SubImage, string UserId);   
+        int PostProductShopman(Product model, ImageUploadDTO MainImage, List<ImageUploadDTO> SubImage, string UserId);   
         Task UpdateMainImageProduct(string FileName, int ProductId);
         Task UpdateIllustrationImages(string FileName, int ProductId);
         string CreateImageURL(int Product_ID);
         bool CanEditProduct(int Product_ID, string userId);
         Task<int> ProcessPhoneNumber();
         Task DeleteIllustrationImages(List<DeleteImageProductPicture> model);
-        Task<IEnumerable<AccessoriesFit>> GetLstAccessoriesFit(int Product_ID);
+        //Task<IEnumerable<AccessoriesFit>> GetLstAccessoriesFit(int Product_ID);
         Task<int> CountProductByBrand(int ProductBrandId);
         Task PushAWSImageToRabbit(ImageUploadAWSDTO model,string queue);
         Task<List<PatchNumber_SearchByCategory_Result>> GetPatchNumberByCategory(int? ProductCategory_Id, int? ProductType_ID, string text);
@@ -57,6 +57,142 @@ namespace HNM.RepositoriesNC.Repositories
     {
         public ProductRepository(HanomaContext HanomaContext) : base(HanomaContext)
         {
+        }
+
+        public int PostProductShopman(Product model, ImageUploadDTO MainImage, List<ImageUploadDTO> SubImage, string UserId)
+        {
+            try
+            {
+                var pUserId = Guid.Parse(UserId);
+                var userInfo = HanomaContext.AspNetUserProfiles.FirstOrDefault(p => p.UserId == UserId);
+                var productBrand = HanomaContext.ProductBrand.FirstOrDefault(p => p.CreateBy.ToString() == UserId);
+                var metaDescription = String.IsNullOrEmpty(model.MetaDescription) ? CutText(HttpUtility.HtmlDecode(model.Content), 160) : model.MetaDescription;
+                if (model != null)
+                {
+                    var productSave = HanomaContext.Product.Find(model.Product_ID);
+                    if (productSave == null)
+                    {
+                        //Add Product
+                        model.Store_ID = 0;
+                        if (model.Country_ID == 0 || model.Country_ID == null)
+                        {
+                            model.Country_ID = model.MadeCountryId ?? 0;
+                        }
+                        model.ProductBrand_ID = productBrand == null ? 0 : productBrand.ProductBrand_ID;
+                        if (productBrand == null)
+                        {
+                            model.SaleName = userInfo?.FullName;
+                            model.SaleContactName = userInfo?.FullName;
+                            model.SalePhone = userInfo?.Phone;
+                            model.SaleAddress = userInfo?.Address;
+                            model.SaleEmail = userInfo?.Email;
+                        }
+                        else
+                        {
+                            model.SaleName = productBrand?.Name;
+                            model.SaleContactName = productBrand?.Name;
+                            model.SalePhone = productBrand?.Mobile;
+                            model.SaleAddress = productBrand?.Address;
+                            model.SaleEmail = productBrand?.Email;
+                        }
+
+                        model.AllowComment = false;
+                        model.YearManufacture = model.YearManufacture ?? -1;
+                        model.StartDate = DateTime.Now;
+                        model.EndDate = DateTime.Now.AddYears(10);
+                        model.LastEditDate = DateTime.Now;
+                        model.CreateDate = DateTime.Now;
+                        model.LastEditBy = pUserId;
+                        model.CreateBy = pUserId;
+                        model.Active = false;
+                        model.Counter = 0;
+                        model.ViewCount = 0;
+                        model.StatusType_ID = 2;
+                        if (model.Country_ID == 0 || model.Country_ID == null)
+                        {
+                            model.Country_ID = model.MadeCountryId ?? 0;
+                        }
+                        HanomaContext.Product.Add(model);
+                        HanomaContext.SaveChanges();
+                        
+
+                        //CreateProduct URL
+                        CreateProductURL(model.Product_ID);
+                        //Update SKU
+                        UpdateSkuProduct(model.Product_ID);
+
+                        // Write to sitemap
+                        //AppendProductXml(productNew.Product_ID, Util.FullDomain);
+                        //AppendProductImageXml(productNew.Product_ID, Util.FullDomain);
+                        InsertMetaKeywordIds(model.Product_ID);
+                        //Save Image
+                    }
+                    else
+                    {
+
+                        var prodName = model.Name;
+                        productSave.Name = model.ProductType_ID == 1 ? prodName : model.Name;//model.Name;
+                        productSave.Description = model.Description;
+                        productSave.Content = model.Content;
+                        productSave.MetaDescription = metaDescription;
+                        productSave.Tag = model.Tag;
+                        productSave.HoursOfWork = model.HoursOfWork;
+                        productSave.SaleName = productBrand?.Name;
+                        productSave.SaleContactName = productBrand?.Name;
+                        productSave.SalePhone = productBrand?.Mobile;
+                        productSave.SaleAddress = productBrand?.Address;
+                        productSave.SaleEmail = productBrand?.Email;
+                        productSave.YearManufacture = model.YearManufacture ?? -1;
+                        productSave.StatusMachine = model.StatusMachine;
+                        productSave.LastEditDate = DateTime.Now;
+                        productSave.LastEditBy = pUserId;
+                        productSave.Active = false;
+                        productSave.ProductManufacture_ID = model.ProductManufacture_ID;
+                        productSave.ProductCategory_ID = model.ProductCategory_ID;
+                        productSave.ProductModel_ID = model.ProductModel_ID;
+                        productSave.SerialNumber = model.SerialNumber;
+                        productSave.SaleLocation_ID = model.SaleLocation_ID;
+                        productSave.Price = model.Price;
+                        productSave.StatusType_ID = 2;
+                        productSave.HasNewModel = model.HasNewModel;
+                        productSave.ReferralCode = model.ReferralCode;
+                        productSave.MadeCountryId = model.MadeCountryId;
+                        productSave.HoursOfWork = model.HoursOfWork;
+                        productSave.HourOfWorkType = model.HourOfWorkType;
+                        productSave.Label = model.Label;
+                        productSave.PartNumber = model.PartNumber;
+                        productSave.RelatedCategoryId = model.RelatedCategoryId;
+                        productSave.AccessoriesCategoryId = model.AccessoriesCategoryId;
+                        productSave.AccessoriesModelName = model.AccessoriesModelName;
+                        productSave.AccessoriesManufactureName = model.AccessoriesManufactureName;
+                        productSave.SellCount = model.SellCount;
+                        productSave.Unit = model.Unit;
+                        if (model.Country_ID == 0 || model.Country_ID == null)
+                        {
+                            productSave.Country_ID = model.MadeCountryId ?? 0;
+                        }
+
+                        HanomaContext.SaveChanges();
+                        //Update Meta Keyword
+                        if (model.ProductCategory_ID == productSave.ProductCategory_ID)
+                        {
+                            UpdateMetaKeyWords(model.Product_ID);
+                        }
+                
+                    }
+                }
+                //Add Tags
+                //ProcessTagsProduct(model.Product_ID, model.Tag);
+
+
+            }
+            catch (Exception ex)
+            {
+                //
+                model.Product_ID = 0;
+                throw ex;
+            }
+            return model.Product_ID;
         }
         public async Task<IEnumerable<Product>> GetMostViewResult()
         {
@@ -524,238 +660,7 @@ namespace HNM.RepositoriesNC.Repositories
             return RenewCount;
         }
 
-        public int PostProductShopman(Product model, List<AccessoriesFit> accessoriesFit, ImageUploadDTO MainImage, List<ImageUploadDTO> SubImage, string UserId)
-        {
-            try
-            {
-                var pUserId = Guid.Parse(UserId);
-                var userInfo = HanomaContext.AspNetUserProfiles.FirstOrDefault(p => p.UserId == UserId);
-                var productBrand = HanomaContext.ProductBrand.FirstOrDefault(p => p.CreateBy.ToString() == UserId);
-                var metaDescription = String.IsNullOrEmpty(model.MetaDescription) ? CutText(HttpUtility.HtmlDecode(model.Content), 160) : model.MetaDescription;
-                if (model != null)
-                {
-                    var productSave = HanomaContext.Product.Find(model.Product_ID);
-                    if (productSave == null)
-                    {
-                        //Add Product
-                        model.Store_ID = 0;
-                        if (model.Country_ID == 0 || model.Country_ID == null)
-                        {
-                            model.Country_ID = model.MadeCountryId ?? 0;
-                        }                        
-                        model.ProductBrand_ID = productBrand == null ? 0 : productBrand.ProductBrand_ID;
-                        if (productBrand == null)
-                        {
-                            model.SaleName = userInfo?.FullName;
-                            model.SaleContactName = userInfo?.FullName;
-                            model.SalePhone = userInfo?.Phone;
-                            model.SaleAddress = userInfo?.Address;
-                            model.SaleEmail = userInfo?.Email;
-                        }
-                        else
-                        {
-                            model.SaleName = productBrand?.Name;
-                            model.SaleContactName = productBrand?.Name;
-                            model.SalePhone = productBrand?.Mobile;
-                            model.SaleAddress = productBrand?.Address;
-                            model.SaleEmail = productBrand?.Email;
-                        }
-                       
-                        model.AllowComment = false;
-                        model.YearManufacture = model.YearManufacture ?? -1;
-                        model.StartDate = DateTime.Now;
-                        model.EndDate = DateTime.Now.AddYears(10);
-                        model.LastEditDate = DateTime.Now;
-                        model.CreateDate = DateTime.Now;
-                        model.LastEditBy = pUserId;
-                        model.CreateBy = pUserId;
-                        model.Active = false;
-                        model.Counter = 0;
-                        model.ViewCount = 0;
-                        model.StatusType_ID = 2;
-                        if (model.Country_ID == 0 || model.Country_ID == null)
-                        {
-                            model.Country_ID = model.MadeCountryId ?? 0;
-                        }
-                        HanomaContext.Product.Add(model);
-                        HanomaContext.SaveChanges();
-                        //For Accessories
-                        if(model.ProductType_ID == 5 && accessoriesFit != null)
-                        {
-                            foreach(var p in accessoriesFit)
-                            {
-                                AccessoriesFit itemFit = new AccessoriesFit();
-                                itemFit.ProductId = model.Product_ID;
-                                itemFit.CategoryId = p.CategoryId;
-                                itemFit.ManufactureId = p.ManufactureId;
-                                itemFit.ModelId = p.ModelId;
-                                itemFit.Serial = p.Serial;
-                                itemFit.CreatedOn = DateTime.Now;
-                                itemFit.ProductName = model.Name;
-                                itemFit.CategoryName = p.CategoryName;
-                                itemFit.ManufactureName = p.ManufactureName;
-                                itemFit.ModelName = p.ModelName;
-                                HanomaContext.AccessoriesFit.Add(itemFit);
-                                HanomaContext.SaveChanges();
-                            }
-                            
-                        }
-
-                        if (model.ProductType_ID == 6 && accessoriesFit != null)
-                        {
-                            foreach (var p in accessoriesFit)
-                            {
-                                AccessoriesFit itemFit = new AccessoriesFit();
-                                itemFit.ProductId = model.Product_ID;
-                                itemFit.CategoryId = p.CategoryId;
-                                itemFit.ManufactureId = p.ManufactureId;
-                                itemFit.ModelId = p.ModelId;
-                                itemFit.Serial = p.Serial;
-                                itemFit.CreatedOn = DateTime.Now;
-                                itemFit.ProductName = model.Name;
-                                itemFit.CategoryName = p.CategoryName;
-                                itemFit.ManufactureName = p.ManufactureName;
-                                itemFit.ModelName = p.ModelName;
-                                HanomaContext.AccessoriesFit.Add(itemFit);
-                                HanomaContext.SaveChanges();
-                            }
-
-                        }
-
-                        //CreateProduct URL
-                        CreateProductURL(model.Product_ID);
-                        //Update SKU
-                        UpdateSkuProduct(model.Product_ID);
-
-                        // Write to sitemap
-                        //AppendProductXml(productNew.Product_ID, Util.FullDomain);
-                        //AppendProductImageXml(productNew.Product_ID, Util.FullDomain);
-                        InsertMetaKeywordIds(model.Product_ID);
-                        //Save Image
-                    }
-                    else
-                     {
-                        
-                        var prodName = model.Name;
-                        productSave.Name = model.ProductType_ID == 1 ? prodName : model.Name;//model.Name;
-                        productSave.Description = model.Description;
-                        productSave.Content = model.Content;
-                        productSave.MetaDescription = metaDescription;
-                        productSave.Tag = model.Tag;
-                        productSave.HoursOfWork = model.HoursOfWork;
-                        productSave.SaleName = productBrand?.Name;
-                        productSave.SaleContactName = productBrand?.Name;
-                        productSave.SalePhone = productBrand?.Mobile;
-                        productSave.SaleAddress = productBrand?.Address;
-                        productSave.SaleEmail = productBrand?.Email;
-                        productSave.YearManufacture = model.YearManufacture ?? -1;
-                        productSave.StatusMachine = model.StatusMachine;
-                        productSave.LastEditDate = DateTime.Now;
-                        productSave.LastEditBy = pUserId;
-                        productSave.Active = false;
-                        productSave.ProductManufacture_ID = model.ProductManufacture_ID;
-                        productSave.ProductCategory_ID = model.ProductCategory_ID;
-                        productSave.ProductModel_ID = model.ProductModel_ID;
-                        productSave.SerialNumber = model.SerialNumber;
-                        productSave.SaleLocation_ID = model.SaleLocation_ID;
-                        productSave.Price = model.Price;
-                        productSave.StatusType_ID = 2;
-                        productSave.HasNewModel = model.HasNewModel;
-                        productSave.ReferralCode = model.ReferralCode;
-                        productSave.MadeCountryId = model.MadeCountryId;
-                        productSave.HoursOfWork = model.HoursOfWork;
-                        productSave.HourOfWorkType = model.HourOfWorkType;
-                        productSave.Label = model.Label;
-                        productSave.PartNumber = model.PartNumber;
-                        productSave.RelatedCategoryId = model.RelatedCategoryId;
-                        productSave.AccessoriesCategoryId = model.AccessoriesCategoryId;
-                        productSave.AccessoriesModelName = model.AccessoriesModelName;
-                        productSave.AccessoriesManufactureName = model.AccessoriesManufactureName;
-                        productSave.SellCount = model.SellCount;
-                        productSave.Unit = model.Unit;
-                        if (model.Country_ID == 0 || model.Country_ID == null)
-                        {
-                            productSave.Country_ID = model.MadeCountryId ?? 0;
-                        }
-
-                        HanomaContext.SaveChanges();
-                        //Update Meta Keyword
-                        if (model.ProductCategory_ID == productSave.ProductCategory_ID)
-                        {
-                            UpdateMetaKeyWords(model.Product_ID);
-                        }
-                        //For Accessories
-
-                        if (model.ProductType_ID == 5 && accessoriesFit != null)
-                        {
-                            //Delete Old Fit
-                            var delAccFit = HanomaContext.AccessoriesFit.Where(p => p.ProductId == model.Product_ID).ToList();
-                            if (delAccFit != null)
-                            {
-                                HanomaContext.AccessoriesFit.RemoveRange(delAccFit);
-                                HanomaContext.SaveChanges();
-                            }
-                            foreach (var p in accessoriesFit)
-                            {
-                                AccessoriesFit itemFit = new AccessoriesFit();
-                                itemFit.ProductId = model.Product_ID;
-                                itemFit.CategoryId = p.CategoryId;
-                                itemFit.ManufactureId = p.ManufactureId;
-                                itemFit.ModelId = p.ModelId;
-                                itemFit.Serial = p.Serial;
-                                itemFit.CreatedOn = DateTime.Now;
-                                itemFit.ProductName = model.Name;
-                                itemFit.CategoryName = p.CategoryName;
-                                itemFit.ManufactureName = p.ManufactureName;
-                                itemFit.ModelName = p.ModelName;
-                                HanomaContext.AccessoriesFit.Add(itemFit);
-                                HanomaContext.SaveChanges();
-                            }
-
-                        }
-
-                        if (model.ProductType_ID == 6 && accessoriesFit != null)
-                        {
-                            //Delete Old Fit
-                            var delAccFit = HanomaContext.AccessoriesFit.Where(p => p.ProductId == model.Product_ID).ToList();
-                            if (delAccFit != null)
-                            {
-                                HanomaContext.AccessoriesFit.RemoveRange(delAccFit);
-                                HanomaContext.SaveChanges();
-                            }
-                            foreach (var p in accessoriesFit)
-                            {
-                                AccessoriesFit itemFit = new AccessoriesFit();
-                                itemFit.ProductId = model.Product_ID;
-                                itemFit.CategoryId = p.CategoryId;
-                                itemFit.ManufactureId = p.ManufactureId;
-                                itemFit.ModelId = p.ModelId;
-                                itemFit.Serial = p.Serial;
-                                itemFit.CreatedOn = DateTime.Now;
-                                itemFit.ProductName = model.Name;
-                                itemFit.CategoryName = p.CategoryName;
-                                itemFit.ManufactureName = p.ManufactureName;
-                                itemFit.ModelName = p.ModelName;
-                                HanomaContext.AccessoriesFit.Add(itemFit);
-                                HanomaContext.SaveChanges();
-                            }
-
-                        }
-                    }
-                }
-                //Add Tags
-                //ProcessTagsProduct(model.Product_ID, model.Tag);
-
-
-            }
-            catch (Exception ex)
-            {
-                //
-                model.Product_ID = 0;
-                throw ex;
-            }
-            return model.Product_ID;
-        }
+        
         private void CreateProductURL(int Product_ID)
         {
             string[] P1 = new string[20];
@@ -1099,11 +1004,7 @@ namespace HNM.RepositoriesNC.Repositories
            
         }
 
-        public async Task<IEnumerable<AccessoriesFit>> GetLstAccessoriesFit(int Product_ID)
-        {
-            var output =  await HanomaContext.AccessoriesFit.Where(p => p.ProductId == Product_ID).ToListAsync();
-            return output;
-        }
+        
 
         public async Task<int> CountProductByBrand(int ProductBrandId)
         {

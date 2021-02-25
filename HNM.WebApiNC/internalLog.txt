@@ -7290,3 +7290,111 @@
 2021-02-21 13:26:17.3515 Info Adding target FileTarget(Name=otherFile-web)
 2021-02-21 13:26:17.3620 Info Closing old configuration.
 2021-02-21 13:26:17.3934 Info Validating config: TargetNames=alldata, otherFile-web, ConfigItems=46, FilePath=D:\Project\DaNinhBinhVinhQuang\HNM.WebApiNC/nlog.config
+2021-02-25 11:54:43.5299 Info Message Template Auto Format enabled
+2021-02-25 11:54:43.5630 Info Loading assembly: NLog.Web.AspNetCore
+2021-02-25 11:54:43.6739 Info Adding target FileTarget(Name=alldata)
+2021-02-25 11:54:43.7158 Info Adding target FileTarget(Name=otherFile-web)
+2021-02-25 11:54:43.8045 Info Validating config: TargetNames=alldata, otherFile-web, ConfigItems=46, FilePath=D:\ToanCH\Project\DaNBVQ\HNM.WebApiNC\bin\netcoreapp3.1\nlog.config
+2021-02-25 11:54:45.4837 Info Configuring from an XML element in D:\ToanCH\Project\DaNBVQ\HNM.WebApiNC/nlog.config...
+2021-02-25 11:54:45.4893 Info Message Template Auto Format enabled
+2021-02-25 11:54:45.4893 Info Loading assembly: NLog.Web.AspNetCore
+2021-02-25 11:54:45.5023 Info Adding target FileTarget(Name=alldata)
+2021-02-25 11:54:45.5023 Info Adding target FileTarget(Name=otherFile-web)
+2021-02-25 11:54:45.5185 Info Closing old configuration.
+2021-02-25 11:54:45.5614 Info Validating config: TargetNames=alldata, otherFile-web, ConfigItems=46, FilePath=D:\ToanCH\Project\DaNBVQ\HNM.WebApiNC/nlog.config
+2021-02-25 14:15:13.5944 Info Message Template Auto Format enabled
+2021-02-25 14:15:13.6186 Info Loading assembly: NLog.Web.AspNetCore
+2021-02-25 14:15:13.7031 Info Adding target FileTarget(Name=alldata)
+2021-02-25 14:15:13.7195 Info Adding target FileTarget(Name=otherFile-web)
+2021-02-25 14:15:13.7731 Info Validating config: TargetNames=alldata, otherFile-web, ConfigItems=46, FilePath=D:\ToanCH\Project\DaNBVQ\HNM.WebApiNC\bin\netcoreapp3.1\nlog.config
+2021-02-25 14:15:14.4137 Info Configuring from an XML element in D:\ToanCH\Project\DaNBVQ\HNM.WebApiNC/nlog.config...
+2021-02-25 14:15:14.4137 Info Message Template Auto Format enabled
+2021-02-25 14:15:14.4262 Info Loading assembly: NLog.Web.AspNetCore
+2021-02-25 14:15:14.4262 Info Adding target FileTarget(Name=alldata)
+2021-02-25 14:15:14.4403 Info Adding target FileTarget(Name=otherFile-web)
+2021-02-25 14:15:14.4403 Info Closing old configuration.
+2021-02-25 14:15:14.4959 Info Validating config: TargetNames=alldata, otherFile-web, ConfigItems=46, FilePath=D:\ToanCH\Project\DaNBVQ\HNM.WebApiNC/nlog.config
+2021-02-25 15:16:05.0027 Info Message Template Auto Format enabled
+2021-02-25 15:16:05.0270 Info Loading assembly: NLog.Web.AspNetCore
+2021-02-25 15:16:05.1185 Info Adding target FileTarget(Name=alldata)
+2021-02-25 15:16:05.1257 Info Adding target FileTarget(Name=otherFile-web)
+2021-02-25 15:16:05.1906 Info Validating config: TargetNames=alldata, otherFile-web, ConfigItems=46, FilePath=D:\ToanCH\Project\DaNBVQ\HNM.WebApiNC\bin\netcoreapp3.1\nlog.config
+2021-02-25 15:16:05.9528 Info Configuring from an XML element in D:\ToanCH\Project\DaNBVQ\HNM.WebApiNC/nlog.config...
+2021-02-25 15:16:05.9592 Info Message Template Auto Format enabled
+2021-02-25 15:16:05.9702 Info Loading assembly: NLog.Web.AspNetCore
+2021-02-25 15:16:05.9702 Info Adding target FileTarget(Name=alldata)
+2021-02-25 15:16:05.9702 Info Adding target FileTarget(Name=otherFile-web)
+2021-02-25 15:16:05.9887 Info Closing old configuration.
+2021-02-25 15:16:06.0318 Info Validating config: TargetNames=alldata, otherFile-web, ConfigItems=46, FilePath=D:\ToanCH\Project\DaNBVQ\HNM.WebApiNC/nlog.config
+2021-02-25 15:19:41.5542 Info Message Template Auto Format enabled
+2021-02-25 15:19:41.5927 Info Loading assembly: NLog.Web.AspNetCore
+2021-02-25 15:19:41.6768 Info Adding target FileTarget(Name=alldata)
+2021-02-25 15:19:41.6931 Info Adding target FileTarget(Name=otherFile-web)
+2021-02-25 15:19:41.7446 Info Validating config: TargetNames=alldata, otherFile-web, ConfigItems=46, FilePath=D:\ToanCH\Project\DaNBVQ\HNM.WebApiNC\bin\netcoreapp3.1\nlog.config
+2021-02-25 15:19:42.4871 Info Configuring from an XML element in D:\ToanCH\Project\DaNBVQ\HNM.WebApiNC/nlog.config...
+2021-02-25 15:19:42.4871 Info Message Template Auto Format enabled
+2021-02-25 15:19:42.5021 Info Loading assembly: NLog.Web.AspNetCore
+2021-02-25 15:19:42.5021 Info Adding target FileTarget(Name=alldata)
+2021-02-25 15:19:42.5021 Info Adding target FileTarget(Name=otherFile-web)
+2021-02-25 15:19:42.5206 Info Closing old configuration.
+2021-02-25 15:19:42.5833 Info Validating config: TargetNames=alldata, otherFile-web, ConfigItems=46, FilePath=D:\ToanCH\Project\DaNBVQ\HNM.WebApiNC/nlog.config
+2021-02-25 15:22:17.0704 Info Message Template Auto Format enabled
+2021-02-25 15:22:17.0936 Info Loading assembly: NLog.Web.AspNetCore
+2021-02-25 15:22:17.1795 Info Adding target FileTarget(Name=alldata)
+2021-02-25 15:22:17.1957 Info Adding target FileTarget(Name=otherFile-web)
+2021-02-25 15:22:17.2500 Info Validating config: TargetNames=alldata, otherFile-web, ConfigItems=46, FilePath=D:\ToanCH\Project\DaNBVQ\HNM.WebApiNC\bin\netcoreapp3.1\nlog.config
+2021-02-25 15:22:18.0072 Info Configuring from an XML element in D:\ToanCH\Project\DaNBVQ\HNM.WebApiNC/nlog.config...
+2021-02-25 15:22:18.0072 Info Message Template Auto Format enabled
+2021-02-25 15:22:18.0215 Info Loading assembly: NLog.Web.AspNetCore
+2021-02-25 15:22:18.0215 Info Adding target FileTarget(Name=alldata)
+2021-02-25 15:22:18.0351 Info Adding target FileTarget(Name=otherFile-web)
+2021-02-25 15:22:18.0351 Info Closing old configuration.
+2021-02-25 15:22:18.0877 Info Validating config: TargetNames=alldata, otherFile-web, ConfigItems=46, FilePath=D:\ToanCH\Project\DaNBVQ\HNM.WebApiNC/nlog.config
+2021-02-25 15:24:42.3936 Info Message Template Auto Format enabled
+2021-02-25 15:24:42.4367 Info Loading assembly: NLog.Web.AspNetCore
+2021-02-25 15:24:42.5210 Info Adding target FileTarget(Name=alldata)
+2021-02-25 15:24:42.5386 Info Adding target FileTarget(Name=otherFile-web)
+2021-02-25 15:24:42.5918 Info Validating config: TargetNames=alldata, otherFile-web, ConfigItems=46, FilePath=D:\ToanCH\Project\DaNBVQ\HNM.WebApiNC\bin\netcoreapp3.1\nlog.config
+2021-02-25 15:24:43.3022 Info Configuring from an XML element in D:\ToanCH\Project\DaNBVQ\HNM.WebApiNC/nlog.config...
+2021-02-25 15:24:43.3022 Info Message Template Auto Format enabled
+2021-02-25 15:24:43.3142 Info Loading assembly: NLog.Web.AspNetCore
+2021-02-25 15:24:43.3142 Info Adding target FileTarget(Name=alldata)
+2021-02-25 15:24:43.3322 Info Adding target FileTarget(Name=otherFile-web)
+2021-02-25 15:24:43.3322 Info Closing old configuration.
+2021-02-25 15:24:43.3904 Info Validating config: TargetNames=alldata, otherFile-web, ConfigItems=46, FilePath=D:\ToanCH\Project\DaNBVQ\HNM.WebApiNC/nlog.config
+2021-02-25 15:40:17.0811 Info Message Template Auto Format enabled
+2021-02-25 15:40:17.1138 Info Loading assembly: NLog.Web.AspNetCore
+2021-02-25 15:40:17.2262 Info Adding target FileTarget(Name=alldata)
+2021-02-25 15:40:17.2460 Info Adding target FileTarget(Name=otherFile-web)
+2021-02-25 15:40:17.3091 Info Validating config: TargetNames=alldata, otherFile-web, ConfigItems=46, FilePath=D:\ToanCH\Project\DaNBVQ\HNM.WebApiNC\bin\netcoreapp3.1\nlog.config
+2021-02-25 15:40:17.9943 Info Configuring from an XML element in D:\ToanCH\Project\DaNBVQ\HNM.WebApiNC/nlog.config...
+2021-02-25 15:40:17.9943 Info Message Template Auto Format enabled
+2021-02-25 15:40:18.0067 Info Loading assembly: NLog.Web.AspNetCore
+2021-02-25 15:40:18.0067 Info Adding target FileTarget(Name=alldata)
+2021-02-25 15:40:18.0197 Info Adding target FileTarget(Name=otherFile-web)
+2021-02-25 15:40:18.0197 Info Closing old configuration.
+2021-02-25 15:40:18.0800 Info Validating config: TargetNames=alldata, otherFile-web, ConfigItems=46, FilePath=D:\ToanCH\Project\DaNBVQ\HNM.WebApiNC/nlog.config
+2021-02-25 16:11:42.3168 Info Message Template Auto Format enabled
+2021-02-25 16:11:42.3429 Info Loading assembly: NLog.Web.AspNetCore
+2021-02-25 16:11:42.4278 Info Adding target FileTarget(Name=alldata)
+2021-02-25 16:11:42.4431 Info Adding target FileTarget(Name=otherFile-web)
+2021-02-25 16:11:42.4934 Info Validating config: TargetNames=alldata, otherFile-web, ConfigItems=46, FilePath=D:\ToanCH\Project\DaNBVQ\HNM.WebApiNC\bin\netcoreapp3.1\nlog.config
+2021-02-25 16:11:43.2756 Info Configuring from an XML element in D:\ToanCH\Project\DaNBVQ\HNM.WebApiNC/nlog.config...
+2021-02-25 16:11:43.2756 Info Message Template Auto Format enabled
+2021-02-25 16:11:43.2887 Info Loading assembly: NLog.Web.AspNetCore
+2021-02-25 16:11:43.3000 Info Adding target FileTarget(Name=alldata)
+2021-02-25 16:11:43.3000 Info Adding target FileTarget(Name=otherFile-web)
+2021-02-25 16:11:43.3142 Info Closing old configuration.
+2021-02-25 16:11:43.3587 Info Validating config: TargetNames=alldata, otherFile-web, ConfigItems=46, FilePath=D:\ToanCH\Project\DaNBVQ\HNM.WebApiNC/nlog.config
+2021-02-25 16:12:38.3246 Info Message Template Auto Format enabled
+2021-02-25 16:12:38.3492 Info Loading assembly: NLog.Web.AspNetCore
+2021-02-25 16:12:38.4293 Info Adding target FileTarget(Name=alldata)
+2021-02-25 16:12:38.4447 Info Adding target FileTarget(Name=otherFile-web)
+2021-02-25 16:12:38.4949 Info Validating config: TargetNames=alldata, otherFile-web, ConfigItems=46, FilePath=D:\ToanCH\Project\DaNBVQ\HNM.WebApiNC\bin\netcoreapp3.1\nlog.config
+2021-02-25 16:12:39.0930 Info Configuring from an XML element in D:\ToanCH\Project\DaNBVQ\HNM.WebApiNC/nlog.config...
+2021-02-25 16:12:39.1015 Info Message Template Auto Format enabled
+2021-02-25 16:12:39.1015 Info Loading assembly: NLog.Web.AspNetCore
+2021-02-25 16:12:39.1151 Info Adding target FileTarget(Name=alldata)
+2021-02-25 16:12:39.1151 Info Adding target FileTarget(Name=otherFile-web)
+2021-02-25 16:12:39.1283 Info Closing old configuration.
+2021-02-25 16:12:39.1749 Info Validating config: TargetNames=alldata, otherFile-web, ConfigItems=46, FilePath=D:\ToanCH\Project\DaNBVQ\HNM.WebApiNC/nlog.config

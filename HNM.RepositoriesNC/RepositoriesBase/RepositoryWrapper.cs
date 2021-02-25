@@ -19,23 +19,17 @@ namespace HNM.RepositoriesNC.RepositoriesBase
         private IProductModelRepository _productModelRepository;
         private IProductManufactureRepository _productManufactureRepository;
         private IMenuRepository _menuRepository;
-        private IKeywordRepository _keywordRepository;
-        private IRecruitmentRepository _recruitmentRepository;
-        private IResumeRepository _resumeRepository;
+        private IKeywordRepository _keywordRepository;       
         private IBrandRepository _brandRepository;
         private IArticleCategoryRepository _articleCategoryRepository;
         private IElasticRepository _elasticRepository;
         private IArticleRepository _articleRepository;
         private ILocationRepository _locationRepository;
-        private IManufactureRepository _manufactureRepository;
-        private IRecruitmentCategoryRepository _recruitmentCategoryRepository;
-        private IPageLayoutRepository _pageLayoutRepository;
-        private IIntroRepository _introRepository;
+        private IManufactureRepository _manufactureRepository;        
+        private IPageLayoutRepository _pageLayoutRepository;        
         private ILibraryRepository _libraryRepository;
-        private ILibraryCategoryRepository _libraryCategoryRepository;
-        private ICurriculumVitaeRepository _curriculumVitaeRepository;
-        private IDashBoardRepository _dashBoardRepository;
-        private ICareerCategoryRepository _careerCategoryRepository;
+        private ILibraryCategoryRepository _libraryCategoryRepository;        
+        private IDashBoardRepository _dashBoardRepository;       
         private ICountryRepository _countryRepository;
         private IUnitRepository _unitRepository;
         private ISettingRepository _settingRepository;
@@ -202,30 +196,8 @@ namespace HNM.RepositoriesNC.RepositoriesBase
                 return _keywordRepository;
             }
         }
-        public IRecruitmentRepository Recruitment
-        {
-            get
-            {
-                if (_recruitmentRepository == null)
-                {
-                    _recruitmentRepository = new RecruitmentRepository(_hanomaContext);
-                }
-
-                return _recruitmentRepository;
-            }
-        }
-        public IResumeRepository Resume
-        {
-            get
-            {
-                if (_resumeRepository == null)
-                {
-                    _resumeRepository = new ResumeRepository(_hanomaContext);
-                }
-
-                return _resumeRepository;
-            }
-        }
+        
+     
         public IBrandRepository Brand
         {
             get
@@ -316,19 +288,7 @@ namespace HNM.RepositoriesNC.RepositoriesBase
 
             }
         }
-        public IRecruitmentCategoryRepository RecruitmentCategory
-        {
-            get
-            {
-                if (_recruitmentCategoryRepository == null)
-                {
-                    _recruitmentCategoryRepository = new RecruitmentCategoryRepository(_hanomaContext);
-                }
-
-                return _recruitmentCategoryRepository;
-
-            }
-        }
+     
         public IPageLayoutRepository PageLayout
         {
             get
@@ -342,19 +302,7 @@ namespace HNM.RepositoriesNC.RepositoriesBase
 
             }
         }
-        public IIntroRepository IntroScreen
-        {
-            get
-            {
-                if (_introRepository == null)
-                {
-                    _introRepository = new IntroRepository(_hanomaContext);
-                }
-
-                return _introRepository;
-
-            }
-        }
+    
         public IElasticRepository Elastic
         {
             get
@@ -390,18 +338,7 @@ namespace HNM.RepositoriesNC.RepositoriesBase
                 return _libraryCategoryRepository;
             }
         }
-        public ICurriculumVitaeRepository CurriculumVitae
-        {
-            get
-            {
-                if (_curriculumVitaeRepository == null)
-                {
-                    _curriculumVitaeRepository = new CurriculumVitaeRepository(_hanomaContext);
-
-                }
-                return _curriculumVitaeRepository;
-            }
-        }
+       
         public IDashBoardRepository DashBoard
         {
             get
@@ -413,17 +350,7 @@ namespace HNM.RepositoriesNC.RepositoriesBase
                 return _dashBoardRepository;
             }
         }
-        public ICareerCategoryRepository CareerCategory
-        {
-            get
-            {
-                if (_careerCategoryRepository == null)
-                {
-                    _careerCategoryRepository = new CareerCategoryRepository(_hanomaContext);
-                }
-                return _careerCategoryRepository;
-            }
-        }
+      
 
         public ICountryRepository Country
         {

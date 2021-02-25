@@ -18,6 +18,10 @@ namespace HNM.RepositoriesNC.Repositories
         Task<IEnumerable<ProductCategory>> GetProdCateByBrand(int? ProductBrandID);
         Task<IEnumerable<ProductCategoryTwoLevelDTO>> GetListProductCategoryTwoLevelDTO(string keyword, int? ProductCategoryId);
         Task<IEnumerable<GetMenuProdCateByUser_Result>> GetMenuProdCateByUser(string UserId,  int? productTypeId, int? statusTypeId, int parentId = 656);
+
+        Task<IEnumerable<ProductCategory>> GetAllProductcategory();
+
+
     }
 
     public class ProductCategoryRepository : RepositoryBase<ProductCategory>, IProductCategoryRepository
@@ -102,6 +106,13 @@ namespace HNM.RepositoriesNC.Repositories
             {
                 return new List<GetMenuProdCateByUser_Result>();
             }
+        }
+
+        public async Task<IEnumerable<ProductCategory>> GetAllProductcategory()
+        {
+            return await HanomaContext.ProductCategory.Where(p => p.Parent_ID == null).OrderBy(x => x.Sort)
+               .AsNoTracking()
+               .ToListAsync();
         }
     }
 }

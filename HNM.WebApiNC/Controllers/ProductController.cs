@@ -134,14 +134,7 @@ namespace HNM.WebApiNC.Controllers
             output.ProductDetails.RelatedCategoryName = _repoWrapper.ProductCategory.FirstOrDefault(x => x.ProductCategory_ID == productDetail.RelatedCategoryId)?.Name;
             output.ProductDetails.AccessoriesCategoryName = _repoWrapper.ProductCategory.FirstOrDefault(x => x.ProductCategory_ID == productDetail.AccessoriesCategoryId)?.Name;
 
-            //Get AccessoriesFIt
-            if (productDetail.ProductType_ID == 5 || productDetail.ProductType_ID == 6) // Phu tung
-            {
-                List<AccessoriesFitDTO> lst = new List<AccessoriesFitDTO>();
-                var lstItems = await _repoWrapper.Product.GetLstAccessoriesFit(productId);
-                lst = _mapper.Map<IEnumerable<AccessoriesFitDTO>>(lstItems).ToList();
-                output.AccessoriesFit = lst;
-            }
+           
             //Meta keyword            
             output.MetaKeyword = _mapper.Map<IEnumerable<MetaKeywordDTO>>(await _repoWrapper.Product.GetListMetaKeyword(productId));
 
@@ -201,14 +194,7 @@ namespace HNM.WebApiNC.Controllers
             output.ProductDetails.RelatedCategoryName = _repoWrapper.ProductCategory.FirstOrDefault(x => x.ProductCategory_ID == productDetail.RelatedCategoryId)?.Name;
             output.ProductDetails.AccessoriesCategoryName = _repoWrapper.ProductCategory.FirstOrDefault(x => x.ProductCategory_ID == productDetail.AccessoriesCategoryId)?.Name;
 
-            //Get AccessoriesFIt
-            if (productDetail.ProductType_ID == 5 || productDetail.ProductType_ID == 6) // Phu tung
-            {
-                List<AccessoriesFitDTO> lst = new List<AccessoriesFitDTO>();
-                var lstItems = await _repoWrapper.Product.GetLstAccessoriesFit(productId);                  
-                lst = _mapper.Map<IEnumerable<AccessoriesFitDTO>>(lstItems).ToList();
-                output.AccessoriesFit = lst;
-            }
+         
 
 
             return output;
@@ -542,9 +528,8 @@ namespace HNM.WebApiNC.Controllers
             {
                 try
                 {
-                    Product productModel = _mapper.Map<Product>(model.Product);
-                    List<AccessoriesFit> accessoriesFitModel = _mapper.Map<List<AccessoriesFit>>(model.AccessoriesFit);
-                    int ProductId = _repoWrapper.Product.PostProductShopman(productModel, accessoriesFitModel, model.MainImage, model.SubImage, model.UserId);
+                    Product productModel = _mapper.Map<Product>(model.Product);                    
+                    int ProductId = _repoWrapper.Product.PostProductShopman(productModel, model.MainImage, model.SubImage, model.UserId);
                     if (ProductId != 0)
                     {
                         var modelImgRabbit = new ImageUploadAWSDTO();
@@ -618,9 +603,8 @@ namespace HNM.WebApiNC.Controllers
                 {
                     
                     Product productModel = _mapper.Map<Product>(model.Product);
-                    productModel.Product_ID = ProductID;
-                    List<AccessoriesFit> accessoriesFitModel = _mapper.Map<List<AccessoriesFit>>(model.AccessoriesFit);
-                    int ProductId = _repoWrapper.Product.PostProductShopman(productModel, accessoriesFitModel, model.MainImage, model.SubImage, model.UserId);
+                    productModel.Product_ID = ProductID;                    
+                    int ProductId = _repoWrapper.Product.PostProductShopman(productModel, model.MainImage, model.SubImage, model.UserId);
                     if (ProductId != 0)
                     {
                         if (IsRepair == 1)// Tiếp tục chỉnh sửa delete subImage
@@ -894,29 +878,7 @@ namespace HNM.WebApiNC.Controllers
                 {
                     output = _mapper.Map<List<TimeLinePostDTO>>(result);
                     foreach (var p in output)
-                    {
-                        if (p.TypeName == "Hồ sơ")
-                        {
-                            if (p.CVId != null)
-                            {
-                                var lstPicture = await _repoWrapper.CurriculumVitae.GetLstPicture((int)p.CVId);
-                                if (lstPicture != null)
-                                {
-                                    p.CVPictures = _mapper.Map<List<CVPictureDTO>>(lstPicture);
-                                }
-                            }
-                        }
-                        if (p.TypeName == "Tuyển dụng")
-                        {
-                            if (p.RecId != null)
-                            {
-                                var lstPicture = await _repoWrapper.Recruitment.GetLstPicture((int)p.RecId);
-                                if (lstPicture != null)
-                                {
-                                    p.RecruitmentPictures = _mapper.Map<List<RecPictureDTO>>(lstPicture);
-                                }
-                            }
-                        }
+                    {                       
                         if (p.ProductId != null)
                         {
                             var lstPicture = await _repoWrapper.ProductPicture.GetByProductId((int)p.ProductId);
