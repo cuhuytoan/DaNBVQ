@@ -1,0 +1,585 @@
+﻿@using Kendo.Mvc.UI
+@using Newtonsoft.Json;
+@using HNM.DataNC.ModelsNC.ModelsDTO;
+@namespace CMS.Website.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper "*, Kendo.Mvc"
+
+@{
+    Layout = null;
+}
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextaccessor
+@model HNM.DataNC.ModelsNC.ModelsDTO.ProductBrandSearchDetailDTO
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/Assets/css/bootstrap.min.css">
+    <link href="~/css/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Assets/css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" integrity="sha256-ENFZrbVzylNbgnXx0n3I1g//2WeO47XxoPe0vkp3NC8=" crossorigin="anonymous" />
+
+    <link href="https://kendo.cdn.telerik.com/2020.1.114/styles/kendo.bootstrap-v4.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/js/jquery-3.3.1.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2020.1.114/js/jszip.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2020.1.114/js/kendo.all.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2020.1.114/js/kendo.aspnetmvc.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2020.1.114/js/cultures/kendo.culture.vi-VN.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js" async></script>
+    <title>Chỉnh sửa gian hàng - HANOMA.VN</title>
+    <style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <section class="header navbar-expand-sm ">
+        <div class="container-custom  p-0">
+            <div class="d-block d-sm-flex align-items-center pt-2 pb-1  pt-sm-1 pb-sm-1 justify-content-between">
+
+                <div class="col-12 col-lg-7 col-md-12 col-sm-12 pr-0 text-center pl-sm-2 pl-md-0  d-flex align-items-center">
+                    <a href="/" class="border-right pr-2">
+                        <img src="~/images/logo.png" alt="logo" />
+                    </a>
+                    <h5 class="px-2 header-title font-weight-bold">TRANG BÁN HÀNG</h5>
+                    <ul class="nav header-link d-none d-sm-flex">
+                        <li><a href="/"><img src="~/images/icon_home.png" /><span>Trang chủ</span></a></li>
+                        <li><a href="#"><img src="~/images/icon_store.png" /><span>Gian hàng</span></a></li>
+                    </ul>
+                </div>
+                @if (httpContextaccessor.HttpContext.Request.Cookies["JWT"] != null)
+                {
+                    var userName = "";
+                    {
+                        var jwt = JsonConvert.DeserializeObject<SumProfileResponseDTO>(httpContextaccessor.HttpContext.Request.Cookies["JWT"]);
+                        userName = jwt.Profile.UserName;
+                    }
+                    <div class="col-12 col-lg-5 col-md-5 col-sm-6 pr-0 d-none d-lg-block ">
+                        <nav class="nav justify-content-sm-end justify-content-center d-flex">
+                            <li class="nav-item ml-3 ml-sm-1 ">
+                                <a class="nav-link border-right" href="/tai-khoan"><img src="~/Assets/images/user.png" /><span class="ml-2">@userName</span> </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " href="/tai-khoan?id=1"><img class="lazyload" src="~/Assets/images/noti.png" alt="thong-bao" /></a>
+                                @*<span class="noti-count">3</span>
+                                    <div class="noti-detail text-center" id="notification" style="display: none">
+
+                                    </div>*@
+                            </li>
+                            <li class="nav-item ml-3  ml-sm-1">
+                                <a class="nav-link" href="#"><img src="~/images/f-vn.png" /></a>
+                            </li>
+                        </nav>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-12 col-lg-5 col-md-5 col-sm-6 pr-0 d-none d-lg-block ">
+                        <nav class="nav justify-content-sm-end justify-content-center d-flex">
+                            <li class="nav-item ml-3 ml-sm-1 ">
+                                @Html.ActionLink("Đăng nhập", "Login", "Account", null, new { @class = "nav-link ajaxcall" })
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link ajaxcall" href="~/signup1.html">Đăng ký</a>
+                            </li>
+                            <li class="nav-item ml-3  ml-sm-1">
+                                <a class="nav-link" href="#"><img src="~/images/f-vn.png" /></a>
+                            </li>
+                        </nav>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Content -->
+    <section class="content container-custom bg-white mt-3 gianhangtaomoi">
+        <article class="container py-5 mb-4">
+            <form action="/Profile/CreateProductBrand" method="post" enctype="multipart/form-data">
+                <a href="/tai-khoan" class="cancel  px-3">Trở về trang quản lý tài khoản</a>
+                <div class="content-title px-3 d-flex justify-content-center align-items-center">
+                    <h1>CHỈNH SỬA GIAN HÀNG</h1>
+                </div>
+
+                <div class="px-3 py-2">
+                    <h4 class="font-weight-bold">HÌNH ẢNH</h4>
+                </div>
+
+                <div class="d-flex ">
+                    <div class="col-12 col-lg-3 col-md-5 pr-md-0 mb-3 mb-md-0">
+                        <div class="custom-file-container" data-upload-id="img-logo">
+                            <label style="display: none;">
+                                Upload File
+                                <a href="javascript:void(0)"
+                                   class="custom-file-container__image-clear"
+                                   title="Clear Image">&times;</a>
+                            </label>
+                            <input type="file"
+                                   class="custom-file-container__custom-file__custom-file-input"
+                                   accept="image/jpeg, image/png, image/gif, image/svg+xml"
+                                   aria-label="Choose File"
+                                   name="Logo" id="Logo" onchange=" onSelectMain()" />
+                            <input type="hidden" name="MAX_FILE_SIZE" value="2097152" />
+                            <div class="custom-file-container__image-preview">
+                                <label class="custom-file-container__custom-file">
+                                    <span class="custom-file-container__custom-file__custom-file-control"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-12 col-lg-9 col-md-7">
+                        <div class="custom-file-container" data-upload-id="img-cover">
+                            <label style="display: none;">
+                                Upload File
+                                <a href="javascript:void(0)"
+                                   class="custom-file-container__image-clear"
+                                   title="Clear Image">&times;</a>
+                            </label>
+                            <input type="file"
+                                   class="custom-file-container__custom-file__custom-file-input"
+                                   accept="image/jpeg, image/png, image/gif, image/svg+xml"
+                                   aria-label="Choose File" name="Banner" id="Banner" onchange=" onSelectSub()" />
+                            <input type="hidden" name="MAX_FILE_SIZE" value="2097152" />
+
+                            <div class="custom-file-container__image-preview">
+                                <label class="custom-file-container__custom-file">
+                                    <span class="custom-file-container__custom-file__custom-file-control"></span>
+                                </label>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="px-3 mt-3">
+                    <h4 class="py-3 font-weight-bold">THÔNG TIN CỬA HÀNG</h4>
+                    <div class="form-group">
+                        <label for="inputAddress">Tên cửa hàng: *</label>
+                        <input type="text" class="form-control" name="Name" id="Name" value="@Model.Name" placeholder="VD: Công ty Máy và thiết bị Hà Nội">
+                        <input type="text" class="form-control" name="ProductBrand_ID" id="ProductBrand_ID" value="@Model.ProductBrandId" hidden="hidden">
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-12 col-sm-6">
+                            <label for="inputAddress">Số điện thoại:*</label>
+                            <input type="number" class="form-control" name="Mobile" id="Mobile" value="@Model.Mobile" placeholder="VD: 0948178386">
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <label for="inputAddress">Email:*</label>
+                            <input type="text" class="form-control" name="Email" id="Email" value="@Model.Email" placeholder="VD: info@hanoma.vn">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputAddress">Website:</label>
+                        <input type="text" class="form-control" name="Website" id="Website" value="@Model.Website" placeholder="VD: Hanoma.vn">
+
+                    </div>
+                    <div class="form-group">
+                        <label for="inputAddress">Địa chỉ:*</label>
+                        <input type="text" class="form-control" name="Address" id="Address" value="@Model.Address" placeholder="VD: Dịch Vọng - Cầu Giấy - Hà Nội">
+
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-12 col-md-4">
+                            <label for="inputAddress">Quốc gia:*</label>
+                            @(Html.Kendo().ComboBox()
+                                .Text(Model.CountryName)
+                                .Value(Model.Country_ID.ToString())
+                                .Name("Country_ID")
+                                .HtmlAttributes(new {@class = "form-control"})
+                                .Placeholder("Chọn Quốc gia....")
+                                .DataTextField("Name")
+                                .DataValueField("CountryId")
+                                .Filter("contains")
+                                .Suggest(true)
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("GetLstCountry", "Home");
+                                    }).ServerFiltering(false);
+                                })
+                            )
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <label for="inputAddress">Tỉnh / Thành phố:*</label>
+                            @(Html.Kendo().ComboBox()
+                                .Text(Model.LocationName)
+                                .Value(Model.LocationId.ToString())
+                                .Name("Location_ID")
+                                .HtmlAttributes(new {@class = "form-control"})
+                                .Placeholder("Chọn Tỉnh/Thành....")
+                                .DataTextField("Name")
+                                .DataValueField("LocationId")
+                                .Filter("contains")
+                                .Suggest(true)
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("GetLocationByCountry", "Home").Data("filterModels");
+                                    }).ServerFiltering(true);
+                                })
+                                .Enable(false)
+                                .AutoBind(false)
+                                .CascadeFrom("Country_ID")
+                            )
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label for="inputAddress">Quận / Huyện:*</label>
+                            @(Html.Kendo().ComboBox()
+                                .Text(Model.District)
+                                .Value(Model.District)
+                                .Name("District")
+                                .HtmlAttributes(new {@class = "form-control"})
+                                .Placeholder("Chọn Quận/Huyện....")
+                                .DataTextField("Name")
+                                .DataValueField("Name")
+                                .Filter("contains")
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("GetDistrictByLocation", "Home").Data("filterModelDistrict");
+                                    }).ServerFiltering(true);
+                                })
+                                .Enable(false)
+                                .AutoBind(false)
+                                .CascadeFrom("Location_ID")
+                            )
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-12 col-md-4">
+                            <label for="inputAddress">Mã bưu điện:</label>
+                            <input type="text" class="form-control" name="PostalCode" id="PostalCode" value="@Model.PostalCode" placeholder="VD: 100000">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputAddress">Giới thiệu cửa hàng:*</label>
+                        <textarea name="Description" id="Description" class="form-control" placeholder="VD: Cửa hàng bán máy và thiết bị công trình">@Model.Description</textarea>
+                    </div>
+                    <div class=" justify-content-center d-block text-center mt-3">
+                        <button type="button" id="buttonCreate" class="btn btn-primary mb-2" onclick="javascript:EditProductBrand()">Hoàn tất</button>
+                    </div>
+                </div>
+            </form>
+        </article>
+
+
+    </section>
+    <!-- menu mobile -->
+    <section>
+        <div class="navigation d-block d-lg-none">
+            <div class="d-flex align-items-center text-center list-unstyled mb-0 bg-white">
+                <a href="/" class="menu-item home"><img src="./images/home.png" /><span> Trang chủ</span></a>
+                <a href="./gianhang.html" class="menu-item news"><img src="./images/icon_store.png" /><span>Gian hàng</span></a>
+                <a href="/tai-khoan?id=1" class="menu-item noti"><img src="./images/bell.png" /><span class="count">12</span><span>Thông báo</span></a>
+                <a href="/tai-khoan" class="menu-item account"><img src="./images/profile.png" /><span>Tài khoản</span></a>
+            </div>
+
+        </div>
+    </section>
+
+    <script src="~/js/file-upload-with-preview.min.js"></script>
+    <script src="~/Assets/js/validation-product.js"></script>
+    <script>
+        var upload = new FileUploadWithPreview("img-logo", {
+        text: {
+            chooseFile: "",
+            browse: "Chọn logo"
+        },
+        presetFiles: ["@Model.UrlLogoImage"]
+    });
+    var upload1 = new FileUploadWithPreview("img-cover", {
+        text: {
+            chooseFile: "",
+            browse: "Chọn ảnh bìa cho gian hàng. <br />(Tỉ lệ 3:1)"
+        },
+        presetFiles: ["@Model.UrlBannerImage"]
+    });
+
+        function filterModels() {
+            return {
+                CountryId: $("#Country_ID").val(),
+                modelFilter: $("#Location_ID").data("kendoComboBox").input.val(),
+                text: $("#Location_ID").data("kendoComboBox").input.val(),
+
+            };
+        }
+
+        function filterModelDistrict() {
+            return {
+                LocationId: $("#Location_ID").val(),
+                modelFilter: $("#District").data("kendoComboBox").input.val()
+            }; text: $("#District").data("kendoComboBox").input.val()
+        }
+
+        function onSelectMain() {
+            var mainImg = $('#Logo').val();
+            if (mainImg.files != "") {
+                var files = $('#Logo')[0].files;
+                var type = files[0].name.split('.').pop()
+                var acceptedFiles = ["jpg", "JPG", "jpeg", "JPEG", "png", "PNG"]
+                var isAcceptedImageFormat = ($.inArray(type, acceptedFiles)) != -1
+                if (!isAcceptedImageFormat) {
+                    toastr["error"]("Ảnh Logo chỉ chấp nhận các định dạng JPG, JPEG, PNG");
+                    return false;
+                }
+            }
+        }
+
+        function onSelectSub() {
+            var files2 = document.getElementById("Banner");
+            for (i = 0; i < files2.files.length; i++) {
+                var type = files2.files[i].name.split('.').pop();
+                var acceptedFiles = ["jpg", "JPG", "jpeg", "JPEG", "png", "PNG"]
+                var isAcceptedImageFormat = ($.inArray(type, acceptedFiles)) != -1
+                if (!isAcceptedImageFormat) {
+                    toastr["error"]("Ảnh Banner chỉ chấp nhận các định dạng JPG, JPEG, PNG");
+                    return false;
+                }
+            }
+        }
+
+        async function readFileAsDataURL(file) {
+            let result_base64 = await new Promise((resolve) => {
+                let fileReader = new FileReader();
+                fileReader.onload = (e) => resolve(fileReader.result);
+                fileReader.readAsDataURL(file);
+            });
+            var dataImage = {
+                FileName: file.name,
+                ExtensionType: file.type,
+                Base64: result_base64
+            }
+            return dataImage;
+        }
+
+        async function EditProductBrand() {
+            var ProductBrand_ID = $("#ProductBrand_ID").val();
+            var name = $("#Name").val();
+            var mobile = $("#Mobile").val();
+            var email = $("#Email").val();
+            var address = $("#Address").val();
+            var country = $("#Country_ID").val();
+            var location = $("#Location_ID").val();
+            var district = $("#District").val();
+            var description = $("#Description").val();
+            var PostalCode = $("#PostalCode").val();
+            var Website = $("#Website").val();
+
+            var mainImg = $('#Logo').val();
+            if (mainImg != "") {
+                var files = $('#Logo')[0].files;
+                var type = files[0].name.split('.').pop()
+                var acceptedFiles = ["jpg", "JPG", "jpeg", "JPEG", "png", "PNG"]
+                var isAcceptedImageFormat = ($.inArray(type, acceptedFiles)) != -1
+                if (!isAcceptedImageFormat) {
+                    toastr["error"]("Ảnh Logo chỉ chấp nhận các định dạng JPG, JPEG, PNG");
+                    return false;
+                }
+            }
+
+            var files2 = document.getElementById("Banner");
+            for (i = 0; i < files2.files.length; i++) {
+                var type = files2.files[i].name.split('.').pop();
+                var acceptedFiles = ["jpg", "JPG", "jpeg", "JPEG", "png", "PNG"]
+                var isAcceptedImageFormat = ($.inArray(type, acceptedFiles)) != -1
+                if (!isAcceptedImageFormat) {
+                    toastr["error"]("Ảnh Banner chỉ chấp nhận các định dạng JPG, JPEG, PNG");
+                    return false;
+                }
+            }
+
+            if (name == "") {
+                toastr["error"]("Tên cửa hàng không được để trống!");
+                $("#Name").focus();
+                return false;
+            }
+            if (jQuery.trim(name) == "") {
+                toastr["error"]("Tên cửa hàng không được nhập toàn bộ là khoảng trắng");
+                return false;
+            }
+
+            if (!checkSpecialCharacter(name)) {
+                toastr["error"]("Tên cửa hàng không được nhập các ký tự đặc biệt");
+                $("#Name").focus();
+                return false;
+            }
+
+            if (mobile == "") {
+                toastr["error"]("Số điện thoại không được để trống!");
+                $("#Mobile").focus();
+                return false;
+            }
+            if (jQuery.trim(mobile) == "") {
+                toastr["error"]("Số điện thoại không được nhập toàn bộ là khoảng trắng");
+                return false;
+            }
+            if (mobile != "") {
+                if (mobile.length < 10) {
+                    toastr["error"]("Số điện thoại phải trên 10 ký tự!");
+                    $("#Mobile").focus();
+                    return false;
+                }
+
+                if (mobile.length > 11) {
+                    toastr["error"]("Số điện thoại không được quá 11 ký tự!");
+                    $("#Mobile").focus();
+                    return false;
+                }
+            }
+            if (email == "") {
+                toastr["error"]("Email không được để trống!");
+                $("#Name").focus();
+                return false;
+            }
+            if (jQuery.trim(email) == "") {
+                toastr["error"]("Email không được nhập toàn bộ là khoảng trắng");
+                return false;
+            }
+
+            if (address == "") {
+                toastr["error"]("Địa chỉ không được để trống!");
+                $("#Address").focus();
+                return false;
+            }
+
+            if (address != "") {
+                if (name.length > 200) {
+                    toastr["error"]("Địa chỉ không được quá 200 ký tự!");
+                    $("#Address").focus();
+                    return false;
+                }
+            }
+
+            if (country.length < 1) {
+                toastr["error"]("Quốc gia không được để trống!");
+                return false;
+            }
+
+            if (location.length < 1) {
+                toastr["error"]("Tỉnh/Thành gia không được để trống!");
+                return false;
+            }
+
+            if (district.length < 1) {
+                toastr["error"]("Quận/Huyện không được để trống!");
+                return false;
+            }
+
+            if (description == "") {
+                toastr["error"]("Mô tả không được để trống!");
+                return false;
+            }
+            if (jQuery.trim(description) == "") {
+                toastr["error"]("Mô tả không được nhập toàn bộ là khoảng trắng");
+                return false;
+            }
+            if (description != "") {
+                if (description.length < 10) {
+                    toastr["error"]("Mô tả phải trên 10 ký tự!");
+                    return false;
+                }
+
+                if (description.length > 2000) {
+                    toastr["error"]("Mô tả không được quá 2000 ký tự!");
+                    return false;
+                }
+            }
+
+            var objLogoImage = null;
+            var LogoImg = $('#Logo').val();
+            if (LogoImg != "") {
+                var files = $('#Logo')[0].files;
+                objLogoImage = await readFileAsDataURL(files[0]);
+            }
+
+            var objBannerImage = null;
+            var BannerImg = $('#Banner').val();
+            if (BannerImg != "") {
+                var files = $('#Banner')[0].files;
+                objBannerImage = await readFileAsDataURL(files[0]);
+            }
+
+            var objData = {
+                "ProductBrand_ID": ProductBrand_ID,
+                "Country_ID": country,
+                "Location_ID": location,
+                "Name": name,
+                "Address": address,
+                "District": district,
+                "PostalCode": PostalCode,
+                "Mobile": mobile,
+                "Email": email,
+                "Website": Website,
+                "Description": description
+            }
+            var model = {
+                "Data": objData,
+                "ImgLogo": {},
+                "ImgBanner": {}
+            };
+            model['ImgLogo'] = objLogoImage;
+            model['ImgBanner'] = objBannerImage;
+            document.getElementById("buttonCreate").disabled = true;
+            $.ajax({
+                type: 'POST',
+                url: "/Shopman/Home/EditProductBrand",
+                data: JSON.stringify(model),
+                dataType: "json",
+                contentType: "application/json",
+                success: function (data) {
+                    var resultRes = JSON.parse(JSON.stringify(data));
+                    if (resultRes.ErrorCode == null || resultRes.ErrorCode == "00" || resultRes.ErrorCode == "0") {
+                        toastr.success("Cập nhật gian hàng thành công");
+                        window.location.href = "/Shopman";
+                    }
+                    else {
+                        toastr.error(resultRes.Message);
+                        document.getElementById("buttonCreate").disabled = false;
+                    }
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: "/Home/Notification",
+                dataType: "html",
+                success: function (response) {
+                    $('#notification').html(response);
+                }
+            });
+        });
+    </script>
+
+    <script src="~/Assets/js/bootstrap.min.js"></script>
+    <script src="~/Assets/js/swiper-bundle.min.js"></script>
+    <script src="~/Assets/js/jquery.lazy.min.js"></script>
+    <script src="~/Assets/js/select2.min.js"></script>
+    <script src="~/Assets/js/navScript.js"></script>
+    <script src="~/Assets/js/mmenu.js"></script>
+    <script src="~/Assets/js/custom.js"></script>
+    <script src="~/Assets/js/lottie-player.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha256-3blsJd4Hli/7wCQ+bmgXfOdK7p/ZUMtPXY08jmxSSgk=" crossorigin="anonymous"></script>
+</body>
+</html>

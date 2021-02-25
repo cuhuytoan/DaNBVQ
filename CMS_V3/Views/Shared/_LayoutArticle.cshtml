@@ -1,0 +1,94 @@
+﻿<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="vi" xml:lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="Công ty cổ phần ILOTT" name="author" />
+    <meta content="Công ty cổ phần ILOTT" name="copyright" />
+    <meta content="Công ty cổ phần ILOTT" itemprop="sourceOrganization" name="source" />
+    <meta content="info@hanoma.vn" name="EMail" />
+    <meta property="article:publisher" content="https://www.facebook.com/Hanomavn-625827524461341/" />
+    <meta property="article:author" content="https://www.facebook.com/Hanomavn-625827524461341/" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Expires" content="600" />
+    <meta content="INDEX,FOLLOW,ALL" name="robots" />
+    <meta content="1 day" name="revisit-after" />
+    <meta content="General" name="document-rating" />
+    <meta content="Global" name="document-distribution" />
+    <meta content="Global" name="distribution" />
+    <meta content="News" name="area" />
+    <meta content="vietnam" name="placename" />
+    <meta content="Document" name="resource-type" />
+    <meta content="Vietnam" name="classification" />
+    <meta content="All" name="rating" />
+    <meta name="geo.placename" content="Ha Noi, Viet Nam" />
+    <meta name="geo.region" content="VN-HN" />
+    <meta name="geo.position" content="21.030624;105.782431" />
+    <meta name="ICBM" content="21.030624, 105.782431" />
+    <meta name="revisit-after" content="days" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="~/favicon.ico" />
+
+    @*<script data-ad-client="ca-pub-6073495866575825" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>*@
+
+    <!-- META FOR FACEBOOK -->
+    <meta property="article:publisher" content="https://www.facebook.com/hanoma.vn/" />
+    <meta property="article:author" content="https://www.facebook.com/hanoma.vn/" />
+    <meta property="fb:pages" content="625827524461341" />
+    <meta property="fb:app_id" content="1962758833770774" />
+    <meta property="fb:admins" content="nncanh" />
+    <meta property="og:site_name" content="HANOMA.VN - SÀN GIAO DỊCH THIẾT BỊ HẠNG NẶNG" />
+
+    <!-- END META FOR FACEBOOK -->
+    <!-- Twitter Card -->
+    <meta name="twitter:card" value="summary">
+    <meta name="twitter:site" content="Hanoma16">
+    <meta name="twitter:creator" content="Hanoma16">
+    <!-- End Twitter Card -->
+    <!-- Bootstrap CSS -->
+    <link href="~/Assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/style.css" rel="stylesheet" />
+    <link href="~/Assets/css/responsive.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" integrity="sha256-ENFZrbVzylNbgnXx0n3I1g//2WeO47XxoPe0vkp3NC8=" crossorigin="anonymous" />
+    <script data-ad-client="ca-pub-6694880230752956" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-72462334-3"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-72462334-3');
+    </script>
+    @RenderSection("metaTags", required: false)
+</head>
+<body id="body">
+    <!-- Header -->
+    @await Html.PartialAsync("_LayoutHeaderArticle.cshtml")
+
+    <!-- Content -->
+    <section class="content container p-0">
+        @RenderBody()
+    </section>
+
+    <!-- footer -->
+    @await Html.PartialAsync("_LayoutFooter.cshtml")
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="~/Assets/js/bootstrap.min.js"></script>
+    <script src="~/Assets/js/swiper-bundle.min.js"></script>
+    <script src="~/Assets/js/jquery.lazy.min.js"></script>
+    <script src="~/js/select2.min.js"></script>
+    <script src="~/js/navScript.js"></script>
+    <script src="~/Assets/js/mmenu.js"></script>
+    <script src="~/Assets/js/custom.js"></script>
+    <script src="~/Assets/js/lottie-player.js"></script>
+    <script src="~/js/jquery.twbsPagination.min.js"></script>
+    <script src="~/Assets/jsController/HomeController.js"></script>
+
+
+</body>
+</html>

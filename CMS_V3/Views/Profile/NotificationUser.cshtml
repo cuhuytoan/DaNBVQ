@@ -1,0 +1,386 @@
+﻿@{
+    var lstNotificationAll = (HNM.DataNC.ModelsNC.ModelsDTO.LstFCMMessageUser)ViewBag.NotificationAll;
+    var lstNotificationAllUser = (HNM.DataNC.ModelsNC.ModelsDTO.LstFCMMessageUser)ViewBag.NotificationAllUser;
+    var lstNotificationSocial = (HNM.DataNC.ModelsNC.ModelsDTO.LstFCMMessageUser)ViewBag.NotificationSocial;
+    var lstNotificationPromotion = (HNM.DataNC.ModelsNC.ModelsDTO.LstFCMMessageUser)ViewBag.NotificationPromotion;
+}
+
+@if (ViewBag.ActiveBlock == 1)
+{
+    <div class="tab-pane fade show active" id="taikhoanthongbao" role="tabpanel" aria-labelledby="taikhoanthongbao-tab" style="min-height: 550px;">
+        <div class="bg-white p-2 border-radius px-md-4 tab-content" id="noti-div">
+            <div class="title-page pb-4 mb-4 pt-3">
+                <ul class="list-unstyled memu-noti m-0 nav" role="tablist">
+                    <li><a class="active tab-link" data-toggle="tab" role="tab" aria-controls="all-notification" aria-selected="true" href="#all-notification">Tất cả</a></li>
+                    <li><a class="tab-link" data-toggle="tab" role="tab" aria-controls="user-notification" aria-selected="false" href="#user-notification">Người dùng</a></li>
+                    <li><a class="tab-link" data-toggle="tab" role="tab" aria-controls="social-notification" aria-selected="false" href="#social-notification">Cộng đồng</a></li>
+                    <li><a class="tab-link" data-toggle="tab" role="tab" aria-controls="promotion-notification" aria-selected="false" href="#promotion-notification">Khuyến mại</a></li>
+
+                </ul>
+            </div>
+            <div class="content-page  noticontent justify-content-center tab-pane fade show active" id="all-notification" role="tabpanel" aria-labelledby="all-notification-tab" style="overflow-y:scroll">
+                <ul class="list-unstyled m-0">
+                    @if (lstNotificationAll.LstFCMMessage.Count > 0)
+                    {
+                        @foreach (var item in lstNotificationAll.LstFCMMessage)
+                        {
+                            <li>
+                                <div class="d-flex border-bottom pt-1">
+                                    <span class="image col-2 p-0">
+                                        <img src="@item.fullUrlImage" />
+                                    </span>
+                                    <div class="noti-content col-10 m-0">
+                                        @if (item.HasRead == 0)
+                                        {
+                                            <span class="title unread">@item.Title</span>
+                                            <p class="d-block d-sm-flex justify-content-between m-0"> <span class="justify-content-start calendar">@Utils.RenderTimeSince((DateTime)item.CreateDate)</span> <span class="justify-content-end action-noti"><a onclick="HasRead(@item.FCMMessageId, @item.notiSpecType, event)" href="#">Đánh dấu đã đọc</a> @*<a class="ml-4 delete" href="#"> Xoá</a>*@</span></p>
+                                        }
+                                        else
+                                        {
+                                            <span class="title">@item.Title</span>
+                                            <p class="d-block d-sm-flex justify-content-between m-0"> <span class="justify-content-start calendar">@Utils.RenderTimeSince((DateTime)item.CreateDate)</span> <span class="justify-content-end action-noti"> @*<a class="ml-4 delete" href="#"> Xoá</a>*@</span></p>
+                                        }
+
+                                        <p class="m-0">@item.Body</p>
+                                        @*<a href="@item.fullUrl">Chi tiết...</a>*@
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-center search-notfound py-3">
+                            <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_EMTsq1.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player>
+                            <h5>Không có thông báo.</h5>
+                        </div>
+                    }
+
+
+                    <ul>
+            </div>
+
+            <div class="content-page  noticontent justify-content-center tab-pane fade" id="user-notification" role="tabpanel" aria-labelledby="user-notification-tab" style="overflow-y:scroll">
+                <ul class="list-unstyled m-0">
+                    @if (lstNotificationAllUser.LstFCMMessage.Count > 0)
+                    {
+                        @foreach (var item in lstNotificationAllUser.LstFCMMessage)
+                        {
+                            <li>
+                                <div class="d-flex border-bottom pt-1">
+                                    <span class="image col-2 p-0">
+                                        <img src="@item.fullUrlImage" />
+                                    </span>
+                                    <div class="noti-content col-10 m-0">
+                                        @if (item.HasRead == 0)
+                                        {
+                                            <span class="title unread">@item.Title</span>
+                                            <p class="d-block d-sm-flex justify-content-between m-0"> <span class="justify-content-start calendar">@Utils.RenderTimeSince((DateTime)item.CreateDate)</span> <span class="justify-content-end action-noti"><a onclick="HasRead(@item.FCMMessageId, @item.notiSpecType, event)" href="#">Đánh dấu đã đọc</a> @*<a class="ml-4 delete" href="#"> Xoá</a>*@</span></p>
+                                        }
+                                        else
+                                        {
+                                            <span class="title">@item.Title</span>
+                                            <p class="d-block d-sm-flex justify-content-between m-0"> <span class="justify-content-start calendar">@Utils.RenderTimeSince((DateTime)item.CreateDate)</span> <span class="justify-content-end action-noti"> @*<a class="ml-4 delete" href="#"> Xoá</a>*@</span></p>
+                                        }
+
+                                        <p class="m-0">@item.Body</p>
+                                        @*<a href="@item.fullUrl">Chi tiết...</a>*@
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-center search-notfound py-3">
+                            <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_EMTsq1.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player>
+                            <h5>Không có thông báo.</h5>
+                        </div>
+                    }
+                    <ul>
+            </div>
+
+            <div class="content-page  noticontent justify-content-center tab-pane fade" id="social-notification" role="tabpanel" aria-labelledby="social-notification-tab" style="overflow-y:scroll">
+                <ul class="list-unstyled m-0">
+                    @if (lstNotificationSocial.LstFCMMessage.Count > 0)
+                    {
+                        @foreach (var item in lstNotificationSocial.LstFCMMessage)
+                        {
+                            <li>
+                                <div class="d-flex border-bottom pt-1">
+                                    <span class="image col-2 p-0">
+                                        <img src="@item.fullUrlImage" />
+                                    </span>
+                                    <div class="noti-content col-10 m-0">
+                                        @if (item.HasRead == 0)
+                                        {
+                                            <span class="title unread">@item.Title</span>
+                                            <p class="d-block d-sm-flex justify-content-between m-0"> <span class="justify-content-start calendar">@Utils.RenderTimeSince((DateTime)item.CreateDate)</span> <span class="justify-content-end action-noti"><a onclick="HasRead(@item.FCMMessageId, @item.notiSpecType, event)" href="#">Đánh dấu đã đọc</a> @*<a class="ml-4 delete" href="#"> Xoá</a>*@</span></p>
+                                        }
+                                        else
+                                        {
+                                            <span class="title">@item.Title</span>
+                                            <p class="d-block d-sm-flex justify-content-between m-0"> <span class="justify-content-start calendar">@Utils.RenderTimeSince((DateTime)item.CreateDate)</span> <span class="justify-content-end action-noti"> @*<a class="ml-4 delete" href="#"> Xoá</a>*@</span></p>
+                                        }
+
+                                        <p class="m-0">@item.Body</p>
+                                        @*<a href="@item.fullUrl">Chi tiết...</a>*@
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-center search-notfound py-3">
+                            <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_EMTsq1.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player>
+                            <h5>Không có thông báo.</h5>
+                        </div>
+                    }
+                    <ul>
+            </div>
+
+            <div class="content-page  noticontent justify-content-center tab-pane fade" id="promotion-notification" role="tabpanel" aria-labelledby="promotion-notification-tab">
+                <ul class="list-unstyled m-0">
+                    @if (lstNotificationPromotion.LstFCMMessage.Count > 0)
+                    {
+                        @foreach (var item in lstNotificationPromotion.LstFCMMessage)
+                        {
+                            <li>
+                                <div class="d-flex border-bottom pt-1">
+                                    <span class="image col-2 p-0">
+                                        <img src="@item.fullUrlImage" />
+                                    </span>
+                                    <div class="noti-content col-10 m-0">
+                                        @if (item.HasRead == 0)
+                                        {
+                                            <span class="title unread">@item.Title</span>
+                                            <p class="d-block d-sm-flex justify-content-between m-0"> <span class="justify-content-start calendar">@Utils.RenderTimeSince((DateTime)item.CreateDate)</span> <span class="justify-content-end action-noti"><a onclick="HasRead(@item.FCMMessageId, @item.notiSpecType, event)" href="#">Đánh dấu đã đọc</a> @*<a class="ml-4 delete" href="#"> Xoá</a>*@</span></p>
+                                        }
+                                        else
+                                        {
+                                            <span class="title">@item.Title</span>
+                                            <p class="d-block d-sm-flex justify-content-between m-0"> <span class="justify-content-start calendar">@Utils.RenderTimeSince((DateTime)item.CreateDate)</span> <span class="justify-content-end action-noti"> @*<a class="ml-4 delete" href="#"> Xoá</a>*@</span></p>
+                                        }
+
+                                        <p class="m-0">@item.Body</p>
+                                        @*<a href="@item.fullUrl">Chi tiết...</a>*@
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-center search-notfound py-3">
+                            <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_EMTsq1.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player>
+                            <h5>Không có thông báo.</h5>
+                        </div>
+                    }
+
+                    <ul>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="tab-pane fade" id="taikhoanthongbao" role="tabpanel" aria-labelledby="taikhoanthongbao-tab" style="min-height: 550px;">
+        <div class="bg-white p-2 border-radius px-md-4 tab-content" id="noti-div">
+            <div class="title-page pb-4 mb-4 pt-3">
+                <ul class="list-unstyled memu-noti m-0 nav" role="tablist">
+                    <li><a class="active tab-link" data-toggle="tab" role="tab" aria-controls="all-notification" aria-selected="true" href="#all-notification">Tất cả</a></li>
+                    <li><a class="tab-link" data-toggle="tab" role="tab" aria-controls="user-notification" aria-selected="false" href="#user-notification">Người dùng</a></li>
+                    <li><a class="tab-link" data-toggle="tab" role="tab" aria-controls="social-notification" aria-selected="false" href="#social-notification">Cộng đồng</a></li>
+                    <li><a class="tab-link" data-toggle="tab" role="tab" aria-controls="promotion-notification" aria-selected="false" href="#promotion-notification">Khuyến mại</a></li>
+
+                </ul>
+            </div>
+            <div class="content-page  noticontent justify-content-center tab-pane fade show active" id="all-notification" role="tabpanel" aria-labelledby="all-notification-tab" style="overflow-y:scroll">
+                <ul class="list-unstyled m-0">
+                    @if (lstNotificationAll.LstFCMMessage.Count > 0)
+                    {
+                        @foreach (var item in lstNotificationAll.LstFCMMessage)
+                        {
+                            <li>
+                                <div class="d-flex border-bottom pt-1">
+                                    <span class="image col-2 p-0">
+                                        <img src="@item.fullUrlImage" />
+                                    </span>
+                                    <div class="noti-content col-10 m-0">
+                                        @if (item.HasRead == 0)
+                                        {
+                                            <span class="title unread">@item.Title</span>
+                                            <p class="d-block d-sm-flex justify-content-between m-0"> <span class="justify-content-start calendar">@Utils.RenderTimeSince((DateTime)item.CreateDate)</span> <span class="justify-content-end action-noti"><a onclick="HasRead(@item.FCMMessageId, @item.notiSpecType, event)" href="#">Đánh dấu đã đọc</a> @*<a class="ml-4 delete" href="#"> Xoá</a>*@</span></p>
+                                        }
+                                        else
+                                        {
+                                            <span class="title">@item.Title</span>
+                                            <p class="d-block d-sm-flex justify-content-between m-0"> <span class="justify-content-start calendar">@Utils.RenderTimeSince((DateTime)item.CreateDate)</span> <span class="justify-content-end action-noti"> @*<a class="ml-4 delete" href="#"> Xoá</a>*@</span></p>
+                                        }
+
+                                        <p class="m-0">@item.Body</p>
+                                        @*<a href="@item.fullUrl">Chi tiết...</a>*@
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-center search-notfound py-3">
+                            <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_EMTsq1.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player>
+                            <h5>Không có thông báo.</h5>
+                        </div>
+                    }
+                    <ul>
+            </div>
+
+            <div class="content-page  noticontent justify-content-center tab-pane fade" id="user-notification" role="tabpanel" aria-labelledby="user-notification-tab" style="overflow-y:scroll">
+                <ul class="list-unstyled m-0">
+                    @if (lstNotificationAllUser.LstFCMMessage.Count > 0)
+                    {
+                        @foreach (var item in lstNotificationAllUser.LstFCMMessage)
+                        {
+                            <li>
+                                <div class="d-flex border-bottom pt-1">
+                                    <span class="image col-2 p-0">
+                                        <img src="@item.fullUrlImage" />
+                                    </span>
+                                    <div class="noti-content col-10 m-0">
+                                        @if (item.HasRead == 0)
+                                        {
+                                            <span class="title unread">@item.Title</span>
+                                            <p class="d-block d-sm-flex justify-content-between m-0"> <span class="justify-content-start calendar">@Utils.RenderTimeSince((DateTime)item.CreateDate)</span> <span class="justify-content-end action-noti"><a onclick="HasRead(@item.FCMMessageId, @item.notiSpecType, event)" href="#">Đánh dấu đã đọc</a> @*<a class="ml-4 delete" href="#"> Xoá</a>*@</span></p>
+                                        }
+                                        else
+                                        {
+                                            <span class="title">@item.Title</span>
+                                            <p class="d-block d-sm-flex justify-content-between m-0"> <span class="justify-content-start calendar">@Utils.RenderTimeSince((DateTime)item.CreateDate)</span> <span class="justify-content-end action-noti"> @*<a class="ml-4 delete" href="#"> Xoá</a>*@</span></p>
+                                        }
+
+                                        <p class="m-0">@item.Body</p>
+                                        @*<a href="@item.fullUrl">Chi tiết...</a>*@
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-center search-notfound py-3">
+                            <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_EMTsq1.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player>
+                            <h5>Không có thông báo.</h5>
+                        </div>
+                    }
+                    <ul>
+            </div>
+
+            <div class="content-page  noticontent justify-content-center tab-pane fade" id="social-notification" role="tabpanel" aria-labelledby="social-notification-tab" style="overflow-y:scroll">
+                <ul class="list-unstyled m-0">
+                    @if (lstNotificationSocial.LstFCMMessage.Count > 0)
+                    {
+                        @foreach (var item in lstNotificationSocial.LstFCMMessage)
+                        {
+                            <li>
+                                <div class="d-flex border-bottom pt-1">
+                                    <span class="image col-2 p-0">
+                                        <img src="@item.fullUrlImage" />
+                                    </span>
+                                    <div class="noti-content col-10 m-0">
+                                        @if (item.HasRead == 0)
+                                        {
+                                            <span class="title unread">@item.Title</span>
+                                            <p class="d-block d-sm-flex justify-content-between m-0"> <span class="justify-content-start calendar">@Utils.RenderTimeSince((DateTime)item.CreateDate)</span> <span class="justify-content-end action-noti"><a onclick="HasRead(@item.FCMMessageId, @item.notiSpecType, event)" href="#">Đánh dấu đã đọc</a> @*<a class="ml-4 delete" href="#"> Xoá</a>*@</span></p>
+                                        }
+                                        else
+                                        {
+                                            <span class="title">@item.Title</span>
+                                            <p class="d-block d-sm-flex justify-content-between m-0"> <span class="justify-content-start calendar">@Utils.RenderTimeSince((DateTime)item.CreateDate)</span> <span class="justify-content-end action-noti"> @*<a class="ml-4 delete" href="#"> Xoá</a>*@</span></p>
+                                        }
+
+                                        <p class="m-0">@item.Body</p>
+                                        @*<a href="@item.fullUrl">Chi tiết...</a>*@
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-center search-notfound py-3">
+                            <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_EMTsq1.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player>
+                            <h5>Không có thông báo.</h5>
+                        </div>
+                    }
+                    <ul>
+            </div>
+
+            <div class="content-page  noticontent justify-content-center tab-pane fade" id="promotion-notification" role="tabpanel" aria-labelledby="promotion-notification-tab">
+                <ul class="list-unstyled m-0">
+                    @if (lstNotificationPromotion.LstFCMMessage.Count > 0)
+                    {
+                        @foreach (var item in lstNotificationPromotion.LstFCMMessage)
+                        {
+                            <li>
+                                <div class="d-flex border-bottom pt-1">
+                                    <span class="image col-2 p-0">
+                                        <img src="@item.fullUrlImage" />
+                                    </span>
+                                    <div class="noti-content col-10 m-0">
+                                        @if (item.HasRead == 0)
+                                        {
+                                            <span class="title unread">@item.Title</span>
+                                            <p class="d-block d-sm-flex justify-content-between m-0"> <span class="justify-content-start calendar">@Utils.RenderTimeSince((DateTime)item.CreateDate)</span> <span class="justify-content-end action-noti"><a onclick="HasRead(@item.FCMMessageId, @item.notiSpecType, event)" href="#">Đánh dấu đã đọc</a> @*<a class="ml-4 delete" href="#"> Xoá</a>*@</span></p>
+                                        }
+                                        else
+                                        {
+                                            <span class="title">@item.Title</span>
+                                            <p class="d-block d-sm-flex justify-content-between m-0"> <span class="justify-content-start calendar">@Utils.RenderTimeSince((DateTime)item.CreateDate)</span> <span class="justify-content-end action-noti"> @*<a class="ml-4 delete" href="#"> Xoá</a>*@</span></p>
+                                        }
+
+                                        <p class="m-0">@item.Body</p>
+                                        @*<a href="@item.fullUrl">Chi tiết...</a>*@
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-center search-notfound py-3">
+                            <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_EMTsq1.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player>
+                            <h5>Không có thông báo.</h5>
+                        </div>
+                    }
+                    <ul>
+            </div>
+        </div>
+    </div>
+}
+
+
+<script>
+    function HasRead(FCMMessageId, notiSpecType, e) {
+        $.ajax({
+            type: "GET",
+            url: "/Profile/FCMHasRead?FCMMessageId=" + FCMMessageId + "&notiSpecType=" + notiSpecType,
+            dataType: "html",
+            success: function (response) {
+                e.preventDefault();
+                toastr["success"]("Thành công");
+                setTimeout(
+                    function () {
+                        window.location.href = "/tai-khoan?id=1"
+                    },
+                    3000);
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+</script>

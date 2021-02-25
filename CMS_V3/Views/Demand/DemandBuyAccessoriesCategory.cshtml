@@ -1,0 +1,450 @@
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@using Mono.Web
+
+@{
+    var CategoryMenuHeader = ((HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO MenuMachine, HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO MenuMaterials, HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO MenuServices))ViewBag.CategoryMenuHeader;
+
+
+    var CateMenus = (List<HNM.DataNC.ModelsNC.ModelsDTO.ProductCategoryTwoLevelDTO>)ViewBag.CateMenus;
+    var CategoryMenuTakeTop = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.CategoryMenuTakeTop;
+    var CurrentCategoryId = (int)ViewBag.CurrentCategoryId;
+    var ProductCategoryCurrent = (HNM.DataNC.ModelsNC.ModelsDTO.ProductCategoryDTO)ViewBag.ProductCategoryCurrent;
+    var ProductCategoryParent = (HNM.DataNC.ModelsNC.ModelsDTO.ProductCategoryDTO)ViewBag.ProductCategoryParent;
+
+    var ListProductAds = (HNM.DataNC.ModelsNC.ModelsDTO.SponsorBanner)ViewBag.ListProductAds;
+ViewBag.Title = ProductCategoryCurrent?.Name;
+}
+@section metatags{
+    <meta name="keywords" content="@HttpUtility.HtmlDecode(@Configuration["DefaultKeyword"])" />
+    <meta name="description" content="@HttpUtility.HtmlDecode(@Configuration["DefaultDescription"])" />
+    <link id="canonical" rel="canonical" href="@Configuration["DomainName"]/@string.Format($"can-mua-phu-tung" + "-{0}.pcat", ProductCategoryCurrent.URL)" />
+}
+<link href="~/css/bootstrap.min.css" rel="stylesheet" />
+<link href="~/css/style.css" rel="stylesheet" />
+<link href="~/css/responsive.css" rel="stylesheet" />
+
+<!-- Content -->
+<section class="category ">
+    <article>
+        <div class="d-flex banner align-items-center">
+            @await Html.PartialAsync("../Shared/CategoryMenuHeader.cshtml")
+            <nav aria-label="breadcrumb" class="col-sm-12 col-lg-9 px-3 pl-lg-0 pr-lg-0">
+                <ol class="breadcrumb p-0 m-0">
+                    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a href="/can-mua-phu-tung">Cần mua phụ tùng</a></li>
+                    @if (ProductCategoryCurrent.ParentId > 655)
+                    {
+                        <li class="breadcrumb-item"><a href="@string.Format($"can-mua-phu-tung" + "-{0}.pcat", ProductCategoryParent.URL)">@ProductCategoryParent.Name</a></li>
+                    }
+                    <li class="breadcrumb-item active" aria-current="page"><a href="@string.Format($"can-mua-phu-tung" + "-{0}.pcat", ProductCategoryCurrent.URL)">@ProductCategoryCurrent.Name</a></li>
+                </ol>
+            </nav>
+        </div>
+    </article>
+    <article>
+        <div class="d-lg-flex d-block mt-3">
+            <div class="col-lg-8 col-md-12 pr-3 pr-lg-0 ">
+                <div class="banner-container swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide"><img src="~/Assets/images/banner/to.webp" /></div>
+                        <div class="swiper-slide"><img src="~/Assets/images/banner/to1.webp" /></div>
+                        <div class="swiper-slide"><img src="~/Assets/images/banner/to2.webp" /></div>
+                        <div class="swiper-slide"><img src="~/Assets/images/banner/to3.webp" /></div>
+                        <div class="swiper-slide"><img src="~/Assets/images/banner/to4.webp" /></div>
+                    </div>
+                    <div class="swiper-pagination paging-right"></div>
+                    <div class="swiper-button-next swiper-button"></div>
+                    <div class="swiper-button-prev swiper-button"></div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-5 d-flex px-0 d-lg-block   mt-3 mt-lg-0">
+                <div class="col-lg-12 col-sm-6 col-6 pr-2 px-sm-3"><img class="mb-3 mb-xl-3 mb-lg-0" src="~/Assets/images/maydeban/maydeban2.webp" /></div>
+                <div class="col-lg-12 col-sm-6 col-6 pl-2 px-sm-3"><img src="~/Assets/images/maydeban/maydeban3.webp" /></div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="menu-container d-block d-lg-flex navbar navbar-expand-lg pb-2 mt-0 mt-lg-3 align-items-center category-list bg-white px-1">
+                <a class="navbar-brand d-inline-block d-lg-none" href="#">Danh mục</a>
+
+                <button class="navbar-toggler bg-black" type="button" data-toggle="collapse" data-target="#navbarNav-catemenu" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="manu navbar navbar-expand-lg category-menu col-12 col-lg-12 col-sm-12 d-block d-lg-flex  align-items-center p-0">
+                    <nav class="collapse " id="navbarNav-catemenu">
+                        <ul>
+                            <li class="nav-item col-2-5">
+                                <div class="link-box d-flex justify-content-between align-items-center">
+                                    <a class="nav-link d-flex justify-content-start" href="@string.Format($"can-mua-phu-tung" + "-{0}.pcat", (ProductCategoryParent.ProductCategoryId >=653 && ProductCategoryParent.ProductCategoryId <= 655) ? ProductCategoryCurrent.URL : ProductCategoryParent.URL)">Tất cả sản phẩm</a>
+                                </div>
+                            </li>
+                            @foreach (var item in CateMenus)
+                            {
+                                <li class="nav-item col-2-5 @((ProductCategoryCurrent.ProductCategoryId.ToString() == item.ParentCategoryUrl.Split('-').Last() || ProductCategoryCurrent.ParentId?.ToString() == item.ParentCategoryUrl.Split('-').Last()) ? "active" : "")">
+                                    <div class="link-box d-flex justify-content-between align-items-center">
+                                        <a class="nav-link d-flex justify-content-start" href="@string.Format($"can-mua-phu-tung" + "-{0}.pcat", item.ParentCategoryUrl)">@item.ParentCategoryName</a>
+                                    </div>
+                                    @if (item.data.Count > 0)
+                                    {
+                                        <ul class="list-group  have_dropdown" style="display: none">
+                                            @foreach (var subItem in item.data)
+                                            {
+                                                <li class="nav-item col-2-5"><a class="nav-link" href="@string.Format($"can-mua-phu-tung" + "-{0}.pcat", @subItem.URL)">@subItem.Name</a></li>
+                                            }
+                                        </ul>
+                                    }
+
+                                </li>
+                            }
+
+                        </ul>
+
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <div class="line-seprate">
+        <div class="border-top border-bottom m-3 "></div>
+    </div>
+    <!-- Bộ loc -->
+    <div id="filter_container">
+        <article>
+            <div class="container">
+                <div class="search-module mt-3 pb-4 bg-white">
+                    <div class="title">
+                        <h3 class="text-uppercase px-2 py-3">Bộ lọc sản phẩm</h3>
+                    </div>
+                    <div class="search-content d-flex m-2 mb-3">
+                        <div class="step input-box pl-0 col-3">
+                            <select id="filter_category" onchange="filterModuleOnchange();">
+
+                                <option value="">Chủng loại</option>
+                            </select>
+                        </div>
+                        <div class="step input-box pl-0 col-3">
+                            <select id="filter_manu" onchange="filterModuleOnchange();">
+                                <option value="-1">Chọn hãng sản xuất</option>
+                            </select>
+                        </div>
+                        <div class="step input-box pl-0 col-3">
+                            <select id="filter_model" onchange="filterModuleOnchange();">
+                                <option value="">Chọn model</option>
+                            </select>
+                        </div>
+                        <div class="step input-box p-0 col-3">
+                            <select id="filter_location" onchange="filterModuleOnchange();">
+                                <option value="">Chọn tỉnh thành</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <ul class="progressbar m-0">
+                    </ul>
+
+
+                </div>
+            </div>
+        </article>
+    </div>
+
+
+    <div class="line-seprate">
+        <div class="border-top border-bottom m-3 "></div>
+    </div>
+
+    <!-- Sản phẩm được tài trợ -->
+    <article class="red-style">
+        @if (ListProductAds.DataSponsor.Count > 0)
+        {
+            <div class="article-header d-block d-lg-flex ">
+                <div class="category-title text-uppercase col-12 col-lg-4 col-sm-12 pr-0  align-items-center d-block d-lg-flex">
+                    <h3 class="title">Được tài trợ</h3>
+
+                </div>
+                <div class="navbar navbar-expand-lg category-menu col-12 col-lg-8 col-sm-12 d-block d-lg-flex  align-items-center">
+                </div>
+            </div>
+
+            <div class="article-content p-2  products-container-layout1 swiper-container bg-white">
+                <div class="swiper-wrapper">
+                    @foreach (var item in ListProductAds.DataSponsor)
+                    {
+                        <div class="swiper-slide">
+                            <div class="card">
+                                <a href="/@item.FullURL" class="d-flex flex-column">
+                                    <div class="image"><div class="img" style="background-image:url('@item.UrlImage') "></div></div>
+                                    <div class="card-body d-flex flex-column">
+                                        <h6 class="card-title">@item.Name</h6>
+                                        <div class="d-flex justify-content-between mt-1 mt-auto">
+                                            <span class="d-flex address text-muted justify-content-start">@item.LocationName</span>
+                                            <span class="d-flex time text-muted justify-content-end">@HNM.CommonNC.Utils.RenderTimeSince((DateTime)@item.LastEditDate)</span>
+                                        </div>
+                                        @if (item.Price > 0)
+                                        {
+                                            <h4 class="price">@HNM.CommonNC.Utils.RenderPrice(item.Price) <span class="curency">đ</span></h4>
+                                        }
+                                        else
+                                        {
+                                            <h4 class="price"> Liên hệ</h4>
+                                        }
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </article>
+
+
+    <!-- Category page -->
+    <article class="category-panel">
+        <div class="spinner-border text-warning" role="status" style=" margin-left: 50%;">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </article>
+
+
+    <article>
+        <div class="article-banner d-flex ads-container mx-3 mt-3">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <a href="#"><img src="~/Assets/images/article-banner1.webp" /></a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="#"><img src="~/Assets/images/article-banner3.webp" /></a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="#"><img src="~/Assets/images/article-banner2.webp" /></a>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <div class="line-seprate ">
+        <div class="border-top border-bottom m-3 "></div>
+    </div>
+
+</section>
+
+<script src="~/js/jquery-3.3.1.min.js"></script>
+<script>
+    function filterModuleOnchange() {
+        $(".progressbar").html("");
+        var curentCategoryId = @CurrentCategoryId;
+        var productTypeId = 6;
+        var productCategoryId = $('#filter_category option').filter(':selected').val();
+        var manufactureId = $('#filter_manu option').filter(':selected').val();
+        var productModelId = $('#filter_model option').filter(':selected').val();
+        var locationId = $('#filter_location option').filter(':selected').val();
+        var partnumber = $('#filter_partnumber option').filter(':selected').val();
+        var mainSystemId = $('#filter_mainSystem option').filter(':selected').val();
+        var mainSystemChildId = $('#filter_mainSystemChild option').filter(':selected').val();
+        var statusMachine = $('#filter_statusMachine option').filter(':selected').val();
+
+        InitFilterPartial(productTypeId, productCategoryId, manufactureId, productModelId, locationId, partnumber, mainSystemId, mainSystemChildId, statusMachine);
+        FilterProductPartialView(productTypeId, productCategoryId, manufactureId, productModelId, locationId, partnumber, mainSystemId, mainSystemChildId, statusMachine,  1, 20);
+    }
+    function FilterProductPartialView_ChangeSize(page, pageSize) {
+        var curentCategoryId = @CurrentCategoryId;
+        var productTypeId = 6;
+        var productCategoryId = $('#filter_category option').filter(':selected').val();
+        var manufactureId = $('#filter_manu option').filter(':selected').val();
+        var productModelId = $('#filter_model option').filter(':selected').val();
+        var locationId = $('#filter_location option').filter(':selected').val();
+        var partnumber = $('#filter_partnumber option').filter(':selected').val();
+        var mainSystemId = $('#filter_mainSystem option').filter(':selected').val();
+        var mainSystemChildId = $('#filter_mainSystemChild option').filter(':selected').val();
+        var statusMachine = $('#filter_statusMachine option').filter(':selected').val();
+        FilterProductPartialView(productTypeId, productCategoryId, manufactureId, productModelId, locationId, partnumber, mainSystemId, mainSystemChildId, statusMachine, page, pageSize);
+    }
+    function InitFilterPartial(productTypeId, productCategoryId, manufactureId, productModelId, locationId, partnumber, mainSystemId, mainSystemChildId, statusMachine) {
+        $('#filter_container').html(`<article>
+        <div class="container">
+            <form>
+                <div class="search-module mt-3 pb-4 bg-white">
+                    <div class="title">
+                        <h3 class="text-uppercase px-2 py-3">Bộ lọc sản phẩm<div class="spinner-border text-warning" role="status" style="">
+            <span class="sr-only">Loading...</span>
+        </div></h3>
+                    </div>
+                    <div class="search-content row m-2 mb-0 mb-md-3">
+                        <span class="font-italic mb-2">*Những mục được đánh số vui lòng chọn theo đúng thứ tự</span>
+                        <div class="col-12 col-md-9 px-0 d-block d-md-flex pr-md-1">
+                            <div class="step input-box px-0 px-md-1 col-12 col-md-2 mb-3">
+                                <select id="filter_category" onchange="filterModuleOnchange();" class="form-control">
+                                    <option value="">Chủng loại</option>
+
+                                </select>
+                            </div>
+                            <div class="step input-box px-0 px-md-1  col-12 col-md-2 mb-3">
+                                <select id="filter_mainSystem" onchange="filterModuleOnchange();" class="form-control">
+                                    <option value="">Hệ thống</option>
+                                </select>
+                            </div>
+                            <div class="step input-box px-0 px-md-1  col-12 col-md-2 mb-3">
+                               <select id="filter_mainSystemChild" onchange="filterModuleOnchange();" class="form-control" disabled>
+                                        <option value="">Tên phụ tùng</option>
+                                    </select>
+
+                            </div>
+                            <div class="step input-box px-0 px-md-1  col-12 col-md-2 mb-3">
+                                <select id="filter_manu" onchange="filterModuleOnchange();" class="form-control">
+                                    <option value="">Hãng</option>
+                                </select>
+                            </div>
+                            <div class="step input-box px-0 px-md-1  col-12 col-md-2 mb-3">
+                                <select id="filter_model" onchange="filterModuleOnchange();" disabled class="form-control">
+                                        <option value="">Model</option>
+                                    </select>
+
+                            </div>
+                            <div class="step input-box px-0 px-md-1  col-12 col-md-2 mb-3">
+                                <select id="filter_partnumber" onchange="filterModuleOnchange();" class="form-control">
+                                    <option value="">Partnumber</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-3 p-0 d-flex">
+                            <div class="input-box px-1 col-6">
+                                <select id="filter_statusMachine" onchange="filterModuleOnchange();" class="form-control">
+                                    <option value="">Tình trạng</option>
+                                    <option value="">Tất cả</option>
+                                    <option value="">Mới</option>
+                                    <option value="">Đã qua sử dụng</option>
+                                </select>
+                            </div>
+                            <div class="input-box pr-0 col-6">
+                                <select id="filter_location" onchange="filterModuleOnchange();" class="form-control">
+                                    <option value="">Tỉnh thành</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </form>
+        </div>
+    </article>`);
+        $.ajax({
+                type: "GET",
+            url: "/Product/FilterAccessoriesCategoryPartialView",
+            data: {
+                "curentCategoryId": @CurrentCategoryId,
+                "productTypeId": productTypeId,
+                "productCategoryId": productCategoryId,
+                "manufactureId": manufactureId,
+                "productModelId": productModelId,
+                "locationId": locationId,
+                "partNumber": partnumber,
+                "mainSystemId": mainSystemId,
+                "childMainSystemId": mainSystemChildId,
+                "statusMachine": statusMachine
+            },
+                dataType: "html",
+                success: function (response) {
+                    $('#filter_container').html(response);
+                    var indexHasValue = 0;
+                    var countOfInput = $(".search-module .search-content   .step").each(function (index) {
+                        console.log($(this).find('select option').filter(':selected').val());
+                        if ($(this).find('select').val().length > 0 && indexHasValue >= 0) {
+
+                            $(".progressbar").append("<li class = 'complete'><div class = 'counter'>" + (index + 1) + "</div></li>");
+
+                            indexHasValue = index;
+                        } else {
+                            $(".progressbar").append("<li><div class = 'counter'>" + (index + 1) + "</div></li>");
+                            indexHasValue = -1;
+                        }
+                    });
+                },
+                failure: function (response) {
+                console.log(response.responseText);
+                },
+                error: function (response) {
+                    console.log(response.responseText);
+                }
+            });
+    }
+    function InitProductPartialView() {
+
+            $.ajax({
+                type: "GET",
+                url: "/Product/FilterProductResultPartialView?productTypeId=6&page=" + 1 + "&pageSize=" + 20 + "&productCategoryId=" + @CurrentCategoryId,
+                dataType: "html",
+                success: function (response) {
+                    $('.category-panel').html(response);
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+    }
+    function FilterProductPartialView(productTypeId, productCategoryId, manufactureId, productModelId, locationId, partnumber, mainSystemId, mainSystemChildId, statusMachine, page, pageSize) {
+        var mainSystemIdFilter = mainSystemChildId > 0 ? mainSystemChildId : mainSystemId;
+        $.ajax({
+            type: "GET",
+            url: "/Product/FilterProductResultPartialView",
+            data: {
+                "productTypeId": productTypeId,
+                "productCategoryId": productCategoryId,
+                "ProductManufactureId": manufactureId,
+                "productModelId": productModelId,
+                "locationId": locationId,
+                "patchNum": partnumber,
+                "MainSystemId": mainSystemIdFilter,
+                "StatusMachine": statusMachine,
+                "page": page,
+                "pageSize": pageSize,
+            },
+            dataType: "html",
+            success: function (response) {
+                $('.category-panel').html(response);
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+      $(document).ready(function () {
+          InitFilterPartial();
+
+          InitProductPartialView();
+    });
+</script>
+<script type="application/ld+json">
+    var el_2 = document.createElement('script');
+    el_2.type = 'application/ld+json';
+    var bread = {
+    "@@context": "http://schema.org",
+    "@@type": "BreadcrumbList",
+    "itemListElement": []
+    }
+    $('.breadcrumb li.breadcrumb-item').each(function(index) {
+
+    var href = location.protocol + "//" + location.host + $(this).find("a").attr('href');
+    var name = $.trim($(this).text());
+
+    bread.itemListElement.push({
+    "@@type": "ListItem",
+    "position": index + 1,
+    "name": name,
+    "item": href
+    })
+    });
+
+    el_2.text = JSON.stringify(bread);
+    document.querySelector('head').appendChild(el_2);
+</script>

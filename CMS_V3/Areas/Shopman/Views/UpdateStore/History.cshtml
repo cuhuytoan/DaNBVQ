@@ -1,0 +1,96 @@
+﻿@model List<HNM.DataNC.ModelsNC.ModelsDTO.OrderHistoryGroup>
+@{
+    ViewBag.Title = "Lịch sử nâng cấp gian hàng";
+    Layout = "~/Areas/Shopman/Views/Shared/_LayoutShopman.cshtml";
+}
+
+<div class="col-12 col-lg-10  content-right">
+    <div class="content">
+        <table style="width:100%" class="bg-white topup-history  ">
+            <thead>
+            <th width="40">Tên giao dịch</th>
+            <th width="15" style="vertical-align: middle;">Số tiền</th>
+            <th width="25" style="vertical-align: middle;">Thời gian</th>
+            <th width="20" style="vertical-align: middle;">Trạng thái thanh toán</th>
+            </thead>
+            <tbody>
+                @if (Model.Count > 0)
+                {
+                    @foreach (var item in Model[0].data)
+                    {
+                        <tr>
+                            <td>
+                                <a href="javascript:void(0)" data-toggle="modal" data-target="#myModal" onclick="DetailPayment('@item.OrderCode')">@item.Description @item.OrderCode</a>
+                            </td>
+                            <td><span>@HNM.CommonNC.Utils.RenderPrice(item.Total) đ</span></td>
+                            <td>@Convert.ToDateTime(item.StartDate).ToString("hh:mm tt dd/MM/yyyy")</td>
+                            @if (@item.PaymentStatus_ID == -1)
+                            {
+                                <td><span style="color: red">Thanh toán thất bại</span> </td>
+                            }
+
+                            @if (@item.PaymentStatus_ID == 0)
+                            {
+                                <td><span style="color: #FFC107">Chờ thanh toán</span> </td>
+                            }
+
+                            @if (@item.PaymentStatus_ID == 1)
+                            {
+                                <td><span class="text-success">Thanh toán thành công</span> </td>
+                            }
+                        </tr>
+                    }
+                }
+                else
+                {
+            <tr>
+                
+                <td colspan="4">
+                    <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_EMTsq1.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player>
+                    <h5 style="text-align: center">Không giao dịch nào. Nâng cấp gian hàng ngay <a href="/Shopman/UpdateStore/Index" style="color:#FFA215">Tại đây</a></h5>
+                </td>
+            </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" role="dialog" style="margin-top: 100px;">
+    <div class="modal-dialog" style="max-width: 600px;">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body" id="detail-payment">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#LSNC").addClass("active");
+    });
+
+    function DetailPayment(OrderCode) {
+        $.ajax({
+            type: "GET",
+            url: "/Shopman/UpdateStore/GetOrderDetailByOrderCode?OrderCode=" + OrderCode,
+            dataType: "html",
+            success: function (response) {
+                $('#detail-payment').html(response);
+            },
+            failure: function (response) {
+                alert(response);
+            },
+            error: function (response) {
+                alert(response);
+            }
+        });
+    }
+</script>

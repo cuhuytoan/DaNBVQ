@@ -1,0 +1,49 @@
+﻿
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
+
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Mvc.Common;
+
+
+@{
+    var SearchString = (string)ViewBag.SearchString;
+    var TypeSearch = (int)ViewBag.TypeSearch;
+    var pageCurrent = (int)ViewBag.PageCurrent;
+    var pageSize = (int)ViewBag.PageSize;
+}
+    
+    <div class="article-content px-1 bg-white mt-3">
+        <div class="tab-search-result menu-search-result">
+            <ul class="  swiper-wrapper list-unstyled">
+                <li class="swiper-slide active"><a href="javascript:;" onclick="SearchProductPartialView()">Sản phẩm</a></li>
+                <li class="swiper-slide"><a href="javascript:;" onclick="SearchProductBrandPartialView()">Nhà cung cấp</a></li>
+                <li class="swiper-slide d-none"><a href="javascript:;">Dịch vụ</a></li>
+                <li class="swiper-slide"><a href="javascript:;" onclick="SearchRecruitmentPartialView()">Việc làm</a></li>
+                <li class="swiper-slide d-none"><a href="javascript:;">Hồ sơ xin việc</a></li>
+                <li class="swiper-slide"><a href="javascript:;" onclick="SearchArticlePartialView()">Bài viết</a></li>
+            </ul>
+        </div>
+        <div class="searh-data-result">
+            <div class="spinner-border text-warning" role="status" style=" margin-left: 50%;">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <script>
+     $(document).ready(function () {
+         SearchProductPartialView();
+     });
+        var selector = '.tab-search-result ul.swiper-wrapper li';
+
+        $(selector).on('click', function () {
+            $(selector).removeClass('active');
+            $(this).addClass('active');
+        });
+    </script>

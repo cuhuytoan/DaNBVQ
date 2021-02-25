@@ -1,0 +1,390 @@
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@using Mono.Web
+@model HNM.DataNC.ModelsNC.ModelsDTO.ProductDetailsDTO
+
+@{
+    var CategoryMenuHeader = ((HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO MenuMachine, HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO MenuMaterials, HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO MenuServices))ViewBag.CategoryMenuHeader;
+
+    var ListProductAds = (HNM.DataNC.ModelsNC.ModelsDTO.SponsorBanner)ViewBag.ListProductAds;
+    var ListProductByCate = (HNM.DataNC.ModelsNC.ModelsDTO.ProductPaggingDTO)ViewBag.ListProductByCate;
+    var ListProductByProductBrand = (HNM.DataNC.ModelsNC.ModelsDTO.ProductPaggingDTO)ViewBag.ListProductByProductBrand;
+    var ProductCategoryCurrent = (HNM.DataNC.ModelsNC.ModelsDTO.ProductCategoryDTO)ViewBag.ProductCategoryCurrent;
+}
+@{
+
+    ViewBag.Title = Model.ProductDetails.Name;
+    var MetaTags = (HNM.DataNC.Models.Setting)ViewBag.MetaTags;
+
+    var MetaDes = "";
+    if (String.IsNullOrEmpty(MetaDes))
+    {
+        MetaDes = @HttpUtility.HtmlDecode(@Configuration["DefaultKeyword"]);
+    }
+    else
+    {
+        if (MetaDes.Length > 300)
+        {
+            MetaDes = MetaDes.Substring(0, 300);
+        }
+       
+
+    }
+}
+@section metatags{
+    <title>@Model.ProductDetails.Name</title>
+    <meta name="keywords" content="@(HttpUtility.HtmlDecode(MetaTags?.ToString()?? ""))" />
+    <meta name="description" content="@(HttpUtility.HtmlDecode(MetaDes))" />
+    <link id="canonical" rel="canonical" href="@Configuration["DomainName"]/@Model.ProductDetails.FullUrl" />
+
+
+    <!-- META FOR FACEBOOK -->
+    <meta property="og:title" itemprop="headline" content="@Model.ProductDetails.Name" />
+    <meta property="og:type" content="product" />
+    <meta property="og:url" content="@Configuration["DomainName"]/@Model.ProductDetails.FullUrl" />
+    <meta property="og:image" itemprop="thumbnailUrl" content="@String.Format("{0}{1}{2}", @Configuration["Cloud_Path"], "/product/mainimages/original/", Model.ProductDetails.Image)" />
+    <meta property="og:image:width" content="400" />
+    <meta property="og:image:height" content="300" />
+
+    <!-- End Twitter Card -->
+}
+<link href="~/css/bootstrap.min.css" rel="stylesheet" />
+<link href="~/css/style.css" rel="stylesheet" />
+<link href="~/css/responsive.css" rel="stylesheet" />
+
+<!-- Content -->
+<section class="category">
+    <article>
+        <div class="d-flex banner align-items-center">
+            @await Html.PartialAsync("../Shared/CategoryMenuHeader.cshtml")
+            <nav aria-label="breadcrumb" class="col-12 col-sm-9 px-3 pl-lg-0 pr-lg-0">
+                <ol class="breadcrumb p-0 m-0">
+                    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a href="/may-de-ban">Cần mua phụ tùng</a></li>
+                    <li class="breadcrumb-item"><a href="@string.Format($"ban" + "-{0}.pcat", ProductCategoryCurrent.URL)">@Model.ProductDetails.ProductCategoryName</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"><a>Chi tiết</a></li>
+                </ol>
+            </nav>
+        </div>
+
+    </article>
+
+    <!-- Detail -->
+    <article>
+        <div class=" article-content bg-white d-block d-lg-flex mt-3 pt-3">
+            <div class="col-12 col-lg-7 col-md-12 col-sm-12 prod-img pr-3 pr-lg-0">
+                <div class="swiper-container gallery-top">
+                    <div class="swiper-wrapper">
+                        @foreach (var item in Model.ProductPictures)
+                        {
+                            <div class="swiper-slide"><div class="img-wrap"><img src="@item.UrlImage" /></div></div>
+                        }
+                    </div>
+                    <div class="swiper-pagination paging-right"></div>
+                    <div class="swiper-button-next swiper-button"></div>
+                    <div class="swiper-button-prev swiper-button"></div>
+                </div>
+                <div class="swiper-container gallery-thumbs mt-2">
+                    <div class="swiper-wrapper">
+
+                        @foreach (var item in Model.ProductPictures)
+                        {
+                            <div class="swiper-slide"><div class="img-wrap"><img src="@item.UrlImage" /></div></div>
+                        }
+                    </div>
+                    <!-- Add Scrollbar -->
+                    <div class="swiper-scrollbar"></div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-5 col-md-12 col-sm-12 prod-shop">
+                <div class="product-name">
+                    <h1>@Model.ProductDetails.Name</h1>
+                </div>
+                <div class="price-box mt-2">
+                    @if (!string.IsNullOrEmpty(Model.ProductDetails.Price))
+                    {
+                        <span class="regular-price">@HNM.CommonNC.Utils.RenderPrice(Model.ProductDetails.Price)<span class="curency"></span></span>
+                    }
+                    else
+                    {
+                        <span class="regular-price">@HNM.CommonNC.Utils.RenderPrice(Model.ProductDetails.Price)<span class="curency">đ</span></span>
+                    }
+                    @*<span class="original-price">199.000.000.000 <span class="curency">đ</span></span>*@
+                </div>
+                <div class="prod-info p-2 mt-2">
+                    <table>
+                        @if (ViewBag.Buyer != null)
+                        {
+                            <tr><td>Người mua:</td><td>@ViewBag.Buyer</td></tr>
+                        }
+                        else
+                        {
+                            <tr><td>Người mua:</td><td>Không xác định</td></tr>
+                        }
+
+                        @if (Model.ProductDetails.AccessoriesModelName != null)
+                        {
+                            <tr><td>Ký hiệu/Model:</td><td>@Model.ProductDetails.AccessoriesModelName</td></tr>
+                        }
+                        else
+                        {
+                            <tr><td>Ký hiệu/Model:</td><td>Không xác định</td></tr>
+                        }
+
+                        @if (Model.ProductDetails.PartNumber != null)
+                        {
+                            <tr><td>Serial Number/Part Number:</td><td>@Model.ProductDetails.PartNumber</td></tr>
+                        }
+                        else
+                        {
+                            <tr><td>Serial Number/Part Number:</td><td>Không xác định</td></tr>
+                        }
+
+                        @if (Model.ProductDetails.PartNumber != null)
+                        {
+                            <tr><td>Tình trạng:</td><td>@Model.ProductDetails.StatusMachine</td></tr>
+                        }
+                        else
+                        {
+                            <tr><td>Tình trạng:</td><td>Không xác định</td></tr>
+                        }
+
+                        <tr><td>Số lượng:</td><td>@Model.ProductDetails.SellCount</td></tr>
+                        <tr><td>Ngày đăng:</td><td>@Convert.ToDateTime(Model.ProductDetails.LastEditDate).ToString("dd/MM/yyyy")</td></tr>
+                    </table>
+
+                </div>
+
+                <div class="d-md-flex d-block align-items-center my-3">
+                    <div class="call col-lg-6 col-md-6 col-sm-12 col-12 mb-2">
+                        <a href="call:@Model.ProductDetails.SalePhone"><img src="./images/call.png" />@Model.ProductDetails.SalePhone</a>
+                    </div>
+                    <div class="message col-lg-6 col-md-6 col-sm-12 col-12 mb-2">
+                        <a href="mail:@Model.ProductDetails.SalePhone"><img src="./images/message.png" />Nhắn tin</a>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </article>
+
+    <article>
+        <div class="article-content bg-white  mt-2 py-2">
+            <div class="tab-header">
+                <ul class="nav nav-tabs  " id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#detail" role="tab" aria-controls="detail" aria-selected="true">Mô tả chi tiết</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#suggest" role="tab" aria-controls="suggest" aria-selected="false">Thiết bị phù hợp</a>
+                    </li>
+                    @*<li class="nav-item">
+                            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#tag" role="tab" aria-controls="tag" aria-selected="false">Tag</a>
+                        </li>*@
+                </ul>
+            </div>
+            <div class="tab-content col-12" id="myTabContent" style="clear: both;">
+                <div class="tab-pane fade show active" id="detail" role="tabpanel" aria-labelledby="detail-tab">
+                    <h3 class="my-2">Mô tả chi tiết sản phẩm</h3>
+                    <p>
+                        @Html.Raw(Model.ProductDetails.Content)
+                    </p>
+                </div>
+                <div class="tab-pane fade" id="suggest" role="tabpanel" aria-labelledby="suggest-tab">
+                    <h4 class="my-2">Dùng cho bộ phận</h4>
+                    <ul class="d-flex flex-column match-prod">
+                        @if (@Model.ProductDetails.AccessoriesCategoryName != null)
+                        {
+                            <li><span class="model-name">@Model.ProductDetails.AccessoriesCategoryName</span></li>
+
+                        }
+                        else
+                        {
+                            <li><span class="model-name">Không xác định</span></li>
+                        }
+                    </ul>
+                    <h4 class="my-2">Lắp cho thiết bị</h4>
+                    <ul class="d-flex flex-column match-prod">
+                        @if (Model.AccessoriesFit.Count() > 0)
+                        {
+                        @foreach (var item in Model.AccessoriesFit)
+                            {
+                        <li><span class="model-name">@item.CategoryName - @item.ManufactureName - @item.ModelName</span></li>
+                            }
+                        }
+                        else
+                        {
+                        <li><span class="model-name">Không xác định</span></li>
+                        }
+
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </article>
+    @if (ListProductAds.DataSponsor.Count > 0)
+    {
+        <!-- Sản phẩm được tài trợ -->
+        <article class="red-style">
+
+            <div class="article-header d-block d-lg-flex ">
+                <div class="category-title text-uppercase col-12 col-lg-4 col-sm-12 pr-0  align-items-center d-block d-lg-flex">
+                    <h3 class="title">Được tài trợ</h3>
+
+                </div>
+                <div class="navbar navbar-expand-lg category-menu col-12 col-lg-8 col-sm-12 d-block d-lg-flex  align-items-center">
+                </div>
+            </div>
+            <div class="article-content p-2 products-container-layout1 swiper-container bg-white swiper-container-initialized swiper-container-horizontal">
+                <div class="swiper-wrapper">
+                    @foreach (var item in ListProductAds.DataSponsor)
+                    {
+                        <div class="swiper-slide" style="width: 210px; margin-right: 10px;">
+                            <div class="card">
+                                <a href="/@item.FullURL" class="d-flex flex-column">
+                                    <div class="image"><div class="img" style="background-image:url('@item.UrlImage') "></div></div>
+                                    <div class="card-body d-flex flex-column">
+                                        <h6 class="card-title">@item.Name</h6>
+                                        <div class="d-flex justify-content-between mt-1 mt-auto">
+                                            <span class="d-flex address text-muted justify-content-start">@item.LocationName</span>
+                                            <span class="d-flex time text-muted justify-content-end">@HNM.CommonNC.Utils.RenderTimeSince((DateTime)@item.LastEditDate)</span>
+                                        </div>
+                                        @if (item.Price > 0)
+                                        {
+                                            <h4 class="price">@HNM.CommonNC.Utils.RenderPrice(item.Price) <span class="curency">đ</span></h4>
+                                        }
+                                        else
+                                        {
+                                            <h4 class="price"> Liên hệ</h4>
+                                        }
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+
+
+        </article>
+
+        <div class="line-seprate">
+            <div class="border-top border-bottom m-3 "></div>
+        </div>
+    }
+    <!-- San pham cung nha cung cap -->
+
+    <!-- San pham tuong tu -->
+    @if (ListProductByCate.Data.Count() > 0)
+    {
+        <article>
+            <div class="article-header d-block d-lg-flex my-2">
+                <div class="category-title text-uppercase col-12 col-lg-4 col-sm-12 pr-0  align-items-center d-block d-lg-flex">
+                    <h3 class="title">Sản phẩm tương tự</h3>
+
+                </div>
+            </div>
+
+            <div class="article-banner d-flex ads-container mx-3 mt-3">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <a href="#"><img src="./images/article-banner1.jpg" /></a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a href="#"><img src="./images/article-banner3.jpg" /></a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a href="#"><img src="./images/article-banner2.jpg" /></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="article-content p-2 mt-2 products-container swiper-container bg-white swiper-container-initialized swiper-container-horizontal swiper-container-multirow">
+                <div class="swiper-wrapper">
+                    @foreach (var item in ListProductByCate.Data)
+                    {
+                        <div class="swiper-slide">
+                            <div class="card">
+                                <a href="@item.FullURL">
+                                    <div class="image"><div class="img" style="background-image:url('@item.UrlImage') "></div></div>
+                                    <div class="card-body">
+                                        <h6 class="card-title">@item.Name</h6>
+                                        <div class="d-flex justify-content-between mt-1">
+                                            <span class="d-flex address text-muted justify-content-start">@item.LocationName</span>
+                                            <span class="d-flex time text-muted justify-content-end">@HNM.CommonNC.Utils.RenderTimeSince((DateTime)@item.LastEditDate)</span>
+                                        </div>
+                                        @if (item.Price > 0)
+                                        {
+                                            <h4 class="price">@HNM.CommonNC.Utils.RenderPrice(item.Price) <span class="curency">đ</span></h4>
+                                        }
+                                        else
+                                        {
+                                            <h4 class="price"> Liên hệ</h4>
+                                        }
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+
+
+        </article>
+    }
+
+
+    <div class="line-seprate">
+        <div class="border-top border-bottom m-3 "></div>
+    </div>
+
+    <article>
+
+        <div class="article-banner d-flex ads-container mx-3 mt-3">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <a href="#"><img src="~/Assets/images/article-banner1.webp" /></a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="#"><img src="~/Assets/images/article-banner3.webp" /></a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="#"><img src="~/Assets/images/article-banner2.webp" /></a>
+                </div>
+            </div>
+        </div>
+    </article>
+
+
+</section>
+
+<script src="~/js/jquery-3.3.1.min.js"></script>
+<script type="application/ld+json">
+    var el_2 = document.createElement('script');
+    el_2.type = 'application/ld+json';
+    var bread = {
+    "@@context": "http://schema.org",
+    "@@type": "BreadcrumbList",
+    "itemListElement": []
+    }
+    $('.breadcrumb li.breadcrumb-item').each(function(index) {
+
+    var href = location.protocol + "//" + location.host + $(this).find("a").attr('href');
+    var name = $.trim($(this).text());
+
+    bread.itemListElement.push({
+    "@@type": "ListItem",
+    "position": index + 1,
+    "name": name,
+    "item": href
+    })
+    });
+
+    el_2.text = JSON.stringify(bread);
+    document.querySelector('head').appendChild(el_2);
+</script>

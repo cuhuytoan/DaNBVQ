@@ -1,0 +1,182 @@
+﻿@model HNM.DataNC.ModelsNC.ModelsDTO.PostProductShopManDTO
+    <link href="~/Assets/css/custom.css" rel="stylesheet" />
+<div class="bg-white py-1 mx-auto  px-0 px-md-2">
+    <div class="header-box text-center  ">
+        <div class="backtouploadimage" style="display: none;">
+            <button type="button" class="back">
+                <span aria-hidden="true"></span>
+            </button>
+        </div>
+        <h3 class="text-uppercase mt-1">ĐĂNG TIN CẦN MUA VẬT TƯ</h3>
+    </div>
+    <div class="content-box  mx-auto">
+        <form enctype="multipart/form-data" method="post">
+            <div class="first-form text-center">
+                <div class="row">
+                    <div class="col-12 col-lg-3 col-md-5 pr-md-0 mb-3 mb-md-0">
+                        <div class="custom-file-container" data-upload-id="cover-img">
+                            <label style="display: none;">
+                                Upload File
+                                <a href="javascript:void(0)"
+                                   class="custom-file-container__image-clear"
+                                   title="Clear Image">&times;</a>
+                            </label>
+                            <input type="file"
+                                   class="custom-file-container__custom-file__custom-file-input"
+                                   accept="image/jpeg, image/png, image/gif, image/svg+xml"
+                                   aria-label="Choose File" name="MainImage" id="mainimagedemand" onchange="onSelectMain()"/>
+                            <input type="hidden" name="MAX_FILE_SIZE" value="2097152" />
+                            <div class="custom-file-container__image-preview">
+                                <label class="custom-file-container__custom-file">
+                                    <span class="custom-file-container__custom-file__custom-file-control"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-9 col-md-7">
+                        <div class="custom-file-container" data-upload-id="thumb-img">
+                            <label style="display: none;">
+                                Upload File
+                                <a href="javascript:void(0)"
+                                   class="custom-file-container__image-clear"
+                                   title="Clear Image">&times;</a>
+                            </label>
+                            <input type="file"
+                                   class="custom-file-container__custom-file__custom-file-input"
+                                   accept="image/jpeg, image/png, image/gif, image/svg+xml"
+                                   multiple
+                                   aria-label="Choose File" name="SubImage" id="subimagedemand" onchange="onSelectSub()"/>
+                            <input type="hidden" name="MAX_FILE_SIZE" value="2097152" />
+                            <div class="custom-file-container__image-preview">
+                                <label class="custom-file-container__custom-file">
+                                    <span class="custom-file-container__custom-file__custom-file-control"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="note pt-4">
+                        <p>Bước 1: Chọn ảnh cho bài viết (tối đa 20 ảnh)</p>
+                    </div>
+                    <ul class="progressbar-post m-0 d-table">
+                        <li class="step1 active">
+                            <div class="counter">1</div>
+                        </li>
+                        <li class="step2">
+                            <div class="counter">2</div>
+                        </li>
+                    </ul>
+                    <div class=" justify-content-center d-block text-center mt-3">
+                        <button type="button" class="btn btn-primary mb-2 next-form-button">Tiếp theo</button>
+                    </div>
+                </div>
+            </div>
+            <div class="next-form px-lg-custom" style="display: none">
+                <div class="form-group">
+                    <label for="inputAddress">Tiêu đề bài đăng:*</label>
+                    <input type="text" class="form-control" id="Name" name="Name" placeholder="VD: Cần mua vật tư ô tô">
+                </div>
+                <div class="form-group">
+                    <label for="inputAddress">Chọn vật tư cần mua c1:*</label>
+                    @(Html.Kendo().ComboBox()
+               .Name("ProductCategoryIdParent")
+               .HtmlAttributes(new {@class = "form-control"})
+               .Placeholder("Chọn Thiết bị liên quan....")
+               .DataTextField("Name")
+               .DataValueField("ProductCategoryId")
+               .Filter("contains")
+               .Suggest(true)
+               .DataSource(source =>
+               {
+               source.Read(read =>
+               {
+               read.Action("GetAllMarterialCate", "ManagerDemand");
+               }).ServerFiltering(false);
+               })
+               )
+                </div>
+                <div class="form-group">
+                    <label for="inputAddress">Chọn vật tư cần mua c2:*</label>
+                    @(Html.Kendo().ComboBox()
+               .Name("ProductCategoryId")
+               .HtmlAttributes(new {@class = "form-control"})
+               .Placeholder("Chọn vật tư....")
+               .DataTextField("Name")
+               .DataValueField("ProductCategoryId")
+               .Filter("contains")
+               .Suggest(true)
+               .DataSource(source =>
+               {
+               source.Read(read =>
+               {
+               read.Action("GetAllMarterialCateLv2", "ManagerDemand").Data("filterModelsMaterial");
+               }).ServerFiltering(true);
+               })
+               .Events(e =>
+               {
+               e.Change("onChangeLv2").Close("onSelectLv2").Filtering("onFiltering");
+               })
+               .Enable(false)
+               .AutoBind(false)
+               .CascadeFrom("ProductCategoryIdParent")
+               )
+                </div>
+                <div class="form-group">
+                    <label for="inputAddress">Nội dung chi tiết:*</label>
+                    @(Html.Kendo().Editor()
+               .Name("Content")
+               .HtmlAttributes(new { style = "width:98%;min-height: 50px;", placeholder = "Nhập nội dung mô tả ở đây..", aria_label = "editor", id = "content_val" })
+               .Resizable(resizable => resizable.Content(true).Toolbar(true))
+               //.Placeholder("Nhập nội dung mô tả ở đây...")
+               .Messages(p =>
+               {
+               p.Bold("Chữ đậm");
+               p.Underline("gạch chân");
+               p.Bold("Chữ đậm");
+               p.Italic("Chữ nghiêng");
+               p.Indent("Thụt lề");
+               p.InsertImage("Thêm ảnh");
+               p.InsertHtml("Thêm HTML");
+               p.FontName("Chọn font");
+               p.ImageWebAddress("Địa chỉ web");
+               })
+               .Tools(tools => tools
+               .Clear()
+               .Bold().Italic().Underline().Strikethrough()
+               .Outdent().Indent()
+               .CreateLink().Unlink()
+               .InsertImage()
+               .InsertFile()
+               .TableEditing()
+               .ViewHtml()
+               )
+               .StyleSheets(css => css
+               .Add(Url.Content("~/css/Editor.css"))
+               )
+               )
+                </div>
+                <div class="text-center">
+                    <div class="note pt-4">
+                        <p>Bước 2: Nhập thông tin</p>
+                    </div>
+                    <ul class="progressbar-post m-0 d-table">
+                        <li class="step1 complete">
+                            <div class="counter">1</div>
+                        </li>
+                        <li class="step2 active">
+                            <div class="counter">2</div>
+                        </li>
+                    </ul>
+                    <div class=" justify-content-center d-block text-center mt-3">
+                        <button type="button" class="btn btn-primary mb-2" id="buttonCreate" onclick="javascript:CreateMaterial()">Đăng bài</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="~/Assets/js/file-upload-with-preview.min.js"></script>
+<script src="~/Assets/js/validation-product.js"></script>
+<script src="~/Assets/jsController/managerDemandController.js"></script>
+<script src="~/Assets/jsController/CreateFormImageUpload.js"></script>

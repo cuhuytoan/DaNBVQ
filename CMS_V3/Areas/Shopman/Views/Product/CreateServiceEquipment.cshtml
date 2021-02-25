@@ -1,0 +1,498 @@
+﻿@using Kendo.Mvc.UI
+
+@{
+    ViewBag.Title = "Đăng tin cho thuê dịch vụ";
+    Layout = "~/Areas/Shopman/Views/Shared/_LayoutShopman.cshtml";
+}
+
+<style>
+    .k-combobox .k-dropdown-wrap {
+        border-color: #F1F1F1;
+        color: #212529;
+        background-color: #F1F1F1;
+    }
+
+    .k-dropdown .k-dropdown-wrap, .k-dropdowntree .k-dropdown-wrap {
+        border-color: #F1F1F1;
+        background-color: #F1F1F1;
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+
+    @@media (max-width: 576px) {
+        .unitform {
+            margin-top: 21px;
+        }
+    }
+</style>
+
+<div class="col-12 col-lg-10  content-right">
+    <form class="bg-white px-3 pt-3 pb-5" method="post" enctype="multipart/form-data">
+        <div class="text-center mb-4">
+            <h3 class="font-weight-bold">ĐĂNG TIN DỊCH VỤ</h3>
+        </div>
+        <div class="title">
+            <h4 class="text-uppercase  font-weight-bold py-3">HÌNH ẢNH</h4>
+        </div>
+        <div class="  row">
+            <div class="col-12 col-lg-3 col-md-3 pr-md-0 mb-3 mb-md-0">
+                <div class="custom-file-container" data-upload-id="cover-img">
+                    <label style="display: none;">
+                        Upload File
+                        <a href="javascript:void(0)"
+                           class="custom-file-container__image-clear"
+                           title="Clear Image">&times;</a>
+                    </label>
+                    <input type="file"
+                           class="custom-file-container__custom-file__custom-file-input"
+                           accept="image/jpeg, image/png, image/gif, image/svg+xml"
+                           aria-label="Choose File" id="mainimagedemand" name="MainImage" onchange="onSelectMain()"/>
+                    <input type="hidden" name="MAX_FILE_SIZE" value="2097152" />
+                    <div class="custom-file-container__image-preview">
+                        <label class="custom-file-container__custom-file">
+
+                            <span class="custom-file-container__custom-file__custom-file-control"></span>
+                        </label>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-12 col-lg-9 col-md-9">
+                <div class="custom-file-container" data-upload-id="thumb-img">
+                    <label style="display: none;">
+                        Upload File
+                        <a href="javascript:void(0)"
+                           class="custom-file-container__image-clear"
+                           title="Clear Image">&times;</a>
+                    </label>
+                    <input type="file"
+                           class="custom-file-container__custom-file__custom-file-input"
+                           accept="image/jpeg, image/png, image/gif, image/svg+xml"
+                           multiple
+                           aria-label="Choose File" name="SubImage" id="subimagedemand" onchange="onSelectSub()"/>
+                    <input type="hidden" name="MAX_FILE_SIZE" value="2097152" />
+
+                    <div class="custom-file-container__image-preview">
+                        <label class="custom-file-container__custom-file">
+                            <span class="custom-file-container__custom-file__custom-file-control"></span>
+                        </label>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="">
+            <div class="title">
+                <h4 class="text-uppercase  font-weight-bold py-3">THÔNG TIN DỊCH VỤ</h4>
+            </div>
+            <div class="form-group">
+                <label for="inputAddress">Tên dịch vụ:*</label>
+                <input type="text" class="form-control" name="Name" id="Name" placeholder="VD: Cần mua máy xúc đào bánh xích">
+            </div>
+            <div class="row ">
+                <div class="col-12 col-sm-6 ">
+                    <div class="row form-group">
+                        <div class="col">
+                            <label for="inputAddress">Giá dịch vụ:</label>
+                            <input type="number" class="form-control" name="Price" id="Price" placeholder="VD: 12345">
+                        </div>
+                        <div class="col pl-0 pl-sm-3">
+                            <label for="inputAddress">&nbsp;</label>
+                            @(Html.Kendo().DropDownList()
+                                .Name("Unit")
+                                .HtmlAttributes(new {@class = "form-control"})
+                                .DataTextField("MinorName")
+                                .DataValueField("MinorID")
+                                .Filter("contains")
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("GetAllUnitService", "Product");
+                                    }).ServerFiltering(false);
+                                })
+                                )
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6  form-group">
+                    <label for="inputAddress">Ngành dịch vụ:*</label>
+                    @(Html.Kendo().ComboBox()
+                                .Name("ProductCategoryId")
+                                .HtmlAttributes(new {@class = "form-control"})
+                                .Placeholder("Chọn Dịch vụ liên quan....")
+                                .DataTextField("Name")
+                                .DataValueField("ProductCategoryId")
+                                .Filter("contains")
+                                .Suggest(true)
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("GetAllServiceCate", "Product");
+                                    }).ServerFiltering(false);
+                                })
+                            )
+                </div>
+
+            </div>
+            <div class="row ">
+                <div class="col-12 col-sm-6">
+                    <div class="row form-group">
+                        <div class="col">
+                            <label for="inputAddress">Thiết bị liên quan đến dịch vụ của bạn:</label>
+                            @(Html.Kendo().ComboBox()
+                                .Name("ProductCategoryIdParent")
+                                .HtmlAttributes(new {@class = "form-control"})
+                                .Placeholder("Chọn Thiết bị liên quan c1....")
+                                .DataTextField("Name")
+                                .DataValueField("ProductCategoryId")
+                                .Filter("contains")
+                                .Suggest(true)
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("GetLstProductCateLv1", "Product");
+                                    }).ServerFiltering(false);
+                                })
+                            )
+                        </div>
+                        <div class="col pl-0 pl-sm-3">
+                            <label for="inputAddress" class="unitform">&nbsp;</label>
+                            @(Html.Kendo().ComboBox()
+                                .Name("RelatedCategoryId")
+                                .HtmlAttributes(new {@class = "form-control"})
+                                .Placeholder("Chọn Thiết bị liên quan c2....")
+                                .DataTextField("Name")
+                                .DataValueField("ProductCategoryId")
+                                .Filter("contains")
+                                .Suggest(true)
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("GetLstProductCateLv2", "Product").Data("filterModels");
+                                    }).ServerFiltering(true);
+                                })
+                                .Enable(false)
+                                .AutoBind(false)
+                                .CascadeFrom("ProductCategoryIdParent")
+                            )
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6  form-group">
+                    <label for="inputAddress">Địa bàn cung cấp dịch vụ:</label>
+                    @(Html.Kendo().ComboBox()
+                         .Name("SaleLocationId")
+                         .HtmlAttributes(new {@class = "form-control"})
+                         .Placeholder("Chọn Tỉnh/Thành....")
+                         .DataTextField("Name")
+                         .DataValueField("LocationId")
+                         .Filter("contains")
+                         .Suggest(true)
+                         .DataSource(source =>
+                         {
+                             source.Read(read =>
+                             {
+                                 read.Action("GetAllLocation", "Product");
+                             }).ServerFiltering(false);
+                         })
+                     )
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputAddress">Nội dung chi tiết:*</label>
+                @(Html.Kendo().Editor()
+                     .Name("Content")
+                     .HtmlAttributes(new { style = "width:100%;min-height: 50px;", placeholder = "Nhập nội dung chi tiết ở đây..", aria_label = "editor"})
+                     .Resizable(resizable => resizable.Content(true).Toolbar(true))
+                     //.Placeholder("Nhập nội dung mô tả ở đây...")
+                     .Messages(p =>
+                     {
+                         p.Bold("Chữ đậm");
+                         p.Underline("gạch chân");
+                         p.Bold("Chữ đậm");
+                         p.Italic("Chữ nghiêng");
+                         p.Indent("Thụt lề");
+                         p.InsertImage("Thêm ảnh");
+                         p.InsertHtml("Thêm HTML");
+                         p.FontName("Chọn font");
+                         p.ImageWebAddress("Địa chỉ web");
+                     })
+                     .Tools(tools => tools
+                        .Clear()
+                         .Bold().Italic().Underline().Strikethrough()
+                         .Outdent().Indent()
+                         .CreateLink().Unlink()
+                         .InsertImage()
+                         .InsertFile()
+                         .TableEditing()
+                         .ViewHtml()
+                     )
+              .StyleSheets(css => css
+                  .Add(Url.Content("~/css/Editor.css"))
+              )
+            )
+            </div>
+
+            <div class="text-center">
+                <div class=" justify-content-center d-block text-center mt-3">
+                    <button type="button" class="btn btn-primary mb-2" id="buttonCreate" onclick="javascript:CreateServiceProduct()">Đăng bài</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+<div class="modal fade" id="myModal2" role="dialog" style="margin-top: 100px;">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="text-align:left">Thông báo!</h4>
+            </div>
+            <div class="modal-body">
+                <p id="thongbaomain"> <span id="thongbaoLM"></span> -<a href="/Shopman/UpdateStore/Index" style="color: #FFC327"> Nâng cấp</a> để được thêm quyền này!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="main-popup" tabindex="-1" role="dialog" aria-labelledby="popup" aria-hidden="true" data-keyboard="false" data-backdrop="static" style="margin-top: 100px;">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body" id="modal-body">
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="~/Assets/js/file-upload-with-preview.min.js"></script>
+<script src="~/Assets/js/validation-product.js"></script>
+<script src="~/Assets/jsController/CreateFormImageUpload.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#QLSP").addClass("active");
+    });
+
+    function filterModels() {
+        return {
+            ProductCategoryId: $("#ProductCategoryIdParent").val(),
+            modelFilter: $("#RelatedCategoryId").data("kendoComboBox").input.val()
+        };
+    }
+
+    async function readFileAsDataURL(file) {
+        let result_base64 = await new Promise((resolve) => {
+            let fileReader = new FileReader();
+            fileReader.onload = (e) => resolve(fileReader.result);
+            fileReader.readAsDataURL(file);
+        });
+        var dataImage = {
+            FileName: file.name,
+            ExtensionType: file.type,
+            Base64: result_base64
+        }
+        return dataImage;
+    }
+
+    async function readSubFileAsDataURL(file) {
+        let result_base64 = await new Promise((resolve) => {
+            let fileReader = new FileReader();
+            fileReader.onload = (e) => resolve(fileReader.result);
+            fileReader.readAsDataURL(file);
+        });
+        var dataImage = {
+            FileName: file.name,
+            ExtensionType: file.type,
+            Base64: result_base64
+        }
+        return dataImage;
+    }
+
+    async function CreateServiceProduct() {
+        var Name = $("#Name").val();
+        var Price = $("#Price").val();
+        if (Price == "") {
+            Price = 0
+        }
+        var Unit = $("#Unit").val();
+        var productcateId = $("#ProductCategoryId").val();
+        var RelatedCategoryId = $("#RelatedCategoryId").val();
+        var SaleLocationId = $("#SaleLocationId").val();
+        var productcateId = $("#ProductCategoryId").val();
+        var content = $("#Content").val();
+
+        if ($("#mainimagedemand").val() == "") {
+            toastr["error"]("Ảnh đại diện không được để trống!");
+            return false;
+        }
+
+        var mainImg = $('#mainimagedemand').val();
+        if (mainImg.files != "") {
+            var files = $('#mainimagedemand')[0].files;
+            var type = files[0].name.split('.').pop()
+            var acceptedFiles = ["jpg", "JPG", "jpeg", "JPEG", "png", "PNG"]
+            var isAcceptedImageFormat = ($.inArray(type, acceptedFiles)) != -1
+            if (!isAcceptedImageFormat) {
+                toastr["error"]("Ảnh chỉ chấp nhận các định dạng JPG, JPEG, PNG");
+                return false;
+            }
+        }
+
+        if ($("#subimagedemand").val() == "") {
+            toastr["error"]("Ảnh mô tả không được để trống!");
+            return false;
+        }
+
+        var files2 = document.getElementById("subimagedemand");
+        for (i = 0; i < files2.files.length; i++) {
+            var type = files2.files[i].name.split('.').pop();
+            var acceptedFiles = ["jpg", "JPG", "jpeg", "JPEG", "png", "PNG"]
+            var isAcceptedImageFormat = ($.inArray(type, acceptedFiles)) != -1
+            if (!isAcceptedImageFormat) {
+                toastr["error"]("Ảnh chỉ chấp nhận các định dạng JPG, JPEG, PNG");
+                return false;
+            }
+        }
+
+        //if (files2.files.length > 20) {
+        //    toastr.error("Quá 20 ảnh cho phép.");
+        //    return false;
+        //}
+
+        if (Name.trim() == "") {
+            toastr["error"]("Tên dịch vụ không được để trống");
+            $("#Name").focus();
+            return false;
+        }
+        if (Name.trim().length > 100) {
+            toastr["error"]("Tên dịch vụ vượt quá 100 ký tự cho phép");
+            $("#Name").focus();
+            return false;
+        }
+        if (!checkSpecialCharacter(Name)) {
+            toastr["error"]("Tên dịch vụ không được nhập các ký tự đặc biệt");
+            $("#Name").focus();
+            return false;
+        }
+
+        if ($("#Price").val() < 0) {
+            toastr["error"]("Giá dịch vụ không được <0");
+            return false;
+        }
+        if ($("#Price").val().length > 15) {
+            toastr["error"](validationMessage.Price_MaxLength);
+            return false;
+        }
+
+        if (productcateId < 1) {
+            toastr["error"]("Ngành dịch vụ không được để trống");
+            return false;
+        }
+        if (isNaN(productcateId)) {
+            toastr["error"]("Ngành dịch vụ không tồn tại");
+            return false;
+        }
+
+        if (content == "") {
+            toastr["error"]("Nội dung chi tiết không để trống");
+            return false;
+        }
+        if (content.length < 10) {
+            toastr["error"]("Nội dung chi tiết không được nhỏ hơn 10 ký tự");
+            return false;
+        }
+        if (content.length > 4000) {
+            toastr["error"]("Nội dung chi tiết không được lớn hơn 4000 ký tự");
+            return false;
+        }
+
+        var objMainImage = null;
+        var subImageList = [];
+        $('input[name^="SubImageUpload"]').each(function () {
+            subImageList.push($(this).val());
+        });
+
+        var subImageNameList = [];
+        $('input[name^="SubImageFileName"]').each(function () {
+            subImageNameList.push($(this).val());
+        });
+
+        var mainImg = $('#mainimagedemand').val();
+        if (mainImg.files != "") {
+            var files = $('#mainimagedemand')[0].files;
+            objMainImage = await readFileAsDataURL(files[0]);
+        }
+
+        var objProduct = {
+            "ProductCategoryId": productcateId,
+            "Name": Name,
+            "Price": Price,
+            "Unit": Unit,
+            "RelatedCategoryId": RelatedCategoryId,
+            "SaleLocationId": SaleLocationId,
+            "Content": content
+        }
+        var model = {
+            "Product": objProduct,
+            "MainImage": {},
+            "SubImageUpload": subImageList,
+            "SubImageFileName": subImageNameList,
+            "typeForm": 11
+        };
+        model['MainImage'] = objMainImage;
+        document.getElementById("buttonCreate").disabled = true;
+        $.ajax({
+            type: 'POST',
+            url: "/Shopman/Product/CreateProduct",
+            data: JSON.stringify(model),
+            dataType: "json",
+            contentType: "application/json",
+            success: function (response) {
+                var resultRes = response;
+                if (resultRes.ErrorCode == "00" || resultRes.ErrorCode == "0") {
+                    PopupSuccess(resultRes.ProductId);
+                } else {
+                    document.getElementById("buttonCreate").disabled = false;
+                    var txtNoti = document.getElementById('thongbaoLM');
+                    txtNoti.innerHTML = resultRes.Message;
+                    $("#myModal2").modal('show');
+                }
+            }
+        });
+    }
+
+    function PopupSuccess(productId) {
+        $.ajax({
+            type: "GET",
+            url: "/Shopman/Product/ReturnResult?ProductId=" + productId + "&Type=11",
+            dataType: "html",
+            success: function (response) {
+                $('#modal-body').html(response);
+                $("#main-popup").modal('show');
+            }
+        });
+    }
+</script>

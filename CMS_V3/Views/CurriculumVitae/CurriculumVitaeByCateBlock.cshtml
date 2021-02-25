@@ -1,0 +1,32 @@
+﻿@model List<HNM.DataNC.ModelsNC.ModelsDTO.CVSearchDTO>
+
+<div class="article-content p-2 profile bg-white">
+    <div class="row m-0">
+        @foreach (var item in Model)
+        {
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12 pb-2 px-1 ">
+                <div class="card p-1">
+                    <a href="/@item.URL" class="d-flex">
+                        <div class="image-profile col-4 px-0"><div class="img-profile" style="background-image: url('@item.FullUrlAvatar')"></div></div>
+                        <div class="card-body col-8 py-0">
+                            <h6 class="card-title">@item.FullName</h6>
+                            <p class="card-text mt-1 mb-0">@item.TitleName</p>
+
+                            <div class="d-block  mt-1">
+                                <span class="d-flex career-hover "><span class="lable text-muted font-weight-bold">Ngành nghề:</span> @item.MainOccupation</span>
+                                @if (item.LocalWork != null)
+                                {
+                                    <span class="d-flex address-hover  "><span class="lable text-muted font-weight-bold">Địa điểm:</span> @item.LocalWork</span>
+                                }
+                                else
+                                {
+                                    <span class="d-flex address-hover  "><span class="lable text-muted font-weight-bold">Địa điểm:</span> Không xác định</span>
+                                }
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+</div>

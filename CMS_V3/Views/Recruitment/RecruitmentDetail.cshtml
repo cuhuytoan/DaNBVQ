@@ -1,0 +1,337 @@
+﻿@using Mono.Web
+@using Microsoft.Extensions.Configuration
+@using Mono.Web
+@inject IConfiguration Configuration
+
+@{
+    ViewBag.Title = @Model.RecDetail.Name;
+
+    var MenuMachine = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuMachine;
+    var MenuMaterials = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuMaterials;
+    var MenuServices = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuServices;
+    var ListRelateRec = (HNM.DataNC.ModelsNC.ModelsDTO.RecruitmentPaggingDTO)ViewBag.ListRelateRec;
+}
+
+@model HNM.DataNC.ModelsNC.ModelsDTO.RecDetailDTO
+
+@section metatags
+{
+    <meta name="keywords" content="@HttpUtility.HtmlDecode(@Configuration["DefaultKeyword"])" />
+    <meta name="description" content="@HttpUtility.HtmlDecode(@Configuration["DefaultDescription"])" />
+    <link id="canonical" rel="canonical" href="@Configuration["DomainName"]/viec-lam/@ViewBag.RecruitmentUrl" />
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/style.css" rel="stylesheet" />
+    <link href="~/css/responsive.css" rel="stylesheet" />
+}
+
+<section class="category">
+    @await Html.PartialAsync("RecruitmentHeader.cshtml")
+
+    <!-- Detail -->
+    <article>
+        <div class=" article-content bg-white d-block d-lg-flex mt-3 pt-3">
+            <div class="col-12 col-lg-7 col-md-12 col-sm-12 prod-img">
+                <div class="swiper-container gallery-top">
+                    <div class="swiper-wrapper">
+                        @foreach (var item in Model.RecPictures)
+                        {
+                            <div class="swiper-slide"><div class="img-wrap"><img src="@item.UrlImage" /></div></div>
+                        }
+                    </div>
+                    <div class="swiper-pagination paging-right"></div>
+                    <div class="swiper-button-next swiper-button"></div>
+                    <div class="swiper-button-prev swiper-button"></div>
+                </div>
+                <div class="swiper-container gallery-thumbs mt-2">
+                    <div class="swiper-wrapper">
+
+                        @foreach (var item in Model.RecPictures)
+                        {
+                            <div class="swiper-slide"><div class="img-wrap"><img src="@item.UrlImage" /></div></div>
+                        }
+                    </div>
+                    <!-- Add Scrollbar -->
+                    <div class="swiper-scrollbar"></div>
+                </div>
+
+            </div>
+            <div class="col-12 col-lg-5 col-md-12 col-sm-12 prod-shop">
+                <div class="product-name">
+                    <h1>@Model.RecDetail.Name</h1>
+                </div>
+                <div class="price-box mt-2">
+                    @if (Model.RecDetail.Salary != null)
+                    {
+                        <span class="regular-price text-uppercase">@Model.RecDetail.Salary</span>
+                    }
+                    else
+                    {
+                        <span class="regular-price text-uppercase">lương thỏa thuận</span>
+                    }
+                </div>
+
+
+
+                <div class="d-flex align-items-top person-detail mt-2 ">
+                    <table>
+                        <tr>
+                            <td style="text-align: left">Ngành nghề:</td>
+                            <td style="text-align: left">@ViewBag.RecruitmentCateName</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">Mức lương:</td>
+                            @if (Model.RecDetail.Salary != null)
+                            {
+                                <td style="text-align: left">@Model.RecDetail.Salary</td>
+                            }
+                            else
+                            {
+                                <td style="text-align: left">Lương thỏa thuận</td>
+                            }
+                        </tr>
+                        <tr>
+                            <td style="text-align: left">Nơi làm việc:</td>
+                            @if (Model.RecDetail.LocationName != null)
+                            {
+                                <td style="text-align: left">@Model.RecDetail.LocationName</td>
+                            }
+                            else
+                            {
+                                <td style="text-align: left">Chưa xác định</td>
+                            }
+                        </tr>
+
+                        <tr>
+                            <td style="text-align: left">Bằng cấp:</td>
+                            @if (Model.RecDetail.RequireOfCV != "")
+                            {
+                                <td style="text-align: left">@Model.RecDetail.RequireOfCV</td>
+                            }
+                            else
+                            {
+                                <td style="text-align: left">Chưa xác định</td>
+                            }
+                        </tr>
+
+                        <tr>
+                            <td style="text-align: left">Thiết bị liên quan:</td>
+                            @if (Model.RecDetail.ProductCategoryChildRelateName != null)
+                            {
+                                <td style="text-align: left">@Model.RecDetail.ProductCategoryChildRelateName</td>
+                            }
+                            else
+                            {
+                                <td style="text-align: left">Chưa xác định</td>
+                            }
+                        </tr>
+
+                        <tr>
+                            <td style="text-align: left">Kinh nghiệm:</td>
+                            @if (Model.RecDetail.RequireExp != null)
+                            {
+                                <td style="text-align: left">@Model.RecDetail.RequireExp</td>
+                            }
+                            else
+                            {
+                                <td style="text-align: left">Chưa xác định</td>
+                            }
+                        </tr>
+
+                        <tr>
+                            <td style="text-align: left">Hạn nộp hồ sơ:</td>
+                            @if (Model.RecDetail.DeadlineOfCV != null)
+                            {
+                                <td style="text-align: left">@Convert.ToDateTime(Model.RecDetail.DeadlineOfCV).ToString("dd/MM/yyyy")</td>
+                            }
+                            else
+                            {
+                                <td style="text-align: left">Chưa xác định</td>
+                            }
+                        </tr>
+                    </table>
+
+                </div>
+
+                <div class="com-info mt-2 border-top pt-2">
+                    <div class="d-flex align-items-center">
+                        <div class="col-3 px-0">
+                            <a href="#">
+                                <img class="card-img-top" src="@Model.RecDetail.FullUrlImage" data-src="@Model.RecDetail.FullUrlImage" alt="@Model.RecDetail.Name">
+                            </a>
+                        </div>
+                        <div class="col-9 pl-1 pr-0">
+                            <h4 class="card-title">@Model.RecDetail.CompanyName</h4>
+                            <!-- offline class -->
+                            <span class="status online">Đang online</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-top person-detail mt-2 ">
+                        <table>
+                            @if (Model.RecDetail.ContactName != null)
+                            {
+                                <tr><td style="text-align: left">Họ tên:</td><td style="text-align: left">@Model.RecDetail.ContactName</td></tr>
+                            }
+
+                            @if (Model.RecDetail.ContactEmail != null)
+                            {
+                                <tr><td style="text-align: left">Email:</td><td style="text-align: left"> @Model.RecDetail.ContactEmail</td></tr>
+                            }
+
+                            @if (Model.RecDetail.ContactAddress != null)
+                            {
+                                <tr><td style="text-align: left">Địa chỉ:</td><td style="text-align: left">@Model.RecDetail.ContactAddress</td></tr>
+                            }
+
+                            @if (Model.RecDetail.CompanyWebsite != null)
+                            {
+                                <tr><td style="text-align: left">Website:</td><td style="text-align: left">@Model.RecDetail.CompanyWebsite</td></tr>
+                            }
+                        </table>
+                    </div>
+
+                </div>
+
+                <div class="d-md-flex d-block align-items-center my-3">
+                    <div class="call col-lg-6 col-md-6 col-sm-12 col-12 mb-2">
+                        <a href="call:@Model.RecDetail.ContactPhone"><img src="~/images/call.png" />@Model.RecDetail.ContactPhone</a>
+                    </div>
+                    <div class="message col-lg-6 col-md-6 col-sm-12 col-12 mb-2">
+                        <a href="mail:@Model.RecDetail.ContactPhone"><img src="~/images/message.png" />Nhắn tin</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </article>
+
+    <article>
+        <div class="article-content bg-white  mt-2 py-2">
+            <div class="tab-header">
+                <ul class="nav nav-tabs  " id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#detail" role="tab" aria-controls="detail" aria-selected="true">Mô tả chi tiết</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#suggest" role="tab" aria-controls="suggest" aria-selected="false">Giới thiệu công ty</a>
+                    </li>
+                    @*<li class="nav-item">
+                            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#tag" role="tab" aria-controls="tag" aria-selected="false">Tag</a>
+                        </li>*@
+                </ul>
+            </div>
+            <div class="tab-content col-12" id="myTabContent" style="clear: both;">
+                <div class="tab-pane fade show active" id="detail" role="tabpanel" aria-labelledby="detail-tab">
+                    <h3 class="my-2">Mô tả chi tiết công việc</h3>
+                    <p>
+                        @Html.Raw(@HttpUtility.HtmlDecode(Model.RecDetail.Description))
+                    </p>
+                </div>
+                <div class="tab-pane fade" id="suggest" role="tabpanel" aria-labelledby="suggest-tab">
+                    <h3 class="my-2">Giới thiệu công ty</h3>
+                    <p>
+                        @Html.Raw(@HttpUtility.HtmlDecode(Model.RecDetail.CompanyBusiness))
+                    </p>
+                </div>
+                @*<div class="tab-pane fade" id="tag" role="tabpanel" aria-labelledby="tag-tab">
+                        <h3 class="my-2">Tag</h3>
+
+                    </div>*@
+            </div>
+        </div>
+    </article>
+
+    <!-- Hồ sơ tương tự -->
+    <article>
+        <div class="article-header d-block d-lg-flex mt-2">
+            <div class="category-title  col-12 col-lg-3 col-sm-12 pr-0  align-items-center d-block d-lg-flex">
+                <h3 class="title">Việc làm tương tự</h3>
+                <button class="navbar-toggler bg-black d-lg-none d-flex" type="button" data-toggle="collapse" data-target="#navbarNav-cncc" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <div class="navbar navbar-expand-lg category-menu  sm-menu col-12 col-lg-9 col-sm-12 d-block d-lg-flex  align-items-center">
+
+            </div>
+        </div>
+
+        <div class="article-content profile p-2 bg-white">
+            <div class="row m-0">
+                @foreach (var item in ListRelateRec.Data)
+                {
+                    <div class="col-lg-4 col-md-6 col-sm-12 col-12 pb-2 px-1 ">
+                        <div class="card p-1">
+                            <a href="/@item.URL" class="d-flex">
+                                <div class="image-profile col-4 px-0"><div class="img-profile" style="background-image: url('@item.FullUrlImage')"></div></div>
+                                <div class="card-body col-8 py-0">
+                                    <h6 class="card-title">@item.Name</h6>
+                                    @*@if (item.Description != null)
+                                    {
+                                        @if (item.Description.Length >= 50)
+                                        {
+                                            <p class="card-text mt-1 mb-0">@Html.Raw(@HttpUtility.HtmlDecode(item.Description.Substring(0, 50)))</p>
+                                        }
+                                        else
+                                        {
+                                            <p class="card-text mt-1 mb-0">@Html.Raw(@HttpUtility.HtmlDecode(item.Description))</p>
+                                        }
+                                    }*@
+                                    <div class="d-flex justify-content-end  mt-auto d-flex">
+                                        <span class="address text-muted">@item.LocationName</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </article>
+
+    <article>
+        <div class="article-banner d-flex ads-container mx-3 mt-3">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <a href="#"><img src="~/Assets/images/article-banner1.webp" /></a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="#"><img src="~/Assets/images/article-banner3.webp" /></a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="#"><img src="~/Assets/images/article-banner2.webp" /></a>
+                </div>
+            </div>
+        </div>
+    </article>
+
+
+</section>
+
+
+<script type="application/ld+json">
+    {
+    "@@context": "https://schema.org",
+    "@@type": "NewsArticle",
+    "mainEntityOfPage": {
+    "@@type": "WebPage",
+    "@@id": "https://hanoma.vn/danh-muc-viec-lam/@ViewBag.RecruitmentUrl"
+    },
+    "headline": "Recruitment headline",
+    "datePublished": "@Model.RecDetail.LastEditDate",
+    "dateModified": "@Model.RecDetail.LastEditDate",
+    "author": {
+    "@@type": "Person",
+    "name": ""
+    },
+    "publisher": {
+    "@@type": "Organization",
+    "name": "Hanoma.vn",
+    "logo": {
+    "@@type": "ImageObject",
+    "url": "https://hanoma.vn/assets/pages/img/logo_hanoma2.png"
+    }
+    },
+    "description": "@Configuration"
+    }
+</script>

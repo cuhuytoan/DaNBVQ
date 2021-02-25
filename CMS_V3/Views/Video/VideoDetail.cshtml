@@ -1,0 +1,194 @@
+﻿@model HNM.DataNC.ModelsNC.ModelsDTO.ArticleDTO
+@using Mono.Web
+
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
+@{
+    Layout = "_LayoutArticle";
+}
+
+@{
+    var MenuMachine = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuMachine;
+    var MenuMaterials = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuMaterials;
+    var MenuServices = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuServices;
+    var MenuHeader = (List<HNM.DataNC.ModelsNC.ModelsDTO.LibraryCategoryDTO>)ViewBag.MenuHeader;
+    var LstRelateVideo = (List<HNM.DataNC.ModelsNC.ModelsDTO.VideoShortInfo>)ViewBag.LstRelateVideo;
+    var MetaTags = (HNM.DataNC.Models.Setting)ViewBag.MetaTags;
+    int currentPage = ViewBag.Page;
+    int pageSize = ViewBag.PageSize;
+
+
+    var MetaDes = Model.Description;
+    if (String.IsNullOrEmpty(MetaDes))
+    {
+        MetaDes = @Configuration["DefaultKeyword"];
+    }
+    else
+    {
+        if (MetaDes.Length > 300)
+        {
+            MetaDes = MetaDes.Substring(0, 300);
+        }
+
+    }
+}
+
+@section metatags
+{
+    <title>@Html.Raw(Model.Title)</title>
+    <meta name="keywords" content="@Html.Raw(@Configuration["DefaultKeyword"])" />
+    <meta name="description" content="@Html.Raw(Model.Title)" />
+    <link id="canonical" rel="canonical" href="@Configuration["DomainName"]/video/@Model.URL" />
+    
+    <!-- META FOR FACEBOOK -->
+    <meta property="og:title" itemprop="headline" content="@Html.Raw(Model.Title)" />
+    <meta property="og:type" content="video" />
+    <meta property="og:url" content="@Configuration["DomainName"]/video/@ViewBag.UrlVideo" />
+    <meta property="og:image" itemprop="thumbnailUrl" content="@String.Format(" {0}{1}{2}", @Configuration["Cloud_Path"], "/article/mainimages/original/" , Model.Image)" />
+    <meta property="og:image:width" content="400" />
+    <meta property="og:image:height" content="300" />
+
+    <!-- End Twitter Card -->
+}
+
+<!-- Content -->
+<section class="category">
+    @await Html.PartialAsync("VideoHeader.cshtml")
+
+    <article>
+        <div class="bg-white mx-3 mt-2 p-2">
+            <nav aria-label="breadcrumb" class="col-12 col-sm-9 px-3 pl-lg-0 pr-lg-0">
+                <ol class="breadcrumb p-0 m-0">
+                    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a href="/chuyen-muc-video">Video</a></li>
+                    @{
+                        if (ViewBag.NameCate != null)
+                        {
+                            <li class="breadcrumb-item active" aria-current="page"><a href="/chuyen-muc-video/@ViewBag.CateUrl">@ViewBag.NameCate</a></li>
+                        }
+                    }
+                </ol>
+            </nav>
+        </div>
+        <div class="bg-white mx-3 p-2 px-3">
+            <div class="title my-2">
+                <h1>@Model.Title</h1>
+            </div>
+            <div class="news-info mb-2 ">
+                <span class="time">@Utils.RenderTimeSince(Convert.ToDateTime(Model.LastEditDate))</span>
+                <span class="">Nguồn: <a href="/">Hanoma.vn</a></span>
+            </div>
+            @Html.Raw(Model.Content)
+        </div>
+
+
+    </article>
+
+    <article class="personal-info">
+        <div class="article-content bg-white mx-3 p-2 mt-2 px-3" id="data-video">
+
+        </div>
+    </article>
+</section>
+
+<script type="application/ld+json">
+    {
+    "@@context": "https://schema.org",
+    "@@type": "Video",
+    "mainEntityOfPage": {
+    "@@type": "WebPage",
+    "@@id": "https://hanoma.vn/video/@Model.URL"
+    },
+    "headline": "Article headline",
+    "image": [
+    "http://cdn.hanoma.vn/video/mainimages/original/@Model.Image"
+    ],
+    "datePublished": "@Model.LastEditDate",
+    "dateModified": "@Model.LastEditDate",
+    "author": {
+    "@@type": "Person",
+    "name": "@Model.Author"
+    },
+    "publisher": {
+    "@@type": "Organization",
+    "name": "Hanoma.vn",
+    "logo": {
+    "@@type": "ImageObject",
+    "url": "https://hanoma.vn/assets/pages/img/logo_hanoma2.png"
+    }
+    },
+    "description": "@Model.Description"
+    }
+</script>
+<script type="application/ld+json">
+    {
+    "@@context": "https://schema.org",
+    "@@type": "BreadcrumbList",
+    "itemListElement": [{
+    "@@type": "ListItem",
+    "position": 1,
+    "name": "Home",
+    "item": "https://hanoma.vn"
+    }@*,{
+        "@@type": "ListItem",
+        "position": 2,
+        "namfe": "@ArticleCate.Name",
+        "item": "https://hanoma.vn/chuyen-muc/@ArticleCate.URL"
+        }*@,{
+    "@@type": "ListItem",
+    "position": 3,
+    "name": "@Model.Title",
+    "item": "https://hanoma.vn/video/@Model.URL"
+    }
+    ]
+    }
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        LoadData();
+    });
+
+    function ChangeUrl(page, pageSize) {
+        var urlChange = "/video/@Model.URL?VideoCategory_ID=" + @ViewBag.VideoCategory_ID + "&Article_ID" + @ViewBag.Article_ID + "&page=" + page +
+            "&pageSize=" + pageSize;
+        history.pushState({}, "", urlChange);
+    }
+
+    function LoadData() {
+        $.ajax({
+            type: "GET",
+            url: "/Video/GetPaggingRelateVideo?VideoCategory_ID=" +@ViewBag.VideoCategory_ID+ "&Article_ID=" +@ViewBag.Article_ID+ "&page=" + @currentPage + "&pageSize=" + @pageSize,
+            dataType: "html",
+            success: function (response) {
+                $('#data-video').html(response);
+            },
+            failure: function (response) {
+
+            },
+            error: function (response) {
+
+            }
+        });
+    }
+
+     function LoadDataByPageSize(page, pageSize) {
+        $.ajax({
+            type: "GET",
+            url: "/Video/GetPaggingRelateVideo?VideoCategory_ID=" +@ViewBag.VideoCategory_ID+ "&Article_ID=" +@ViewBag.Article_ID+ "&page=" + page + "&pageSize=" + pageSize,
+            dataType: "html",
+            success: function (response) {
+                $('#data-video').html(response);
+            },
+            failure: function (response) {
+
+            },
+            error: function (response) {
+
+            }
+        });
+    }
+
+</script>

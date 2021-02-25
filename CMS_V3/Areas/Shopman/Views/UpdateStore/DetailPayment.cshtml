@@ -1,0 +1,98 @@
+﻿@model HNM.DataNC.ModelsNC.ModelsDTO.OrderDetailDTO
+
+<div class="col-md-12" style="margin-bottom: 40px">
+    <h3 style="margin-top: 20px; margin: auto; text-align: center">@Model.Description</h3>
+</div>
+
+<div class=" row col-md-12" style="padding-right: 0px">
+    @if (Model.TotalDeduct != null)
+    {
+        <div class="col-5"><p style="text-align:left">Mã số giao dịch</p></div>
+        <div class="col-7"><p style="text-align:right;">@Model.OrderCode</p></div>
+
+        <div class="col-5"><p style="text-align:left">Thời gian</p></div>
+        <div class="col-7"> <p style="text-align:right;"><span id="startDate">@Convert.ToDateTime(Model.StartDate).ToString("dd/MM/yyyy")</span> đến <span id="endDate">@Convert.ToDateTime(Model.EndDate).ToString("dd/MM/yyyy")</span></p></div>
+
+        <div class="col-5"><p style="text-align:left">Giá tiền</p></div>
+        <div class="col-7"> <p id="Price" style="text-align:right;">@HNM.CommonNC.Utils.RenderPrice(Model.Price) đ</p></div>
+
+        <div class="col-5"><p style="text-align:left">Giảm giá</p></div>
+        <div class="col-7">
+            @{
+                if (Model.DisCount == 0)
+                {
+                    <p id="AmAfDis" style="text-align:right;">0 đ</p>
+                }
+                else
+                {
+                    <p id="AmAfDis" style="text-align:right;">@HNM.CommonNC.Utils.RenderPrice(Model.DisCount) đ </p>
+                }
+            }
+        </div>
+
+        <div class="col-5"><p style="text-align:left">Số tiền sau giảm giá (1)</p></div>
+        <div class="col-7"> <p style="text-align:right;">@HNM.CommonNC.Utils.RenderPrice(Model.Sum) đ</p></div>
+        <br />
+        <div class="col-md-12" style="margin-top: 10px;">
+            <h6 style="font-weight: bold">KHẤU TRỪ QUY MÔ VỪA</h6>
+        </div>
+        <div class="col-5"><p style="text-align:left">Số tháng còn lại quy mô vừa</p></div>
+        <div class="col-7"> <p style="text-align:right;">@Model.MonthRemain tháng</p></div>
+
+        <div class="col-5"><p style="text-align:left">Số tiền một tháng</p></div>
+        <div class="col-7"> <p style="text-align:right;">@HNM.CommonNC.Utils.RenderPrice(Model.TotalDeduct / Model.MonthRemain) đ</p></div>
+
+        <div class="col-5"><p style="text-align:left">Tổng tiền khấu trừ (2)</p></div>
+        <div class="col-7">
+
+            <p style="text-align:right;">@HNM.CommonNC.Utils.RenderPrice(Model.TotalDeduct) đ</p>
+
+        </div>
+
+        <div class="col-5"><p style="text-align:left">Tổng tiền sau khấu trừ (1) - (2)</p></div>
+        <div class="col-7">
+
+            <p style="text-align:right;"> @HNM.CommonNC.Utils.RenderPrice(Model.Sum - Model.TotalDeduct) đ</p>
+        </div>
+
+        <div class="col-5"><p style="text-align:left">VAT</p></div>
+        <div class="col-7"> <p style="text-align:right;">@HNM.CommonNC.Utils.RenderPrice(Model.Total - (Model.Sum - Model.TotalDeduct)) đ</p></div>
+
+        <div class="col-5"><p style="text-align:left">TỔNG ĐƠN HÀNG</p></div>
+        <div class="col-7"> <p style="text-align:right;font-weight: bold">@HNM.CommonNC.Utils.RenderPrice(Model.Total) đ</p></div>
+    }
+    else
+    {
+        <div class="col-5"><p style="text-align:left">Mã số giao dịch</p></div>
+        <div class="col-7"><p style="text-align:right;">@Model.OrderCode</p></div>
+
+        <div class="col-5"><p style="text-align:left">Thời gian</p></div>
+        <div class="col-7"> <p style="text-align:right;"><span id="startDate">@Convert.ToDateTime(Model.StartDate).ToString("dd/MM/yyyy")</span> đến <span id="endDate">@Convert.ToDateTime(Model.EndDate).ToString("dd/MM/yyyy")</span></p></div>
+
+        <div class="col-5"><p style="text-align:left">Giá tiền</p></div>
+        <div class="col-7"> <p id="Price" style="text-align:right;">@HNM.CommonNC.Utils.RenderPrice(Model.Price) đ</p></div>
+
+        <div class="col-5"><p style="text-align:left">Giảm giá</p></div>
+        <div class="col-7">
+            @{
+                if (Model.DisCount == 0)
+                {
+                    <p id="AmAfDis" style="text-align:right;">0</p>
+                }
+                else
+                {
+                    <p id="AmAfDis" style="text-align:right;">@HNM.CommonNC.Utils.RenderPrice(Model.DisCount) đ</p>
+                }
+            }
+        </div>
+
+        <div class="col-5"><p style="text-align:left">Số tiền sau giảm giá</p></div>
+        <div class="col-7"> <p style="text-align:right;">@HNM.CommonNC.Utils.RenderPrice(Model.Sum) đ</p></div>
+
+        <div class="col-5"><p style="text-align:left">VAT</p></div>
+        <div class="col-7"> <p style="text-align:right;">@HNM.CommonNC.Utils.RenderPrice(Model.VAT) đ</p></div>
+
+        <div class="col-5"><p style="text-align:left">TỔNG ĐƠN HÀNG</p></div>
+        <div class="col-7"> <p style="text-align:right;font-weight: bold">@HNM.CommonNC.Utils.RenderPrice(Model.Total) đ</p></div>
+    }
+</div>

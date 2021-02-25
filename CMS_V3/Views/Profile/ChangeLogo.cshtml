@@ -1,0 +1,98 @@
+﻿
+
+<div class="bg-white py-1 mx-auto  px-0 px-md-2">
+    <div class="header-box text-center mb-4">
+        <div class="backtouploadimage" style="display: none;">
+            <button type="button" class="back">
+                <span aria-hidden="true"></span>
+            </button>
+        </div>
+        <h3 class="text-uppercase mt-1 font-weight-bold">CHỌN ẢNH HỒ SƠ</h3>
+    </div>
+    <div class="content-box  mx-auto">
+        <form action="/Profile/ChangeLogo" method="post" enctype="multipart/form-data">
+
+            <div class="row">
+                <div class="col-10 col-lg-5 col-md-5 col-sm-5 m-auto">
+                    <div class="custom-file-container" data-upload-id="cover-img">
+                        <label style="display: none;">
+                            Upload File
+                            <a href="javascript:void(0)"
+                               class="custom-file-container__image-clear"
+                               title="Clear Image">&times;</a>
+                        </label>
+                        <input type="file"
+                               class="custom-file-container__custom-file__custom-file-input"
+                               accept="image/jpeg, image/png, image/gif, image/svg+xml"
+                               aria-label="Choose File" name="Logo" id="mainimagedemand"/>
+                        <input type="hidden" name="MAX_FILE_SIZE" value="2097152" />
+                        <div class="custom-file-container__image-preview">
+                            <label class="custom-file-container__custom-file">
+                                <span class="custom-file-container__custom-file__custom-file-control"></span>
+                            </label>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="border-top mt-3">
+                <div class=" justify-content-center d-block text-center mt-3">
+                    <button type="button" class="btn btn-light mb-2" data-dismiss="modal" aria-label="Close">Hủy</button>
+                    <button type="button" class="btn btn-primary ml-4 mb-2" onclick="UpdateImage()">Lưu ảnh hồ sơ</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="~/Assets/js/file-upload-with-preview.min.js"></script>
+<script src="~/Assets/jsController/CreateFormImageUpload.js"></script>
+<script>
+    async function readFileAsDataURL(file) {
+        let result_base64 = await new Promise((resolve) => {
+            let fileReader = new FileReader();
+            fileReader.onload = (e) => resolve(fileReader.result);
+            fileReader.readAsDataURL(file);
+        });
+        var dataImage = {
+            FileName: file.name,
+            ExtensionType: file.type,
+            Base64: result_base64
+        }
+        return dataImage;
+    }
+
+
+    async function UpdateImage() {
+        var mainImg = $('#mainimagedemand').val();
+        var objMainImage = null;
+
+        if (mainImg.files != "") {
+            var files = $('#mainimagedemand')[0].files;
+            objMainImage = await readFileAsDataURL(files[0]);
+        }
+
+        var model = {
+            "MainImage": {}
+        };
+        model['MainImage'] = objMainImage;
+
+        $.ajax({
+            type: 'POST',
+            url: "/Profile/ChangeLogo",
+            data: JSON.stringify(model),
+            dataType: "json",
+            contentType: "application/json",
+            success: function (data) {
+                toastr["success"](data);
+                toastr.options.fadeOut = 3000;
+                setTimeout(
+                    function () {
+                        window.location.href = "/tai-khoan";
+                    },
+                    3000);
+            }
+        });
+    }
+</script>

@@ -1,0 +1,134 @@
+﻿@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Mvc.Common;
+
+@model List<HNM.DataNC.ModelsStore.Library_Search_By_Cate_Result>
+@{
+    int currentPage = ViewBag.Page;
+    int pageSize = ViewBag.PageSize;
+    int TotalPages = ViewBag.TotalPages;
+    int TotalRecord = ViewBag.TotalCount;
+    var LibPaging = (X.PagedList.IPagedList<HNM.DataNC.ModelsStore.Library_Search_By_Cate_Result>)ViewBag.LibPaging;
+}
+
+@if (TotalRecord > 0)
+{
+<div class="article-content pt-2 px-1 bg-white">
+    <div class="d-block d-lg-flex justify-content-lg-between align-items-center mt-2 mb-4">
+        <h3 class="mx-1 justify-content-start">TẤT CẢ KIẾN THỨC</h3>
+        <div class="justify-content-md-end justify-content-left align-items-center d-block d-sm-flex paging">
+            <span class="justify-content-end m-0 mx-1 numperpage">Số kiến thức / Trang:</span>
+            <select name="" onchange="SelectPageSize(this)" class="justify-content-end">
+                <option selected="@(pageSize == 8 ? "selected" : null)" value="8">8</option>
+                <option selected="@(pageSize == 10 ? "selected" : null)" value="10">10</option>
+                <option selected="@(pageSize == 15 ? "selected" : null)" value="15">15</option>
+                <option selected="@(pageSize == 20 ? "selected" : null)" value="20">20</option>
+                <option selected="@(pageSize == 25 ? "selected" : null)" value="25">25</option>
+                <option selected="@(pageSize == 30 ? "selected" : null)" value="30">30</option>
+            </select>
+            <nav aria-label="Page navigation " class="justify-content-sm-end justify-content-center mx-2">
+                <ul class="pagination m-0">
+                    @Html.PagedListPager(LibPaging, page => ("/ProductBrand/GetPaggingLibrary?ProductBrandId=" + @ViewBag.ProductBrandId + "&page=" + page + "&pageSize=" + @pageSize),
+                    new PagedListRenderOptions
+                    {
+                        LiElementClasses = new string[] { "page-item" },
+                        PageClasses = new string[] { "page-link" },
+                        DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+                        DisplayLinkToLastPage = X.PagedList.Web.Common.PagedListDisplayMode.Never,
+                        MaximumPageNumbersToDisplay = 5,
+                    }
+                    )
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <div class="row m-0">
+        @foreach (var item in Model)
+        {
+            <div class="relate-post d-flex bg-white py-1 col-12 col-md-6">
+                <div class="col-5 col-sm-5 col-md-4 px-0">
+                    <a href="/kien-thuc/@item.URL">
+                        <img src="@item.FullUrlImage" />
+                    </a>
+                </div>
+                <div class="col-7 col-md-8 col-sm-7">
+                    <a href="/kien-thuc/@item.URL">
+                        <h5 class="font-weight-bold mb-2">@item.Title</h5>
+                        <p>@item.Description</p>
+                        <span class="time mt-1 d-block">@Utils.RenderTimeSince(Convert.ToDateTime(item.LastEditDate))</span>
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="d-block d-lg-flex justify-content-lg-between align-items-center mt-4 pb-4">
+        <h3 class="text-uppercase mx-1  font-weight-bold justify-content-start"></h3>
+        <div class="justify-content-md-end justify-content-center align-items-center d-block d-sm-flex text-center">
+            <span class="justify-content-end m-0 mr-2 numperpage">Số kiến thức / Trang:</span>
+            <select name="" onchange="SelectPageSize(this)" class="justify-content-end">
+                <option selected="@(pageSize == 8 ? "selected" : null)" value="8">8</option>
+                <option selected="@(pageSize == 10 ? "selected" : null)" value="10">10</option>
+                <option selected="@(pageSize == 15 ? "selected" : null)" value="15">15</option>
+                <option selected="@(pageSize == 20 ? "selected" : null)" value="20">20</option>
+                <option selected="@(pageSize == 25 ? "selected" : null)" value="25">25</option>
+                <option selected="@(pageSize == 30 ? "selected" : null)" value="30">30</option>
+            </select>
+            <nav aria-label="Page navigation " class="justify-content-sm-end justify-content-center mx-2">
+                <ul class="pagination m-0">
+                    @Html.PagedListPager(LibPaging, page => ("/ProductBrand/GetPaggingLibrary?ProductBrandId=" + @ViewBag.ProductBrandId + "&page=" + page + "&pageSize=" + @pageSize),
+                    new PagedListRenderOptions
+                    {
+                        LiElementClasses = new string[] { "page-item" },
+                        PageClasses = new string[] { "page-link" },
+                        DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+                        DisplayLinkToLastPage = X.PagedList.Web.Common.PagedListDisplayMode.Never,
+                        MaximumPageNumbersToDisplay = 5,
+                    }
+                    )
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+}
+else
+{
+    <div class="article-content px-1 bg-white mt-3">
+        <div class="row m-0">
+            <div class="text-center search-notfound py-3">
+                <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_EMTsq1.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player>
+                <h5>Gian hàng chưa có tin đăng.</h5>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    $(function () {
+        var getPage = function () {
+            var $a = $(this);
+            var pageClick = $a.attr("href").split("page=")[1];
+
+            ChangeUrl(pageClick, '@pageSize');
+            var options = {
+                url: $a.attr("href"),
+                data: $("form").serialize(),
+                type: "get"
+            };
+
+            $.ajax(options).done(function (data) {
+                $("#data-service").html(data);
+            });
+            return false;
+        };
+
+        $(".article-content").on("click", "ul.pagination li a", getPage);
+
+    });
+
+    function SelectPageSize(sel) {
+        ChangeUrl('@currentPage', sel.value);
+        LoadDataByPageSize(sel.value);
+    }
+</script>
+

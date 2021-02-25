@@ -1,0 +1,218 @@
+﻿
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Mvc.Common;
+
+@model HNM.DataNC.ModelsNC.ModelsDTO.ProductPaggingDTO
+@{
+    int currentPage = ViewBag.Page;
+    int pageSize = ViewBag.PageSize;
+    int TotalPages = ViewBag.TotalPages;
+    int TotalRecord = ViewBag.TotalCount;
+    var ProductPaging = (X.PagedList.IPagedList<HNM.DataNC.ModelsNC.ModelsDTO.ProductSearchResultDTO>)ViewBag.ProductPaging;
+}
+
+@if (TotalRecord > 0)
+{
+    <div class="table-responsive">
+        <table style="width:100%" class="bg-white dashboard-table table">
+            <thead>
+            <th width="5"><input name="checkbox" type="checkbox" id="product_table_checkall"></th>
+            <th width="35">Thông tin sản phẩm</th>
+            @*<th width="10">Loại tin đăng</th>*@
+            <th width="10">Tình trạng</th>
+            <th width="25">Người liên hệ</th>
+            <th width="25">Số điện thoại</th>
+            <th width="10">Lượt xem</th>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Data)
+                {
+                    <tr>
+                        <td><input name="checkbox" type="checkbox" class="checkboxes" value="@item.ProductId"></td>
+                        <td>
+                            <div class="row mx-0">
+                                <div class="col-3 pl-0">
+                                    <img src="@item.UrlImage" />
+                                </div>
+                                <div class="col-9 px-0">
+                                    <a href="/@item.FullURL">
+                                        <h5 class="font-weight-bold">@item.Name</h5>
+                                    </a>
+                                    <ul class="list-unstyled mod-date">
+                                        <li><span class="label">Thời gian tạo:</span><span>@Convert.ToDateTime(item.CreateDate).ToString("hh:mm tt dd/MM/yyyy")</span></li>
+                                        <li><span class="label">Lần cuối chỉnh sửa:</span><span>@Convert.ToDateTime(item.LastEditDate).ToString("hh:mm tt dd/MM/yyyy")</span></li>
+                                    </ul>
+                                    <ul class="nav nav-prod">
+                                        @if (item.StatusType_ID == 5)
+                                        {
+                                            <li><a href="javascript:void(0)" onclick="ReUp(@item.ProductId)">Khôi phục</a></li>
+                                        }
+                                        else
+                                        {
+                                            <li><a href="javascript:void(0)" onclick="RenewProduct(@item.ProductId)">Làm mới</a></li>
+
+                                            @if (item.ProductType_ID == 1)
+                                            {
+                                                <li><a href="/Shopman/Product/EditSellingEquipment?ProductId=@item.ProductId">Chỉnh sửa</a></li>
+                                            }
+                                            @if (item.ProductType_ID == 3)
+                                            {
+                                                <li><a href="/Shopman/Product/EditEmployEquipment?ProductId=@item.ProductId">Chỉnh sửa</a></li>
+                                            }
+                                            @if (item.ProductType_ID == 5)
+                                            {
+                                                <li><a href="/Shopman/Product/EditAccessoriesEquipment?ProductId=@item.ProductId">Chỉnh sửa</a></li>
+                                            }
+                                            @if (item.ProductType_ID == 7)
+                                            {
+                                                <li><a href="/Shopman/Product/EditMaterialEquipment?ProductId=@item.ProductId">Chỉnh sửa</a></li>
+                                            }
+                                            @if (item.ProductType_ID == 11)
+                                            {
+                                                <li><a href="/Shopman/Product/EditServiceEquipment?ProductId=@item.ProductId">Chỉnh sửa</a></li>
+                                            }
+                                        }
+
+                                        <li><a class="delete" href="javascript:void(0)" onclick="DeletePost(@item.ProductId)">Xoá</a></li>
+                                        <li><a href="/@item.FullURL">Xem chi tiết</a></li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </td>
+
+                        @*@if (item.ProductType_ID == 1)
+                            {
+                                <td><span class="text-success">Bán thiết bị</span></td>
+                            }
+
+                            @if (item.ProductType_ID == 3)
+                            {
+                                <td><span class="text-success">Cho thuê thiết bị</span></td>
+                            }
+
+                            @if (item.ProductType_ID == 5)
+                            {
+                                <td><span class="text-success">Bán phụ tùng</span></td>
+                            }
+
+                            @if (item.ProductType_ID == 7)
+                            {
+                                <td><span class="text-success">Bán vật tư</span></td>
+                            }
+
+                            @if (item.ProductType_ID == 11)
+                            {
+                                <td><span class="text-success">Cho thuê dịch vụ</span></td>
+                            }*@
+                        @if (item.StatusType_ID == 1)
+                        {
+                            <td><span class="text-success">Đã lưu</span></td>
+                        }
+
+                        @if (item.StatusType_ID == 2)
+                        {
+                            <td><span class="text-primary">Chờ duyệt</span></td>
+                        }
+                        @if (item.StatusType_ID == 4)
+                        {
+                            <td><span class="text-success">Đã đăng</span></td>
+                        }
+                        @if (item.StatusType_ID == 5)
+                        {
+                            <td><span class="text-danger">Ngừng đăng</span></td>
+                        }
+
+                        @if (item.StatusType_ID == -1)
+                        {
+                            <td><span class="text-success">Hủy đăng</span></td>
+                        }
+
+                        <td>@item.SaleName</td>
+                        <td>@item.SalePhone</td>
+                        <td>@item.ViewCount</td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+    <div class="text-center mb-5">
+        <div class="d-block d-lg-flex justify-content-lg-end align-items-center text-center mt-2 mb-4">
+            <div class="justify-content-md-end justify-content-center align-items-center d-block d-sm-flex text-center">
+                <span class="justify-content-end m-0 mr-2 numperpage">Số sản phẩm / Trang:</span>
+                <select name="" onchange="SelectPageSize(this)" class="justify-content-end">
+                    <option selected="@(pageSize == 20 ? "selected" : null)" value="20">20</option>
+                    <option selected="@(pageSize == 5 ? "selected" : null)" value="5">5</option>
+                    <option selected="@(pageSize == 10 ? "selected" : null)" value="10">10</option>
+                    <option selected="@(pageSize == 15 ? "selected" : null)" value="15">15</option>
+                    <option selected="@(pageSize == 25 ? "selected" : null)" value="25">25</option>
+                    <option selected="@(pageSize == 30 ? "selected" : null)" value="30">30</option>
+                </select>
+
+                <nav aria-label="Page navigation " class="justify-content-sm-end justify-content-center mx-2">
+                    <ul class="pagination m-0">
+                        @Html.PagedListPager(ProductPaging, page => ("/Shopman/Product/FilterProductShopmanByParam?Keyword=" + @ViewBag.Keyword + "&statusTypeId=" + @ViewBag.StatusTypeId + "&productTypeId=" + ViewBag.ProductTypeId + "&productCategoryId=" + ViewBag.ProductCategory_ID + "&page=" + page + "&pageSize=" + @pageSize),
+                        new PagedListRenderOptions
+                        {
+                            LiElementClasses = new string[] { "page-item" },
+                            PageClasses = new string[] { "page-link" },
+                            DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+                            DisplayLinkToLastPage = X.PagedList.Web.Common.PagedListDisplayMode.Never,
+                            MaximumPageNumbersToDisplay = 5,
+                        }
+                        )
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+    </div>
+}
+else
+{
+    <div class="article-content px-1 bg-white mt-3">
+        <div class="row m-0">
+            <div class="text-center search-notfound py-3">
+                <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_EMTsq1.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player>
+                <h5>Gian hàng chưa có tin đăng.</h5>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    $(function () {
+        var getPage = function () {
+            var $a = $(this);
+            var pageClick = $a.attr("href").split("page=")[1];
+
+            ChangeUrl(pageClick, '@pageSize');
+            var options = {
+                url: $a.attr("href"),
+                data: $("form").serialize(),
+                type: "get"
+            };
+
+            $.ajax(options).done(function (data) {
+                $("#content").html(data);
+            });
+            return false;
+        };
+
+        $(".content").on("click", "ul.pagination li a", getPage);
+
+    });
+
+    function SelectPageSize(sel) {
+        ChangeUrl('@currentPage', sel.value);
+        LoadDataByPageSize(sel.value);
+    }
+
+    $('#product_table_checkall').on('click', function () {
+        $(this).closest('table').find('tbody :checkbox')
+            .prop('checked', this.checked)
+            .closest('tr').toggleClass('selected', this.checked);
+    });
+</script>

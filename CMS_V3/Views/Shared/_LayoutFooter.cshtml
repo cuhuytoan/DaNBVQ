@@ -1,0 +1,265 @@
+﻿
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextaccessor
+    <!-- footer -->
+<section class="footer pb-4 mt-3">
+    <div class="send-letter">
+        <div class="d-block d-md-flex container p-0 align-items-center pt-4 pb-4">
+            <div class="col-lg-3 d-none d-lg-block">
+                <img src="~/Assets/images/send-letter.webp" alt="send email" />
+
+            </div>
+            <div class="col-12 col-lg-3 col-md-6 col-sm-12 pl-xs-0 pl-3 text-center text-md-left mb-2 mb-md-0">
+                <h4>Đăng ký nhận bản tin</h4>
+                <p class="m-0">Chúng tôi không chia sẻ email của bạn cho bất kỳ bên thứ ba nào.</p>
+            </div>
+            <div class="col-12 col-lg-6 col-md-6 col-sm-12 justify-content-md-end justify-content-center d-flex">
+                <div class="send-mail-form form-inline">
+                    <div class="form-group mx-4 my-0">
+                        <input type="email" class="form-control" id="inputPassword2" placeholder="Nhập địa chỉ email của bạn">
+                    </div>
+                    <button type="submit" class="btn btn px-4 py-2" onclick="RegSubscription()">Đăng ký</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class=" container p-0">
+        <div class="d-block d-lg-flex py-3 py-lg-5">
+            <div class="col-12 col-lg-3 col-sm-12 pr-lg-0 toturial">
+                <div class="toturial-title d-flex d-lg-block justify-content-between align-items-center">
+                    <h4 class="d-block d-sm-flex justify-content-start text-uppercase">HƯỚNG DẪN NGƯỜI MUA</h4>
+                    <button class="navbar-toggler d-lg-none d-flex justify-content-end " type="button" data-toggle="collapse" data-target="#navbarNav-hdnm" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+                <div class="navbar navbar-expand-lg d-block d-lg-flex  align-items-left align-items-lg-center px-0">
+                    <ul class="collapse navbar-collapse  list-unstyled" id="navbarNav-hdnm">
+                        <li><a href="#">Hướng Dẫn Tìm Mua, Thuê Thiết Bị</a></li>
+                        <li><a href="#">Hướng Dẫn Đăng Tin Cần Mua Phụ Tùng</a></li>
+                        <li><a href="#">Hướng Dẫn Đăng Tin Cần Mua Vật Tư</a></li>
+                        <li><a href="#">Hướng Dẫn Đăng Tin Cần Thuê Thiết Bị</a></li>
+                        <li><a href="#">Hướng Dẫn Đăng Tin Cần Thuê Dịch Vụ</a></li>
+                        <li><a href="#">Hướng Dẫn Đăng Tin Tuyển Dụng</a></li>
+                        <li><a href="#">Hướng Dẫn Đăng Tin Tìm Việc Làm</a></li>
+                        <li><a href="#">Hướng Dẫn Chia Sẻ Kiến Thức Với Cộng Đồng</a></li>
+                        <li><a href="#">Trung Tâm Hỗ Trợ Người Dùng</a></li>
+
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12 col-lg-3 col-sm-12 pr-lg-0 toturial">
+                <div class="toturial-title d-flex d-lg-block justify-content-between align-items-center">
+                    <h4 class="d-block d-sm-flex justify-content-start text-uppercase">HƯỚNG DẪN NGƯỜI BÁN</h4>
+                    <button class="navbar-toggler d-lg-none d-flex justify-content-end " type="button" data-toggle="collapse" data-target="#navbarNav-hdnb" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+                <div class="navbar navbar-expand-lg col-sm-12 d-block d-lg-flex  align-items-left align-items-lg-center px-0">
+                    <ul class="collapse navbar-collapse  list-unstyled" id="navbarNav-hdnb">
+                        <li><a href="/bai-viet/huong-dan-dang-ky-tai-khoan-tren-website-hanoma-vn-41599">Hướng Dẫn Đăng Ký Tài Khoản</a></li>
+                        <li><a href="/bai-viet/huong-dan-tao-gian-hang-tren-website-hanoma-vn-41600">Hướng Dẫn Mở Gian Hàng Kinh Doanh</a></li>
+                        <li><a href="#">Hướng Dẫn Nâng Cấp Gian Hàng</a></li>
+                        <li><a href="/bai-viet/huong-dan-dang-tin-ban-san-pham-tren-website-hanoma-vn-41601">Hướng Dẫn Đăng Tin Bán Thiết Bị</a></li>
+                        <li><a href="/bai-viet/huong-dan-dang-tin-ban-phu-tung-tren-website-hanoma-vn-41725">Hướng Dẫn Đăng Tin Bán Phụ Tùng</a></li>
+                        <li><a href="/bai-viet/huong-dan-dang-tin-ban-vat-tu-tren-website-hanoma-vn-41726">Hướng Dẫn Đăng Tin Bán Vật Tư</a></li>
+                        <li><a href="/bai-viet/huong-dan-dang-tin-cho-thue-tren-website-hanoma-vn-41728">Hướng Dẫn Đăng Tin Cho Thuê Thiết Bị</a></li>
+                        <li><a href="/bai-viet/huong-dan-dang-tin-cung-cap-dich-vu-tren-website-hanoma-vn-41727">Hướng Dẫn Đăng Tin Cung Cấp Dịch Vụ</a></li>
+                        <li><a href="#">Trung Tâm Hỗ Trợ Người Bán</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12 col-lg-3 col-sm-12 pr-lg-0 toturial">
+                <div class="toturial-title d-flex d-lg-block justify-content-between align-items-center">
+                    <h4 class="d-block d-sm-flex justify-content-start text-uppercase">DÀNH CHO NGƯỜI BÁN</h4>
+                    <button class="navbar-toggler d-lg-none d-flex justify-content-end " type="button" data-toggle="collapse" data-target="#navbarNav-dcnb" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+                <div class="navbar navbar-expand-lg d-block d-lg-flex  align-items-left align-items-lg-center px-0">
+                    <ul class="collapse navbar-collapse  list-unstyled" id="navbarNav-dcnb">
+                        <li><a href="/bai-viet/gioi-thieu-ve-hanoma-1681">Giới Thiệu</a></li>
+                        <li><a href="/bai-viet/quy-che-hoat-dong-san-tmdt-hanoma-vn-1682">Quy Chế Hoạt Động</a></li>
+                        <li><a href="/bai-viet/chinh-sach-bao-mat-1693">Chính Sách Bảo Mật</a></li>
+                        <li><a href="/bai-viet/dieu-khoan-va-dieu-kien-su-dung-1683">Điều Khoản Và Điều Kiện Sử Dụng</a></li>
+                        <li><a href="/bai-viet/co-che-giai-quyet-tranh-chap--khieu-nai-1708">Giải Quyết Tranh Chấp, Khiếu Nại</a></li>
+                        <li><a href="/bai-viet/hop-tac-cung-hanoma-1691">Hợp Tác Cùng Hanoma</a></li>
+
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12 col-lg-3 col-sm-12 pr-lg-0 toturial">
+                <div class="toturial-title d-flex d-lg-block justify-content-between align-items-center">
+                    <h4 class="d-block d-sm-flex justify-content-start text-uppercase">DÀNH CHO NGƯỜI BÁN</h4>
+                    <button class="navbar-toggler d-lg-none d-flex justify-content-end " type="button" data-toggle="collapse" data-target="#navbarNav-dcnb1" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+                <div class="navbar navbar-expand-lg d-block d-lg-flex  align-items-left align-items-lg-center px-0">
+                    <ul class="collapse navbar-collapse  list-unstyled" id="navbarNav-dcnb1">
+                        <li><a href="#">Dịch Vụ Bán Hộ</a></li>
+                        <li><a href="#">Dịch Vụ Mua Hộ</a></li>
+                        <li><a href="#">Dịch Vụ Vận Chuyển</a></li>
+                        <li><a href="#">Dịch Vụ Thanh Toán</a></li>
+                        <li><a href="#">Dịch Vụ Cho Thuê Tài CHính</a></li>
+                        <li><a href="#">Dịch Vụ Nhập Khẩu Uỷ Thác</a></li>
+                        <li><a href="#">Giao Dịch Đảm Bảo Qua Hanoma</a></li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex ">
+            <div class="copyright col-12">
+                <div class="d-flex align-items-center mb-1 mb-sm-0">
+                    <a href="/" class="d-inline-block  mr-2">
+                        <img src="~/Assets/images/logo2.webp" alt="logo" />
+                    </a>
+                    <h4 class="d-inline-block ">Nền Tảng Kinh Doanh Máy Móc Thiết Bị Và Phương Tiện Vận Tải Số 1 Việt Nam</h4>
+                </div>
+                <h5 class="mt-2 mt-sm-1 font-weight-nomal">Bản Quyền Thuộc Về Công Ty Cổ Phần ILOTT. Nghiêm Cấm Sao Chép Mà Không Có Sự Đồng Ý Bằng Văn Bản</h5>
+                <h5 class="mt-2 mt-sm-1 font-weight-nomal">Giấy Phép Hoạt Động Mạng Xã Hội Số 58/GP-BTTTT Do Bộ Thông Tin & Truyền Thông Cấp Ngày 15/02/2019</h5>
+            </div>
+        </div>
+        <div class=" d-block d-lg-flex my-2 mt-lg-4 mb-lg-0 text-center align-items-center">
+            <div class="col-12  col-lg-5 col-md-12 col-sm-12">
+                <h4>Mua Bán Dễ Dàng Hơn Trên Điện Thoại Thông Minh:</h4>
+                <div class="d-block d-lg-flex  my-2 mt-lg-4 mb-lg-0 ">
+                    <a href="https://hanoma.app.link" class="mr-4">
+                        <img src="~/Assets/images/applestore.webp" alt="applestore" />
+                    </a>
+                    <a href="https://hanoma.app.link">
+                        <img src="~/Assets/images/googlestore.webp" alt="googlestore" />
+                    </a>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4 col-md-12 col-sm-12">
+                <h4>Theo Dõi Chúng Tôi Trên Mạng Xã Hội</h4>
+                <div class="d-block d-lg-flex  mt-4">
+                    <a href="#" class="mr-2">
+                        <img src="~/Assets/images/telegram.webp" alt="telegram" />
+                    </a>
+                    <a target="_blank" href="https://www.youtube.com/channel/UCYj4IR8kfoJo5XqNWufqFjQ" class="mr-2">
+                        <img src="~/Assets/images/youtube.webp" alt="youtube" />
+                    </a>
+                    <a target="_blank" href="https://www.facebook.com/HANOMA.VN/" class="mr-2">
+                        <img src="~/Assets/images/facebook.webp" alt="facebook" />
+                    </a>
+                    <a href="#" class="mr-2">
+                        <img src="~/Assets/images/twiter.webp" alt="twiter" />
+                    </a>
+                    <a href="#">
+                        <img src="~/Assets/images/google.webp" alt="google" />
+                    </a>
+                </div>
+            </div>
+            <div class="col-12 col-lg-3 col-md-12 col-sm-12 d-block d-lg-flex align-items-lg-end align-items-center text-center">
+
+                <img src="~/Assets/images/certificate.webp" alt="certificate" />
+
+            </div>
+        </div>
+    </div>
+
+</section>
+<!-- menu mobile -->
+<section>
+    <div class="navigation d-block d-lg-none">
+        <div class="d-flex align-items-center text-center list-unstyled mb-0 bg-white">
+            <a href="/" class="menu-item home"><img src="~/Assets/images/home.webp" alt="home" /><span> Trang chủ</span></a>
+            <a href="/tin-tuc" class="menu-item news"><img src="~/Assets/images/news.webp" alt="news" /><span>Tin Tức</span></a>
+            @if (httpContextaccessor.HttpContext.Request.Cookies["JWT"] != null)
+            {
+                <a href="/tai-khoan?id=1" class="menu-item noti"><img src="~/Assets/images/bell.webp" alt="bell" /><span class="count" id="noti-count2"></span><span>Thông báo</span></a>
+                <a href="/tai-khoan" class="menu-item account"><img src="~/Assets/images/profile.webp" alt="profile" /><span>Tài khoản</span></a>
+            }
+            else
+            {
+                <a href="@Url.Action("Login","Account")" class="menu-item noti ajaxcall"><img src="~/Assets/images/bell.webp" alt="bell" /><span class="count"></span><span>Thông báo</span></a>                
+                <a href="@Url.Action("Login","Account")" class="menu-item account ajaxcall"><img src="~/Assets/images/profile.webp" alt="profile" /><span>Tài khoản</span></a>
+            }
+        </div>
+
+    </div>
+</section>
+<div class="modal fade" id="popup" tabindex="-1" role="dialog" aria-labelledby="popup" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="text-right mx-1">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function RegSubscription() {
+        var email = $(".send-mail-form input").val();
+        $.ajax({
+            type: "POST",
+            url: "/Home/Subscription?email=" + email,
+            dataType: "json",
+            success: function (response) {
+                alert(response);
+                //toastr.success(response);
+            },
+            failure: function (response) {
+                alert(response.responseText);
+                //toastr.error(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const typeSearch = urlParams.get('typeSearch') == null ? "1" : urlParams.get('typeSearch');
+        $('.search-form option[value=' + typeSearch + ']').attr('selected', 'selected');
+
+        if ('@User.Identity.IsAuthenticated' === 'True') {
+            $.ajax({
+                type: "GET",
+                url: "/Home/Notification",
+                dataType: "html",
+                success: function (response) {
+                    $('#notification').html(response);
+                },
+                failure: function (response) {
+
+                },
+                error: function (response) {
+
+                }
+            });
+
+            $.ajax({
+                type: "GET",
+                url: "/Home/CountNotification",
+                dataType: "html",
+                success: function (response) {
+                    if (response > 9) {
+                        document.getElementById("noti-count2").innerHTML = "9+";
+                    }
+                    else {
+                        document.getElementById("noti-count2").innerHTML = "" + response;
+                    }
+                },
+                failure: function (response) {
+
+                },
+                error: function (response) {
+
+                }
+            });
+        }
+
+    });
+</script>

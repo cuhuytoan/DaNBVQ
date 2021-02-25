@@ -1,0 +1,244 @@
+﻿@{
+    var userProfile = (HNM.DataNC.ModelsNC.ModelsDTO.ProfilersDTO)ViewBag.UserProfile;
+    var ListQuoteAds = (List<HNM.DataNC.Models.QuoteAds>)ViewBag.ListQuoteAds;
+}
+
+<style>
+    .table td, .table th {
+        padding: .45rem;
+        vertical-align: top;
+        border-top: 1px solid #dee2e6;
+    }
+    .modal-dialog {
+        max-width: 1200px;
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+</style>
+<div class="tab-pane fade" id="taikhoanads" role="tabpanel" aria-labelledby="taikhoanads-tab">
+    <div class="bg-white px-3 border-radius d-flex align-items-center pt-3 pt-lg-0">
+        <div class="col-7">
+            <span class="hello">Xin chào, @userProfile.FullName </span>
+            <p>Hãy chú ý bảo vệ tài khoản của mình bằng cách thực hiện đầy đủ các bước theo hướng dẫn của Hanoma, và đặc biệt đừng chia sẻ tài khoản của mình với người khác nhé!</p>
+        </div>
+        <div class="col-5">
+            <img src="~/images/protect.png" />
+        </div>
+    </div>
+    <div class="bg-white mt-3 border-radius p-2 px-md-5 py-md-5 pt-5">
+        <div class="title-page pb-4 mb-4">
+            <h5 class="text-uppercase font-weight-bold">LIÊN HỆ QUẢNG CÁO</h5>
+        </div>
+        <div class="content-page d-block d-lg-flex justify-content-center">
+            <div class="col-12 col-lg-6 col-md-12 col-sm-12  text-center pl-0 pr-0 pr-md-2">
+                <img src="./images/banner-com.png" />
+                <div class="mt-3 mt-lg-0 text-left">
+                    <ul class="list-unstyled mb-2">
+                        <li class="com-info com-name">CÔNG TY CỔ PHẦN ILOTT</li>
+                        <li class="com-info ">Tầng 2 tòa nhà N07B2 khu đô thị mới Dịch Vọng, phường Dịch Vọng, quận Cầu Giấy</li>
+                        <li class="com-info com-phone">098 735 7777</li>
+                        <li class="com-info com-email">quangcao@hanoma.vn</li>
+                    </ul>
+                    <button class="popup-button pl-30" type="button" data-toggle="modal" data-target="#bangbaogia">
+                        <span> XEM BÁO GIÁ</span>
+                        Chi tiết các gói quảng cáo của Hanoma
+                    </button>
+                    <div class="modal fade" id="bangbaogia" tabindex="-1" role="dialog" aria-labelledby="bangbaogia" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document" style="margin:auto; margin-top: 60px">
+                            <div class="modal-content">
+                                <div class=" text-center boder-bottom pt-3">
+                                    <h4 class="modal-title " id="exampleModalLabel">BÁO GIÁ CÁC GÓI QUẢNG CÁO TRÊN HANOMA</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="table table-bordered table-responsive">
+                                        <thead style="background-color: #c7d1a8">
+                                            <tr>
+                                                <th rowspan="2" style="text-align: center; vertical-align: middle;">STT</th>
+                                                <th rowspan="2" style="text-align: center; vertical-align: middle;">Tên gói QC</th>
+                                                <th rowspan="2" style="text-align: center; vertical-align: middle;">Vị trí quảng cáo</th>
+                                                <th rowspan="2" style="text-align: center; vertical-align: middle;">Mô tả chi tiết</th>
+                                                <th rowspan="2" style="text-align: center; vertical-align: middle">Số lượng quảng cáo tối đa</th>
+                                                <th colspan="2" style="text-align: center; vertical-align: middle">Số lượng tiếp cận dự kiến</th>
+                                                <th rowspan="2" style="text-align: center; vertical-align: middle">Đơn giá quảng cáo</th>
+                                            </tr>
+                                            <tr>
+                                                <th style="text-align: center">Một tuần</th>
+                                                <th style="text-align: center">Một tháng</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                var stt = 1;
+                                            }
+                                            @foreach (var item in ListQuoteAds)
+                                            {
+                                                var a = stt++;
+                                                <tr>
+                                                    <td style="text-align: center; width: 30px">@a</td>
+                                                    <td style="width: 100px">@item.Name</td>
+                                                    <td>@item.Description</td>
+                                                    <td style="width: 300px">@item.Detail</td>
+                                                    <td style="width: 130px">@item.AmountAdsMax</td>
+                                                    <td>@item.AccessPerWeek</td>
+                                                    <td>@item.AccessPerMonth</td>
+                                                    <td>@Utils.RenderPrice(item.Price)/@item.Unit</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                    <p style="font-size: 14px">*: Giá trên chưa có VAT 10%</p>
+                                </div>
+                                <div class=" pb-3 text-center">
+                                    <button type="button" class="btn btn-primary btn-close" data-dismiss="modal">Đóng</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <form class="col-12 col-lg-6 col-md-12 col-sm-12 pl-0 mt-3 mt-lg-0 pr-0 pt-3 adsform">
+                <div class="form-group">
+                    <label>Họ và tên: *</label>
+                    <input type="text" name="Name" id="Name" class="form-control" placeholder="VD: Nguyen Van A">
+                </div>
+                <div class="form-group">
+                    <label>Số điện thoại: *</label>
+                    <input type="number" name="Mobile" id="Mobile" class="form-control" placeholder="123456789">
+                </div>
+                <div class="form-group">
+                    <label>Địa chỉ: *</label>
+                    <input type="text" name="Address" id="Address" class="form-control" placeholder="Cầu Giấy, Hà Nội">
+                </div>
+                <div class="form-group pt-4">
+                    <label>Nội dung tin nhắn: *</label>
+                    <textarea type="text" name="Content" id="Content" class="form-control" rows="5" placeholder="Nhập nội dung"></textarea>
+                </div>
+                <div class="col-auto justify-content-start d-flex pl-0">
+                    <button type="button" onclick="ContactAds()" class="btn btn-primary mb-2">Gửi ngay</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function ContactAds() {
+        var name = $("#Name").val();
+        var mobile = $("#Mobile").val();
+        var address = $("#Address").val();
+        var content = $("#Content").val();
+        if (name == "") {
+            toastr["error"]("Họ tên không được để trống!");
+            $("#Name").focus();
+            return;
+        }
+        if (jQuery.trim(name) == "") {
+            toastr["error"]("Họ tên không được nhập toàn bộ là khoảng trắng");
+            return false;
+        }
+        if (name != "") {
+            if (name.length > 50) {
+                toastr["error"]("Họ tên không được quá 50 ký tự!");
+                $("#Name").focus();
+                return;
+            }
+        }
+        if (mobile == "") {
+            toastr["error"]("Số điện thoại không được để trống!");
+            $("#Mobile").focus();
+            return;
+        }
+        if (jQuery.trim(mobile) == "") {
+            toastr["error"]("Số điện thoại không được nhập toàn bộ là khoảng trắng");
+            return false;
+        }
+        if (mobile != "") {
+            if (mobile.length < 10) {
+                toastr["error"]("Số điện thoại phải trên 10 ký tự!");
+                $("#Mobile").focus();
+                return;
+            }
+
+            if (mobile.length > 11) {
+                toastr["error"]("Số điện thoại không được quá 11 ký tự!");
+                $("#Mobile").focus();
+                return;
+            }
+        }
+        if (address == "") {
+            toastr["error"]("Địa chỉ không được để trống!");
+            $("#Address").focus();
+            return;
+        }
+
+        if (jQuery.trim(address) == "") {
+            toastr["error"]("Địa chỉ không được nhập toàn bộ là khoảng trắng");
+            return false;
+        }
+        if (address != "") {
+            if (name.length > 200) {
+                toastr["error"]("Địa chỉ không được quá 200 ký tự!");
+                $("#Address").focus();
+                return;
+            }
+        }
+        if (content == "") {
+            toastr["error"]("Mô tả không được để trống!");
+            $("#Content").focus();
+            return;
+        }
+        if (jQuery.trim(content) == "") {
+            toastr["error"]("Mô tả không được nhập toàn bộ là khoảng trắng");
+            return false;
+        }
+        if (content != "") {
+            if (content.length < 10) {
+                toastr["error"]("Mô tả phải trên 10 ký tự!");
+                $("#Content").focus();
+                return;
+            }
+
+            if (content.length > 2000) {
+                toastr["error"]("Mô tả không được quá 2000 ký tự!");
+                $("#Content").focus();
+                return;
+            }
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/Profile/ContactAds?Mobile=" + mobile + "&Name=" + name + "&Address=" + address + "&Content=" + content,
+            dataType: "html",
+            success: function (response) {
+                var result = JSON.parse(response);
+                if (result.ErrorCode == "00") {
+                    toastr["success"](result.Message);
+                    toastr.options.fadeOut = 5000;
+                    setTimeout(
+                        function () {
+                            window.location.href = "/tai-khoan"
+                        },
+                        3000);
+                }
+                else {
+                    toastr["error"](result.Message);
+                    window.location.href = "/tai-khoan";
+                }
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+</script>

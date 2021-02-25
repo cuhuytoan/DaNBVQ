@@ -1,0 +1,153 @@
+﻿
+<style>
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+
+    .hideMe {
+        display: none;
+    }
+</style>
+
+@*Step1*@
+
+<div id="modalForgot1" class="bg-white py-5 account mx-auto px-2">
+    <div class="header-box text-center mb-5 ">
+        <a href="/"><img src="~/Assets/images//logo.png" /></a>
+        <h3 class="text-uppercase mt-1">lấy lại mật khẩu</h3>
+    </div>
+    <div class="content-box  mx-auto text-left">
+        <form id="forgotStep1" class="">
+            <div class="form-group">
+                <label for="inputAddress">Số điện thoại:</label>
+                <input type="text" pattern="\d*" maxlength="10" id="username" class="form-control" placeholder="Nhập số điện thoại của bạn" onkeydown="javascript: return event.keyCode === 8 ||event.keyCode === 46 ? true : !isNaN(Number(event.key))" />
+            </div>
+
+            <div class="note pt-4">
+                <p>Bước 1: Vui lòng nhập chính xác số điện thoại đã sử dụng để đăng ký tài khoản vào Hanoma.</p>
+            </div>
+
+            <ul class="progressbar-account m-0 d-table">
+                <li class="step1 active"><div class="counter">1</div></li>
+                <li class="step2"><div class="counter">2</div></li>
+                <li class="step3"><div class="counter">3</div></li>
+
+            </ul>
+            <div class=" justify-content-center d-flex mt-3">
+                <button type="submit" class="btn btn-primary mb-2">Tiếp theo</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@*Step2*@
+
+<div id="modalForgot2" class="bg-white py-5 account mx-auto px-2 hideMe">
+    <div class="header-box text-center  mb-5">
+        <a href="/"><img src="~/Assets/images//logo.png" /></a>
+        <h3 class="text-uppercase mt-1">lấy lại mật khẩu</h3>
+    </div>
+    <div class="content-box  mx-auto text-left">
+        <form id="forgotStep2" class="">
+            <div class="form-group">
+                <label for="inputAddress">Nhập mã OTP:</label>
+                <input id="verifyCode" type="text" pattern="\d*" maxlength="6" class="form-control" placeholder="Nhập mã OTP" onkeydown="javascript: return event.keyCode === 8 ||event.keyCode === 46 ? true : !isNaN(Number(event.key))">
+                <span class="time-otp">Mã OTP sẽ được gửi đến trong <span class="time-count">60</span>s</span>
+                <button type="button" class="btn btn-success btn-block" id="resend" style="color: white" onclick="resendOTP()">Gửi lại OTP <span id="timedown"></span></button>
+            </div>
+
+            <div class="note  pt-4">
+                <p>Bước 2: Nhập mã OTP được gửi về số điện thoại </p>
+            </div>
+
+            <ul class="progressbar-account m-0 d-table">
+                <li class="step1 complete"><div class="counter">1</div></li>
+                <li class="step2 active"><div class="counter">2</div></li>
+                <li class="step3"><div class="counter">3</div></li>
+
+            </ul>
+            <div class=" justify-content-center d-flex mt-3">
+                <button type="submit" class="btn btn-primary mb-2">Xác nhận</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@*Step3*@
+
+<div id="modalForgot3" class="bg-white py-5 account mx-auto px-2 hideMe">
+    <div class="header-box text-center  mb-5">
+        <a href="/"><img src="~/Assets/images//logo.png" /></a>
+        <h3 class="text-uppercase mt-1">lấy lại mật khẩu</h3>
+    </div>
+    <div class="content-box  mx-auto text-left">
+        <form id="forgotStep3" class="">
+            <div class="form-group">
+                <label for="inputAddress">Nhập mật khẩu:</label>
+                <input id="pwd" type="password" class="form-control" placeholder="Nhập mật khẩu của bạn">
+
+            </div>
+            <div class="form-group">
+                <label for="inputAddress">Xác nhận mật khẩu:</label>
+                <input id="repwd" type="password" class="form-control" placeholder="Nhập lại mật khẩu của bạn">
+            </div>
+
+            <div class="note pt-4">
+                <p>Bước 3: Thiết lập mật khẩu mới cho tài khoản.</p>
+            </div>
+
+            <ul class="progressbar-account m-0 d-table">
+                <li class="step1 complete"><div class="counter">1</div></li>
+                <li class="step2 complete"><div class="counter">2</div></li>
+                <li class="step3 active"><div class="counter">3</div></li>
+            </ul>
+            <div class=" justify-content-center d-flex mt-3">
+                <button type="submit" class="btn btn-primary mb-2">Xác nhận thay đổi</button>
+            </div>
+        </form>
+    </div>
+</div>
+@*Step4 Login*@
+<div id="modalLogin" class="bg-white py-5 account mx-auto px-2 hideMe">
+    <div class="header-box text-center ">
+        <a href="/"><img src="~/Assets/images/logo.png" /></a>
+        <h3 class="text-uppercase mt-1">ĐĂNG NHẬP</h3>
+    </div>
+    <div class="content-box  mx-auto text-left">
+        <form id="login" class="" action="/tai-khoan">
+            <div class="form-group">
+                <label for="inputAddress">Số điện thoại:</label>
+                <input type="text" pattern="\d*" maxlength="10" id="username" class="form-control" placeholder="Nhập số điện thoại của bạn">
+            </div>
+            <div class="form-group">
+                <label for="inputAddress">Mật khẩu:</label>
+                <input type="password" id="pwd" class="form-control">
+            </div>
+            <p class="text-right">@Html.ActionLink("Bạn quên mật khẩu?", "ForgotPassword", "Account", null, new { @class = "ajaxcall" })</p>
+
+            <div class=" justify-content-center d-flex mt-5">
+                <button type="submit" id="login_submit" class="btn btn-primary mb-2">Đăng nhập</button>
+            </div>
+            <p class="text-center">Bạn chưa có tài khoản? @Html.ActionLink("Đăng ký ngay", "Register", "Account", null, new { @class = "ajaxcall" })</p>
+        </form>
+
+    </div>
+</div>
+@*Loading*@
+<div id="loading" class="hideMe">
+    <div>
+        <lottie-player class="m-auto" src="./Assets/json/hnm-loading.json" background="transparent" speed="1" style="max-width: 100px;" loop autoplay></lottie-player>
+    </div>
+</div>
+<script src="~/Assets/jsController/AccountController.js"></script>
+
+

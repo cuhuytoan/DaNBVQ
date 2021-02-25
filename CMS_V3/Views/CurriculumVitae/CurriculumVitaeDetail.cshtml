@@ -1,0 +1,280 @@
+﻿@using Microsoft.Extensions.Configuration
+@using Mono.Web
+@inject IConfiguration Configuration
+
+@{
+    var MenuMachine = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuMachine;
+    var MenuMaterials = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuMaterials;
+    var MenuServices = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuServices;
+    var RelateCV = (List<HNM.DataNC.ModelsNC.ModelsDTO.CurriculumVitaeDTO>)ViewBag.RelateCV;
+}
+
+@model HNM.DataNC.ModelsNC.ModelsDTO.CVDetailDTO
+
+@{
+    ViewBag.Title = @Model.CVDetails.FullName;
+}
+
+
+@section metatags{
+    <meta name="keywords" content="@HttpUtility.HtmlDecode(@Configuration["DefaultKeyword"])" />
+    <meta name="description" content="@HttpUtility.HtmlDecode(@Configuration["DefaultDescription"])" />
+    <link id="canonical" rel="canonical" href="@Configuration["DomainName"]/@Model.CVDetails.URL" />
+}
+
+<section class="category">
+    @await Html.PartialAsync("CurriculumVitaeHeader.cshtml")
+
+    <!-- Detail -->
+    <article>
+        <div class="article-content bg-white d-block d-lg-flex mt-3 pt-3">
+            <div class="col-12 col-lg-7 col-md-12 col-sm-12 prod-img pr-3 pr-lg-0">
+                <div class="swiper-container gallery-top">
+                    <div class="swiper-wrapper">
+                        @foreach (var item in Model.CVPictures)
+                        {
+                            <div class="swiper-slide"><div class="img-wrap"><img src="@item.UrlImage" /></div></div>
+                        }
+                    </div>
+                    <div class="swiper-pagination paging-right"></div>
+                    <div class="swiper-button-next swiper-button"></div>
+                    <div class="swiper-button-prev swiper-button"></div>
+                </div>
+                <div class="swiper-container gallery-thumbs mt-2">
+                    <div class="swiper-wrapper">
+
+                        @foreach (var item in Model.CVPictures)
+                        {
+                            <div class="swiper-slide"><div class="img-wrap"><img src="@item.UrlImage" /></div></div>
+                        }
+                    </div>
+                    <!-- Add Scrollbar -->
+                    <div class="swiper-scrollbar"></div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-5 col-md-12 col-sm-12 prod-shop">
+                <div class="product-name">
+                    <h1>@Model.CVDetails.FullName</h1>
+                </div>
+                <div class="price-box mt-2">
+                    @if (Model.CVDetails.Salary != null)
+                    {
+                        <span class="regular-price text-uppercase"> @HNM.CommonNC.Utils.RenderPrice(Model.CVDetails.Salary) đ</span>
+                    }
+                    else
+                    {
+                        <span class="regular-price text-uppercase">lương thỏa thuận</span>
+                    }
+                </div>
+                <div class="prod-info p-2 mt-2">
+                    <table>
+                        <tr><td>Số điện thoại:</td><td>@Model.CVDetails.Phone</td></tr>
+                        <tr><td>Ngành nghề:</td><td>@Model.CVDetails.CareerCategoryName</td></tr>
+                        @if (Model.CVDetails.Certificate != null)
+                        {
+                            <tr><td>Bằng cấp:</td><td>@Model.CVDetails.Certificate</td></tr>
+                        }
+                        else
+                        {
+                            <tr><td>Bằng cấp:</td><td>Không xác định</td></tr>
+                        }
+                        <tr><td>Thiết bị liên quan:</td><td>@Model.CVDetails.ProductCateRelateName</td></tr>
+                        <tr>
+                            <td>Kinh nghiệm:</td>
+
+                            @if (Model.CVDetails.YearsOfExperience != null)
+                            {
+                                <td>@Model.CVDetails.YearsOfExperience năm</td>
+                            }
+                            else
+                            {
+                                <td>Không xác định</td>
+                            }
+
+                        </tr>
+                        <tr>
+                            <td>Mức lương:</td>
+                            @if (Model.CVDetails.Salary != null)
+                            {
+                                <td>@Model.CVDetails.Salary</td>
+                            }
+                            else
+                            {
+                                <td>Lương thỏa thuận</td>
+                            }
+                        </tr>
+                        <tr>
+                            <td>Nơi làm việc:</td>
+                            @if (Model.CVDetails.LocalWork != null)
+                            {
+                                <td>@Model.CVDetails.LocalWork</td>
+                            }
+                            else
+                            {
+                                <td>Chưa xác định</td>
+                            }
+                        </tr>
+
+                    </table>
+
+                </div>
+                <div class="com-info mt-2 border-top pt-2">
+
+                    <div class="d-flex align-items-top person-info mt-2 ">
+                        <div class="image col-4 px-0"><img class="card-img-top" src="@Model.CVDetails.FullUrlAvatar" data-src="@Model.CVDetails.FullUrlAvatar" alt="@Model.CVDetails.TitleName"></div>
+                        <div class="card-body col-8 py-0">
+                            <h4 class="card-title mt-3 mb-2">@Model.CVDetails.FullName</h4>
+                            <table>
+
+                                <tr><td><span class="lable font-weight-bold">Ngày sinh:</span></td><td>@Convert.ToDateTime(Model.CVDetails.DOB).ToString("dd/MM/yyyy")</td></tr>
+                                @if (Model.CVDetails.Gender == true)
+                                {
+                                    <tr><td><span class="lable font-weight-bold">Giới tính:</span></td><td>Nam</td></tr>
+                                }
+                                else
+                                {
+                                    <tr><td><span class="lable font-weight-bold">Giới tính:</span></td><td>Nữ</td></tr>
+                                }
+                                <tr>
+                                    <td><span class="lable font-weight-bold">Địa chỉ:</span></td>
+                                    @if (Model.CVDetails.HomeTown != null)
+                                    {
+                                        <td>@Model.CVDetails.HomeTown</td>
+                                    }
+                                    else
+                                    {
+                                        <td>Chưa xác định</td>
+                                    }
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-md-flex d-block align-items-center my-3">
+                    <div class="call col-lg-6 col-md-6 col-sm-12 col-12 mb-2">
+                        <a href="call:@Model.CVDetails.Phone"><img src="~/images/call.png" />@Model.CVDetails.Phone</a>
+                    </div>
+                    <div class="message col-lg-6 col-md-6 col-sm-12 col-12 mb-2">
+                        <a href="mail:@Model.CVDetails.Phone"><img src="~/images/message.png" />Nhắn tin</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </article>
+
+    <article>
+        <div class="article-content bg-white  mt-2 py-2">
+            <div class="tab-header">
+                <ul class="nav nav-tabs  " id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#detail" role="tab" aria-controls="detail" aria-selected="true">Giới thiệu</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="tab-content col-12" id="myTabContent" style="clear: both;">
+                <div class="tab-pane fade show active" id="detail" role="tabpanel" aria-labelledby="detail-tab">
+
+                    <p>
+                        @Html.Raw(@HttpUtility.HtmlDecode(Model.CVDetails.IntroInfomation))
+                    </p>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <!-- Hồ sơ tương tự -->
+    <article>
+        <div class="article-header d-block d-lg-flex mt-2">
+            <div class="category-title  col-12 col-lg-3 col-sm-12 pr-0  align-items-center d-block d-lg-flex">
+                <h3 class="title">Hồ sơ tương tự</h3>
+                <button class="navbar-toggler bg-black d-lg-none d-flex" type="button" data-toggle="collapse" data-target="#navbarNav-cncc" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <div class="navbar navbar-expand-lg category-menu  sm-menu col-12 col-lg-9 col-sm-12 d-block d-lg-flex  align-items-center">
+
+            </div>
+        </div>
+
+        <div class="article-content profile p-2 bg-white">
+            <div class="row m-0">
+                @foreach (var item in RelateCV)
+                {
+                    <div class="col-lg-4 col-md-6 col-sm-12 col-12 pb-2 px-1 ">
+                        <div class="card p-1">
+                            <a href="/@item.URL" class="d-flex">
+                                <div class="image-profile col-4 px-0"><div class="img-profile" style="background-image: url('@item.FullUrlAvatar')"></div></div>
+                                <div class="card-body col-8 py-0">
+                                    <h6 class="card-title">@item.FullName</h6>
+                                    <p class="card-text mt-1 mb-0">@item.TitleName</p>
+                                    <div class="d-block  mt-1">
+                                        <span class="d-flex career-hover "><span class="lable text-muted font-weight-bold">Ngành nghề:</span>@item.MainOccupation</span>
+                                        @if (item.LocalWork != null)
+                                        {
+                                            <span class="d-flex address-hover  "><span class="lable text-muted font-weight-bold">Địa điểm:</span> @item.LocalWork</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="d-flex address-hover  "><span class="lable text-muted font-weight-bold">Địa điểm:</span> Không xác định</span>
+                                        }
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </article>
+
+
+    <article>
+        <div class="article-banner d-flex ads-container mx-3 mt-3">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <a href="#"><img src="~/Assets/images/article-banner1.webp" /></a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="#"><img src="~/Assets/images/article-banner2.webp" /></a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="#"><img src="~/Assets/images/article-banner3.webp" /></a>
+                </div>
+            </div>
+        </div>
+    </article>
+
+
+</section>
+
+
+
+<script type="application/ld+json">
+    {
+    "@@context": "https://schema.org",
+    "@@type": "NewsArticle",
+    "mainEntityOfPage": {
+    "@@type": "WebPage",
+    "@@id": "https://hanoma.vn/ho-so/@ViewBag.CareeUrl"
+    },
+    "headline": "CurriculumVitae headline",
+    "datePublished": "@Model.CVDetails.LastEditDate",
+    "dateModified": "@Model.CVDetails.LastEditDate",
+    "author": {
+    "@@type": "Person",
+    "name": ""
+    },
+    "publisher": {
+    "@@type": "Organization",
+    "name": "Hanoma.vn",
+    "logo": {
+    "@@type": "ImageObject",
+    "url": "https://hanoma.vn/assets/pages/img/logo_hanoma2.png"
+    }
+    },
+    "description": "@Configuration"
+    }
+</script>

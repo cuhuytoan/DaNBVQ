@@ -1,0 +1,265 @@
+﻿@{
+    ViewBag.Title = "Quản lý gian hàng";
+    Layout = "~/Areas/Shopman/Views/Shared/_LayoutDasboard.cshtml";
+    var ListProduct = (HNM.DataNC.ModelsNC.ModelsDTO.ProductPaggingDTO)ViewBag.ListProduct;
+}
+
+<div class="col-12 col-lg-10  content-right">
+    <!--<div class="chart d-flex row">
+        <div class="col-12 col-md-6 mb-3 mb-md-0 d-flex-row">
+            <div class="bg-white d-flex box-chart py-2">
+                <div class="col-4 px-0">
+                    <div class="text-center m-auto p-3">
+                        <div id="chart-area" class="nccnho"></div>-->
+    <!-- <div id="chart-area" class = "nccvua"></div>
+    <div id="chart-area" class = "ncclon"></div> -->
+    <!--</div>
+
+                </div>
+                <div class="col-8  pl-0">
+                    <h3 class="text-title">NHÀ CUNG CẤP NHỎ</h3>
+                    <ul class=" list-unstyled mt-2 mb-0">
+                        <li class="d-flex align-items-center"><span class="cicle baidangcl"></span>Số lượng bài đăng còn lại <span class="total-count">98/140 Bài</span></li>
+                    </ul>
+                    <p class="nangcap-des">Nâng cấp gian hàng để đăng thêm nhiều sản phẩm và sử dụng đầy đủ chức năng.</p>
+                    <a href="#" class="btn link-nangcap">NÂNG CẤP NGAY</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 mb-3 mb-md-0 d-flex-row ">
+            <div class="bg-white d-flex box-chart py-2">
+                <div class="col-4 px-0">
+                    <div class="text-center m-auto p-3">
+                        <div id="usersChart"></div>
+                    </div>
+
+                </div>
+                <div class="col-8 pl-0">
+                    <h3 class="total-document mt-3">750</h3>
+                    <p class="font-weight-bold">Tin đăng thành công</p>
+                    <ul class="legend-document list-unstyled mt-2  mb-0">
+                        <li><span class="cicle sanpham"></span><span class="total-count">300</span>Sản phẩm</li>
+                        <li><span class="cicle bainhatky"></span><span class="total-count">100</span>Bài nhật ký</li>
+                        <li><span class="cicle khuyenmai"></span><span class="total-count">200</span>Khuyến mại</li>
+                        <li><span class="cicle kienthuc"></span><span class="total-count">150</span>Kiến thức</li>
+
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <div class="content">
+        <div class="content-header my-4">
+            <h4 class="font-weight-bold">SẢN PHẨM MỚI ĐĂNG</h4>
+        </div>
+        <div class="table-responsive">
+            <table style="width:100%" class="bg-white dashboard-table table">
+                <thead>
+                <th width="5"><input name="checkbox" type="checkbox" value=""></th>
+                <th width="35">Thông tin sản phẩm</th>
+                <th width="10">Tình trạng</th>
+                <th width="25">Người liên hệ</th>
+                <th width="25">Số điện thoại</th>
+                <th width="10">Lượt xem</th>
+                </thead>
+                <tbody>
+                    @foreach (var item in ListProduct.Data)
+                    {
+                        <tr>
+                            <td><input name="checkbox" type="checkbox" value=""></td>
+                            <td>
+                                <div class="row mx-0">
+                                    <div class="col-3 pl-0">
+                                        <img src="@item.UrlImage" />
+                                    </div>
+                                    <div class="col-9 px-0">
+                                        <a href="/@item.FullURL">
+                                            <h5 class="font-weight-bold">@item.Name</h5>
+                                        </a>
+                                        <ul class="list-unstyled mod-date">
+                                            <li><span class="label">Thời gian tạo:</span><span>@Convert.ToDateTime(item.CreateDate).ToString("hh:mm tt dd/MM/yyyy")</span></li>
+                                            <li><span class="label">Lần cuối chỉnh sửa:</span><span>@Convert.ToDateTime(item.LastEditDate).ToString("hh:mm tt dd/MM/yyyy")</span></li>
+                                        </ul>
+                                        <ul class="nav nav-prod">
+                                            @if (item.StatusType_ID == 5)
+                                            {
+                                                <li><a href="javascript:void(0)" onclick="ReUp(@item.ProductId)">Khôi phục</a></li>
+                                            }
+                                            else
+                                            {
+                                                <li><a href="javascript:void(0)" onclick="RenewProduct(@item.ProductId)">Làm mới</a></li>
+
+                                                @if (item.ProductType_ID == 1)
+                                                {
+                                                    <li><a href="/Shopman/Product/EditSellingEquipment?ProductId=@item.ProductId">Chỉnh sửa</a></li>
+                                                }
+                                                @if (item.ProductType_ID == 3)
+                                                {
+                                                    <li><a href="/Shopman/Product/EditEmployEquipment?ProductId=@item.ProductId">Chỉnh sửa</a></li>
+                                                }
+                                                @if (item.ProductType_ID == 5)
+                                                {
+                                                    <li><a href="/Shopman/Product/EditAccessoriesEquipment?ProductId=@item.ProductId">Chỉnh sửa</a></li>
+                                                }
+                                                @if (item.ProductType_ID == 7)
+                                                {
+                                                    <li><a href="/Shopman/Product/EditMaterialEquipment?ProductId=@item.ProductId">Chỉnh sửa</a></li>
+                                                }
+                                                @if (item.ProductType_ID == 11)
+                                                {
+                                                    <li><a href="/Shopman/Product/EditServiceEquipment?ProductId=@item.ProductId">Chỉnh sửa</a></li>
+                                                }
+                                            }
+                                            <li><a class="delete" href="javascript:void(0)" onclick="DeletePost(@item.ProductId)">Xoá</a></li>
+                                            <li><a href="/@item.FullURL">Xem chi tiết</a></li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </td>
+
+
+                            @if (item.StatusType_ID == 1)
+                            {
+                                <td><span class="text-success">Đã lưu</span></td>
+                            }
+
+                            @if (item.StatusType_ID == 2)
+                            {
+                                <td><span class="text-primary">Chờ duyệt</span></td>
+                            }
+                            @if (item.StatusType_ID == 4)
+                            {
+                                <td><span class="text-success">Đã đăng</span></td>
+                            }
+                            @if (item.StatusType_ID == 5)
+                            {
+                                <td><span class="text-danger">Ngừng đăng</span></td>
+                            }
+
+                            @if (item.StatusType_ID == -1)
+                            {
+                                <td><span class="text-success">Hủy đăng</span></td>
+                            }
+
+                            <td>@item.SaleName</td>
+                            <td>@item.SalePhone</td>
+                            <td>@item.ViewCount</td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+        <div class="text-center mb-5">
+            <a href="/Shopman/Product" class="btn btn-primary mt-3 px-5">Trang quản lý sản phẩm</a>
+
+        </div>
+
+    </div>
+</div>
+
+
+<div class="modal fade" id="myModal2" role="dialog" style="margin-top: 100px;">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="text-align:left">Thông báo!</h4>
+            </div>
+            <div class="modal-body">
+                <p id="thongbaomain"> <span id="thongbaoLM"></span> -<a href="/Shopman/UpdateStore/Index" style="color: #FFC327"> Nâng cấp</a> để được thêm quyền này!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function ReUp(productId) {
+        var action = "K";
+        $.ajax({
+            type: "GET",
+            url: "/Product/ActionProductShopMan?ProductId=" + productId + "&ActionString=" + action,
+            dataType: "json",
+            success: function (response) {
+                var resultRes = JSON.parse(JSON.stringify(response));
+                if (resultRes.ErrorCode == "00" || resultRes.ErrorCode == "0") {
+                    toastr.success(resultRes.Message);
+                    window.location.href = "/Shopman/Product";
+                }
+                else {
+                    toastr.error(resultRes.Message);
+                }
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+
+    function DeletePost(productId) {
+        var action = "D";
+
+        if (confirm("Bạn có muốn xóa không?")) {
+            $.ajax({
+                type: "GET",
+                url: "/Product/ActionProductShopMan?ProductId=" + productId + "&ActionString=" + action,
+                dataType: "json",
+                success: function (response) {
+                    toastr.success(response);
+                    window.location.href = "/Shopman/Product";
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+        }
+        return false;
+    }
+
+    function RenewProduct(productId) {
+        var action = "R";
+        $.ajax({
+            type: "GET",
+            url: "/Product/ActionProductShopMan?ProductId=" + productId + "&ActionString=" + action,
+            dataType: "json",
+            success: function (response) {
+                var resultRes = JSON.parse(JSON.stringify(response));
+                if (resultRes.ErrorCode == "00" || resultRes.ErrorCode == "0") {
+                    toastr.success(resultRes.Message);
+                    window.location.href = "/Shopman/Product";
+                }
+                else {
+                    if (resultRes.ErrorCode == "02") {
+                        var txtNoti = document.getElementById('thongbaoLM');
+                        txtNoti.innerHTML = resultRes.Message;
+                        $("#myModal2").modal('show');
+                    }
+
+                    if (resultRes.ErrorCode == "01") {
+                        var txtNoti = document.getElementById('thongbaomain');
+                        txtNoti.innerHTML = resultRes.Message;
+                        $("#myModal2").modal('show');
+                    }
+                }
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+</script>

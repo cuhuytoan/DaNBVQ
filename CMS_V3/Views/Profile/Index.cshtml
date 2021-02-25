@@ -1,0 +1,173 @@
+﻿@{
+    ViewBag.Title = "Tài khoản của bạn - HANOMA.VN";
+    Layout = "_LayoutForm";
+    var userProfile = (HNM.DataNC.ModelsNC.ModelsDTO.ProfilersDTO)ViewBag.UserProfile;
+
+    var gender = "";
+    if (userProfile.Gender != null)
+    {
+        gender = (bool)userProfile.Gender ? "Nam" : "Nữ";
+    }
+    else
+    {
+        gender = "Không xác định";
+    }
+
+    var lstNotificationAll = (HNM.DataNC.ModelsNC.ModelsDTO.LstFCMMessageUser)ViewBag.NotificationAll;
+    var lstNotificationAllUser = (HNM.DataNC.ModelsNC.ModelsDTO.LstFCMMessageUser)ViewBag.NotificationAllUser;
+    var lstNotificationSocial = (HNM.DataNC.ModelsNC.ModelsDTO.LstFCMMessageUser)ViewBag.NotificationSocial;
+    var lstNotificationPromotion = (HNM.DataNC.ModelsNC.ModelsDTO.LstFCMMessageUser)ViewBag.NotificationPromotion;
+
+    var ListQuoteAds = (List<HNM.DataNC.Models.QuoteAds>)ViewBag.ListQuoteAds;
+}
+
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextaccessor
+@using Newtonsoft.Json;
+@using HNM.DataNC.ModelsNC.ModelsDTO;
+
+<style>
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+</style>
+
+<section class="category">
+    @await Html.PartialAsync("ProfileHeader.cshtml")
+
+    <article>
+        <div class="article-content py-3 px-1 ">
+            <div class="d-block d-md-flex m-0">
+                <div class="col-lg-3 pr-0 col-md-4 col-sm-12 col-12 border-right bg-white">
+                    <div class="profile-image pr-3">
+                        <div class="image mt-4">
+                            <div class="profile-img">
+                                <img src="@userProfile.FullAvatarUrl" />
+                            </div>
+                            <a class="changepicture ajaxcall" href="@Url.Action("ChangeLogo", "Profile")"></a>
+                            <div class="modal fade" id="popup" tabindex="-1" role="dialog" aria-labelledby="popup" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                                    <div class="modal-content">
+                                        <div class="text-right mx-1">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="profile-info mt-2 mb-4">
+                            <h5 class="name">@userProfile.FullName</h5>
+                            <span class="id-profile mt-1">ID: @userProfile.Phone</span>
+                        </div>
+
+                    </div>
+
+                    <ul class="list-unstyled profile-menu nav-tabs nav" role="tablist" id="nav-tab">
+                        @if (ViewBag.ActiveBlock != 1 && ViewBag.ActiveBlock != 2)
+                        {
+                            <li><a id="nav-profile-tab" class="tab-link active" data-toggle="tab" role="tab" aria-controls="taikhoanprofile" aria-selected="true" href="#taikhoanprofile"><span class="icon-lable profile"></span>Thông tin cá nhân</a></li>
+                        }
+                        else
+                        {
+                            <li><a id="nav-profile-tab" class="tab-link" data-toggle="tab" role="tab" aria-controls="taikhoanprofile" aria-selected="true" href="#taikhoanprofile"><span class="icon-lable profile"></span>Thông tin cá nhân</a></li>
+                        }
+
+                        @if (ViewBag.ActiveBlock == 1)
+                        {
+                            <li><a id="nav-contact-tab" class="tab-link active " data-toggle="tab" role="tab" aria-controls="taikhoanthongbao" aria-selected="false" href="#taikhoanthongbao"><span class="icon-lable noti"></span>Thông báo</a></li>
+                        }
+                        else
+                        {
+                            <li><a id="nav-contact-tab" class="tab-link" data-toggle="tab" role="tab" aria-controls="taikhoanthongbao" aria-selected="false" href="#taikhoanthongbao"><span class="icon-lable noti"></span>Thông báo</a></li>
+                        }
+
+                        @if (ViewBag.ProductBrand != 0)
+                        {
+                            <li><a id="taikhoanthongbao-tab" class="tab-link" href="/shopman"><span class="icon-lable sales"></span>Quản lý gian hàng</a></li>
+                        }
+                        else
+                        {
+                            <li><a id="taikhoanthongbao-tab" class="tab-link" href="/tao-gian-hang"><span class="icon-lable sales"></span>Tạo mới gian hàng</a></li>
+                        }
+
+                        @if (ViewBag.ActiveBlock == 2)
+                        {
+                            <li><a id="taikhoangh-tab" class="tab-link active" data-toggle="tab" role="tab" aria-controls="taikhoannc" aria-selected="false" href="#taikhoannc"><span class="icon-lable demand"></span>Quản lý tin nhu cầu</a></li>
+                        }
+                        else
+                        {
+                            <li><a id="taikhoangh-tab" class="tab-link  " data-toggle="tab" role="tab" aria-controls="taikhoannc" aria-selected="false" href="#taikhoannc"><span class="icon-lable demand"></span>Quản lý tin nhu cầu</a></li>
+                        }
+                        <li><a id="taikhoannc-tab" class="tab-link  " data-toggle="tab" role="tab" aria-controls="taikhoanads" aria-selected="false" href="#taikhoanads"><span class="icon-lable ads"></span>Liên hệ quảng cáo</a></li>
+                        <li><a id="taikhoanads-tab" class="tab-link  " data-toggle="tab" role="tab" aria-controls="taikhoandoipass" aria-selected="false" href="#taikhoandoipass"><span class="icon-lable pass"></span>Đổi mật khẩu</a></li>
+                        <li><a id="hanomainfo-tab" class="tab-link  " data-toggle="tab" role="tab" aria-controls="hanomainfo" aria-selected="false" href="#hanomainfo"><span class="icon-lable hanomainfo"></span>Về Hanoma</a></li>
+                        <li><a href="@Url.Action("Logout", "Account")"><span class="icon-lable logout"></span>Đăng xuất	</a></li>
+                        @if (ViewBag.ReferralCode == null)
+                        {
+                            <li><input type="number" id="referral_input" placeholder="Nhập mã giới thiệu" class="form-control" style="width: 75%; float:left" /><button class="btn btn-default form-control" style="width: 25%; background-color: #FFC107 ;float: left; color: white" onclick="CheckReferralCode()">Nhập</button></li>
+                        }
+                    </ul>
+                </div>
+                <div class="col-lg-9 col-md-8 col-sm-12 col-12 pr-0 pl-0 pl-md-3 tab-content" id="tab-content">
+                    <!-- Thông tin cá nhân -->
+                    @await Html.PartialAsync("ProfileUser.cshtml")
+                    <!-- Thông báo -->
+                    @await Html.PartialAsync("NotificationUser.cshtml")
+                    <!-- Quản lý gian hàng -->
+                    <div class="tab-pane fade" id="taikhoangh" role="tabpanel" aria-labelledby="taikhoangh-tab">3</div>
+                    <!-- Quản lý tin nhu cầu -->
+                    @await Html.PartialAsync("ManagerDemand.cshtml")
+                    <!-- Liên hệ quảng cáo -->
+                    @await Html.PartialAsync("ContactAds.cshtml")
+                    <!-- Đổi mật khẩu -->
+                    @await Html.PartialAsync("ChangePass.cshtml")
+                    <!-- Về Hanoma -->
+                    @await Html.PartialAsync("AboutHanoma.cshtml")
+                </div>
+            </div>
+        </div>
+    </article>
+</section>
+
+<script>
+    function CheckReferralCode() {
+        var referral_code = $("#referral_input").val();
+        if (referral_code == "") {
+            toastr.error("Không được để trống mã giới thiệu");
+            return false;
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "/Profile/PostReferralCode?ReferralCode=" + referral_code,
+                dataType: "json",
+                success: function (response) {
+                    var resultRes = JSON.parse(JSON.stringify(response));
+                    if (resultRes.ErrorCode == "00" || resultRes.ErrorCode == "0") {
+                        toastr.success(resultRes.Message);
+                        window.location.href = "/tai-khoan";
+                    }
+                    else {
+                        toastr.error(resultRes.Message);
+                    }
+                },
+                failure: function (response) {
+                    toastr.error(response);
+                },
+                error: function (response) {
+                    toastr.error(response);
+                }
+            });
+        }
+    }
+
+</script>

@@ -1,0 +1,15 @@
+﻿@{
+    var CategoryMenuHeader = ((HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO MenuMachine, HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO MenuMaterials, HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO MenuServices))ViewBag.CategoryMenuHeader;
+}
+
+<article>
+    <div class="d-flex banner align-items-center">
+        @await Html.PartialAsync("../Shared/CategoryMenuHeader.cshtml")
+        <nav aria-label="breadcrumb" class="col-sm-12 col-lg-9 px-3 pl-lg-0 pr-lg-0">
+            <ol class="breadcrumb p-0 m-0">
+                <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+                <li class="breadcrumb-item" aria-current="page"><a href="/tai-khoan">Tài khoản</a></li>
+            </ol>
+        </nav>
+    </div>
+</article>

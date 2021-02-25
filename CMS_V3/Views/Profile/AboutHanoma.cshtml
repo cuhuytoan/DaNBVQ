@@ -1,0 +1,27 @@
+﻿@{ 
+    var AboutHanoma = (HNM.DataNC.ModelsNC.ModelsDTO.ArticleDTO)ViewBag.AboutHanoma;
+}
+
+<div class="tab-pane fade" id="hanomainfo" role="tabpanel" aria-labelledby="hanomainfo-tab">
+    <div class="bg-white px-3 border-radius align-items-center pt-3 pt-lg-0">
+        <div class="title-page pb-4">
+            <h5 class="text-uppercase  font-weight-bold" style="padding-top: 20px">@AboutHanoma.Title</h5>
+        </div>
+        <div class="news-info mb-4 ">
+            <span class="time">@Utils.RenderTimeSince(AboutHanoma.LastEditDate)</span>
+            <span class="">Nguồn: <a href="#">Hanoma.vn</a></span>
+        </div>
+        <div class="news-content mt-1" style="max-height: 500px; overflow-y: scroll">
+            <p>
+                @AboutHanoma.SubTitle
+            </p>
+            <p>
+                @AboutHanoma.Description
+            </p>
+            <p>
+                @Html.Raw(AboutHanoma.Content)
+            </p>
+
+        </div>
+    </div>
+</div>

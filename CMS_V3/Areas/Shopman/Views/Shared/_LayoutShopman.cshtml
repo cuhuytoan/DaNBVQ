@@ -1,0 +1,211 @@
+﻿@using Newtonsoft.Json;
+@using HNM.DataNC.ModelsNC.ModelsDTO;
+
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextaccessor
+
+@{
+    var access_token = @User.FindFirst("access_token").Value;
+    var UserInfomation = @User.FindFirst("UserInfomation").Value;
+
+    SumProfileResponseDTO userProfile = new SumProfileResponseDTO();
+    {
+        var jwt = JsonConvert.DeserializeObject<SumProfileResponseDTO>(UserInfomation);
+        userProfile = jwt;
+    }
+}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/Assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Assets/css/style.css">
+    <link rel="stylesheet" href="~/Assets/css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" integrity="sha256-ENFZrbVzylNbgnXx0n3I1g//2WeO47XxoPe0vkp3NC8=" crossorigin="anonymous" />
+    <link href="https://kendo.cdn.telerik.com/2020.1.114/styles/kendo.bootstrap-v4.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/js/jquery-3.3.1.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2020.1.114/js/jszip.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2020.1.114/js/kendo.all.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2020.1.114/js/kendo.aspnetmvc.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2020.1.114/js/cultures/kendo.culture.vi-VN.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js" async></script>
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <!-- Header -->
+    @await Html.PartialAsync("_LayoutHeaderShopman.cshtml")
+
+    <!-- Content -->
+    <section class="content container-fluid">
+        <article class="row d-flex pt-0   ">
+
+
+            @await Html.PartialAsync("_LayoutLeftMenuShopman.cshtml")
+
+            @RenderBody()
+        </article>
+
+    </section>
+    <!-- menu mobile -->
+    <section>
+        <div class="navigation d-block d-lg-none">
+            <div class="d-flex align-items-center text-center list-unstyled mb-0 bg-white">
+                <a href="/" class="menu-item home"><img src="~/Assets/images/home.png" /><span> Trang chủ</span></a>
+                <a href="/shopman" class="menu-item news"><img src="~/Assets/images/icon_store.png" /><span>Gian hàng</span></a>
+                <a href="/tai-khoan?id=1" class="menu-item noti"><img src="~/Assets/images/bell.png" /><span class="count" id="noti-countx"></span><span>Thông báo</span></a>
+                <a href="/tai-khoan" class="menu-item account"><img src="~/Assets/images/profile.png" /><span>Tài khoản</span></a>
+            </div>
+        </div>
+    </section>
+
+    <div class="modal fade" id="startpopup" tabindex="-1" role="dialog" aria-labelledby="popup" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="text-right mx-1">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="bg-white py-1 mx-auto px-2">
+                        <div class="header-box text-center  ">
+                            <h3 class="text-uppercase mt-1">CHỌN LOẠI BÀI ĐĂNG</h3>
+                        </div>
+                        <div class="content-box  mx-auto text-center">
+                            <ul class="row list-nhucau">
+                                @*<li class="col-sm-6 col-12"><a class="" href="@Url.Action("CreateSellingEquipment", "Product", new { Area = "Shopman"})"><img src="~/Assets/images/maydeban.png" />Bán thiết bị</a></li>
+                                    <li class="col-sm-6 col-12"><a class="" href="@Url.Action("CreateEmployEquipment", "Product", new { Area = "Shopman"})"><img src="~/Assets/images/canthue.png" />Đăng tin cho thuê</a></li>
+                                    <li class="col-sm-6 col-12"><a class="" href="@Url.Action("CreateAccessoriesEquipment", "Product", new { Area = "Shopman"})"><img src="~/Assets/images/phutung.png" />Bán phụ tùng</a></li>
+                                    <li class="col-sm-6 col-12"><a class="" href="@Url.Action("CreateServiceEquipment", "Product", new { Area = "Shopman"})"><img src="~/Assets/images/dichvu.png" />Đăng tin dịch vụ</a></li>
+                                    <li class="col-sm-6 col-12"><a class="" href="@Url.Action("CreateMaterialEquipment", "Product", new { Area = "Shopman"})"><img src="~/Assets/images/vattu.png" />Bán vật tư</a></li>*@
+
+                                <li class="col-sm-6 col-12"><a class="" href="javascript:void(0)" onclick="BanThietBi(1)"><img src="~/Assets/images/maydeban.png"  />Bán thiết bị</a></li>
+                                <li class="col-sm-6 col-12"><a class="" href="javascript:void(0)" onclick="BanThietBi(2)"><img src="~/Assets/images/canthue.png"/>Đăng tin cho thuê</a></li>
+                                <li class="col-sm-6 col-12"><a class="" href="javascript:void(0)" onclick="BanThietBi(3)"><img src="~/Assets/images/phutung.png"/>Bán phụ tùng</a></li>
+                                <li class="col-sm-6 col-12"><a class="" href="javascript:void(0)" onclick="BanThietBi(4)"><img src="~/Assets/images/dichvu.png"/>Đăng tin dịch vụ</a></li>
+                                <li class="col-sm-6 col-12"><a class="" href="javascript:void(0)" onclick="BanThietBi(5)"><img src="~/Assets/images/vattu.png"/>Bán vật tư</a></li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myModal2" role="dialog" style="margin-top: 150px;">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="text-align:left">Thông báo!</h4>
+                </div>
+                <div class="modal-body">
+                    <p id="thongbaomain"> <span id="thongbaoLM"></span> -<a href="/Shopman/UpdateStore/Index" style="color: #FFC327"> Nâng cấp</a> để được thêm quyền này!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+    <script src="~/Assets/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Assets/js/select2.min.js"></script>
+    <script src="~/Assets/js/swiper-bundle.min.js"></script>
+    <script src="~/Assets/js/jquery.lazy.min.js"></script>
+    <script src="~/Assets/js/navScript.js"></script>
+    <script src="~/Assets/js/mmenu.js"></script>
+    <script src="~/Assets/js/custom.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const typeSearch = urlParams.get('typeSearch') == null ? "1" : urlParams.get('typeSearch');
+            $('.search-form option[value=' + typeSearch + ']').attr('selected', 'selected');
+
+            if ('@User.Identity.IsAuthenticated' === 'True') {
+                $.ajax({
+                    type: "GET",
+                    url: "/Home/Notification",
+                    dataType: "html",
+                    success: function (response) {
+                        $('#notification').html(response);
+                    },
+                    failure: function (response) {
+
+                    },
+                    error: function (response) {
+
+                    }
+                });
+
+                $.ajax({
+                    type: "GET",
+                    url: "/Home/CountNotification",
+                    dataType: "html",
+                    success: function (response) {
+                        if (response > 9) {
+                            document.getElementById("noti-countx").innerHTML = "9+";
+                        }
+                        else {
+                            document.getElementById("noti-countx").innerHTML = "" + response;
+                        }
+                    },
+                    failure: function (response) {
+
+                    },
+                    error: function (response) {
+
+                    }
+                });
+            }
+
+        });
+
+        function BanThietBi(id) {
+            $.ajax({
+                type: "POST",
+                url: "/Shopman/Product/CheckPostProduct",
+                dataType: "html",
+                success: function (response) {
+                    var resultRes = JSON.parse(response);
+                    if (resultRes.ErrorCode == "00" || resultRes.ErrorCode == "0") {
+                        if (id == 1) {
+                            window.location.href = "/Shopman/Product/CreateSellingEquipment";
+                        }
+                        if (id == 2) {
+                            window.location.href = "/Shopman/Product/CreateEmployEquipment";
+                        }
+                        if (id == 3) {
+                            window.location.href = "/Shopman/Product/CreateAccessoriesEquipment";
+                        }
+                        if (id == 4) {
+                            window.location.href = "/Shopman/Product/CreateServiceEquipment";
+                        }
+                        if (id == 5) {
+                            window.location.href = "/Shopman/Product/CreateMaterialEquipment";
+                        }
+                    } else {
+                        var txtNoti = document.getElementById('thongbaoLM');
+                        txtNoti.innerHTML = resultRes.Message;
+                        $("#myModal2").modal('show');
+                        $("#startpopup").modal('hide');
+
+                    }
+                }
+            });
+        }
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha256-3blsJd4Hli/7wCQ+bmgXfOdK7p/ZUMtPXY08jmxSSgk=" crossorigin="anonymous"></script>
+</body>
+</html>

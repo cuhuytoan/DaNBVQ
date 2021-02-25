@@ -1,0 +1,264 @@
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@using Mono.Web
+@{
+    var SearchString = Html.Raw(ViewBag.SearchString);
+    var TypeSearch = (int)ViewBag.TypeSearch;
+    var pageCurrent = (int)ViewBag.PageCurrent;
+    var CategoryMenuHeader = ((HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO MenuMachine, HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO MenuMaterials, HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO MenuServices))ViewBag.CategoryMenuHeader;
+    var pageSize = (int)ViewBag.PageSize;
+    ViewBag.Title = String.Format("Tìm kiếm với từ khóa \"{0}\" - Hanoma.vn", SearchString);
+
+}
+@section metatags{
+    <meta name="keywords" content="@HttpUtility.HtmlDecode(@Configuration["DefaultKeyword"])" />
+    <meta name="description" content="@HttpUtility.HtmlDecode(@Configuration["DefaultDescription"])" />
+    <link id="canonical" rel="canonical" href="@Configuration["DomainName"]/tim-kiem" />
+}
+<!-- Content -->
+<section class="category ">
+    <article>
+        <div class="d-flex banner align-items-center">
+            @await Html.PartialAsync("../Shared/CategoryMenuHeader.cshtml")
+            <nav aria-label="breadcrumb" class="col-12 col-sm-9 px-3 pl-lg-0 pr-lg-0">
+                <ol class="breadcrumb p-0 m-0">
+                    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Kết quả tìm kiếm</li>
+                </ol>
+            </nav>
+        </div>
+
+    </article>
+
+
+    <!-- Category page -->
+    <article class="category-panel" id="category_panel">
+        <div class="spinner-border text-warning" role="status" style=" margin-left: 50%;">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </article>
+
+    <article>
+        <div class="article-banner d-flex ads-container mx-3 mt-3">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <a href="#"><img src="./images/article-banner1.jpg" /></a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="#"><img src="./images/article-banner3.jpg" /></a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="#"><img src="./images/article-banner2.jpg" /></a>
+                </div>
+            </div>
+        </div>
+    </article>
+</section>
+<script>
+        function reloadInitSlider() {
+            new Swiper('.menu-search-result',
+                {
+                    slidesPerView: 4,
+                    spaceBetween: 0,
+                    breakpoints: {
+                        0: {
+                            slidesPerView: 2
+                        },
+                        640: {
+                            slidesPerView: 2
+                        },
+                        768: {
+                            slidesPerView: 4
+                        },
+                        1024: {
+                            slidesPerView: 4
+                        }
+                    }
+                }
+            );
+        };
+    $(".search-form input").val('@SearchString');
+        function SearchProductPartialView(page, pageSize) {
+        var pageC = @pageCurrent;
+        if (pageC != null) {
+            pageC = page;
+        }
+        var q = $(".search-form input").val();
+            $.ajax({
+                type: "GET",
+                url: "/Search/SearchProductPartialView?typeSearch="+@TypeSearch+"&page=" + pageC+"&search=" + q + "&pageSize=" + pageSize,
+                dataType: "html",
+                success: function (response) {
+                    $(@TypeSearch == -1 ? '.searh-data-result' : '.category-panel').html(response);
+                    reloadInitSlider();
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+    }
+        function SearchProductBrandPartialView(page, pageSize) {
+          var pageC = @pageCurrent;
+        if (pageC != null) {
+            pageC = page;
+        }
+        var q = $(".search-form input").val();
+            $.ajax({
+                type: "GET",
+                url: "/Search/SearchProductBrandPartialView?typeSearch="+@TypeSearch+"&page=" + pageC+"&search=" + q + "&pageSize=" + pageSize,
+                dataType: "html",
+                success: function (response) {
+                    $(@TypeSearch == -1 ? '.searh-data-result' : '.category-panel').html(response);
+                    reloadInitSlider();
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+    }
+        function SearchProductServicePartialView(page, pageSize) {
+         var pageC = @pageCurrent;
+        if (pageC != null) {
+            pageC = page;
+        }
+        var q = $(".search-form input").val();
+            $.ajax({
+                type: "GET",
+                url: "/Search/SearchProductServicePartialView?typeSearch="+@TypeSearch+"&page=" + pageC+"&search=" + q + "&pageSize=" + pageSize,
+                dataType: "html",
+                success: function (response) {
+                    $(@TypeSearch == -1 ? '.searh-data-result' : '.category-panel').html(response);
+                    reloadInitSlider();
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+    }
+        function SearchRecruitmentPartialView(page, pageSize) {
+         var pageC = @pageCurrent;
+        if (pageC != null) {
+            pageC = page;
+        }
+        var q = $(".search-form input").val();
+            $.ajax({
+                type: "GET",
+                url: "/Search/SearchRecruitmentPartialView?typeSearch="+@TypeSearch+"&page=" + pageC+"&search=" + q + "&pageSize=" + pageSize,
+                dataType: "html",
+                success: function (response) {
+                    $(@TypeSearch == -1 ? '.searh-data-result' : '.category-panel').html(response);
+                    reloadInitSlider();
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+    }
+        function SearchCVPartialView(page, pageSize) {
+        var pageC = @pageCurrent;
+        if (pageC != null) {
+            pageC = page;
+        }
+        var q = $(".search-form input").val();
+            $.ajax({
+                type: "GET",
+                url: "/Search/SearchCVPartialView?typeSearch="+@TypeSearch+"&page=" + pageC+"&search=" + q + "&pageSize=" + pageSize,
+                dataType: "html",
+                success: function (response) {
+                    $(@TypeSearch == -1 ? '.searh-data-result' : '.category-panel').html(response);
+                    reloadInitSlider();
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+    }
+        function SearchArticlePartialView(page, pageSize) {
+      var pageC = @pageCurrent;
+        if (pageC != null) {
+            pageC = page;
+        }
+        var q = $(".search-form input").val();
+            $.ajax({
+                type: "GET",
+                url: "/Search/SearchArticlePartialView?typeSearch="+@TypeSearch+"&page=" + pageC+"&search=" + q + "&pageSize=" + pageSize,
+                dataType: "html",
+                success: function (response) {
+                    $(@TypeSearch == -1 ? '.searh-data-result' : '.category-panel').html(response);
+                    reloadInitSlider();
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+    }
+     function SearchAllPartialView() {
+        var q = $(".search-form input").val();
+            $.ajax({
+                type: "GET",
+                url: "/Search/SearchAllPartialView?typeSearch=-1&page=" + @pageCurrent+"&search="+ q,
+                dataType: "html",
+                success: function (response) {
+                    $('.category-panel').html(response);
+                    reloadInitSlider();
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+    }
+        $(document).ready(function () {
+        switch (@TypeSearch) {
+            case -1:
+                SearchAllPartialView();
+                break;
+            case 1:
+                SearchProductPartialView();
+                break;
+            case 2:
+                SearchProductBrandPartialView();
+                break;
+            case 3:
+                SearchProductServicePartialView();
+                break;
+            case 4:
+                SearchRecruitmentPartialView();
+                 break;
+             case 5:
+                SearchCVPartialView();
+                 break;
+             case 6:
+                SearchArticlePartialView();
+                 break;
+            }
+    });
+    function ChangeUrl(page, pageSize, typeSearch, searchString) {
+        var urlChange = "/tim-kiem?page=" + page +
+                            "&pageSize=" + pageSize +
+                            "&typeSearch=" + typeSearch +
+                            "&search=" + searchString;
+                        history.pushState({}, "", urlChange);
+    }
+</script>
+

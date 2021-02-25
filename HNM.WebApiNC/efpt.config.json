@@ -1,0 +1,593 @@
+﻿{
+   "ContextClassName": "HanomaContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "DoNotCombineNamespace": false,
+   "IdReplace": false,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "Models\/ModelsDBContext",
+   "ProjectRootNamespace": "HNM.WebApiNC",
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "Tables": [
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ActiveLink]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Advertising]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[AdvertisingBlock]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Article]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ArticleBlock]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ArticleBlockArticle]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ArticleCategory]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ArticleCategoryArticle]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ArticleComment]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ArticleDocumentRelation]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ArticleRelationArticle]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ArticleTop]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ArticleTopic]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ArticleTopicArticle]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ArticleType]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[aspnet_Applications]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[aspnet_Membership]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[aspnet_Paths]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[aspnet_Permission]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[aspnet_PermissionAssignment]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[aspnet_PersonalizationAllUsers]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[aspnet_PersonalizationPerUser]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[aspnet_Profile]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[aspnet_Roles]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[aspnet_SchemaVersions]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[aspnet_UserLock]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[aspnet_Users]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[aspnet_UsersInRoles]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[aspnet_WebEvent_Events]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[AspNetRoles]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[AspNetUserClaims]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[AspNetUserLogins]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[AspNetUserRoles]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[AspNetUsers]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[CheckQRCodeV2InputLog]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Contact]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Country]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Customer]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Department]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[DepartmentMan]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Document]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[DocumentBlock]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[DocumentBlockDocument]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[DocumentCategory]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[DocumentRelationDocument]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[DocumentTop]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[DocumentTopic]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[DocumentTopicDocument]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[DocumentType]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Email]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[EmailSubscriber]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[EmailTemplate]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ExchangeRate]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[FCMClient]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[FCMMessage]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Gallery]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[GalleryBlock]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[GalleryBlockGallery]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[GalleryCategory]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[GalleryComment]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[GalleryPicture]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[GalleryPictureTop]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[GalleryRelationGallery]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[GalleryTop]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[GoldPrice]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[JssorSlide]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Language]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Link]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[LinkBlock]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Location]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Log]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[LogEvent]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[LoginApp]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Menu]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[MetaKeyword]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[MetaKeywordMap]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[MetaResume]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[NotifyMessage]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[PageLayout]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Product]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ProductBlock]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ProductBlockProduct]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ProductBrand]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ProductBrandBlock]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ProductBrandBlockProductBrand]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ProductBrandCategory]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ProductBrandType]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ProductCategory]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ProductCategory_BAK]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ProductDocumentRelation]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ProductFaq]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ProductFavorite]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ProductManufacture]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ProductModel]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ProductOrder]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ProductOrderDetails]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ProductOrderStatus]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ProductPicture]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ProductProperty]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ProductPropertyCategory]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ProductPropertyType]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ProductPropertyValue]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ProductRelationProduct]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ProductSearchCriteria]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ProductTop]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ProductType]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Query]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Recruitment]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[RecruitmentBlock]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[RecruitmentBlockRecruitment]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[RecruitmentCategory]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[RecruitmentFavorite]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[RecruitmentPicture]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Register]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[RegisterPicture]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ReplaceChar]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Resume]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ResumeCategory]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Setting]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Sitemap]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Skin]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[SlideShow]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[SMSMessage]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Sound]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[StatusType]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Store]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Subscription]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[SysLog]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Tag]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[TagMap]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[TagType]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[UserNotify]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[Weather]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "dbo.GetNewID"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "dbo.vw_aspnet_Applications"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "dbo.vw_aspnet_MembershipUsers"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "dbo.vw_aspnet_Profiles"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "dbo.vw_aspnet_Roles"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "dbo.vw_aspnet_Users"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "dbo.vw_aspnet_UsersInRoles"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "dbo.vw_aspnet_WebPartState_Paths"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "dbo.vw_aspnet_WebPartState_Shared"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "dbo.vw_aspnet_WebPartState_User"
+      }
+   ],
+   "UseDatabaseNames": true,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseInflector": false,
+   "UseLegacyPluralizer": false
+}

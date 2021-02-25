@@ -1,0 +1,141 @@
+﻿@using Microsoft.Extensions.Configuration
+@using Mono.Web
+@inject IConfiguration Configuration
+
+@model HNM.DataNC.ModelsNC.ModelsDTO.ListAdvertisingCarouselDTO;
+@{
+    var MenuServices = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuServices;
+    var HomeSellProduct = (HNM.DataNC.ModelsNC.ModelsDTO.ProductPaggingDTO)ViewBag.HomeSellProduct;    
+    ViewBag.Title = "HANOMA.VN - SÀN GIAO DỊCH THIẾT BỊ HẠNG NẶNG";
+}
+
+@section metatags{
+
+    <meta name="keywords" content="máy xúc đào bánh xích, máy xúc đào bánh xích komatsu, máy xúc đào bánh xích 55, máy xúc đào bánh xích doosan 300, máy xúc đào bánh xích doosan, máy xúc đào bánh xích kobelco, máy xúc đào bánh xích komatsu mới, bán máy xúc đàobánh xích cũ, giá máy xúc đào bánh xích, bán máy xúc đào bánh xích cần dài" />
+    <meta name="description" content="Mua bán, cho thuê máy móc, thiết bị, phụ tùng và các loại phương tiện vận tải, nguồn cung ứng lao động việc làm, trang thông tin tổng hợp chuyên về các  ngành xây dựng, giao thông vận tải, khai khoáng, cơ khí chế tạo, công nông lâm ngư nghiệp đầu tiên tại Việt Nam." />
+    <link id="canonical" rel="canonical" href="@Configuration["DomainName"]" />
+}
+
+<!--HomeBanner-->
+@await Html.PartialAsync("HomeBanner.cshtml")
+<!--HomeSellProduct-->
+@await Html.PartialAsync("HomeSellProduct.cshtml", HomeSellProduct)
+
+<div id="home-rent">
+
+</div>
+<div id="home-accesories">
+
+</div>
+<div id="home-material">
+
+</div>
+<div id="home-service">
+
+</div>
+<div id="home-library">
+
+</div>
+
+<script>
+    var fired = false;
+    $(document).scroll(function (e) {
+
+        // grab the scroll amount and the window height
+        var scrollAmount = $(window).scrollTop();
+        var documentHeight = $(document).height();
+
+        // calculate the percentage the user has scrolled down the page
+        var scrollPercent = (scrollAmount / documentHeight) * 100;
+        //if (scrollPercent > 50) {
+        if (scrollAmount >= 1200 && fired === false) {
+            // run a function called doSomething
+            doSomething();
+            fired = true;
+
+        }
+
+        function doSomething() {
+            $.ajax({
+                type: "GET",
+                url: "/Home/GetHomeRentProduct",
+                dataType: "html",
+                cache: true,
+                success: function (response) {
+                    $('#home-rent').html(response);
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+
+            $.ajax({
+                type: "GET",
+                url: "/Home/GetHomeAccesoriesProduct",
+                dataType: "html",
+                cache: true,
+                success: function (response) {
+                    $('#home-accesories').html(response);
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+
+            $.ajax({
+                type: "GET",
+                url: "/Home/GetHomeMaterialProduct",
+                dataType: "html",
+                cache: true,
+                success: function (response) {
+                    $('#home-material').html(response);
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+
+            $.ajax({
+                type: "GET",
+                url: "/Home/GetHomeServices",
+                dataType: "html",
+                cache: true,
+                success: function (response) {
+                    $('#home-service').html(response);
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+            $.ajax({
+                type: "GET",
+                url: "/Home/GetHomeLibrary",
+                dataType: "html",
+                cache: true,
+                success: function (response) {
+                    $('#home-library').html(response);
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+
+        }
+
+    });
+</script>

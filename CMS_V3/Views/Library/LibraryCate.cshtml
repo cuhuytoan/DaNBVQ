@@ -1,0 +1,479 @@
+﻿@using Microsoft.Extensions.Configuration
+@using Mono.Web
+@inject IConfiguration Configuration
+
+@{
+    var MenuMachine = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuMachine;
+    var MenuMaterials = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuMaterials;
+    var MenuServices = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuServices;
+
+    var ListLibByCate = (List<HNM.DataNC.ModelsStore.Library_Search_By_Cate_Result>)ViewBag.ListLibByCate;
+}
+
+@{
+    Layout = "_LayoutArticle";
+}
+
+@section metatags
+{
+    <title>Thư viện kiến thức @ViewBag.CateName - Hanoma.vn</title>
+    <meta name="keywords" content="@HttpUtility.HtmlDecode(@Configuration["DefaultKeyword"])" />
+    <meta name="description" content="@HttpUtility.HtmlDecode(@Configuration["DefaultDescription"])" />
+    <link id="canonical" rel="canonical" href="@Configuration["DomainName"]/kien-thuc/@ViewBag.CateUrl" />
+}
+
+<section class="category">
+    @await Html.PartialAsync("LibraryHeader.cshtml")
+
+    @if (ListLibByCate.Count > 0)
+    {
+        <article>
+            <div class="article-content pt-2 px-1 pb-3 bg-white">
+                <div class="row m-0">
+                    @{
+                        var stt = 1;
+                    }
+                    @foreach (var item in ListLibByCate)
+                    {
+                        var i = stt++;
+                        if (i == 1)
+                        {
+                            <div class="news-left col-xl-6 col-lg-8 col-md-8 col-sm-12 border-right">
+                                <div class="news">
+                                    <a href="/kien-thuc/@item.URL">
+                                        <img class="card-img -top" src="" data-src="@item.FullUrlImage" alt="@item.Title">
+                                        <div class="card-body">
+                                            <h4 class="card-title">@item.Title</h4>
+                                            <p class="card-text my-2">
+                                                @item.Description
+                                            </p>
+                                            <div class="d-flex justify-content-end">
+                                                <span class="time text-muted">@Utils.RenderTimeSince(Convert.ToDateTime(item.LastEditDate))</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    }
+
+                    @if (ListLibByCate.Count > 1)
+                    {
+                        <div class="news-center col-xl-3 col-lg-4 col-md-4 col-sm-12 col-12 border-right">
+                            @{
+                                var stt2 = 1;
+                            }
+
+                            @foreach (var item in ListLibByCate)
+                            {
+                                var i2 = stt2++;
+                                if (i2 == 2 || i2 == 3)
+                                {
+                                    if (i2 == 2)
+                                    {
+                                        <div class="news news-sm border-bottom mb-4 pb-1 col-md-12 col-sm-6 col-12 px-0">
+                                            <a href="/kien-thuc/@item.URL">
+                                                <img class="card-img -top" src="@item.FullUrlImage" data-src="@item.FullUrlImage" alt="@item.Title">
+                                                <div class="card-body p-0 pb-2">
+                                                    <h6 class="card-title mt-2">@item.Title</h6>
+                                                    <div class="d-flex justify-content-end mt-3">
+                                                        <span class="time text-muted">@Utils.RenderTimeSince(Convert.ToDateTime(item.LastEditDate))</span>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="news news-sm pb-1  col-md-12 col-sm-6 col-12 px-0">
+                                            <a href="/kien-thuc/@item.URL">
+                                                <img class="card-img -top" src="@item.FullUrlImage" data-src="@item.FullUrlImage" alt="@item.Title">
+                                                <div class="card-body p-0  pb-1">
+                                                    <h6 class="card-title mt-2">@item.Title</h6>
+                                                    <div class="d-flex justify-content-end mt-3">
+                                                        <span class="time text-muted">@Utils.RenderTimeSince(Convert.ToDateTime(item.LastEditDate))</span>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    }
+                                }
+                            }
+
+                        </div>
+
+
+                        <div class="news-right col-xl-3 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                            @{
+                                var stt3 = 1;
+                            }
+
+                            @foreach (var item in ListLibByCate)
+                            {
+                                var i3 = stt3++;
+                                if (i3 != 1 && i3 != 2 && i3 != 3 && i3 <= 7)
+                                {
+                                    <div class="col-xl-12 col-md-6 col-sm-6 col-12 news news-vsm border-bottom mb-2 pb-2  px-0">
+                                        <a href="/kien-thuc/@item.URL">
+                                            <div class="card-body d-flex align-items-center p-0">
+                                                <div class="col-7 mx-0 p-0"><h6 class="card-title">@item.Title</h6></div>
+                                                <div class="col-5 ml-1 mr-0 p-0"><img class="card-img -top" src="@item.FullUrlImage" data-src="@item.FullUrlImage" alt="@item.Title"></div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </article>
+
+
+
+        @if (ListLibByCate.Count > 7)
+        {
+            <div>
+                <div class="border-top border-bottom"></div>
+            </div>
+
+            <article>
+                <div class="article-content pt-2 px-1 pb-3 bg-white">
+                    <div class="row m-0">
+                        @{
+                            var stt4 = 1;
+                        }
+                        @foreach (var item in ListLibByCate)
+                        {
+                            var i = stt4++;
+                            if (i == 8)
+                            {
+                                <div class="news-left col-xl-6 col-lg-8 col-md-8 col-sm-12 border-right">
+                                    <div class="news">
+                                        <a href="/kien-thuc/@item.URL">
+                                            <img class="card-img -top" src="" data-src="@item.FullUrlImage" alt="@item.Title">
+                                            <div class="card-body">
+                                                <h4 class="card-title">@item.Title</h4>
+                                                <p class="card-text my-2">
+                                                    @item.Description
+                                                </p>
+                                                <div class="d-flex justify-content-end">
+                                                    <span class="time text-muted">@Utils.RenderTimeSince(Convert.ToDateTime(item.LastEditDate))</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+                        }
+
+                        <div class="news-center col-xl-3 col-lg-4 col-md-4 col-sm-12 col-12 border-right">
+                            @{
+                                var stt5 = 1;
+                            }
+
+                            @foreach (var item in ListLibByCate)
+                            {
+                                var i2 = stt5++;
+                                if (i2 == 9 || i2 == 10)
+                                {
+                                    if (i2 == 9)
+                                    {
+                                        <div class="news news-sm border-bottom mb-4 pb-1 col-md-12 col-sm-6 col-12 px-0">
+                                            <a href="/kien-thuc/@item.URL">
+                                                <img class="card-img -top" src="@item.FullUrlImage" data-src="@item.FullUrlImage" alt="@item.Title">
+                                                <div class="card-body p-0 pb-2">
+                                                    <h6 class="card-title mt-2">@item.Title</h6>
+                                                    <div class="d-flex justify-content-end mt-3">
+                                                        <span class="time text-muted">@Utils.RenderTimeSince(Convert.ToDateTime(item.LastEditDate))</span>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="news news-sm pb-1  col-md-12 col-sm-6 col-12 px-0">
+                                            <a href="/kien-thuc/@item.URL">
+                                                <img class="card-img -top" src="@item.FullUrlImage" data-src="@item.FullUrlImage" alt="@item.Title">
+                                                <div class="card-body p-0  pb-1">
+                                                    <h6 class="card-title mt-2">@item.Title</h6>
+                                                    <div class="d-flex justify-content-end mt-3">
+                                                        <span class="time text-muted">@Utils.RenderTimeSince(Convert.ToDateTime(item.LastEditDate))</span>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    }
+                                }
+                            }
+
+                        </div>
+
+                        <div class="news-right col-xl-3 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                            @{
+                                var stt6 = 1;
+                            }
+
+                            @foreach (var item in ListLibByCate)
+                            {
+                                var i3 = stt6++;
+                                if (i3 != 8 && i3 != 9 && i3 != 10 && i3 > 7 && i3 <= 14)
+                                {
+                                    <div class="col-xl-12 col-md-6 col-sm-6 col-12 news news-vsm border-bottom mb-2 pb-2  px-0">
+                                        <a href="/kien-thuc/@item.URL">
+                                            <div class="card-body d-flex align-items-center p-0">
+                                                <div class="col-7 mx-0 p-0"><h6 class="card-title">@item.Title</h6></div>
+                                                <div class="col-5 ml-1 mr-0 p-0"><img class="card-img -top" src="@item.FullUrlImage" data-src="@item.FullUrlImage" alt="@item.Title"></div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            @if (ListLibByCate.Count > 14)
+            {
+                <div>
+                    <div class="border-top border-bottom"></div>
+                </div>
+
+                <article>
+                    <div class="article-content pt-2 px-1 pb-3 bg-white">
+                        <div class="row m-0">
+                            @{
+                                var stt7 = 1;
+                            }
+                            @foreach (var item in ListLibByCate)
+                            {
+                                var i = stt7++;
+                                if (i == 15)
+                                {
+                                    <div class="news-left col-xl-6 col-lg-8 col-md-8 col-sm-12 border-right">
+                                        <div class="news">
+                                            <a href="/kien-thuc/@item.URL">
+                                                <img class="card-img -top" src="" data-src="@item.FullUrlImage" alt="@item.Title">
+                                                <div class="card-body">
+                                                    <h4 class="card-title">@item.Title</h4>
+                                                    <p class="card-text my-2">
+                                                        @item.Description
+                                                    </p>
+                                                    <div class="d-flex justify-content-end">
+                                                        <span class="time text-muted">@Utils.RenderTimeSince(Convert.ToDateTime(item.LastEditDate))</span>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                }
+                            }
+
+                            <div class="news-center col-xl-3 col-lg-4 col-md-4 col-sm-12 col-12 border-right">
+                                @{
+                                    var stt8 = 1;
+                                }
+
+                                @foreach (var item in ListLibByCate)
+                                {
+                                    var i2 = stt8++;
+                                    if (i2 == 16 || i2 == 17)
+                                    {
+                                        if (i2 == 16)
+                                        {
+                                            <div class="news news-sm border-bottom mb-4 pb-1 col-md-12 col-sm-6 col-12 px-0">
+                                                <a href="/kien-thuc/@item.URL">
+                                                    <img class="card-img -top" src="@item.FullUrlImage" data-src="@item.FullUrlImage" alt="@item.Title">
+                                                    <div class="card-body p-0 pb-2">
+                                                        <h6 class="card-title mt-2">@item.Title</h6>
+                                                        <div class="d-flex justify-content-end mt-3">
+                                                            <span class="time text-muted">@Utils.RenderTimeSince(Convert.ToDateTime(item.LastEditDate))</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="news news-sm pb-1  col-md-12 col-sm-6 col-12 px-0">
+                                                <a href="/kien-thuc/@item.URL">
+                                                    <img class="card-img -top" src="@item.FullUrlImage" data-src="@item.FullUrlImage" alt="@item.Title">
+                                                    <div class="card-body p-0  pb-1">
+                                                        <h6 class="card-title mt-2">@item.Title</h6>
+                                                        <div class="d-flex justify-content-end mt-3">
+                                                            <span class="time text-muted">@Utils.RenderTimeSince(Convert.ToDateTime(item.LastEditDate))</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        }
+                                    }
+                                }
+
+                            </div>
+
+                            <div class="news-right col-xl-3 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                @{
+                                    var stt9 = 1;
+                                }
+
+                                @foreach (var item in ListLibByCate)
+                                {
+                                    var i3 = stt9++;
+                                    if (i3 != 15 && i3 != 16 && i3 != 17 && i3 > 14 && i3 <= 21)
+                                    {
+                                        <div class="col-xl-12 col-md-6 col-sm-6 col-12 news news-vsm border-bottom mb-2 pb-2  px-0">
+                                            <a href="/kien-thuc/@item.URL">
+                                                <div class="card-body d-flex align-items-center p-0">
+                                                    <div class="col-7 mx-0 p-0"><h6 class="card-title">@item.Title</h6></div>
+                                                    <div class="col-5 ml-1 mr-0 p-0"><img class="card-img -top" src="@item.FullUrlImage" data-src="@item.FullUrlImage" alt="@item.Title"></div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                @if (ListLibByCate.Count > 21)
+                {
+
+                    <div>
+                        <div class="border-top border-bottom"></div>
+                    </div>
+
+                    <article>
+                        <div class="article-content pt-2 px-1 pb-3 bg-white">
+                            <div class="row m-0">
+                                @{
+                                    var stt10 = 1;
+                                }
+                                @foreach (var item in ListLibByCate)
+                                {
+                                    var i = stt10++;
+                                    if (i == 22)
+                                    {
+                                        <div class="news-left col-xl-6 col-lg-8 col-md-8 col-sm-12 border-right">
+                                            <div class="news">
+                                                <a href="/kien-thuc/@item.URL">
+                                                    <img class="card-img -top" src="" data-src="@item.FullUrlImage" alt="@item.Title">
+                                                    <div class="card-body">
+                                                        <h4 class="card-title">@item.Title</h4>
+                                                        <p class="card-text my-2">
+                                                            @item.Description
+                                                        </p>
+                                                        <div class="d-flex justify-content-end">
+                                                            <span class="time text-muted">@Utils.RenderTimeSince(Convert.ToDateTime(item.LastEditDate))</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+
+                                <div class="news-center col-xl-3 col-lg-4 col-md-4 col-sm-12 col-12 border-right">
+                                    @{
+                                        var stt11 = 1;
+                                    }
+
+                                    @foreach (var item in ListLibByCate)
+                                    {
+                                        var i2 = stt11++;
+                                        if (i2 == 23 || i2 == 24)
+                                        {
+                                            if (i2 == 23)
+                                            {
+                                                <div class="news news-sm border-bottom mb-4 pb-1 col-md-12 col-sm-6 col-12 px-0">
+                                                    <a href="/kien-thuc/@item.URL">
+                                                        <img class="card-img -top" src="@item.FullUrlImage" data-src="@item.FullUrlImage" alt="@item.Title">
+                                                        <div class="card-body p-0 pb-2">
+                                                            <h6 class="card-title mt-2">@item.Title</h6>
+                                                            <div class="d-flex justify-content-end mt-3">
+                                                                <span class="time text-muted">@Utils.RenderTimeSince(Convert.ToDateTime(item.LastEditDate))</span>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="news news-sm pb-1  col-md-12 col-sm-6 col-12 px-0">
+                                                    <a href="/kien-thuc/@item.URL">
+                                                        <img class="card-img -top" src="@item.FullUrlImage" data-src="@item.FullUrlImage" alt="@item.Title">
+                                                        <div class="card-body p-0  pb-1">
+                                                            <h6 class="card-title mt-2">@item.Title</h6>
+                                                            <div class="d-flex justify-content-end mt-3">
+                                                                <span class="time text-muted">@Utils.RenderTimeSince(Convert.ToDateTime(item.LastEditDate))</span>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            }
+                                        }
+                                    }
+
+                                </div>
+
+                                <div class="news-right col-xl-3 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                    @{
+                                        var stt12 = 1;
+                                    }
+
+                                    @foreach (var item in ListLibByCate)
+                                    {
+                                        var i3 = stt12++;
+                                        if (i3 != 22 && i3 != 23 && i3 != 24 && i3 > 24 && i3 <= 28)
+                                        {
+                                            <div class="col-xl-12 col-md-6 col-sm-6 col-12 news news-vsm border-bottom mb-2 pb-2  px-0">
+                                                <a href="/kien-thuc/@item.URL">
+                                                    <div class="card-body d-flex align-items-center p-0">
+                                                        <div class="col-7 mx-0 p-0"><h6 class="card-title">@item.Title</h6></div>
+                                                        <div class="col-5 ml-1 mr-0 p-0"><img class="card-img -top" src="@item.FullUrlImage" data-src="@item.FullUrlImage" alt="@item.Title"></div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                }
+            }
+        }
+    }
+
+</section>
+
+
+<script type="application/ld+json">
+    {
+    "@@context": "https://schema.org",
+    "@@type": "Article",
+    "mainEntityOfPage": {
+    "@@type": "WebPage",
+    "@@id": "https://hanoma.vn/kien-thuc/@ViewBag.CateUrl"
+    },
+    "headline": "Library headline",
+    "author": {
+    "@@type": "Person",
+    "name": "Hanoma.vn"
+    },
+    "publisher": {
+    "@@type": "Organization",
+    "name": "Hanoma.vn",
+    "logo": {
+    "@@type": "ImageObject",
+    "url": "https://hanoma.vn/assets/pages/img/logo_hanoma2.png"
+    }
+    },
+    "description": "@Configuration["DefaultDescription"]"
+    }
+</script>
+

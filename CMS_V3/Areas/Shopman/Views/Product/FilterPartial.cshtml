@@ -1,0 +1,45 @@
+﻿@{
+
+}
+   @*var lstProductType = ViewBag.ListProductType;
+    var lstProductCategory =  ()ViewBag.lstProductCategory*@
+<div class="search-module mt-3 py-1   bg-white">
+    <div class="menu-search-result mb-3 border-bottom ">
+        <ul class="list-unstyled   nav-status m-0   swiper-wrapper">
+            <li class="swiper-slide active"><a class="active" href="#">Tất cả</a></li>
+            <li class="swiper-slide "><a href="#">Đã đăng</a></li>
+            <li class="swiper-slide "><a href="#">Chờ duyệt</a></li>
+            <li class="swiper-slide "><a href="#">Ngừng đăng</a></li>
+            <li class="swiper-slide "><a href="#">Đã lưu</a></li>
+            <li class="swiper-slide "><a href="#">Không hợp lệ</a></li>
+        </ul>
+    </div>
+    <div class="search-content row m-2 mb-3">
+        <div class=" pl-0 col-12 col-sm-6 col-md-3 form-group">
+            <select class="form-control">
+                <option value="">Loại bài đăng</option>
+                <option value="1">Tất cả máy công trình</option>
+                <option value="2">Tất cả máy công trình</option>
+                <option value="3">Tất cả máy công trình</option>
+                <option value="4">Tất cả máy công trình</option>
+            </select>
+        </div>
+        <div class="  pl-0  col-12 col-sm-6 col-md-3  form-group">
+            <select class="form-control">
+                <option value="">Chủng loại</option>
+                <option value="2">Hitachi</option>
+                <option value="3">Huyndai</option>
+                <option value="2">Honda</option>
+                <option value="1">Test</option>
+            </select>
+        </div>
+        <div class="pl-0  col-12 col-sm-6 col-md-3  form-group">
+            <input name="" placeholder="Từ khoá" value="" class="form-control" />
+        </div>
+        <div class=" pl-0  col-12 col-sm-6 col-md-3  form-group pr-0">
+            <button type="button" class='mr-1 btn btn-search'><span>Tìm</span></button>
+            <button type="button" class='btn btn-clear'><span>Nhập lại</span></button>
+
+        </div>
+    </div>
+</div>

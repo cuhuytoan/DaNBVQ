@@ -1,0 +1,324 @@
+﻿@using Kendo.Mvc.UI
+@model HNM.DataNC.ModelsNC.ModelsDTO.ProductPaggingDTO
+@{
+    ViewBag.Title = "Quản lý sản phẩm";
+    Layout = "~/Areas/Shopman/Views/Shared/_LayoutShopman.cshtml";
+
+    var ProductTypeId = new List<SelectListItem>() { new SelectListItem { Text = "Bán thiết bị", Value = "1" }, new SelectListItem { Text = "Cho thuê thiết bị", Value = "3" }, new SelectListItem { Text = "Bán phụ tùng", Value = "5" }, new SelectListItem { Text = "Bán vật tư", Value = "7" }, new SelectListItem { Text = "Cho thuê dịch vụ", Value = "11" } };
+
+    var ListProduct = (HNM.DataNC.ModelsNC.ModelsDTO.ProductPaggingDTO)ViewBag.ListProduct;
+    int currentPage = ViewBag.Page;
+    int pageSize = ViewBag.PageSize;
+    int TotalPages = ViewBag.TotalPages;
+}
+
+<div id="index-product" class="col-12 col-lg-10  content-right">
+    <form action="#" class="">
+        <div class=my-2>
+            <button type="button" class='btn btn-primary px-4 openModal btn-plus'>ĐĂNG SẢN PHẨM MỚI</button>
+        </div>
+
+        <div id="filter_container" class="filter">
+            <div class="search-module mt-3 py-1 bg-white">
+                <div class="menu-search-result mb-3 border-bottom ">
+                    <ul class="list-unstyled   nav-status m-0   swiper-wrapper">
+                        <li class="swiper-slide active"><a class="active" href="#">Tất cả</a></li>
+                        <li class="swiper-slide "><a href="#">Đã đăng</a></li>
+                        <li class="swiper-slide "><a href="#">Chờ duyệt</a></li>
+                        <li class="swiper-slide "><a href="#">Ngừng đăng</a></li>
+                        <li class="swiper-slide "><a href="#">Đã lưu</a></li>
+                        <li class="swiper-slide "><a href="#">Không hợp lệ</a></li>
+                    </ul>
+                </div>
+                <div class="search-content row m-2 mb-3">
+                    <div class=" pl-0 col-12 col-sm-6 col-md-3 form-group">
+                        @(Html.Kendo().ComboBox()
+                                .Name("ProductTypeId")
+                                .Placeholder("Chọn loại tin....")
+                                .DataTextField("Text")
+                                .DataValueField("Value")
+                                .BindTo(ProductTypeId)
+                                .HtmlAttributes(new {@class = "form-control"})
+                                .Suggest(true)
+                                .Filter("contains")
+                                )
+                    </div>
+                    <div class="  pl-0  col-12 col-sm-6 col-md-3  form-group">
+                        @(Html.Kendo().ComboBox()
+                                .Name("ProductCategoryId")
+                                .HtmlAttributes(new {@class = "form-control"})
+                                .Placeholder("Chọn chủng loại....")
+                                .DataTextField("Name")
+                                .DataValueField("ProductCategoryId")
+                                .Filter("contains")
+                                .Suggest(true)
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("GetLstProductCateLv1", "Product");
+                                    }).ServerFiltering(false);
+                                })
+                            )
+                    </div>
+                    <div class="pl-0  col-12 col-sm-6 col-md-3  form-group">
+                        <input name="Keyword" placeholder="Từ khoá" id="Keyword" class="form-control" />
+                    </div>
+                    <div class=" pl-0  col-12 col-sm-6 col-md-3  form-group pr-0">
+                        <button type="button" class='mr-1 btn btn-search' onclick="LoadData()"><span>Tìm</span></button>
+                        @*<button type="button" class='btn btn-clear'><span>Nhập lại</span></button>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class=my-2>
+            <button type="button" class='btn btn-default bg-white px-3 mr-1' onclick="CanclePost()">HUỶ ĐĂNG</button>
+            <button type="button" class='btn btn-default btn-delete bg-white px-5 ' onclick="DeleteManyPost()">XOÁ</button>
+
+        </div>
+
+    </form>
+
+    <div class="content" id="content">
+
+    </div>
+</div>
+
+<div class="modal fade" id="myModal2" role="dialog" style="margin-top: 100px;">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="text-align:left">Thông báo!</h4>
+            </div>
+            <div class="modal-body">
+                <p id="thongbaomain"> <span id="thongbaoLM"></span> -<a href="/Shopman/UpdateStore/Index" style="color: #FFC327"> Nâng cấp</a> để được thêm quyền này!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="~/Assets/jsController/ProductShopmanController.js"></script>
+
+<script>
+     $(document).ready(function () {
+         LoadData();
+         $("#QLSP").addClass("active");
+    });
+
+
+    function ChangeUrl(page, pageSize) {
+        var urlChange = "/Shopman/Product";
+        history.pushState({}, "", urlChange);
+    }
+
+
+    function LoadData() {
+        var Keyword = $("#Keyword").val();
+        var ProductTypeId = $("#ProductTypeId").val();
+        var ProductCategoryId = $("#ProductCategoryId").val();
+        if (Keyword == "") {
+            Keyword = null;
+        }
+
+        if (ProductTypeId == "") {
+            ProductTypeId = null;
+        }
+
+        if (ProductCategoryId == "") {
+            ProductCategoryId = null;
+        }
+
+        var StatusTypeId = -1;
+
+        $.ajax({
+            type: "GET",
+            url: "/Shopman/Product/FilterProductShopmanByParam?Keyword=" + Keyword + "&statusTypeId=" + StatusTypeId + "&productTypeId=" + ProductTypeId + "&productCategoryId=" + ProductCategoryId + "&page=" + @currentPage + "&pageSize=" + @pageSize,
+            dataType: "html",
+            success: function (response) {
+                $('#content').html(response);
+            }
+        });
+    }
+
+    function LoadDataByPageSize(PageSize) {
+        var Keyword = $("#Keyword").val();
+        var ProductTypeId = $("#ProductTypeId").val();
+        var ProductCategoryId = $("#ProductCategoryId").val();
+        if (Keyword == "") {
+            Keyword = null;
+        }
+
+        if (ProductTypeId == "") {
+            ProductTypeId = null;
+        }
+
+        if (ProductCategoryId == "") {
+            ProductCategoryId = null;
+        }
+
+        var StatusTypeId = -1;
+
+        $.ajax({
+            type: "GET",
+            url: "/Shopman/Product/FilterProductShopmanByParam?Keyword=" + Keyword + "&statusTypeId=" + StatusTypeId + "&productTypeId=" + ProductTypeId + "&productCategoryId=" + ProductCategoryId + "&page=" + @currentPage + "&pageSize=" + PageSize,
+            dataType: "html",
+            success: function (response) {
+                $('#content').html(response);
+            }
+        });
+    }
+
+
+    function DeletePost(productId) {
+        var action = "D";
+
+        if (confirm("Bạn có muốn xóa không?")) {
+            $.ajax({
+                type: "GET",
+                url: "/Product/ActionProductShopMan?ProductId=" + productId + "&ActionString=" + action,
+                dataType: "json",
+                success: function (response) {
+                    toastr.success(response);
+                    window.location.href = "/Shopman/Product";
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+        }
+        return false;
+    }
+
+    function RenewProduct(productId) {
+        var action = "R";
+        $.ajax({
+            type: "GET",
+            url: "/Product/ActionProductShopMan?ProductId=" + productId + "&ActionString=" + action,
+            dataType: "json",
+            success: function (response) {
+                var resultRes = JSON.parse(JSON.stringify(response));
+                if (resultRes.ErrorCode == "00" || resultRes.ErrorCode == "0") {
+                    toastr.success(resultRes.Message);
+                    window.location.href = "/Shopman/Product";
+                }
+                else {
+                    if (resultRes.ErrorCode == "02") {
+                        var txtNoti = document.getElementById('thongbaoLM');
+                        txtNoti.innerHTML = resultRes.Message;
+                        $("#myModal2").modal('show');
+                    }
+
+                    if (resultRes.ErrorCode == "01") {
+                        var txtNoti = document.getElementById('thongbaomain');
+                        txtNoti.innerHTML = resultRes.Message;
+                        $("#myModal2").modal('show');
+                    }
+                }
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+
+    function ReUp(productId) {
+        var action = "K";
+        $.ajax({
+            type: "GET",
+            url: "/Product/ActionProductShopMan?ProductId=" + productId + "&ActionString=" + action,
+            dataType: "json",
+            success: function (response) {
+                var resultRes = JSON.parse(JSON.stringify(response));
+                if (resultRes.ErrorCode == "00" || resultRes.ErrorCode == "0") {
+                    toastr.success(resultRes.Message);
+                    window.location.href = "/Shopman/Product";
+                }
+                else {
+                    toastr.error(resultRes.Message);
+                }
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+
+
+    function CanclePost() {
+        var action = "H";
+        var arr = [];
+        $('input.checkboxes:checkbox:checked').each(function () {
+            arr.push($(this).val());
+            $(this).prop('checked', false);
+        });
+        if (arr.length < 1) {
+            toastr.warning('Không có sản phẩm nào được chọn');
+            return;
+        }
+        $('#product_table_checkall').prop('checked', false);
+
+        if (confirm("Bạn có muốn hủy không?")) { 
+            $.ajax({
+                type: "GET",
+                url: "/Product/ActionProductCanclePost?ids=" + arr + "&ActionString=" + action,
+                dataType: "json",
+                success: function (response) {
+                    if (response == "00") {
+                        toastr.success("Hủy thành công");
+                        window.location.href = "/Shopman/Product";
+                    }
+                    else {
+                        toastr.error("Hủy thất bại");
+                    }
+                }
+            });
+        }
+    }
+
+    function DeleteManyPost() {
+        var action = "D";
+        var arr = [];
+        $('input.checkboxes:checkbox:checked').each(function () {
+            arr.push($(this).val());
+            $(this).prop('checked', false);
+        });
+        if (arr.length < 1) {
+            toastr.warning('Không có sản phẩm nào được chọn');
+            return;
+        }
+        $('#product_table_checkall').prop('checked', false);
+
+        if (confirm("Bạn có muốn xóa không?")) { 
+            $.ajax({
+                type: "GET",
+                url: "/Product/ActionProductCanclePost?ids=" + arr + "&ActionString=" + action,
+                dataType: "json",
+                success: function (response) {
+                    if (response == "00") {
+                        toastr.success("Xóa thành công");
+                        window.location.href = "/Shopman/Product";
+                    }
+                    else {
+                        toastr.error("Xóa thất bại");
+                    }
+                }
+            });
+        }
+    }
+</script>
+

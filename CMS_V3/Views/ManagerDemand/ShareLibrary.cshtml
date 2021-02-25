@@ -1,0 +1,236 @@
+﻿
+<div class="bg-white px-0 mx-auto px-lg-5">
+    <div class="header-box text-center  mb-2">
+        <h3 class="text-uppercase mt-1">CHIA SẺ KIẾN THỨC</h3>
+    </div>
+    <div class="content-box  mx-auto text-left">
+
+        <form class="" method="post" enctype="multipart/form-data" action="/ManagerDemand/ShareLibrary">
+            <div class=" form-group">
+                <div class="col-md-4">
+                    <div class="custom-file-container" data-upload-id="cover-img">
+                        <label style="display: none;">
+                            Upload File
+                            <a href="javascript:void(0)"
+                               class="custom-file-container__image-clear"
+                               title="Clear Image">&times;</a>
+                        </label>
+                        <input type="file"
+                               class="custom-file-container__custom-file__custom-file-input"
+                               accept="image/jpeg, image/png, image/gif, image/svg+xml"
+                               aria-label="Choose File" name="MainImage" />
+                        <input type="hidden" name="MAX_FILE_SIZE" value="2097152" />
+                        <div class="custom-file-container__image-preview">
+                            <label class="custom-file-container__custom-file">
+
+                                <span class="custom-file-container__custom-file__custom-file-control"></span>
+                            </label>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputAddress">Tiêu đề bài viết:*</label>
+                <input type="text" class="form-control" name="Title" placeholder="VD: Cần mua vật tư ô tô">
+            </div>
+            
+            <div class="form-group row">
+                <div class="col-12 col-md-4">
+                    <label for="inputAddress">Chuyên mục:*</label>
+                    @(Html.Kendo().ComboBox()
+                                .Name("LibraryCategory_ID")
+                                .HtmlAttributes(new {@class = "form-control"})
+                                .Placeholder("Chọn Lĩnh vực kiến thức....")
+                                .DataTextField("Name")
+                                .DataValueField("LibraryCategory_ID")
+                                .Filter("contains")
+                                .Suggest(true)
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("GetAllLibCate", "ManagerDemand");
+                                    }).ServerFiltering(false);
+                                })
+                            )
+                </div>
+                <div class="col-12 col-md-4">
+                    <label for="inputAddress">Danh mục:*</label>
+                    @(Html.Kendo().ComboBox()
+                                .Name("ProductCategoryId")
+                                .HtmlAttributes(new {@class = "form-control"})
+                                .Placeholder("Chọn Thiết bị liên quan....")
+                                .DataTextField("Name")
+                                .DataValueField("ProductCategoryId")
+                                .Filter("contains")
+                                .Suggest(true)
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("GetLstProductCateLv1", "Service");
+                                    }).ServerFiltering(false);
+                                })
+                            )
+                </div>
+                <div class="col-12 col-md-4">
+                    <label for="inputAddress">Danh mục cấp 2:*</label>
+                    @(Html.Kendo().ComboBox()
+                                .Name("ProductCategoryID2")
+                                .HtmlAttributes(new {@class = "form-control"})
+                                .Placeholder("Chọn Loại máy....")
+                                .DataTextField("Name")
+                                .DataValueField("ProductCategoryId")
+                                .Filter("contains")
+                                .Suggest(true)
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("GetLstProductCateLv2", "Service").Data("filterModelsLib");
+                                    }).ServerFiltering(true);
+                                })
+                                .Enable(false)
+                                .AutoBind(false)
+                                .CascadeFrom("ProductCategoryId")
+                            )
+                </div>
+                
+            </div>
+
+            <div class="form-group row">
+                <div class="col-12 col-md-4">
+                    <label for="inputAddress">Hãng thiết bị:*</label>
+                    @(Html.Kendo().ComboBox()
+                                .Name("ManufactoryID")
+                                .HtmlAttributes(new {@class = "form-control"})
+                                .Placeholder("Chọn Hãng thiết bị....")
+                                .DataTextField("Name")
+                                .DataValueField("ProductManufactureId")
+                                .Filter("contains")
+                                .Suggest(true)
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("GetAllManuByCate", "ManagerDemand").Data("filterModelsManu");
+                                    }).ServerFiltering(true);
+                                })
+                                .Enable(false)
+                                .AutoBind(false)
+                                .CascadeFrom("ProductCategoryID2")
+                            )
+                </div>
+                <div class="col-12 col-md-4">
+                    <label for="inputAddress">Model:*</label>
+                    @(Html.Kendo().ComboBox()
+                                .Name("ModelID")
+                                .HtmlAttributes(new {@class = "form-control"})
+                                .Placeholder("Chọn Model....")
+                                .DataTextField("Name")
+                                .DataValueField("ProductModelId")
+                                .Filter("contains")
+                                .Suggest(true)
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("GetAllModelByCate", "ManagerDemand").Data("filterModelsModel");
+                                    }).ServerFiltering(true);
+                                })
+                                .Enable(false)
+                                .AutoBind(false)
+                                .CascadeFrom("ProductCategoryID2")
+                            )
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-12 col-md-4">
+                    <label for="inputAddress">Họ tên:*</label>
+                    <input type="text" class="form-control" name="Author" placeholder="VD: Đỗ Văn A">
+                </div>
+                <div class="col-12 col-md-4">
+                    <label for="inputAddress">Số điện thoại:*</label>
+                    <input type="text" class="form-control" name="AuthorPhone" placeholder="VD: 0987654321">
+                </div>
+                <div class="col-12 col-md-4">
+                    <label for="inputAddress">Email:*</label>
+                    <input type="text" class="form-control" name="AuthorEmail" placeholder="VD: hanoma@gmail.com">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-12 col-md-4">
+                    <label for="inputAddress">Nghề nghiệp:</label>
+                    <input type="text" class="form-control" name="AuthorJob" placeholder="VD:Lái máy">
+                </div>
+                <div class="col-12 col-md-4">
+                    <label for="inputAddress">Đơn vị công tác:*</label>
+                    <input type="text" class="form-control" name="AuthorCompany" placeholder="VD: Công ty cổ phần Ilott">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputAddress">Nội dung chi tiết:*</label>
+                @(Html.Kendo().Editor()
+                                                 .Name("Content")
+                                                 .HtmlAttributes(new { style = "width:98%;min-height: 50px;", placeholder = "Nhập nội dung mô tả ở đây..", aria_label = "editor", id = "content_val" })
+                                                 .Resizable(resizable => resizable.Content(true).Toolbar(true))
+                                                 //.Placeholder("Nhập nội dung mô tả ở đây...")
+                                                 .Messages(p =>
+                                                 {
+                                                     p.Bold("Chữ đậm");
+                                                     p.Underline("gạch chân");
+                                                     p.Bold("Chữ đậm");
+                                                     p.Italic("Chữ nghiêng");
+                                                     p.Indent("Thụt lề");
+                                                     p.InsertImage("Thêm ảnh");
+                                                     p.InsertHtml("Thêm HTML");
+                                                     p.FontName("Chọn font");
+                                                     p.ImageWebAddress("Địa chỉ web");
+                                                 })
+                                                 .Tools(tools => tools
+                                                    .Clear()
+                                                     .Bold().Italic().Underline().Strikethrough()
+                                                     .Outdent().Indent()
+                                                     .CreateLink().Unlink()
+                                                     .InsertImage()
+                                                     .InsertFile()
+                                                     .TableEditing()
+                                                     .ViewHtml()
+                                                 )
+                                          .StyleSheets(css => css
+                                              .Add(Url.Content("~/css/Editor.css"))
+                                          )
+                                    )
+            </div>
+            <div class="text-center">
+                <div class=" justify-content-center d-block text-center mt-3">
+                    <button type="submit" class="btn btn-primary mb-2">Đăng bài</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script src="~/js/file-upload-with-preview.min.js"></script>
+<script>
+    var upload = new FileUploadWithPreview("cover-img", {
+        text: {
+            chooseFile: "",
+            browse: "Chọn ảnh đại diện bài viết"
+        },
+    });
+    var upload1 = new FileUploadWithPreview("thumb-img", {
+        maxFileCount: 20,
+        text: {
+            chooseFile: "",
+            browse: "Ảnh mô tả"
+        },
+    });
+
+</script>
+

@@ -1,0 +1,94 @@
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@using Mono.Web
+
+
+@{
+
+    var CateCurrent = (HNM.DataNC.ModelsNC.ModelsDTO.ProductCategoryDTO)ViewBag.CateCurrent;
+    var ListCateChildren = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.ListCateChildren;
+    var ProductTypeId = (int?)ViewBag.ProductTypeId;
+    var ProductCategoryId = (int?)ViewBag.ProductCategoryId;
+    var ManufactureId = (int?)ViewBag.ManufactureId;
+    var ProductModelId = (int?)ViewBag.ProductModelId;
+    var LocationId= (int?)ViewBag.LocationId;
+    var CurentCategoryId= (int)ViewBag.CurentCategoryId;
+
+    var ListManufactures = (HNM.DataNC.ModelsNC.ModelsDTO.ListManufactureSearchDTO)ViewBag.ListManufactures;
+    var ListModels = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductModelSearchDTO)ViewBag.ListModels;
+    var ListLocations = (HNM.DataNC.ModelsNC.ModelsDTO.ListLocationDTO)ViewBag.ListLocations;
+}
+
+
+<article>
+    <div class="container">
+        <div class="search-module mt-3 pb-4 bg-white">
+            <div class="title">
+                <h3 class="text-uppercase px-2 py-3">Bộ lọc sản phẩm</h3>
+            </div>
+            <div class="search-content d-flex m-2 mb-3">
+                <div class="step input-box pl-0 col-3">
+                    <select id="filter_category" onchange="filterModuleOnchange();">
+
+                        <option value="@CateCurrent.ProductCategoryId">Tất cả @CateCurrent.Name</option>
+                        @foreach (var item in ListCateChildren.Data)
+                        {
+                            <option value="@item.ProductCategoryId">@item.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="step input-box pl-0 col-3">
+                    <select id="filter_manu" onchange="filterModuleOnchange();">
+                        <option value="">Chọn hãng sản xuất</option>
+                        @foreach (var item in ListManufactures.Data)
+                        {
+                        <option value="@item.ProductManufactureId">@item.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="step input-box pl-0 col-3">
+                    @if (ManufactureId > 0)
+                    {
+                        <select id="filter_model" onchange="filterModuleOnchange();">
+                            <option value="">Chọn model</option>
+                            @foreach (var item in ListModels.Data)
+                            {
+                                <option value="@item.ProductModelId">@item.Name</option>
+                            }
+                        </select>
+                    }
+                    else
+                    {
+                        <select id="filter_model" onchange="filterModuleOnchange();" disabled>
+                            <option value="">Chọn model</option>
+                        </select>
+                    }
+                </div>
+                <div class="step input-box p-0 col-3">
+                    <select id="filter_location" onchange="filterModuleOnchange();">
+                        <option value="">Tỉnh thành</option>
+                        @foreach (var item in ListLocations.Data)
+                        {
+                        <option value="@item.LocationId">@item.Name</option>
+                        }
+                    </select>
+                </div>
+
+            </div>
+            @*<ul class="progressbar m-0">
+            </ul>*@
+
+
+        </div>
+    </div>
+</article>
+
+
+<script>
+    $(document).ready(function () {
+        $('#filter_category option[value=' + @ProductCategoryId + ']').attr('selected', 'selected');
+        $('#filter_manu option[value=' + @ManufactureId + ']').attr('selected', 'selected');
+        $('#filter_model option[value=' + @ProductModelId + ']').attr('selected', 'selected');
+        $('#filter_location option[value=' + @LocationId + ']').attr('selected', 'selected');
+    });
+</script>

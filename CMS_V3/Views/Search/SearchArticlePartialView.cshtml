@@ -1,0 +1,157 @@
+﻿
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@*@using X.PagedList.Mvc.Core;
+    @using X.PagedList;
+    @using X.PagedList.Mvc.Common;*@
+
+
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Mvc.Common;
+
+@model HNM.DataNC.ModelsNC.ModelsDTO.ArticleSearchDTO
+
+@{
+    var SearchString = (string)ViewBag.SearchString;
+    var TypeSearch = (int)ViewBag.TypeSearch;
+    var pageCurrent = (int)ViewBag.PageCurrent;
+    var pageSize = (int)ViewBag.PageSize;
+    var ProductPaging = (X.PagedList.IPagedList<HNM.DataNC.ModelsStore.Article_Search_Result>)ViewBag.ProductPaging;
+}
+@if (Model.TotalRecord > 0)
+{
+    <div class="article-content pt-2 px-1 bg-white mt-3">
+        <div class="d-block d-lg-flex justify-content-lg-between align-items-center mt-2 mb-4">
+            <span class=" mx-1 justify-content-start">Tìm thấy @Model.TotalRecord bài viết với từ khoá <span class="font-weight-bold">"@SearchString"</span></span>
+            <div class="justify-content-md-end justify-content-left align-items-center d-block d-sm-flex paging">
+                <span class="justify-content-end m-0 mx-1 numperpage">Số kết quả / Trang:</span>
+                <select name="" onchange="SelectPageSize(this)" class="justify-content-end">
+                    <option value="20" selected="@(pageSize == 20 ? "selected" : null)">20</option>
+                    <option value="5" selected="@(pageSize == 5 ? "selected" : null)">5</option>
+                    <option value="10" selected="@(pageSize == 10 ? "selected" : null)">10</option>
+                    <option value="15" selected="@(pageSize == 15 ? "selected" : null)">15</option>
+                    <option value="25" selected="@(pageSize == 25 ? "selected" : null)">25</option>
+                    <option value="30" selected="@(pageSize == 30 ? "selected" : null)">30</option>
+                </select>
+                <nav aria-label="Page navigation " class="justify-content-sm-end justify-content-center mx-1">
+                    <ul class="pagination m-0">
+                        @Html.PagedListPager(ProductPaging, page => ("/Search/SearchRecruitmentPartialView?search=" + @SearchString + "&typeSearch=" + TypeSearch + "&pageSize=" + pageSize + "&page=" + page),
+                        new PagedListRenderOptions
+                        {
+                            LiElementClasses = new string[] { "page-item" },
+                            PageClasses = new string[] { "page-link" },
+                            DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+                            DisplayLinkToLastPage = X.PagedList.Web.Common.PagedListDisplayMode.Never,
+                            MaximumPageNumbersToDisplay = 5,
+                         }
+                        )
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="swiper-wrapper" style="width: 1104px; transform: translate3d(0px, 0px, 0px);">
+            @foreach (var item in Model.Data)
+            {
+                <div class="swiper-slide" style="margin-top: 10px; width: 266px; margin-right: 10px;">
+                    <div class="card">
+                        <a href="#">
+                            <div class="image"><div class="img" style="background-image:url('@item.Image') "></div></div>
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="col-3 px-0"><img src="@item.Image"></div>
+                                    <div class="col-9 pl-1 pr-0">
+                                        <h6 class="card-title">@item.Title</h6>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-end mt-1">
+                                    <span class="address text-muted">@item.SubTitle</span>
+                                </div>
+
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            }
+
+        </div>
+
+
+        <div class="d-block d-lg-flex justify-content-lg-between align-items-center mt-2 mb-4">
+            <span class=" mx-1 justify-content-start">Tìm thấy @Model.TotalRecord bài viết với từ khoá <span class="font-weight-bold">"@SearchString"</span></span>
+            <div class="justify-content-md-end justify-content-left align-items-center d-block d-sm-flex paging">
+                <span class="justify-content-end m-0 mx-1 numperpage">Số kết quả / Trang:</span>
+                <select name="" onchange="SelectPageSize(this)" class="justify-content-end">
+                    <option value="20" selected="@(pageSize == 20 ? "selected" : null)">20</option>
+                    <option value="5" selected="@(pageSize == 5 ? "selected" : null)">5</option>
+                    <option value="10" selected="@(pageSize == 10 ? "selected" : null)">10</option>
+                    <option value="15" selected="@(pageSize == 15 ? "selected" : null)">15</option>
+                    <option value="25" selected="@(pageSize == 25 ? "selected" : null)">25</option>
+                    <option value="30" selected="@(pageSize == 30 ? "selected" : null)">30</option>
+                </select>
+                <nav aria-label="Page navigation " class="justify-content-sm-end justify-content-center mx-1">
+                    <ul class="pagination m-0">
+                        @Html.PagedListPager(ProductPaging, page => ("/Search/SearchRecruitmentPartialView?search=" + @SearchString + "&typeSearch=" + TypeSearch + "&pageSize=" + pageSize + "&page=" + page),
+                        new PagedListRenderOptions
+                        {
+                            LiElementClasses = new string[] { "page-item" },
+                            PageClasses = new string[] { "page-link" },
+                            DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+                            DisplayLinkToLastPage = X.PagedList.Web.Common.PagedListDisplayMode.Never,
+                            MaximumPageNumbersToDisplay = 5,
+                         }
+                        )
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+    </div>
+}
+else
+{
+    <div class="article-content px-1 bg-white mt-3">
+        <div class="d-block d-lg-flex justify-content-lg-between align-items-center mt-2 mb-4 text-center">
+            <span class=" mx-1 justify-content-start">Không tìm thấy kết quả cho <span class="font-weight-bold">“@SearchString”</span></span>
+        </div>
+        <div class="row m-0">
+            <div class="text-center search-notfound py-3">
+                <lottie-player src="./json/search-empty.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop="" autoplay=""></lottie-player>
+                <h5>Không có kết quả phù hợp.</h5>
+                <p>Xin lỗi, chúng tôi không tìm thấy kết quả nào phù hợp với yêu cầu của bạn. Vui lòng kiểm tra lại từ khoá hoặc tìm kiếm sản phẩm khác!</p>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    $(function () {
+
+        var getPage = function () {
+            var $a = $(this);
+            var pageClick = $a.attr("href").split("page=")[1];
+
+            ChangeUrl(pageClick, '@pageSize', '@TypeSearch', '@SearchString');
+            var options = {
+                url: $a.attr("href"),
+                data: $("form").serialize(),
+                type: "get"
+            };
+
+            $.ajax(options).done(function (response) {
+                $(@TypeSearch == -1 ? '.searh-data-result' : '.category-panel').html(response);
+            });
+            return false;
+        };
+
+
+        $(".article-content").on("click", "ul.pagination li a", getPage);
+
+    });
+
+    function SelectPageSize(sel) {
+         ChangeUrl('@pageCurrent', sel.value , '@TypeSearch', '@SearchString');
+        SearchArticlePartialView('@pageCurrent',sel.value);
+
+    }
+</script>

@@ -1,0 +1,77 @@
+﻿@model Tuple<List<HNM.DataNC.ModelsNC.ModelsDTO.ArticleDTO>,List<HNM.DataNC.ModelsNC.ModelsDTO.ArticleDTO>,HNM.DataNC.ModelsNC.ModelsDTO.ArticleDTO>
+
+    <article>
+        <div class="article-content py-3 px-1 mt-2 bg-white">
+            <div class="row m-0">
+                <div class="news-left col-xl-6 col-lg-8 col-md-8 col-sm-12 border-right">
+                    <div class="news">
+                        <a href="/bai-viet/@Model.Item3.URL">
+                            <img class="card-img -top" src="@Model.Item3.FullUrlImage" data-src="@Model.Item3.FullUrlImage" alt="@Model.Item3.Title">
+                            <div class="card-body">
+                                <h4 class="card-title">@Model.Item3.Title</h4>
+                                <p class="card-text my-2">
+                                    @Model.Item3.Description
+                                </p>
+                                <div class="d-flex justify-content-end">
+                                    <span class="time text-muted">@Utils.RenderTimeSince(@Model.Item3.LastEditDate)</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="news-center col-xl-3 col-lg-4 col-md-4 col-sm-12 col-12 border-right">
+                    @{
+                        var stt = 1;
+                    }
+                    @foreach (var item in Model.Item1)
+                    {
+                        var i = stt++;
+                        if (i == 1)
+                        {
+                            <div class="news news-sm border-bottom mb-4 pb-1 col-md-12 col-sm-6 col-12 px-0">
+                                <a href="/bai-viet/@item.URL">
+                                    <img class="card-img -top" src="@item.FullUrlImage" data-src="@item.FullUrlImage" alt="@item.Title">
+                                    <div class="card-body p-0 pb-2">
+                                        <h6 class="card-title mt-2">@item.Title</h6>
+                                        <div class="d-flex justify-content-end mt-3">
+                                            <span class="time text-muted">@Utils.RenderTimeSince(item.LastEditDate)</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="ews news-sm pb-1  col-md-12 col-sm-6 col-12 px-0">
+                                <a href="/bai-viet/@item.URL">
+                                    <img class="card-img -top" src="@item.FullUrlImage" data-src="@item.FullUrlImage" alt="@item.Title">
+                                    <div class="card-body p-0 pb-2">
+                                        <h6 class="card-title mt-2">@item.Title</h6>
+                                        <div class="d-flex justify-content-end mt-3">
+                                            <span class="time text-muted">@Utils.RenderTimeSince(item.LastEditDate)</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                    }
+                </div>
+                <div class="news-right col-xl-3 col-lg-12 col-md-12 col-sm-12 col-12">
+                    @foreach (var item in Model.Item2)
+                    {
+                    <div class="col-xl-12 col-md-6 col-sm-6 col-12 news news-vsm border-bottom mb-2 pb-2  px-0">
+                        <a href="/bai-viet/@item.URL">
+                            <div class="card-body d-flex align-items-center p-0">
+                                <div class="col-7 mx-0 p-0"><h6 class="card-title">@item.Title</h6></div>
+                                <div class="col-5 ml-1 mr-0 p-0"><img class="card-img -top" src="@item.FullUrlImage" data-src="@item.FullUrlImage" alt="@item.Title"></div>
+                            </div>
+                        </a>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </article>
+    <div class="line-seprate ">
+        <div class="border-top border-bottom m-3 "></div>
+    </div>

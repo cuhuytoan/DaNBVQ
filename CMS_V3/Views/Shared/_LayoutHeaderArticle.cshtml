@@ -1,0 +1,122 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextaccessor
+
+<section class="header navbar-expand-sm">
+    <div class="  container p-0">
+        <div class="d-block d-sm-flex align-items-center pt-2 pb-1  pt-sm-1 pb-sm-1">
+            <div class="col-1 d-inline-block d-lg-none pr-0 pt-2 pt-sm-0 ">
+                <a href="#my-menu" class="mburger">
+                    <span></span>
+                </a>
+            </div>
+            <div class="col-10 col-lg-2 col-md-3 col-sm-3 pr-0 text-center pl-2 pl-sm-2  d-inline-block align-top">
+                <a href="/">
+                    <img src="~/Assets/images/logo.webp" alt="logo" />
+                </a>
+            </div>
+            <div class="col-12 col-lg-5 col-md-8 col-sm-8 pr-lg-2 px-3 my-sm-0 my-2">
+                <form class="search-form" action="/tim-kiem" id="form_search">
+                    <div class="input-group input-group-sm">
+                        <input type="text" name="search" class="form-control" aria-label="Search" placeholder="Tìm kiếm">
+                        <div class="input-group-append">
+                            <select name="typeSearch">
+                                <option value="-1">Tất cả</option>
+                                <option value="1">Sản phẩm</option>
+                                <option value="2">Nhà cung cấp</option>
+                                <option value="3">Dịch vụ</option>
+                                <option value="4">Việc làm</option>
+                                <option value="5">Hồ sơ xin việc</option>
+                                <option value="6">Bài viết</option>
+                            </select>
+                        </div>
+                        <div class="d-none">
+                            <button type="submit" class="input-group-text" form="form_search">Search</button>
+                        </div>
+
+                    </div>
+                    @*<div class="result bg-white p-2" style="display: none">
+                            <h5 class="text-uppercase">Truy cập nhanh</h5>
+                            <ul>
+                                <li><a href="#">Kết quả search </a></li>
+                                <li><a href="#">Kết quả search 1</a></li>
+                                <li><a href="#">Kết quả search 3</a></li>
+                                <li><a href="#">Kết quả search 5</a></li>
+                            </ul>
+
+                        </div>*@
+                </form>
+            </div>
+            <div class="col-lg-3 col-md-4 d-none d-lg-block ">
+                <nav class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Trang chủ</a>
+                    </li>
+                    <li class="nav-item ml-3">
+                        <a class="nav-link active" href="/tin-tuc">Tin Tức</a>
+                    </li>
+                </nav>
+            </div>
+            @if (httpContextaccessor.HttpContext.Request.Cookies["JWT"] != null)
+            {
+                <div class="col-12 col-lg-2 col-md-3 col-sm-3 pl-0 d-none d-lg-block ">
+                    <nav class="nav justify-content-sm-end justify-content-center d-flex">
+                        <li class="nav-item">
+                            <a class="nav-link " href="/tai-khoan?id=1"><img class="lazyload" src="~/Assets/images/noti.webp" alt="thong-bao" /></a>
+                            <span class="noti-count">3</span>
+                            <div class="noti-detail text-center" id="notification" style="display: none">
+
+                            </div>
+                        </li>
+                        <li class="nav-item ml-3 ml-sm-1">
+                            <a class="nav-link" href="/tai-khoan"><img class="lazyload" src="~/Assets/images/user.webp" alt="nguoi-dung" /></a>
+                        </li>
+                        <li class="nav-item ml-3  ml-sm-1">
+                            <a class="nav-link" href="#"><img class="lazyload" src="~/Assets/images/f-vn.webp" alt="ngon-ngu" /></a>
+                        </li>
+                    </nav>
+                </div>
+            }
+            else
+            {
+                <div class="col-12 col-lg-3 col-md-3 col-sm-3 pl-0 d-none d-lg-block ">
+                    <nav class="nav justify-content-sm-end justify-content-center d-flex">
+                        <li class="nav-item">
+
+                            @Html.ActionLink("Đăng nhập", "Login", "Account", null, new { @class = "nav-link ajaxcall" })
+                        </li>
+                        <li class="nav-item ml-3 ml-sm-1">
+                            <a class="nav-link ajaxcall" href="./signup1.html">Đăng ký</a>
+                        </li>
+                        <li class="nav-item ml-3  ml-sm-1">
+                            <a class="nav-link" href="#"><img src="~/Assets/images/f-vn.webp" /></a>
+                        </li>
+                    </nav>
+                </div>
+            }
+
+        </div>
+    </div>
+
+</section>
+<script src="~/js/jquery-3.3.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const typeSearch = urlParams.get('typeSearch') == null ? "1" : urlParams.get('typeSearch');
+        $('.search-form option[value=' + typeSearch + ']').attr('selected', 'selected');
+
+        $.ajax({
+            type: "GET",
+            url: "/Home/Notification",
+            dataType: "html",
+            success: function (response) {
+                $('#notification').html(response);
+            },
+            failure: function (response) {
+
+            },
+            error: function (response) {
+
+            }
+        });
+    });
+</script>

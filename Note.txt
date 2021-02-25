@@ -1,0 +1,2 @@
+Máy để bán ProductType_ID = 1
+Vật tư ProductType_ID = 7

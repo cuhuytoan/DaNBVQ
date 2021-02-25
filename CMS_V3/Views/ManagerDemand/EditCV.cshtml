@@ -1,0 +1,290 @@
+﻿@model HNM.DataNC.ModelsNC.ModelsDTO.CVDetailDTO
+
+@{ 
+    var textImage = "";
+    int stt = 1;
+    foreach (var item in Model.CVPictures)
+    {
+        int i = stt++;
+        if (i <= 1)
+        {
+            textImage = textImage + "\"" + item.UrlImage + "\"";
+        }
+        else
+        {
+            textImage = textImage + ",\"" + item.UrlImage + "\"";
+        }
+
+    }
+
+    var detail = Html.Raw(Model.CVDetails.IntroInfomation);
+}
+
+<style>
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+</style>
+
+<div class="bg-white py-1 mx-auto px-0 px-md-2">
+    <div class="header-box text-center  ">
+        <div class="backtouploadimage" style="display: none;">
+            <button type="button" class="back">
+                <span aria-hidden="true"></span>
+            </button>
+        </div>
+        <h3 class="text-uppercase mt-1">SỬA TIN TÌM VIỆC</h3>
+        <input type="text" class="form-control" id="Id" name="Id" value="@Model.CVDetails.Id" hidden="hidden">
+
+    </div>
+    <div class="content-box  mx-auto ">
+        <form action="#" enctype="multipart/form-data" method="POST">
+            <div class="first-form text-center">
+                <div class="row">
+                    <div class="col-12 col-lg-3 col-md-5 pr-md-0 mb-3 mb-md-0">
+                        <div class="custom-file-container" data-upload-id="cover-img">
+                            <label style="display: none;">
+                                Upload File
+                                <a href="javascript:void(0)"
+                                   class="custom-file-container__image-clear"
+                                   title="Clear Image">&times;</a>
+                            </label>
+                            <input type="file"
+                                   class="custom-file-container__custom-file__custom-file-input"
+                                   accept="image/jpeg, image/png, image/gif, image/svg+xml"
+                                   aria-label="Choose File" name="MainImage" id="MainImage" />
+                            <input type="hidden" name="MAX_FILE_SIZE" value="2097152" />
+                            <div class="custom-file-container__image-preview">
+                                <label class="custom-file-container__custom-file">
+
+                                    <span class="custom-file-container__custom-file__custom-file-control"></span>
+                                </label>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-12 col-lg-9 col-md-7">
+                        <div class="custom-file-container" data-upload-id="thumb-img">
+                            <label style="display: none;">
+                                Upload File
+                                <a href="javascript:void(0)"
+                                   class="custom-file-container__image-clear"
+                                   title="Clear Image">&times;</a>
+                            </label>
+                            <input type="file"
+                                   class="custom-file-container__custom-file__custom-file-input"
+                                   accept="image/jpeg, image/png, image/gif, image/svg+xml"
+                                   multiple
+                                   aria-label="Choose File" id="SubImage" name="SubImage" />
+                            <input type="hidden" name="MAX_FILE_SIZE" value="2097152" />
+
+                            <div class="custom-file-container__image-preview">
+                                <label class="custom-file-container__custom-file">
+                                    <span class="custom-file-container__custom-file__custom-file-control"></span>
+                                </label>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="note pt-4">
+                        <p>Bước 1: Chọn ảnh cho bài viết (tối đa 20 ảnh)</p>
+                    </div>
+                    <ul class="progressbar-post m-0 d-table">
+                        <li class="step1 active"><div class="counter">1</div></li>
+                        <li class="step2"><div class="counter">2</div></li>
+                    </ul>
+                    <div class=" justify-content-center d-block text-center mt-3">
+                        <button type="button" class="btn btn-primary mb-2 next-editform-button">Tiếp theo</button>
+                    </div>
+                </div>
+            </div>
+            <div class="next-form" style="display: none">
+                <div class="form-group">
+                    <label for="inputAddress">Họ và tên:*</label>
+                    <input type="text" class="form-control" name="FullName" id="FullName2" value="@Model.CVDetails.FullName" placeholder="VD: Nguyễn Văn A">
+
+                </div>
+                <div class="row form-group">
+                    <div class="col">
+                        <label for="inputAddress">Ngày sinh:*</label>
+                        <input type="date" class="form-control" name="DOB" id="DOB">
+                    </div>
+                    <div class="col">
+                        <label for="inputAddress">Giới tính:*</label>
+                        <select name="Gender" id="Gender2" class="form-control">
+                            @if (Model.CVDetails.Gender == true)
+                            {
+                                <option value="true" selected="selected">Nam</option>
+                                <option value="false">Nữ</option>
+                            }
+                            else
+                            {
+                                <option value="true">Nam</option>
+                                <option value="false" selected="selected">Nữ</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col">
+                        <label for="inputAddress">Địa chỉ:*</label>
+                        <input type="text" class="form-control" name="HomeTown" id="HomeTown" value="@Model.CVDetails.HomeTown" placeholder="VD: Dịch vọng, Cầu Giấy, Hà Nội">
+                    </div>
+
+                    <div class="col">
+                        <label for="inputAddress">Số điện thoại:*</label>
+                        <input type="number" name="Phone" id="Phone1" class="form-control" value="@Model.CVDetails.Phone" placeholder="VD: 0948178386" onkeydown="javascript: return event.keyCode === 8 ||event.keyCode === 46 ? true : !isNaN(Number(event.key))" />
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col">
+                        <label for="inputAddress">Bạn làm nghề gì?*</label>
+                        @(Html.Kendo().ComboBox()
+                                    .Text(Model.CVDetails.CareerCategoryName)
+                                     .Value(Model.CVDetails.CareerCategoryId.ToString())
+                                   .Name("CareerCategoryId")
+                                   .HtmlAttributes(new {@class = "form-control"})
+                                   .Placeholder("Chọn nghề...")
+                                   .DataTextField("Name")
+                                   .DataValueField("Id")
+                                   .Filter("contains")
+                                   .Suggest(true)
+                                   .DataSource(source =>
+                                   {
+                                       source.Read(read =>
+                                       {
+                                           read.Action("GetAllCareerCategory", "ManagerDemand");
+                                       }).ServerFiltering(false);
+                                   })
+                                 )
+                    </div>
+                    <div class="col">
+                        <label for="inputAddress">Bằng cấp, chứng chỉ:</label>
+                        <input type="text" class="form-control" name="Certificate" id="Certificate" value="@Model.CVDetails.Certificate" placeholder="VD: Bằng C">
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col">
+                        <label for="inputAddress">Thiết bị liên quan:</label>
+                        @(Html.Kendo().ComboBox()
+                           .Text(Model.CVDetails.ProductCateRelateName)
+                           .Value(Model.CVDetails.ProductCateRelate.ToString())
+                           .Name("ProductCateRelate")
+                           .HtmlAttributes(new {@class = "form-control"})
+                           .Placeholder("Chọn thiết bị....")
+                           .DataTextField("Name")
+                           .DataValueField("ProductCategoryId")
+                           .Filter("contains")
+                           .Suggest(true)
+                           .DataSource(source =>
+                           {
+                               source.Read(read =>
+                               {
+                                   read.Action("GetLstProductCateRe", "Service");
+                               }).ServerFiltering(true);
+                           })
+                           )
+                    </div>
+                    <div class="col">
+                        <label for="inputAddress">Số năm kinh nghiệm:</label>
+                        <input type="number" class="form-control" name="YearsOfExperience" id="YearsOfExperience" value="@Model.CVDetails.YearsOfExperience" placeholder="VD: 2 năm">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputAddress">Mức lương mong muốn:</label>
+                    <input type="number" class="form-control" name="Salary" id="Salary" value="@Convert.ToInt64(Convert.ToDecimal(Model.CVDetails.Salary))" placeholder="VD: 10000000">
+
+                </div>
+
+                <div class="form-group">
+                    <label for="inputAddress">Mong muốn làm việc tại (tối đa 3):*</label>
+                    <input type="text" class="form-control" name="LocalWork" id="LocalWork" value="@Model.CVDetails.LocalWork" placeholder="VD: Hà Nội, Hải Dương, Hải Phòng">
+                </div>
+
+                <div class="form-group">
+                    <label for="inputAddress">Bài viết giới thiệu về bản thân:*</label>
+                    @(Html.Kendo().Editor()
+                                                 .Value(Model.CVDetails.IntroInfomation)
+                                                 .Name("IntroInfomation")
+                                                 .HtmlAttributes(new { style = "width:98%;min-height: 50px;", placeholder = "Nhập nội dung mô tả ở đây..", aria_label = "editor" , id = "content_val"})
+                                                 .Resizable(resizable => resizable.Content(true).Toolbar(true))
+                                                 //.Placeholder("Nhập nội dung mô tả ở đây...")
+                                                 .Messages(p =>
+                                                 {
+                                                     p.Bold("Chữ đậm");
+                                                     p.Underline("gạch chân");
+                                                     p.Bold("Chữ đậm");
+                                                     p.Italic("Chữ nghiêng");
+                                                     p.Indent("Thụt lề");
+                                                     p.InsertImage("Thêm ảnh");
+                                                     p.InsertHtml("Thêm HTML");
+                                                     p.FontName("Chọn font");
+                                                     p.ImageWebAddress("Địa chỉ web");
+                                                 })
+                                                 .Tools(tools => tools
+                                                    .Clear()
+                                                     .Bold().Italic().Underline().Strikethrough()
+                                                     .Outdent().Indent()
+                                                     .CreateLink().Unlink()
+                                                     .InsertImage()
+                                                     .InsertFile()
+                                                     .TableEditing()
+                                                     .ViewHtml()
+                                                 )
+                                          .StyleSheets(css => css
+                                              .Add(Url.Content("~/css/Editor.css"))
+                                          )
+                                    )
+                </div>
+
+                <div class="text-center">
+                    <div class=" justify-content-center d-block text-center mt-3">
+                        <button type="button" class="btn btn-primary mb-2" id="buttonCreate" onclick="EditCV(event)">Đăng bài</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="~/Assets/js/file-upload-with-preview.min.js"></script>
+<script src="~/Assets/js/validation-product.js"></script>
+
+<script>
+    var upload = new FileUploadWithPreview("cover-img", {
+        text: {
+            chooseFile: "",
+            browse: "Chọn ảnh đại diện bài viết"
+        },
+        presetFiles: ["@Model.CVDetails.FullUrlAvatar"]
+    });
+    var upload1 = new FileUploadWithPreview("thumb-img", {
+        maxFileCount: 20,
+        text: {
+            chooseFile: "",
+            browse: "Ảnh mô tả"
+        },
+        presetFiles: [@Html.Raw(textImage)]
+    });
+
+    $(document).ready(function () {
+        document.getElementById("DOB").value = "@Convert.ToDateTime(Model.CVDetails.DOB).ToString("yyyy-MM-dd")";
+    });
+
+</script>
+
+
+<script src="~/Assets/jsController/managerDemandController.js"></script>
+

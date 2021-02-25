@@ -1,0 +1,108 @@
+﻿@using Microsoft.Extensions.Configuration
+@using Mono.Web
+@inject IConfiguration Configuration
+
+@{
+    Layout = "_LayoutArticle";
+}
+
+@{
+    var ListVideo = (List<HNM.DataNC.ModelsNC.ModelsDTO.VideoShortInfo>)ViewBag.ListVideo;
+    var MenuMachine = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuMachine;
+    var MenuMaterials = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuMaterials;
+    var MenuServices = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuServices;
+    var MenuHeader = (List<HNM.DataNC.ModelsNC.ModelsDTO.LibraryCategoryDTO>)ViewBag.MenuHeader;
+
+    int currentPage = ViewBag.Page;
+    int pageSize = ViewBag.PageSize;
+    int TotalPages = ViewBag.TotalPages;
+}
+
+@section metatags{
+    <title>Chuyên mục video - HANOMA.VN</title>
+    <meta name="keywords" content="@HttpUtility.HtmlDecode(@Configuration["DefaultKeyword"])" />
+    <meta name="description" content="@HttpUtility.HtmlDecode(@Configuration["DefaultDescription"])" />
+    <link id="canonical" rel="canonical" href="@Configuration["DomainName"]/chuyen-muc-video" />
+}
+
+<!-- Content-->
+<section class="category">
+    @await Html.PartialAsync("VideoHeader.cshtml")
+
+    <article class="personal-info">
+        <div id="data-video">
+          
+        </div>
+    </article>
+</section>
+
+<script type="application/ld+json">
+    {
+    "@@context": "https://schema.org",
+    "@@type": "Article",
+    "mainEntityOfPage": {
+    "@@type": "WebPage",
+    "@@id": "https://hanoma.vn/chuyen-muc-video"
+    },
+    "headline": "Article headline",
+    "author": {
+    "@@type": "Person",
+    "name": "Hanoma.vn"
+    },
+    "publisher": {
+    "@@type": "Organization",
+    "name": "Hanoma.vn",
+    "logo": {
+    "@@type": "ImageObject",
+    "url": "https://hanoma.vn/assets/pages/img/logo_hanoma2.png"
+    }
+    },
+    "description": "@Configuration["DefaultDescription"]"
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        LoadData();
+    });
+
+    function ChangeUrl(page, pageSize) {
+        var urlChange = "/chuyen-muc-video?page=" + page +
+            "&pageSize=" + pageSize;
+        history.pushState({}, "", urlChange);
+    }
+
+    function LoadData() {
+        $.ajax({
+            type: "GET",
+            url: "/Video/GetPaggingVideo?page=" + @currentPage + "&pageSize=" + @pageSize,
+            dataType: "html",
+            success: function (response) {
+                $('#data-video').html(response);
+            },
+            failure: function (response) {
+
+            },
+            error: function (response) {
+
+            }
+        });
+    }
+
+    function LoadDataByPageSize(pageSize) {
+        $.ajax({
+            type: "GET",
+            url: "/Video/GetPaggingVideo?page=" + @currentPage + "&pageSize=" + pageSize,
+            dataType: "html",
+            success: function (response) {
+                $('#data-video').html(response);
+            },
+            failure: function (response) {
+
+            },
+            error: function (response) {
+
+            }
+        });
+    }
+
+</script>

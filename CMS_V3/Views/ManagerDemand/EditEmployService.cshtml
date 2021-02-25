@@ -1,0 +1,351 @@
+﻿@model HNM.DataNC.ModelsNC.ModelsDTO.ProductDetailsDTO
+
+@{
+    var parentName = ViewBag.ParentName;
+    var parentID = ViewBag.ParentID;
+    var textImage = "";
+
+    int stt = 1;
+    foreach (var item in Model.ProductPictures)
+    {
+        int i = stt++;
+        if (i <= 1)
+        {
+            textImage = textImage + "\"" + item.UrlImage + "\"";
+        }
+        else
+        {
+            textImage = textImage + ",\"" + item.UrlImage + "\"";
+        }
+
+    }
+}
+<link href="~/Assets/css/custom.css" rel="stylesheet" />
+<div class="bg-white py-1 mx-auto  px-0 px-md-2">
+    <div class="header-box text-center  ">
+        <div class="backtouploadimage" style="display: none;">
+            <button type="button" class="back">
+                <span aria-hidden="true"></span>
+            </button>
+        </div>
+        <h3 class="text-uppercase mt-1">SỬA TIN CẦN THUÊ DỊCH VỤ</h3>
+    </div>
+    <div class="content-box  mx-auto  ">
+        <form action="/ManagerDemand/EditDemand" method="post" enctype="multipart/form-data" onsubmit="return CreateDemand()">
+            <div class="first-form text-center">
+                <div class="row">
+                    <div class="col-12 col-lg-3 col-md-5 pr-md-0 mb-3 mb-md-0">
+                        <div class="custom-file-container" data-upload-id="cover-img">
+                            <label style="display: none;">
+                                Upload File
+                                <a href="javascript:void(0)"
+                                   class="custom-file-container__image-clear"
+                                   title="Clear Image">&times;</a>
+                            </label>
+                            <input type="file"
+                                   class="custom-file-container__custom-file__custom-file-input"
+                                   accept="image/jpeg, image/png, image/gif, image/svg+xml"
+                                   aria-label="Choose File" name="MainImage" id="MainImage" onchange="onSelectMain()"/>
+                            <input type="hidden" name="MAX_FILE_SIZE" value="2097152" />
+                            <div class="custom-file-container__image-preview">
+                                <label class="custom-file-container__custom-file">
+
+                                    <span class="custom-file-container__custom-file__custom-file-control"></span>
+                                </label>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-12 col-lg-9 col-md-7">
+                        <div class="custom-file-container" data-upload-id="thumb-img">
+                            <label style="display: none;">
+                                Upload File
+                                <a href="javascript:void(0)"
+                                   class="custom-file-container__image-clear"
+                                   title="Clear Image">&times;</a>
+                            </label>
+                            <input type="file"
+                                   class="custom-file-container__custom-file__custom-file-input"
+                                   accept="image/jpeg, image/png, image/gif, image/svg+xml"
+                                   multiple
+                                   aria-label="Choose File" name="SubImage" id="SubImage" onchange="onSelectSub()"/>
+                            <input type="hidden" name="MAX_FILE_SIZE" value="2097152" />
+
+                            <div class="custom-file-container__image-preview">
+                                <label class="custom-file-container__custom-file">
+                                    <span class="custom-file-container__custom-file__custom-file-control"></span>
+                                </label>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="note pt-4">
+                        <p>Bước 1: Chọn ảnh cho bài viết (tối đa 20 ảnh)</p>
+                    </div>
+                    <ul class="progressbar-post m-0 d-table">
+                        <li class="step1 active"><div class="counter">1</div></li>
+                        <li class="step2"><div class="counter">2</div></li>
+                    </ul>
+                    <div class=" justify-content-center d-block text-center mt-3">
+                        <button type="button" class="btn btn-primary mb-2 next-editform-button">Tiếp theo</button>
+                    </div>
+                </div>
+            </div>
+            <input type="text" class="form-control" id="Product_ID" name="ProductId" value="@Model.ProductDetails.Product_ID" hidden="hidden">
+
+            <div class="next-form px-lg-custom" style="display: none">
+                <div class="form-group">
+                    <label>Tiêu đề bài đăng:*</label>
+                    <input type="text" class="form-control" id="Name" name="Name" value="@Model.ProductDetails.Name" placeholder="VD: Cần mua máy xúc đào bánh xích">
+
+                </div>
+                <div class="form-group">
+                    <label>Chọn dịch vụ:*</label>
+                    @(Html.Kendo().ComboBox()
+                                .Text(Model.ProductDetails.ProductCategoryName)
+                                .Value(Model.ProductDetails.ProductCategory_ID.ToString())
+                                .Name("ProductCategoryId")
+                                .HtmlAttributes(new {@class = "form-control"})
+                                .Placeholder("Chọn Dịch vụ liên quan....")
+                                .DataTextField("Name")
+                                .DataValueField("ProductCategoryId")
+                                .Filter("contains")
+                                .Suggest(true)
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("GetAllServiceCate", "ManagerDemand");
+                                    }).ServerFiltering(false);
+                                })
+                            )
+                </div>
+                <div class="form-group">
+                    <label>Chọn chủng loại:*</label>
+                    @(Html.Kendo().ComboBox()
+                                .Text(Model.ProductDetails.ParenfProductCategoryName)
+                                .Value(Model.ProductDetails.ParenfProductCategory_ID.ToString())
+                                .Name("ProductCategoryIdParent")
+                                .HtmlAttributes(new {@class = "form-control"})
+                                .Placeholder("Chọn Thiết bị liên quan....")
+                                .DataTextField("Name")
+                                .DataValueField("ProductCategoryId")
+                                .Filter("contains")
+                                .Suggest(true)
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("GetLstProductCateLv1", "Service");
+                                    }).ServerFiltering(false);
+                                })
+                            )
+                </div>
+                <div class="form-group">
+                    <label>Chọn loại máy:*</label>
+                    @(Html.Kendo().ComboBox()
+                                .Text(Model.ProductDetails.RelatedCategoryName)
+                                .Value(Model.ProductDetails.RelatedCategoryId.ToString())
+                                .Name("RelatedCategoryId")
+                                .HtmlAttributes(new {@class = "form-control"})
+                                .Placeholder("Chọn Loại máy....")
+                                .DataTextField("Name")
+                                .DataValueField("ProductCategoryId")
+                                .Filter("contains")
+                                .Suggest(true)
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("GetLstProductCateLv2", "Service").Data("filterModelsExt2");
+                                    }).ServerFiltering(true);
+                                })
+                                .Events(e =>
+                                {
+                                    e.Change("onChangeLv2").Close("onSelectLv2").Filtering("onFiltering");
+                                })
+                                .Enable(false)
+                                .AutoBind(false)
+                                .CascadeFrom("ProductCategoryIdParent")
+                            )
+                </div>
+
+                <div class="form-group">
+                    <label for="inputAddress">Chọn địa chỉ:*</label>
+                    @(Html.Kendo().ComboBox()
+                                .Text(Model.ProductDetails.SaleLocationName)
+                                .Value(Model.ProductDetails.SaleLocation_ID.ToString())
+                                .Name("SaleLocationId")
+                                .HtmlAttributes(new {@class = "form-control"})
+                                .Placeholder("Chọn Tỉnh/Thành....")
+                                .DataTextField("Name")
+                                .DataValueField("LocationId")
+                                .Filter("contains")
+                                .Suggest(true)
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("GetAllLocation", "Service");
+                                    }).ServerFiltering(false);
+                                })
+                                .Events(e =>
+                                {
+                                    e.Change("onChangeLocation").Close("onSelectLocation").Filtering("onFiltering");
+                                })
+                            )
+                </div>
+
+                <div class="form-group">
+                    <label for="content">Nội dung chi tiết:*</label>
+                    <div>
+                        @(Html.Kendo().Editor()
+                                                 .Value(Model.ProductDetails.Content)
+                                                 .Name("Content")
+                                                 .HtmlAttributes(new { style = "width:98%;min-height: 50px;", placeholder = "Nhập nội dung mô tả ở đây..", aria_label = "editor", id = "content_val" })
+                                                 .Resizable(resizable => resizable.Content(true).Toolbar(true))
+                                                 //.Placeholder("Nhập nội dung mô tả ở đây...")
+                                                 .Messages(p =>
+                                                 {
+                                                     p.Bold("Chữ đậm");
+                                                     p.Underline("gạch chân");
+                                                     p.Bold("Chữ đậm");
+                                                     p.Italic("Chữ nghiêng");
+                                                     p.Indent("Thụt lề");
+                                                     p.InsertImage("Thêm ảnh");
+                                                     p.InsertHtml("Thêm HTML");
+                                                     p.FontName("Chọn font");
+                                                     p.ImageWebAddress("Địa chỉ web");
+                                                 })
+                                                 .Tools(tools => tools
+                                                    .Clear()
+                                                     .Bold().Italic().Underline().Strikethrough()
+                                                     .Outdent().Indent()
+                                                     .CreateLink().Unlink()
+                                                     .InsertImage()
+                                                     .InsertFile()
+                                                     .TableEditing()
+                                                     .ViewHtml()
+                                                 )
+                                          .StyleSheets(css => css
+                                              .Add(Url.Content("~/css/Editor.css"))
+                                          )
+                                    )
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <div class="note pt-4">
+                        <p>Bước 2: Nhập nội dung chỉnh sửa</p>
+                    </div>
+                    <ul class="progressbar-post m-0 d-table">
+                        <li class="step1 complete"><div class="counter">1</div></li>
+                        <li class="step2 active"><div class="counter">2</div></li>
+                    </ul>
+                    <div class=" justify-content-center d-block text-center mt-3">
+                        <button type="submit" class="btn btn-primary mb-2">Đăng bài</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="~/Assets/js/file-upload-with-preview.min.js"></script>
+
+@*<script>
+        var upload = new FileUploadWithPreview("cover-img", {
+            text: {
+                chooseFile: "",
+                browse: "Chọn ảnh đại diện bài viết"
+            }, presetFiles: ["~/images/article-banner1.jpg"]
+        });
+        var upload1 = new FileUploadWithPreview("thumb-img", {
+            showDeleteButtonOnImages: false,
+            maxFileCount: 20,
+            text: {
+                chooseFile: "",
+                browse: "Ảnh mô tả"
+            }, presetFiles: ["~/images/article-banner1.jpg", "~/images/article-banner1.jpg"]
+        });
+    </script>*@
+
+<script>
+    var upload = new FileUploadWithPreview("cover-img", {
+        text: {
+            chooseFile: "",
+            browse: "Chọn ảnh đại diện bài viết"
+        },
+        presetFiles: ["@Model.ProductDetails.UrlImage"]
+    });
+    var upload1 = new FileUploadWithPreview("thumb-img", {
+        maxFileCount: 20,
+        text: {
+            chooseFile: "",
+            browse: "Ảnh mô tả"
+        },
+        presetFiles: [@Html.Raw(textImage)]
+    });
+
+    function NextStepDemand() {
+        if ($("#mainimagedemand").val() == "") {
+            toastr["error"]("Ảnh đại diện không được để trống!");
+            return false;
+        }
+
+        if ($("#subimagedemand").val() == "") {
+            toastr["error"]("Ảnh mô tả không được để trống!");
+            return false;
+        }
+    }
+
+    function CreateDemand() {
+        if ($("#Name").val() == "") {
+            toastr["error"]("Tiêu đề bài đăng không được để trống");
+            $("#Name").focus();
+            return false;
+        }
+
+
+        if ($("#Name").val().length > 100) {
+            toastr["error"]("Tiêu đề không được quá 100 ký tự");
+            $("#Name").focus();
+            return false;
+        }
+
+        if ($("#ProductCategoryId").val() < 1) {
+            toastr["error"]("Loại máy không được để trống");
+            $("#ProductCategoryId").focus();
+            return false;
+        }
+        
+        if ($("#SaleLocationId").val() < 1) {
+            toastr["error"]("Địa chỉ không được để trống");
+            $("#SaleLocationId").focus();
+            return false;
+        }
+
+        if ($("#content_val").val() == "") {
+            toastr["error"]("Mô tả không để trống");
+            $("#content_val").focus();
+            return false;
+        }
+
+        if ($("#content_val").val().length < 10) {
+            toastr["error"]("Mô tả không được nhỏ hơn 10 ký tự");
+            $("#content_val").focus();
+            return false;
+        }
+        if ($("#content_val").val().length > 4000) {
+            toastr["error"]("Mô tả không được lớn hơn 4000 ký tự");
+            $("#content_val").focus();
+            return false;
+        }
+
+        toastr["success"]("Chỉnh sửa thành công");
+    }
+</script>
+

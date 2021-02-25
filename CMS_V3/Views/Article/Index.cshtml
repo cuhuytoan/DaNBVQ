@@ -1,0 +1,68 @@
+﻿@using Microsoft.Extensions.Configuration
+@using Mono.Web
+@inject IConfiguration Configuration
+@model CMS_V3.ViewModel.ArticleViewModel
+@{
+    var ArticleTopModel = Tuple.Create(Model.lstBlock1, Model.lstBlock2, Model.highlightArticle);
+    var ArticleHot = Tuple.Create(Model.lstHotArticle, Model.ArticleCategoryHotArticle);
+    var ArticleNew = Tuple.Create(Model.lstNews, Model.ArticleCategoryNew);
+    var ArticleBidding = Tuple.Create(Model.lstBidding, Model.ArticleCategoryBidding);
+}
+
+@{
+    Layout = "_LayoutArticle";
+}
+
+@{
+    var MenuMachine = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuMachine;
+    var MenuMaterials = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuMaterials;
+    var MenuServices = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuServices;
+    var MenuHeader = (List<HNM.DataNC.ModelsNC.ModelsDTO.ArticleCategoryDTO>)ViewBag.MenuHeader;
+}
+
+@section metatags
+{
+    <title>Chuyên mục tin tức - HANOMA.VN</title>
+    <meta name="keywords" content="@HttpUtility.HtmlDecode(@Configuration["DefaultKeyword"])" />
+    <meta name="description" content="@HttpUtility.HtmlDecode(@Configuration["DefaultDescription"])" />
+    <link id="canonical" rel="canonical" href="@Configuration["DomainName"]/tin-tuc" />
+}
+
+<section class="category">
+    @await Html.PartialAsync("ArticleHeader.cshtml")
+
+    @await Html.PartialAsync("ArticleTop.cshtml", ArticleTopModel)
+
+    @await Html.PartialAsync("ArticleByCategory.cshtml", ArticleHot)
+
+    @await Html.PartialAsync("ArticleByCategory.cshtml", ArticleNew)
+
+    @await Html.PartialAsync("ArticleByCategory.cshtml", ArticleBidding)
+</section>
+
+
+<script type="application/ld+json">
+    {
+    "@@context": "https://schema.org",
+    "@@type": "Article",
+    "mainEntityOfPage": {
+    "@@type": "WebPage",
+    "@@id": "https://hanoma.vn/tin-tuc"
+    },
+    "headline": "Article headline",
+    "author": {
+    "@@type": "Person",
+    "name": "Hanoma.vn"
+    },
+    "publisher": {
+    "@@type": "Organization",
+    "name": "Hanoma.vn",
+    "logo": {
+    "@@type": "ImageObject",
+    "url": "https://hanoma.vn/assets/pages/img/logo_hanoma2.png"
+    }
+    },
+    "description": "@Configuration["DefaultDescription"]"
+    }
+</script>
+

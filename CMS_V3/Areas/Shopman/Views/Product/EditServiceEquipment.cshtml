@@ -1,0 +1,440 @@
+﻿@model HNM.DataNC.ModelsNC.ModelsDTO.ProductDetailsDTO
+@using Kendo.Mvc.UI
+
+@{
+    ViewBag.Title = "Sửa tin cho thuê dịch vụ";
+    Layout = "~/Areas/Shopman/Views/Shared/_LayoutShopman.cshtml";
+
+    var Countries = new List<SelectListItem>() { new SelectListItem { Text = "2020", Value = "2020" }, new SelectListItem { Text = "2019", Value = "2019" }, new SelectListItem { Text = "2018", Value = "2018" }, new SelectListItem { Text = "2017", Value = "2017" }, new SelectListItem { Text = "2016", Value = "2016" }, new SelectListItem { Text = "2015", Value = "2015" }, new SelectListItem { Text = "2015", Value = "2015" }, new SelectListItem { Text = "2014", Value = "2014" }, new SelectListItem { Text = "2018", Value = "2018" }, new SelectListItem { Text = "2017", Value = "2017" }, new SelectListItem { Text = "2016", Value = "2016" }, new SelectListItem { Text = "2015", Value = "2015" }, new SelectListItem { Text = "2015", Value = "2015" }, new SelectListItem { Text = "2014", Value = "2014" }, new SelectListItem { Text = "2013", Value = "2013" }, new SelectListItem { Text = "2012", Value = "2012" }, new SelectListItem { Text = "2011", Value = "2011" }, new SelectListItem { Text = "2010", Value = "2010" }, new SelectListItem { Text = "2009", Value = "2009" }, new SelectListItem { Text = "2008", Value = "2008" }, new SelectListItem { Text = "2007", Value = "2007" }, new SelectListItem { Text = "2006", Value = "2006" }, new SelectListItem { Text = "2005", Value = "2005" }, new SelectListItem { Text = "2004", Value = "2004" }, new SelectListItem { Text = "2003", Value = "2003" }, new SelectListItem { Text = "2002", Value = "2002" }, new SelectListItem { Text = "2001", Value = "2001" }, new SelectListItem { Text = "2000", Value = "2000" }, new SelectListItem { Text = "1999", Value = "1999" }, new SelectListItem { Text = "1998", Value = "1998" }, new SelectListItem { Text = "1997", Value = "1997" }, new SelectListItem { Text = "1996", Value = "1996" }, new SelectListItem { Text = "1995", Value = "1995" }, new SelectListItem { Text = "1994", Value = "1994" }, new SelectListItem { Text = "1993", Value = "1993" }, new SelectListItem { Text = "1992", Value = "1992" }, new SelectListItem { Text = "1991", Value = "1991" }, new SelectListItem { Text = "1990", Value = "1990" } };
+}
+
+@{
+    var parentName = ViewBag.ParentName;
+    var parentID = ViewBag.ParentID;
+    var textImage = "";
+
+    int stt = 1;
+    foreach (var item in Model.ProductPictures)
+    {
+        int i = stt++;
+        if (i <= 1)
+        {
+            textImage = textImage + "\"" + item.UrlImage + "\"";
+        }
+        else
+        {
+            textImage = textImage + ",\"" + item.UrlImage + "\"";
+        }
+
+    }
+}
+
+<style>
+    .k-combobox .k-dropdown-wrap {
+        border-color: #F1F1F1;
+        color: #212529;
+        background-color: #F1F1F1;
+    }
+
+    .k-dropdown .k-dropdown-wrap, .k-dropdowntree .k-dropdown-wrap {
+        border-color: #F1F1F1;
+        background-color: #F1F1F1;
+    }
+</style>
+
+<div class="col-12 col-lg-10  content-right">
+    <form class="bg-white px-3 pt-3 pb-5" action="/ShopMan/Product/EditProduct" method="post" enctype="multipart/form-data" onsubmit="return CreateDemand()">
+        <div class="text-center mb-4">
+            <h3 class="font-weight-bold">SỬA TIN CHO THUÊ DỊCH VỤ</h3>
+        </div>
+        <div class="title">
+            <h4 class="text-uppercase  font-weight-bold py-3">HÌNH ẢNH</h4>
+        </div>
+        <div class="  row">
+            <div class="col-12 col-lg-3 col-md-5 pr-md-0 mb-3 mb-md-0">
+                <div class="custom-file-container" data-upload-id="cover-img">
+                    <label style="display: none;">
+                        Upload File
+                        <a href="javascript:void(0)"
+                           class="custom-file-container__image-clear"
+                           title="Clear Image">&times;</a>
+                    </label>
+                    <input type="file"
+                           class="custom-file-container__custom-file__custom-file-input"
+                           accept="image/jpeg, image/png, image/gif, image/svg+xml"
+                           aria-label="Choose File" name="MainImage" />
+                    <input type="hidden" name="MAX_FILE_SIZE" value="2097152" />
+                    <div class="custom-file-container__image-preview">
+                        <label class="custom-file-container__custom-file">
+
+                            <span class="custom-file-container__custom-file__custom-file-control"></span>
+                        </label>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-12 col-lg-9 col-md-7">
+                <div class="custom-file-container" data-upload-id="thumb-img">
+                    <label style="display: none;">
+                        Upload File
+                        <a href="javascript:void(0)"
+                           class="custom-file-container__image-clear"
+                           title="Clear Image">&times;</a>
+                    </label>
+                    <input type="file"
+                           class="custom-file-container__custom-file__custom-file-input"
+                           accept="image/jpeg, image/png, image/gif, image/svg+xml"
+                           multiple
+                           aria-label="Choose File" name="SubImage" />
+                    <input type="hidden" name="MAX_FILE_SIZE" value="2097152" />
+
+                    <div class="custom-file-container__image-preview">
+                        <label class="custom-file-container__custom-file">
+                            <span class="custom-file-container__custom-file__custom-file-control"></span>
+                        </label>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="">
+            <div class="title">
+                <h4 class="text-uppercase  font-weight-bold py-3">THÔNG TIN DỊCH VỤ</h4>
+            </div>
+            <div class="form-group">
+                <label for="inputAddress">Tên dịch vụ:*</label>
+                <input type="text" class="form-control" name="Name" id="Name" value="@Model.ProductDetails.Name" placeholder="VD: Cần mua máy xúc đào bánh xích">
+                <input type="text" class="form-control" id="Product_ID" name="ProductId" value="@Model.ProductDetails.Product_ID" hidden="hidden">
+            </div>
+            <div class="row ">
+                <div class="col-12 col-sm-6 ">
+                    <div class="row form-group">
+                        <div class="col">
+                            <label for="inputAddress">Giá dịch vụ:</label>
+                            <input type="number" class="form-control" name="Price" id="Price" value="@Convert.ToInt64(Convert.ToDecimal(Model.ProductDetails.Price))" placeholder="VD: 12345">
+                        </div>
+                        <div class="col pl-0 pl-sm-3">
+                            <label for="inputAddress">&nbsp;</label>
+                            @(Html.Kendo().DropDownList()
+                                .Text(Model.ProductDetails.UnitName)
+                                .Value(Model.ProductDetails.Unit)
+                                .Name("Unit")
+                                .HtmlAttributes(new {@class = "form-control"})
+                                .DataTextField("MinorName")
+                                .DataValueField("MinorID")
+                                .Filter("contains")
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("GetAllUnitService", "Product");
+                                    }).ServerFiltering(false);
+                                })
+                                )
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6  form-group">
+                    <label for="inputAddress">Ngành dịch vụ:*</label>
+                    @(Html.Kendo().ComboBox()
+                                .Text(Model.ProductDetails.ProductCategoryName)
+                                .Value(Model.ProductDetails.ProductCategory_ID.ToString())
+                                .Name("ProductCategoryId")
+                                .HtmlAttributes(new {@class = "form-control"})
+                                .Placeholder("Chọn Dịch vụ liên quan....")
+                                .DataTextField("Name")
+                                .DataValueField("ProductCategoryId")
+                                .Filter("contains")
+                                .Suggest(true)
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("GetAllServiceCate", "Product");
+                                    }).ServerFiltering(false);
+                                })
+                            )
+                </div>
+
+            </div>
+            <div class="row ">
+                <div class="col-12 col-sm-6">
+                    <div class="row form-group">
+                        <div class="col">
+                            <label for="inputAddress">Thiết bị liên quan đến dịch vụ của bạn:</label>
+                            @(Html.Kendo().ComboBox()
+                                .Text(Model.ProductDetails.ParenfProductCategoryName)
+                                .Value(Model.ProductDetails.ParenfProductCategory_ID.ToString())
+                                .Name("ProductCategoryIdParent")
+                                .HtmlAttributes(new {@class = "form-control"})
+                                .Placeholder("Chọn Thiết bị liên quan c1....")
+                                .DataTextField("Name")
+                                .DataValueField("ProductCategoryId")
+                                .Filter("contains")
+                                .Suggest(true)
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("GetLstProductCateLv1", "Product");
+                                    }).ServerFiltering(false);
+                                })
+                            )
+                        </div>
+                        <div class="col pl-0 pl-sm-3">
+                            <label for="inputAddress">&nbsp;</label>
+                            @(Html.Kendo().ComboBox()
+                                .Text(Model.ProductDetails.RelatedCategoryName)
+                                .Value(Model.ProductDetails.RelatedCategoryId.ToString())
+                                .Name("RelatedCategoryId")
+                                .HtmlAttributes(new {@class = "form-control"})
+                                .Placeholder("Chọn Thiết bị liên quan c2....")
+                                .DataTextField("Name")
+                                .DataValueField("ProductCategoryId")
+                                .Filter("contains")
+                                .Suggest(true)
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("GetLstProductCateLv2", "Product").Data("filterModels");
+                                    }).ServerFiltering(true);
+                                })
+                                .Enable(false)
+                                .AutoBind(false)
+                                .CascadeFrom("ProductCategoryIdParent")
+                            )
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6  form-group">
+                    <label for="inputAddress">Địa bàn cung cấp dịch vụ:</label>
+                    @(Html.Kendo().ComboBox()
+                        .Text(Model.ProductDetails.SaleLocationName)
+                         .Value(Model.ProductDetails.SaleLocation_ID.ToString())
+                         .Name("SaleLocationId")
+                         .HtmlAttributes(new {@class = "form-control"})
+                         .Placeholder("Chọn Tỉnh/Thành....")
+                         .DataTextField("Name")
+                         .DataValueField("LocationId")
+                         .Filter("contains")
+                         .Suggest(true)
+                         .DataSource(source =>
+                         {
+                             source.Read(read =>
+                             {
+                                 read.Action("GetAllLocation", "Product");
+                             }).ServerFiltering(false);
+                         })
+                     )
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputAddress">Nội dung chi tiết:*</label>
+                @(Html.Kendo().Editor()
+                    .Value(Model.ProductDetails.Content)
+                     .Name("Content")
+                     .HtmlAttributes(new { style = "width:100%;min-height: 50px;", placeholder = "Nhập nội dung chi tiết ở đây..", aria_label = "editor", id = "content_val" })
+                     .Resizable(resizable => resizable.Content(true).Toolbar(true))
+                     //.Placeholder("Nhập nội dung mô tả ở đây...")
+                     .Messages(p =>
+                     {
+                         p.Bold("Chữ đậm");
+                         p.Underline("gạch chân");
+                         p.Bold("Chữ đậm");
+                         p.Italic("Chữ nghiêng");
+                         p.Indent("Thụt lề");
+                         p.InsertImage("Thêm ảnh");
+                         p.InsertHtml("Thêm HTML");
+                         p.FontName("Chọn font");
+                         p.ImageWebAddress("Địa chỉ web");
+                     })
+                     .Tools(tools => tools
+                        .Clear()
+                         .Bold().Italic().Underline().Strikethrough()
+                         .Outdent().Indent()
+                         .CreateLink().Unlink()
+                         .InsertImage()
+                         .InsertFile()
+                         .TableEditing()
+                         .ViewHtml()
+                     )
+              .StyleSheets(css => css
+                  .Add(Url.Content("~/css/Editor.css"))
+              )
+            )
+            </div>
+
+            <div class="text-center">
+                <div class=" justify-content-center d-block text-center mt-3">
+                    <button type="submit" class="btn btn-primary  px-5">Đăng bài</button>
+                </div>
+            </div>
+
+        </div>
+    </form>
+
+</div>
+
+<script src="~/Assets/js/file-upload-with-preview.min.js"></script>
+<script src="~/Assets/js/validation-product.js"></script>
+<script>
+    var upload = new FileUploadWithPreview("cover-img", {
+        text: {
+            chooseFile: "",
+            browse: "Chọn ảnh đại diện bài viết"
+        },
+        presetFiles: ["@Model.ProductDetails.UrlImage"]
+    });
+    var upload1 = new FileUploadWithPreview("thumb-img", {
+        maxFileCount: 20,
+        text: {
+            chooseFile: "",
+            browse: "Ảnh mô tả"
+        },
+        presetFiles: [@Html.Raw(textImage)]
+    });
+</script>
+
+<script>
+    function filterModels() {
+        return {
+            ProductCategoryId: $("#ProductCategoryIdParent").val(),
+            modelFilter: $("#RelatedCategoryId").data("kendoComboBox").input.val()
+        };
+    }
+    $(document).ready(function () {
+        $("#QLSP").addClass("active");
+    });
+    function CreateDemand() {
+        var subImageList = [];
+        $('input[name^="SubImageUpload"]').each(function () {
+            subImageList.push($(this).val());
+        });
+
+        if (subImageList.length < 1) {
+            toastr.error('Ảnh mô tả không được để trống!');
+            return false;
+        }
+        if ($("#Name").val().trim() == "") {
+            toastr["error"]("Tên dịch vụ không được để trống");
+            $("#Name").focus();
+            return false;
+        }
+        if ($("#Name").val().trim().length > 100) {
+            toastr["error"]("Tên dịch vụ vượt quá 100 ký tự cho phép");
+            $("#Name").focus();
+            return false;
+        }
+        if (!checkSpecialCharacter($("#Name").val())) {
+            toastr["error"]("Tên dịch vụ không được nhập các ký tự đặc biệt");
+            $("#Name").focus();
+            return false;
+        }
+
+        var productcateId = $("#ProductCategoryId").val();
+        if (productcateId < 1) {
+            toastr["error"]("Ngành dịch vụ không được để trống");
+            return false;
+        }
+
+        if (isNaN(productcateId)) {
+            toastr["error"]("Ngành dịch vụ không tồn tại");
+            return false;
+        }
+
+        if ($("#Price").val() < 0) {
+            toastr["error"]("Giá dịch vụ không được <0");
+            return false;
+        }
+
+        var content = $("#content_val").val();
+
+        if (content == "") {
+            toastr["error"]("Nội dung chi tiết không để trống");
+            $("#Content").focus();
+            return false;
+        }
+
+        if (content.length < 10) {
+            toastr["error"]("Nội dung chi tiết không được nhỏ hơn 10 ký tự");
+            $("#Content").focus();
+            return false;
+        }
+
+        if (content.length > 4000) {
+            toastr["error"]("Nội dung chi tiết không được lớn hơn 4000 ký tự");
+            $("#Content").focus();
+            return false;
+        }
+
+        toastr["success"]("Sửa tin đăng dịch vụ thành công");
+    }
+
+
+    function onFiltering() {
+
+    }
+
+    function onChangeLv2(e) {
+        ProductCategoryId = $("#ProductCategoryIdLv2").val();
+    }
+
+    function onSelectLv2(e) {
+
+    }
+
+    function onChangeLocation(e) {
+        LocationName = $("#Location_ID").val();
+    }
+
+    function onSelectLocation(e) {
+
+    }
+
+    function onChangeModel() {
+        var ModelID = $("#ModelID").val();
+        changeModelValue(ModelID);
+    }
+
+    function filterModelsAccess() {
+        return {
+            ProductCategoryId: $("#ProductCategoryIdParent").val(),
+            modelFilter: $("#ProductCategoryId").data("kendoComboBox").input.val()
+        };
+    }
+
+    //function filterModelsManu() {
+    //    return {
+    //        ProductCategoryId: $("#ProductCategoryId").val(),
+    //        modelFilter: $("#ProductManufactureId").data("kendoComboBox").input.val()
+    //    };
+    //}
+
+    function filterModelsModel() {
+        return {
+            ManufactoryId: $("#ProductManufactureId").val(),
+            ProductCategoryId: $("#ProductCategoryId").val(),
+            modelFilter: $("#ProductModelId").data("kendoComboBox").input.val(),
+            text: $("#ProductModelId").data("kendoComboBox").input.val()
+        };
+    }
+
+    function filterModelsMaterial() {
+        return {
+            ProductCategoryId: $("#ProductCategoryIdParent").val(),
+            modelFilter: $("#ProductCategoryId").data("kendoComboBox").input.val()
+        };
+    }
+
+    function filterModelsAcc() {
+        return {
+            ProductCategoryId: $("#ProductCategoryId").val(),
+            modelFilter: $("#AccessoriesCategoryId").data("kendoComboBox").input.val()
+        };
+    }
+</script>

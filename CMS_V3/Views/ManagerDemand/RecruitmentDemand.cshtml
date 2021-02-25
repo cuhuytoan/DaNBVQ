@@ -1,0 +1,380 @@
+﻿@model HNM.DataNC.ModelsNC.ModelsDTO.SumPostRecDTO
+
+    <style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+<div class="bg-white px-0 mx-auto px-lg-5">
+    <div class="header-box text-center  mb-2">
+        <div class="backtouploadimage" style="display: none;">
+            <button type="button" class="back">
+                <span aria-hidden="true"></span>
+            </button>
+        </div>
+        <h3 class="text-uppercase mt-1">ĐĂNG TIN TUYỂN DỤNG</h3>
+    </div>
+    <div class="content-box  mx-auto text-left">
+        <form method="post" enctype="multipart/form-data">
+            <div class="first-form">
+                <div class="form-group">
+                    <label for="inputAddress">Tiêu đề bài đăng:*</label>
+                    <input type="text" class="form-control" name="Name" id="Name" placeholder="VD: Cần mua máy xúc đào bánh xích">
+                </div>
+                <div class="form-group">
+                    
+
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-12 col-md-6">
+                        <label for="inputAddress">Chọn ngành nghề:</label>
+                        @(Html.Kendo().ComboBox()
+                           .Name("RecruitmentCategoryId")
+                           .HtmlAttributes(new {@class = "form-control"})
+                           .Placeholder("Chọn Ngành nghề....")
+                           .DataTextField("Name")
+                           .DataValueField("Id")
+                           .Filter("contains")
+                           .Suggest(true)
+                           .DataSource(source =>
+                           {
+                               source.Read(read =>
+                               {
+                                   read.Action("GetAllCareerCategory", "ManagerDemand");
+                               }).ServerFiltering(true);
+                           })
+                           )
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label for="inputAddress">Yêu cầu về bằng cấp, chứng chỉ:</label>
+                        <input type="text" class="form-control" name="RequireOfCV" id="RequireOfCV" placeholder="VD: Bằng C">
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-12 col-md-6">
+                        <label for="inputAddress">Thiết bị liên quan đến công việc:</label>
+                        @(Html.Kendo().ComboBox()
+                           .Name("ProductCateChildRelate")
+                           .HtmlAttributes(new {@class = "form-control"})
+                           .Placeholder("Chọn Loại máy....")
+                           .DataTextField("Name")
+                           .DataValueField("ProductCategoryId")
+                           .Filter("contains")
+                           .Suggest(true)
+                           .DataSource(source =>
+                           {
+                               source.Read(read =>
+                               {
+                                   read.Action("GetLstProductCateRe", "Service");
+                               }).ServerFiltering(true);
+                           })
+                           )
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <label for="inputAddress">Kinh nghiệm:</label>
+                                <input type="number" class="form-control" name="RequireExp" id="RequireExp" placeholder="VD: 2">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label for="inputAddress">Số lượng</label>
+                                <input type="number" class="form-control" name="RecruimentNumber" id="RecruimentNumber" placeholder="VD: 2">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-12 col-md-6">
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <label for="inputAddress">Địa điểm làm việc:*</label>
+                                @(Html.Kendo().ComboBox()
+                                   .Name("Location_ID")
+                                   .HtmlAttributes(new {@class = "form-control"})
+                                   .Placeholder("Chọn địa điểm làm việc....")
+                                   .DataTextField("Name")
+                                   .DataValueField("LocationId")
+                                   .Filter("contains")
+                                   .Suggest(true)
+                                   .DataSource(source =>
+                                   {
+                                   source.Read(read =>
+                                   {
+                                   read.Action("GetAllLocation", "Service");
+                                   }).ServerFiltering(false);
+                                   })
+                                 )
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label for="inputAddress">Mức lương</label>
+                                <input type="number" class="form-control" name="PriceFrom" id="PriceFrom" placeholder="VD: 10000000">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label for="inputAddress">Hạn nộp hồ sơ:*</label>
+                        <input type="date" class="form-control" name="DeadlineOfCV" id="DeadlineOfCV" placeholder="VD: 01/01/2021">
+
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <label for="inputAddress">Nội dung chi tiết:*</label>
+                    @(Html.Kendo().Editor()
+                                                 .Name("Description")
+                                                 .HtmlAttributes(new { style = "width:98%;min-height: 50px;", placeholder = "Nhập nội dung chi tiết..", aria_label = "editor" })
+                                                 .Resizable(resizable => resizable.Content(true).Toolbar(true))
+                                                 //.Placeholder("Nhập nội dung mô tả ở đây...")
+                                                 .Messages(p =>
+                                                 {
+                                                     p.Bold("Chữ đậm");
+                                                     p.Underline("gạch chân");
+                                                     p.Bold("Chữ đậm");
+                                                     p.Italic("Chữ nghiêng");
+                                                     p.Indent("Thụt lề");
+                                                     p.InsertImage("Thêm ảnh");
+                                                     p.InsertHtml("Thêm HTML");
+                                                     p.FontName("Chọn font");
+                                                     p.ImageWebAddress("Địa chỉ web");
+                                                 })
+                                                 .Tools(tools => tools
+                                                    .Clear()
+                                                     .Bold().Italic().Underline().Strikethrough()
+                                                     .Outdent().Indent()
+                                                     .CreateLink().Unlink()
+                                                     .InsertImage()
+                                                     .InsertFile()
+                                                     .TableEditing()
+                                                     .ViewHtml()
+                                                 )
+                                          .StyleSheets(css => css
+                                              .Add(Url.Content("~/css/Editor.css"))
+                                          )
+                                    )
+                </div>
+
+                <div class="text-center">
+                    <div class="note pt-4">
+                        <p>Bước 1: Nhập thông tin tuyển dụng</p>
+                    </div>
+                    <ul class="progressbar-post m-0 d-table">
+                        <li class="step1 active"><div class="counter">1</div></li>
+                        <li class="step2 "><div class="counter">2</div></li>
+                    </ul>
+                    <div class=" justify-content-center d-block text-center mt-3">
+                        <button type="button" class="btn btn-primary mb-2 next-form-button2">Tiếp theo</button>
+                    </div>
+                </div>
+            </div>
+            <div class="next-form" style="display: none">
+                <div class="row">
+                    <div class="col-12 col-lg-3 col-md-5 pr-md-0 mb-3 mb-md-0">
+                        <div class="custom-file-container" data-upload-id="cover-img">
+                            <label style="display: none;">
+                                Upload File
+                                <a href="javascript:void(0)"
+                                   class="custom-file-container__image-clear"
+                                   title="Clear Image">&times;</a>
+                            </label>
+                            <input type="file"
+                                   class="custom-file-container__custom-file__custom-file-input"
+                                   accept="image/jpeg, image/png, image/gif, image/svg+xml"
+                                   aria-label="Choose File" name="MainImage" id="MainImage"/>
+                            <input type="hidden" name="MAX_FILE_SIZE" value="2097152" />
+                            <div class="custom-file-container__image-preview">
+                                <label class="custom-file-container__custom-file">
+                                    <span class="custom-file-container__custom-file__custom-file-control"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-12 col-lg-9 col-md-7">
+                        <div class="custom-file-container" data-upload-id="thumb-img">
+                            <label style="display: none;">
+                                Upload File
+                                <a href="javascript:void(0)"
+                                   class="custom-file-container__image-clear"
+                                   title="Clear Image">&times;</a>
+                            </label>
+                            <input type="file"
+                                   class="custom-file-container__custom-file__custom-file-input"
+                                   accept="image/jpeg, image/png, image/gif, image/svg+xml"
+                                   multiple
+                                   aria-label="Choose File" id="SubImage" name="SubImage"/>
+                            <input type="hidden" name="MAX_FILE_SIZE" value="2097152" />
+
+                            <div class="custom-file-container__image-preview">
+                                <label class="custom-file-container__custom-file">
+                                    <span class="custom-file-container__custom-file__custom-file-control"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <small>*Đăng ảnh chi tiết đầy đủ về công ty và công việc sẽ dễ tiếp cận ứng viên hơn</small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputAddress">Tên công ty:*</label>
+                    <input type="text" class="form-control" name="CompanyName" id="CompanyName" placeholder="VD: Cần mua máy xúc đào bánh xích">
+
+                </div>
+                <div class="row form-group">
+                    <div class="col-12 col-md-6">
+                        <label for="inputAddress">Địa chỉ:*</label>
+                        <input type="text" class="form-control" name="ContactAddress" id="ContactAddress" placeholder="VD: ABC XYZ">
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label for="inputAddress">Website:</label>
+                        <input type="text" class="form-control" name="CompanyWebsite" id="CompanyWebsite" placeholder="VD: ABC XYZ">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputAddress">Người liên hệ:*</label>
+                    <input type="text" class="form-control" name="ContactName" id="ContactName" placeholder="VD: Cần mua máy xúc đào bánh xích">
+                </div>
+                <div class="row form-group">
+                    <div class="col-12 col-md-6">
+                        <label for="inputAddress">Email:</label>
+                        <input type="text" class="form-control" name="ContactEmail" id="ContactEmail" placeholder="VD: ABC XYZ">
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label for="inputAddress">Số điện thoại:*</label>
+                        <input type="number" class="form-control" name="ContactPhone" id="ContactPhone" placeholder="VD: 0973654321" onkeydown="javascript: return event.keyCode === 8 ||event.keyCode === 46 ? true : !isNaN(Number(event.key))">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputAddress">Giới thiệu về công ty:</label>
+                    @(Html.Kendo().Editor()
+                                                 .Name("CompanyBusiness")
+                                                 .HtmlAttributes(new { style = "width:98%;min-height: 50px;", placeholder = "Nhập nội dung mô tả ở đây..", aria_label = "editor"})
+                                                 .Resizable(resizable => resizable.Content(true).Toolbar(true))
+                                                 //.Placeholder("Nhập nội dung mô tả ở đây...")
+                                                 .Messages(p =>
+                                                 {
+                                                     p.Bold("Chữ đậm");
+                                                     p.Underline("gạch chân");
+                                                     p.Bold("Chữ đậm");
+                                                     p.Italic("Chữ nghiêng");
+                                                     p.Indent("Thụt lề");
+                                                     p.InsertImage("Thêm ảnh");
+                                                     p.InsertHtml("Thêm HTML");
+                                                     p.FontName("Chọn font");
+                                                     p.ImageWebAddress("Địa chỉ web");
+                                                 })
+                                                 .Tools(tools => tools
+                                                    .Clear()
+                                                     .Bold().Italic().Underline().Strikethrough()
+                                                     .Outdent().Indent()
+                                                     .CreateLink().Unlink()
+                                                     .InsertImage()
+                                                     .InsertFile()
+                                                     .TableEditing()
+                                                     .ViewHtml()
+                                                 )
+                                          .StyleSheets(css => css
+                                              .Add(Url.Content("~/css/Editor.css"))
+                                          )
+                                    )
+                </div>
+
+                <div class="text-center">
+                    <div class="note pt-4">
+                        <p>Bước 2: Nhập thông tin về công ty hoặc cơ sở kinh doanh</p>
+                    </div>
+                    <ul class="progressbar-post m-0 d-table">
+                        <li class="step1 complete"><div class="counter">1</div></li>
+                        <li class="step2 active"><div class="counter">2</div></li>
+                    </ul>
+                    <div class=" justify-content-center d-block text-center mt-3">
+                        <button type="button" class="btn btn-primary mb-2" id="buttonCreate" onclick="CreateRecruitment(event)">Đăng bài</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(".next-form-button2").unbind("click").bind("click", function () {
+        var Name = $("#Name").val();
+        var RequireOfCV = $("#RequireOfCV").val();
+        var Location_ID = $("#Location_ID").val();
+        var DeadlineOfCV = $("#DeadlineOfCV").val();
+        var Description = $("#Description").val();
+        var RecruitmentCategoryId = $("#RecruitmentCategoryId").val();
+        if (Name == "") {
+            toastr["error"]("Tiêu đề bài đăng không được để trống");
+            $("#Name").focus();
+            return false;
+        }
+
+        if (Name.length > 100) {
+            toastr["error"]("Tiêu đề bài đăng không được quá 100 ký tự");
+            $("#Name").focus();
+            return false;
+        }
+
+        if (RecruitmentCategoryId < 1) {
+            toastr["error"]("Ngành nghề không được để trống");
+            $("#RecruitmentCategoryId").focus();
+            return false;
+        }
+
+        if (RequireOfCV.length > 30) {
+            toastr["error"]("Yêu cầu bằng cấp, chứng chỉ quá 30 ký tự");
+            $("#RecruitmentCategoryId").focus();
+            return false;
+        }
+
+        if (Location_ID < 1) {
+            toastr["error"]("Địa điểm làm việc");
+            $("#Location_ID").focus();
+            return false;
+        }
+
+        if (DeadlineOfCV == "") {
+            toastr["error"]("Hạn nộp hồ sơ không được để trống");
+            $("#DeadlineOfCV").focus();
+            return false;
+        }
+
+        if (Description == "") {
+            toastr["error"]("Mô tả công việc không được để trống");
+            $("#Description").focus();
+            return false;
+        }
+
+        if (Description.length < 100) {
+            toastr["error"]("Nội dung chi tiết không được nhỏ hơn 100 ký tự");
+            $("#Description").focus();
+            return false;
+        }
+
+        if (Description.length > 2000) {
+            toastr["error"]("Nội dung chi tiết không được lớn hơn 2000 ký tự");
+            $("#Description").focus();
+            return false;
+        }
+
+        $(".backtouploadimage").css("display", "block");
+        $(".first-form").slideUp(100);
+        $(".next-form").slideDown(100);
+    });
+</script>
+
+<script src="~/Assets/js/file-upload-with-preview.min.js"></script>
+<script src="~/Assets/js/validation-product.js"></script>
+<script src="~/Assets/jsController/managerDemandController.js"></script>
+<script src="~/Assets/jsController/CreateFormImageUpload.js"></script>

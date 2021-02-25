@@ -1,0 +1,354 @@
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@using Mono.Web
+
+
+@{
+    ViewBag.Title = "Máy để bán - HANOMA.VN";
+
+    var CategoryMenuHeader = ((HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO MenuMachine, HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO MenuMaterials, HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO MenuServices))ViewBag.CategoryMenuHeader;
+
+
+    var SubMenu656 = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.SubMenu656;
+    var SubMenu1902 = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.SubMenu1902;
+    var SubMenu669 = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.SubMenu669;
+    var ProductOfCate656 = (HNM.DataNC.ModelsNC.ModelsDTO.ProductPaggingDTO)ViewBag.ProductOfCate656;
+    var ProductOfCate1902 = (HNM.DataNC.ModelsNC.ModelsDTO.ProductPaggingDTO)ViewBag.ProductOfCate1902;
+    var ProductOfCate669 = (HNM.DataNC.ModelsNC.ModelsDTO.ProductPaggingDTO)ViewBag.ProductOfCate669;
+
+    var CateMenus = (List<HNM.DataNC.ModelsNC.ModelsDTO.ProductCategoryTwoLevelDTO>)ViewBag.CateMenus;
+    var CategoryMenuTakeTop = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.CategoryMenuTakeTop;
+}
+<meta name="keywords" content="m&#225;y x&#250;c đ&#224;o b&#225;nh x&#237;ch, m&#225;y x&#250;c đ&#224;o b&#225;nh x&#237;ch komatsu, m&#225;y x&#250;c đ&#224;o b&#225;nh x&#237;ch 55, m&#225;y x&#250;c đ&#224;o b&#225;nh x&#237;ch doosan 300, m&#225;y x&#250;c đ&#224;o b&#225;nh x&#237;ch doosan, m&#225;y x&#250;c đ&#224;o b&#225;nh x&#237;ch kobelco, m&#225;y x&#250;c đ&#224;o b&#225;nh x&#237;ch komatsu mới, b&#225;n m&#225;y x&#250;c đ&#224;ob&#225;nh x&#237;ch cũ, gi&#225; m&#225;y x&#250;c đ&#224;o b&#225;nh x&#237;ch, b&#225;n m&#225;y x&#250;c đ&#224;o b&#225;nh x&#237;ch cần d&#224;i " />
+<meta name="description" content="Mua b&#225;n, cho thu&#234; m&#225;y m&#243;c, thiết bị, phụ t&#249;ng v&#224; c&#225;c loại phương tiện vận tải, nguồn cung ứng lao động việc l&#224;m, trang th&#244;ng tin tổng hợp chuy&#234;n về c&#225;c  ng&#224;nh x&#226;y dựng, giao th&#244;ng vận tải, khai kho&#225;ng, cơ kh&#237; chế tạo, c&#244;ng n&#244;ng l&#226;m ngư nghiệp đầu ti&#234;n tại Việt Nam. " />
+<link id="canonical" rel="canonical" href="@System.Configuration.ConfigurationManager.AppSettings["DomainName"]" />
+
+<link href="~/css/bootstrap.min.css" rel="stylesheet" />
+<link href="~/css/style.css" rel="stylesheet" />
+<link href="~/css/responsive.css" rel="stylesheet" />
+
+<!-- Content -->
+<section class="category ">
+    <article>
+        <div class="d-flex banner align-items-center">
+            @await Html.PartialAsync("../Shared/CategoryMenuHeader.cshtml")
+            <nav aria-label="breadcrumb" class="col-sm-12 col-lg-9 px-3 pl-lg-0 pr-lg-0">
+                <ol class="breadcrumb p-0 m-0">
+                    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"><a href="/may-de-ban">Máy để bán</a></li>
+                </ol>
+            </nav>
+        </div>
+    </article>
+    <article>
+        <div class="d-lg-flex d-block mt-3">
+            <div class="col-lg-8 col-md-12 pr-3 pr-lg-0 ">
+                <div class="banner-container swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide"><img src="~/Assets/images/banner/to.webp" /></div>
+                        <div class="swiper-slide"><img src="~/Assets/images/banner/to1.webp" /></div>
+                        <div class="swiper-slide"><img src="~/Assets/images/banner/to2.webp" /></div>
+                        <div class="swiper-slide"><img src="~/Assets/images/banner/to3.webp" /></div>
+                        <div class="swiper-slide"><img src="~/Assets/images/banner/to4.webp" /></div>
+                    </div>
+                    <div class="swiper-pagination paging-right"></div>
+                    <div class="swiper-button-next swiper-button"></div>
+                    <div class="swiper-button-prev swiper-button"></div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-5 d-flex px-0 d-lg-block   mt-3 mt-lg-0">
+                <div class="col-lg-12 col-sm-6 col-6 pr-2 px-sm-3"><img class="mb-3 mb-xl-3 mb-lg-0" src="~/Assets/images/maydeban/maydeban2.webp" /></div>
+                <div class="col-lg-12 col-sm-6 col-6 pl-2 px-sm-3"><img src="~/Assets/images/maydeban/maydeban3.webp" /></div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="menu-container d-block d-lg-flex navbar navbar-expand-lg pb-2 mt-0 mt-lg-3 align-items-center category-list bg-white px-1">
+                <a class="navbar-brand d-inline-block d-lg-none" href="#">Danh mục</a>
+
+                <button class="navbar-toggler bg-black" type="button" data-toggle="collapse" data-target="#navbarNav-catemenu" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="manu navbar navbar-expand-lg category-menu col-12 col-lg-12 col-sm-12 d-block d-lg-flex  align-items-center p-0">
+                    <nav class="collapse " id="navbarNav-catemenu">
+                        <ul>
+                            <li class="nav-item col-2-5 active">
+                                <div class="link-box d-flex justify-content-between align-items-center">
+                                    <a class="nav-link d-flex justify-content-start" href="/may-de-ban">Tất cả sản phẩm</a>
+                                </div>
+                                @*<ul class="list-group   ">
+                @foreach (var item in CategoryMenuTakeTop.Data)
+                {
+                    <li class="nav-item col-2-5"><a class="nav-link" href="@string.Format($"ban" + "-{0}.pcat", item.URL)">@item.Name</a></li>
+                }
+            </ul>*@
+                            </li>
+                            @foreach (var item in CateMenus)
+                            {
+                                <li class="nav-item col-2-5">
+                                    <div class="link-box d-flex justify-content-between align-items-center">
+                                        <a class="nav-link d-flex justify-content-start" href="@string.Format($"ban" + "-{0}.pcat", item.ParentCategoryUrl)">@item.ParentCategoryName</a>
+                                    </div>
+                                    <ul class="list-group have_dropdown" style="display: none">
+                                        @foreach (var subItem in item.data)
+                                        {
+                                            <li class="nav-item col-2-5"><a class="nav-link" href="@string.Format($"ban" + "-{0}.pcat", @subItem.URL)">@subItem.Name</a></li>
+                                        }
+                                    </ul>
+                                </li>
+                            }
+
+                        </ul>
+
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <div class="line-seprate">
+        <div class="border-top border-bottom m-3 "></div>
+    </div>
+    <!-- Máy công trình  -->
+    <article>
+        <div class="article-header d-block d-lg-flex my-2">
+            <div class="category-title text-uppercase  px-2  align-items-center d-block d-lg-flex">
+                <h3 class="title">Máy công trình</h3>
+                <button class="navbar-toggler  d-lg-none d-flex" type="button" data-toggle="collapse" data-target="#navbarNav-mdb" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <div class="navbar collapse navbar-expand-lg category-menu pl-1 d-lg-flex pl-lg-4 align-items-center" id="navbarNav-mdb">
+                <div class="d-lg-flex d-block">
+                    <nav>
+                        @foreach (var item in SubMenu656.Data)
+                        {
+                            <li class="nav-item ml-md-2"><a class="nav-link" href="@string.Format($"ban" + "-{0}.pcat", @item.URL)">@item.Name</a></li>
+                        }
+                    </nav>
+                    <div class="nav-item ml-md-2 last readtotoal d-flex align-self-end"><a class="nav-link" href="ban-may-cong-trinh-656.pcat">Xem tất cả</a></div>
+                </div>
+            </div>
+
+        </div>
+        <div class="article-banner d-flex ads-container mx-3 mt-3">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <a href="#"><img src="~/Assets/images/article-banner1.webp" /></a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="#"><img src="~/Assets/images/article-banner3.webp" /></a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="#"><img src="~/Assets/images/article-banner2.webp" /></a>
+                </div>
+            </div>
+        </div>
+        <div class="article-content p-2 mt-2 products-container swiper-container bg-white swiper-container-initialized swiper-container-horizontal swiper-container-multirow">
+            <div class="swiper-wrapper">
+                @foreach (var item in ProductOfCate656.Data)
+                {
+                    <div class="swiper-slide">
+                        <div class="card">
+                            <a href="/@item.FullURL" class="d-flex flex-column">
+                                <div class="image"><div class="img" style="background-image:url('@item.UrlImage') "></div></div>
+                                <div class="card-body d-flex flex-column">
+                                    <h6 class="card-title">@item.Name</h6>
+                                    <div class="d-flex justify-content-between mt-1 mt-auto">
+                                        <span class="d-flex address text-muted justify-content-start">@item.LocationName</span>
+                                        <span class="d-flex time text-muted justify-content-end">@HNM.CommonNC.Utils.RenderTimeSince((DateTime)@item.LastEditDate)</span>
+                                    </div>
+                                    @if (item.Price > 0)
+                                    {
+                                        <h4 class="price">@HNM.CommonNC.Utils.RenderPrice(item.Price) <span class="curency">đ</span></h4>
+                                    }
+                                    else
+                                    {
+                                        <h4 class="price"> Liên hệ</h4>
+                                    }
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+
+    </article>
+
+    <div class="line-seprate ">
+        <div class="border-top border-bottom m-3 "></div>
+    </div>
+    <!-- Xe hơi -->
+    <article>
+        <div class="article-header d-block d-lg-flex my-2">
+            <div class="category-title text-uppercase  px-2  align-items-center d-block d-lg-flex">
+                <h3 class="title">Xe hơi</h3>
+                <button class="navbar-toggler  d-lg-none d-flex" type="button" data-toggle="collapse" data-target="#navbarNav-mdb1" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <div class="navbar collapse navbar-expand-lg category-menu pl-1 d-lg-flex pl-lg-4 align-items-center" id="navbarNav-mdb1">
+                <div class="d-lg-flex d-block">
+                    <nav>
+                        @foreach (var item in SubMenu1902.Data)
+                        {
+                            <li class="nav-item ml-md-2"><a class="nav-link" href="@string.Format($"ban" + "-{0}.pcat", @item.URL)">@item.Name</a></li>
+                        }
+                    </nav>
+                    <div class="nav-item ml-md-2 last readtotoal d-flex align-self-end"><a class="nav-link" href="ban-xe-hoi-1902.pcat">Xem tất cả</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="article-banner d-flex ads-container mx-3 mt-3">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <a href="#"><img src="~/Assets/images/article-banner1.webp" /></a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="#"><img src="~/Assets/images/article-banner3.webp" /></a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="#"><img src="~/Assets/images/article-banner2.webp" /></a>
+                </div>
+            </div>
+        </div>
+        <div class="article-content p-2 mt-2 products-container swiper-container bg-white swiper-container-initialized swiper-container-horizontal swiper-container-multirow">
+            <div class="swiper-wrapper">
+                @foreach (var item in ProductOfCate1902.Data)
+                {
+                    <div class="swiper-slide">
+                        <div class="card">
+                            <a href="/@item.FullURL" class="d-flex flex-column">
+                                <div class="image"><div class="img" style="background-image:url('@item.UrlImage') "></div></div>
+                                <div class="card-body d-flex flex-column">
+                                    <h6 class="card-title">@item.Name</h6>
+                                    <div class="d-flex justify-content-between mt-1 mt-auto">
+                                        <span class="d-flex address text-muted justify-content-start">@item.LocationName</span>
+                                        <span class="d-flex time text-muted justify-content-end">@HNM.CommonNC.Utils.RenderTimeSince((DateTime)@item.LastEditDate)</span>
+                                    </div>
+                                    @if (item.Price > 0)
+                                    {
+                                        <h4 class="price">@HNM.CommonNC.Utils.RenderPrice(item.Price) <span class="curency">đ</span></h4>
+                                    }
+                                    else
+                                    {
+                                        <h4 class="price"> Liên hệ</h4>
+                                    }
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+
+
+    </article>
+
+    <div class="line-seprate ">
+        <div class="border-top border-bottom m-3 "></div>
+    </div>
+    <!-- Xe tải chở hàng -->
+    <article>
+        <div class="article-header d-block d-lg-flex my-2">
+            <div class="category-title text-uppercase  px-2  align-items-center d-block d-lg-flex">
+                <h3 class="title">Xe tải chở hàng</h3>
+                <button class="navbar-toggler  d-lg-none d-flex" type="button" data-toggle="collapse" data-target="#navbarNav-mdb2" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <div class="navbar collapse navbar-expand-lg category-menu pl-1 d-lg-flex pl-lg-4 align-items-center" id="navbarNav-mdb2">
+                <div class="d-lg-flex d-block">
+                    <nav>
+                        @foreach (var item in SubMenu669.Data)
+                        {
+                            <li class="nav-item ml-md-2"><a class="nav-link" href="@string.Format($"ban" + "-{0}.pcat", @item.URL)">@item.Name</a></li>
+                        }
+                    </nav>
+                    <div class="nav-item ml-md-2 last readtotoal d-flex align-self-end"><a class="nav-link" href="ban-xe-tai-cho-hang-669.pcat">Xem tất cả</a></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="article-banner d-flex ads-container mx-3 mt-3">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <a href="#"><img src="~/Assets/images/article-banner1.webp" /></a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="#"><img src="~/Assets/images/article-banner3.webp" /></a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="#"><img src="~/Assets/images/article-banner2.webp" /></a>
+                </div>
+            </div>
+        </div>
+        <div class="article-content p-2 mt-2 products-container swiper-container bg-white swiper-container-initialized swiper-container-horizontal swiper-container-multirow">
+            <div class="swiper-wrapper">
+                @foreach (var item in ProductOfCate669.Data)
+                {
+                    <div class="swiper-slide">
+                        <div class="card">
+                            <a href="/@item.FullURL" class="d-flex flex-column">
+                                <div class="image"><div class="img" style="background-image:url('@item.UrlImage') "></div></div>
+                                <div class="card-body d-flex flex-column">
+                                    <h6 class="card-title">@item.Name</h6>
+                                    <div class="d-flex justify-content-between mt-1 mt-auto">
+                                        <span class="d-flex address text-muted justify-content-start">@item.LocationName</span>
+                                        <span class="d-flex time text-muted justify-content-end">@HNM.CommonNC.Utils.RenderTimeSince((DateTime)@item.LastEditDate)</span>
+                                    </div>
+                                    @if (item.Price > 0)
+                                    {
+                                        <h4 class="price">@HNM.CommonNC.Utils.RenderPrice(item.Price) <span class="curency">đ</span></h4>
+                                    }
+                                    else
+                                    {
+                                        <h4 class="price"> Liên hệ</h4>
+                                    }
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+
+    </article>
+
+    <div class="line-seprate ">
+        <div class="border-top border-bottom m-3 "></div>
+    </div>
+
+</section>
+
+
+
+<script src="./js/jquery-3.3.1.min.js"></script>
+
+<script type="application/ld+json">
+    var el_2 = document.createElement('script');
+    el_2.type = 'application/ld+json';
+    var bread = {
+    "@@context": "http://schema.org",
+    "@@type": "BreadcrumbList",
+    "itemListElement": []
+    }
+    $('.breadcrumb li.breadcrumb-item').each(function(index) {
+
+    var href = location.protocol + "//" + location.host + $(this).find("a").attr('href');
+    var name = $.trim($(this).text());
+
+    bread.itemListElement.push({
+    "@@type": "ListItem",
+    "position": index + 1,
+    "name": name,
+    "item": href
+    })
+    });
+
+    el_2.text = JSON.stringify(bread);
+    document.querySelector('head').appendChild(el_2);
+</script>

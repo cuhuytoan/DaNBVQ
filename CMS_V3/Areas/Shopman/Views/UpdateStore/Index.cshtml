@@ -1,0 +1,1163 @@
+﻿@using Kendo.Mvc.UI
+@using Newtonsoft.Json;
+@using HNM.DataNC.ModelsNC.ModelsDTO;
+@namespace CMS.Website.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper "*, Kendo.Mvc"
+
+@{
+    Layout = null;
+    var BrandPackage = (HNM.DataNC.ModelsNC.ModelsDTO.PaymentPackageDTO)ViewBag.BrandPackage;
+    var LstPaymentType = (List<HNM.DataNC.ModelsPayment.PaymentType>)ViewBag.LstPaymentType;
+    var LstBankATM = (List<HNM.DataNC.ModelsPayment.PaymentBanking>)ViewBag.LstBankATM;
+    var LstBankQT = (List<HNM.DataNC.ModelsPayment.PaymentBanking>)ViewBag.LstBankQT;
+    var LstBankCk = (List<HNM.DataNC.ModelsPayment.PaymentBanking>)ViewBag.LstBankCk;
+    var VNPAY = (List<HNM.DataNC.ModelsPayment.PaymentBanking>)ViewBag.VNPAY;
+    var OrderCodeReturn = ViewBag.OrderCodeReturn;
+    var ResponseCode = ViewBag.ResponseCodeReturn;
+    if (BrandPackage.TotalDeduct == null)
+    {
+        BrandPackage.TotalDeduct = 0;
+    }
+}
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextaccessor
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/Assets/css/bootstrap.min.css">
+    <link href="~/Assets/css/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Assets/css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" integrity="sha256-ENFZrbVzylNbgnXx0n3I1g//2WeO47XxoPe0vkp3NC8=" crossorigin="anonymous" />
+
+    <link href="https://kendo.cdn.telerik.com/2020.1.114/styles/kendo.bootstrap-v4.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/js/jquery-3.3.1.min.js"></script>
+
+    <script src="https://kendo.cdn.telerik.com/2020.1.114/js/jszip.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2020.1.114/js/kendo.all.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2020.1.114/js/kendo.aspnetmvc.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2020.1.114/js/cultures/kendo.culture.vi-VN.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js" async></script>
+    <title>Nâng cấp gian hàng - HANOMA.VN</title>
+    <style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        .tooltip1 {
+            color: black;
+            outline: none;
+            cursor: help;
+            text-decoration: none;
+            position: relative;
+        }
+
+            .tooltip1 span {
+                margin-left: -999em;
+                position: absolute;
+            }
+
+            .tooltip1:hover span {
+                border-radius: 5px 5px;
+                -moz-border-radius: 5px;
+                -webkit-border-radius: 5px;
+                box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+                -webkit-box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
+                -moz-box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
+                font-family: Calibri, Tahoma, Geneva, sans-serif;
+                position: absolute;
+                left: 1em;
+                top: 2em;
+                z-index: 9999999999999;
+                margin-left: 0;
+                width: 250px;
+            }
+
+            .tooltip1:hover img {
+                border: 0;
+                margin: -10px 0 0 -55px;
+                float: left;
+                position: absolute;
+            }
+
+            .tooltip1:hover em {
+                font-family: Candara, Tahoma, Geneva, sans-serif;
+                font-size: 1.2em;
+                font-weight: bold;
+                display: block;
+                padding: 0.2em 0 0.6em 0;
+            }
+
+        .classic {
+            padding: 0.8em 1em;
+        }
+
+        .custom {
+            padding: 0.5em 0.8em 0.8em 2em;
+        }
+
+        * html a:hover {
+            background: transparent;
+        }
+
+        .classic {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid #FFAD33;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <section class="header navbar-expand-sm ">
+        <div class="container-custom  p-0">
+            <div class="d-block d-sm-flex align-items-center pt-2 pb-1  pt-sm-1 pb-sm-1 justify-content-between">
+                <div class="col-12 col-lg-7 col-md-12 col-sm-12 pr-0 text-center pl-sm-2 pl-md-0  d-flex align-items-center">
+                    <a href="/" class="border-right pr-2">
+                        <img src="~/images/logo.png" alt="logo" />
+                    </a>
+                    <h5 class="px-2 header-title font-weight-bold">TRANG BÁN HÀNG</h5>
+                    <ul class="nav header-link d-none d-sm-flex">
+                        <li><a href="/"><img src="~/images/icon_home.png" /><span>Trang chủ</span></a></li>
+                        <li><a href="/Shopman"><img src="~/images/icon_store.png" /><span>Gian hàng</span></a></li>
+                    </ul>
+                </div>
+                @if (httpContextaccessor.HttpContext.Request.Cookies["JWT"] != null)
+                {
+                    var userName = "";
+                    SumProfileResponseDTO userProfile = new SumProfileResponseDTO();
+                    {
+                        var jwt = JsonConvert.DeserializeObject<SumProfileResponseDTO>(httpContextaccessor.HttpContext.Request.Cookies["JWT"]);
+                        userName = jwt.Profile.UserName;
+                        userProfile = jwt;
+                    }
+                    <div class="col-12 col-lg-5 col-md-5 col-sm-6 pr-0 d-none d-lg-block ">
+                        <nav class="nav justify-content-sm-end justify-content-center d-flex">
+                            <li class="nav-item ml-3 ml-sm-1 ">
+                                <a class="nav-link border-right" href="/tai-khoan"><img src="~/Assets/images/user.png" /><span class="ml-2">@userName</span> </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " href="/tai-khoan?id=1"><img class="lazyload" src="~/Assets/images/noti.png" alt="thong-bao" /></a>
+                                <span class="noti-count" id="noti-count2"></span>
+                                @*<div class="noti-detail text-center" id="notification" style="display: none">
+
+                                    </div>*@
+                            </li>
+                            <li class="nav-item ml-3  ml-sm-1">
+                                <a class="nav-link" href="#"><img src="~/images/f-vn.png" /></a>
+                            </li>
+                        </nav>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-12 col-lg-5 col-md-5 col-sm-6 pr-0 d-none d-lg-block ">
+                        <nav class="nav justify-content-sm-end justify-content-center d-flex">
+                            <li class="nav-item ml-3 ml-sm-1 ">
+                                @Html.ActionLink("Đăng nhập", "Login", "Account", null, new { @class = "nav-link ajaxcall" })
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link ajaxcall" href="~/signup1.html">Đăng ký</a>
+                            </li>
+                            <li class="nav-item ml-3  ml-sm-1">
+                                <a class="nav-link" href="#"><img src="~/images/f-vn.png" /></a>
+                            </li>
+                        </nav>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Content -->
+    <section class="content container-custom  ">
+        <article class="   mb-4">
+            <!--form action="./popupnangcap-fail.html" enctype="multipart/form-data" class = "row nangcapsubmit" -->
+            <form method="post" enctype="multipart/form-data" class=" d-block d-lg-flex nangcapsubmit" id="myForm">
+                <div class="col-lg-8 col-xl-9 col-12 nangcapgh">
+                    <div class="bg-white pt-4 pb-5">
+                        <a href="javascript:void(0)" class="cancel  px-3" onclick="Backform()">Trở về</a>
+                        <div class="content-title text-black px-3 d-flex justify-content-center align-items-center">
+                            <h1>Nâng cấp gian hàng</h1>
+                        </div>
+
+                        <div class="px-3 py-2 mb-2">
+                            <h4 class="font-weight-bold">Bước 1: Chọn gói nhà cung cấp</h4>
+                        </div>
+
+                        <div class="row px-3">
+                            @foreach (var item in BrandPackage.Package)
+                            {
+                                <div class="col-12 col-md-4 mb-2">
+                                    <div class="plan px-3 py-4 " id="block-service-@item.ServiceId">
+                                        <div class="plan-title mb-3 ">
+                                            <h5 class="font-weight-bold">@item.ServiceName</h5>
+                                        </div>
+                                        <ul class="plan-benefit list-unstyled">
+                                            <li class="d-flex justify-content-between"><span class="tooltip1">Số lượng sản phẩm<span class="classic">Bạn có thể được đăng bán hoặc cho thuê số lượng sản phẩm không hạn chế. Nhưng hàng tháng, số sản phẩm được hiện thị ra cho người dùng thấy sẽ theo quy mô kinh doanh mà bạn chọn.</span></span> <span>@item.ProductQty</span></li>
+                                            <li class="d-flex justify-content-between"><span class="tooltip1">Nhận nhu cầu khách hàng<span class="classic">Bạn sẽ nhận được những thông tin về nhu cầu cần mua, cần thuê sản phẩm hoặc dịch vụ của khách hàng trùng với những gì mà bạn cung cấp ngay trước khi chúng tôi công bố tin này ra công chúng. Đây là một trong những lợi ích rất lớn mà sàn Hanoma đem đến cho bạn. Số lần nhận thông tin như này sẽ theo quy mô kinh doanh mà bạn chọn.</span> </span><span>@item.ReceiveFromCus</span></li>
+                                            <li class="d-flex justify-content-between"><span class="tooltip1">Số lần renew / ngày<span class="classic">Hàng ngày bạn có thể vào làm mới (renew) các tin bán, cho thuê để sản phẩm của bạn được xuất hiện lên đầu trang giúp tăng cơ hội tiếp cận với khách hàng lên 30-50%. Số tin được làm mới phụ thuộc vào quy mô kinh doanh mà bạn chọn.</span> </span><span>@item.ReviewPerDay</span></li>
+                                            @if (item.RelateProduct == false)
+                                            {
+                                                <li class="d-flex justify-content-between"><span class="tooltip1">Sản phẩm tương tự<span class="classic">Sản phẩm của bạn sẽ xuất hiện trước mặt khách hàng trong gợi ý “Sản Phẩm Tương Tự” mỗi khi khách hàng xem bất kỳ một sản phẩm tương tự nào khác của đối thủ. Bạn sẽ nhận được ưu đãi này khi bạn trở thành Nhà Cung Cấp Lớn trên Hanoma.</span> </span><span class="unticked"></span></li>
+                                            }
+                                            else
+                                            {
+                                                <li class="d-flex justify-content-between"><span class="tooltip1">Sản phẩm tương tự<span class="classic">Sản phẩm của bạn sẽ xuất hiện trước mặt khách hàng trong gợi ý “Sản Phẩm Tương Tự” mỗi khi khách hàng xem bất kỳ một sản phẩm tương tự nào khác của đối thủ. Bạn sẽ nhận được ưu đãi này khi bạn trở thành Nhà Cung Cấp Lớn trên Hanoma.</span> </span><span class="ticked"></span></li>
+                                            }
+
+                                            @if (item.DisplayPriorityTopPage == false)
+                                            {
+                                                <li class="d-flex justify-content-between"><span class="tooltip1">Ưu tiên hiển thị đầu trang<span class="classic">Khi mọi người đều Renew sản phẩm của mình để được lên đầu trang thì sản phẩm của bạn sẽ được ưu tiên hiện thị trước nếu như bạn là Nhà Cung cấp lớn trên Hanoma.</span> </span><span class="unticked"></span></li>
+                                            }
+                                            else
+                                            {
+                                                <li class="d-flex justify-content-between"><span class="tooltip1">Ưu tiên hiển thị đầu trang<span class="classic">Khi mọi người đều Renew sản phẩm của mình để được lên đầu trang thì sản phẩm của bạn sẽ được ưu tiên hiện thị trước nếu như bạn là Nhà Cung cấp lớn trên Hanoma.</span> </span><span class="ticked"></span></li>
+                                            }
+
+                                            @if (item.PriorityArticle == false)
+                                            {
+                                                <li class="d-flex justify-content-between"><span class="tooltip1">Ưu tiên bài viết<span class="classic">Mỗi khi bạn xuất bản một bài viết để đóng góp cho thư viện cộng đồng. Chúng sẽ được tự động gửi đến các khách hàng tiềm năng trong lĩnh vực kiến thức mà bạn chia sẻ. Điều này sẽ giúp bạn tăng lượt người theo dõi gian hàng lên một cách nhanh chóng.</span> </span><span class="unticked"></span></li>
+                                            }
+                                            else
+                                            {
+                                                <li class="d-flex justify-content-between"><span class="tooltip1">Ưu tiên bài viết<span class="classic">Mỗi khi bạn xuất bản một bài viết để đóng góp cho thư viện cộng đồng. Chúng sẽ được tự động gửi đến các khách hàng tiềm năng trong lĩnh vực kiến thức mà bạn chia sẻ. Điều này sẽ giúp bạn tăng lượt người theo dõi gian hàng lên một cách nhanh chóng.</span> </span><span class="ticked"></span></li>
+                                            }
+
+                                            @if (item.SupportSale == false)
+                                            {
+                                                <li class="d-flex justify-content-between"><span class="tooltip1">Hỗ trợ bán hàng<span class="classic">Bạn sẽ luôn được một nhân viên tư vấn riêng trong quá trình kinh doanh trên Hanoma nhằm hỗ bạn về mọi mặt để phát huy tối đa các lợi ích của Hanoma đem đến cho bạn.</span> </span><span class="unticked"></span></li>
+                                            }
+                                            else
+                                            {
+                                                <li class="d-flex justify-content-between"><span class="tooltip1">Hỗ trợ bán hàng<span class="classic">Bạn sẽ luôn được một nhân viên tư vấn riêng trong quá trình kinh doanh trên Hanoma nhằm hỗ bạn về mọi mặt để phát huy tối đa các lợi ích của Hanoma đem đến cho bạn.</span> </span><span class="ticked"></span></li>
+                                            }
+                                        </ul>
+                                        @if (item.PricePerMonth <= 0)
+                                        {
+                                            <span class="total-price">MIỄN PHÍ</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="total-price">@HNM.CommonNC.Utils.RenderPrice(item.PricePerMonth) đ / <span>tháng</span></span>
+                                        }
+
+                                        @if (item.ServiceId == 1)
+                                        {
+                                            <label type="button" for="default-plan" class="btn mt-2 btn-block btn-disable"><span>Mặc định</span></label>
+                                        }
+
+                                        @if (item.ServiceId == 2)
+                                        {
+                                            <input name="choolseplan" value="2" id="nomal-plan" type="radio" class="d-none" onclick="SelectService(@item.ServiceId)" />
+                                            <label type="button" id="test-nomal" for="nomal-plan" class="btn mt-2 btn-block btn-unticked"><span>Chọn</span></label>
+                                        }
+
+                                        @if (item.ServiceId == 3)
+                                        {
+                                            <input name="choolseplan" id="big-plan" value="3" type="radio" class="d-none" onclick="SelectService(@item.ServiceId)" />
+                                            <label type="button" id="test-nomal-2" for="big-plan" class="btn mt-2 btn-block btn-unticked"><span>Chọn</span></label>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="px-3 py-4">
+                            <h4 class="font-weight-bold">Bước 2: Chọn thời gian</h4>
+                        </div>
+
+                        <div class="px-3">
+                            <ul class="exec-plan list-unstyled">
+                                <li>
+                                    <input name="plan-execute" type="radio" class="d-none" id="plan-one-month" value="1" onclick="SelectTime(1)">
+                                    <label for="plan-one-month">1 <span>Tháng</span></label>
+
+                                </li>
+                                <li>
+                                    <input name="plan-execute" type="radio" class="d-none" id="plan-three-month" value="3" onclick="SelectTime(3)">
+                                    <label for="plan-three-month">3 <span>Tháng</span></label>
+
+                                </li>
+                                <li>
+                                    <input name="plan-execute" type="radio" class="d-none" id="plan-six-month" value="4" onclick="SelectTime(4)">
+                                    <label for="plan-six-month">6 <span>Tháng</span></label>
+
+                                </li>
+                                <li id="li-month">
+                                    <input name="plan-execute" type="radio" class="d-none" id="plan-twelfth-month" value="5" onclick="SelectTime(5)">
+                                    <label id="test-month" for="plan-twelfth-month">12 <span>Tháng</span></label>
+
+                                </li>
+                                <li>
+                                    <input name="plan-execute" type="radio" class="d-none" id="plan-twenty-four-month" value="6" onclick="SelectTime(6)">
+                                    <label for="plan-twenty-four-month">24 <span>Tháng</span></label>
+                                </li>
+                            </ul>
+
+                        </div>
+                        <div class="px-3 py-4">
+                            <h4 class="font-weight-bold">Chọn hình thức thanh toán</h4>
+                        </div>
+                        <div class="px-3">
+                            <ul class="payment-plan list-unstyled mb-1 col-12 col-md-8 row align-items-center px-0">
+                                @foreach (var item in LstPaymentType)
+                                {
+                                    if (item.PaymentType_ID == 3)
+                                    {
+                                        <li class="col-12 col-sm-6 d-flex align-items-center mb-2">
+                                            <input name="plan-payment" type="radio" id="payment-credit" value="@item.PaymentType_ID" checked="checked" onclick="SelectPaymentType()">
+                                            <label for="payment-credit" class="ml-2">@item.Name</label>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="col-12 col-sm-6 d-flex align-items-center mb-2">
+                                            <input name="plan-payment" type="radio" id="payment-credit" value="@item.PaymentType_ID" onclick="SelectPaymentType()">
+                                            <label for="payment-credit" class="ml-2">@item.Name</label>
+                                        </li>
+                                    }
+                                }
+                            </ul>
+
+                            <div class="form-group col-12 col-sm-6 px-0" id="myVNpay" style="display: none">
+                                <label>Chọn ngân hàng *</label>
+                                @(Html.Kendo().ComboBox()
+                                    .Name("BankCodeATM")
+                                    .Placeholder("Chọn ngân hàng....")
+                                    .DataTextField("BankName")
+                                    .DataValueField("BankCode")
+                                    .BindTo(LstBankATM)
+                                    .HtmlAttributes(new {@class = "form-control"})
+                                    .Filter("contains")
+                                )
+                            </div>
+
+                            <div class="form-group col-12 col-sm-6 px-0" id="myTD" style="display: none">
+                                <label>Chọn ngân hàng *</label>
+                                @(Html.Kendo().ComboBox()
+                                    .Name("BankCodeQT")
+                                    .Placeholder("Chọn ngân hàng....")
+                                    .DataTextField("BankName")
+                                    .DataValueField("BankCode")
+                                    .BindTo(LstBankQT)
+                                    .HtmlAttributes(new {@class = "form-control"})
+                                    .Filter("contains")
+                                )
+                            </div>
+
+                            <div id="myDIVBank" style="display: none">
+                                <h4 class="font-weight-bold">Thông tin chuyển khoản</h4>
+                                <p class="my-2">Quý khách vui lòng chuyển khoản vào một trong những tài khoản phía dưới vối nội dung sau:</p>
+                                <input name="payment-comment" id="paymentCodeBill" value="NCGHL-0989969969-01" class="copytoclipboard">
+
+                                <div class="d-block d-md-flex mt-4 backaccount">
+                                    @foreach (var item in LstBankCk)
+                                    {
+                                        <div class="col-12 col-md-6 px-0 pl-md-2 mb-2">
+                                            <div class="bank-info d-flex">
+                                                <div class="col-2 col-sm-3  px-0 px-sm-2">
+                                                    <img src="@item.BankLogo" alt="BIDV bank" />
+                                                </div>
+                                                <div class="col-10 col-sm-9">
+                                                    <h5 class="font-weight-bold">@item.BankInfo</h5>
+                                                    <span class="d-block mt-2">Số tài khoản:<span class="font-weight-bold ml-3">@item.BankNumber</span></span>
+                                                    <span class="d-block  mt-2 pb-2">Người nhận: @item.BankReceive</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="file-upload mt-4">
+                                    <div class="file-select d-flex justify-content-between payment-evidence">
+                                        <div class="file-select-name" id="noFile">
+                                            Tải lên chứng từ chuyển khoản <br />(Uỷ nhiệm chi, hoặc màn hình chuyển khoản...)
+                                            <span class="d-block">Bấm vào để chọn file từ thiết bị của bạn.</span>
+                                        </div>
+                                        <input type="file" name="chooseFile" id="chooseFile">
+                                    </div>
+                                </div>
+
+                                <p class="mt-2">* Gian hàng sẽ được nâng cấp sau 24 giờ ngay sau khi chúng tôi nhận được tiền vào tài khoản.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 pl-lg-0 pl-3 col-lg-4 col-xl-3 mt-2 mt-lg-0 nangcapgh">
+                    <div class="bg-white py-4 px-4 ">
+                        <div class="font-weight-bold text-black px-3 d-flex justify-content-center align-items-center">
+                            <h3>ĐƠN HÀNG</h3>
+                        </div>
+                        <div id="update-nomal">
+                            <p id="label-bill" style="font-weight: bold"></p>
+                            <ul class="plan-benefit list-unstyled">
+                                @*<li class="d-flex justify-content-between"><span>Mã số giao dịch</span> <span id="OrderCode">NCC840914686899</span></li>*@
+                                <li class="d-flex justify-content-between"><span>Thời gian</span><span id="DateExp">@DateTime.Now.ToString("dd/MM/yyyy") đến <span id="todate"></span></span></li>
+                                <li class="d-flex justify-content-between"><span>Giá tiền</span><span id="Sum"></span></li>
+                                <li class="d-flex justify-content-between"><span>Giảm giá</span><span id="DiscountMoney"></span></li>
+                                <li class="d-flex justify-content-between"><span>Số tiền sau giảm giá (1):</span><span id="MoneyAfterDiscount"></span></li>
+                                <li class="d-flex justify-content-between"><span>VAT</span><span id="VAT"></span></li>
+                            </ul>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5>TỔNG ĐƠN HÀNG</h5>
+                                <div class="total-price" id="total-price"></div>
+                            </div>
+                        </div>
+
+                        <div id="update-big" style="display: none">
+                            <p id="label-bill-big" style="font-weight: bold"></p>
+                            <ul class="plan-benefit list-unstyled">
+                                <li class="d-flex justify-content-between"><span>Thời gian</span><span id="DateExpBig"></span></li>
+                                <li class="d-flex justify-content-between"><span>Giá tiền</span><span id="SumBig"></span></li>
+                                <li class="d-flex justify-content-between"><span>Giảm giá</span><span id="DiscountMoneyBig"></span></li>
+                                <li class="d-flex justify-content-between"><span>Số tiền sau giảm giá (1):</span><span id="MoneyAfterDiscountBig"></span></li>
+                            </ul>
+
+                            <p id="label-bill-big2" style="font-weight: bold">KHẤU TRỪ QUY MÔ VỪA</p>
+                            <ul class="plan-benefit list-unstyled">
+                                <li class="d-flex justify-content-between"><span>Số tháng còn lại quy mô vừa</span><span id="DateReman">@BrandPackage.MonthRemain tháng</span></li>
+                                <li class="d-flex justify-content-between"><span>Số tiền 1 tháng</span><span id="MoneyReman"></span></li>
+                                <li class="d-flex justify-content-between"><span>Tổng tiền khấu trừ (2)</span><span id="MoneyAfterDiscountBig1"></span></li>
+                                <li class="d-flex justify-content-between"><span>Số tiền sau khấu trừ (1)-(2):</span><span id="MoneyAfterDiscountBig2"></span></li>
+                                <li class="d-flex justify-content-between"><span>VAT</span><span id="VATBig"></span></li>
+                            </ul>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5>TỔNG ĐƠN HÀNG</h5>
+                                <div class="total-price" id="total-price-big"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="button-box">
+                        <div class="form-group mt-3">
+                            <input name="saf" id="agree" type="checkbox">
+                            <lable for="agree">Tôi đồng ý với các <a href="@Url.Action("Policy", "UpdateStore")" class="text-primary privacy-popup">chính sách của Hanoma</a></lable>
+                        </div>
+                        @*<button type="submit" id="submit-form" class="btn btn-disable btn-block" disabled>THỰC HIỆN THANH TOÁN</button>*@
+                        <button type="button" id="submit-form" class="btn  btn-block btn-unticked selected" onclick="ConfirmPayment()" style="display: none">THỰC HIỆN THANH TOÁN</button>
+                        <button type="button" id="submit-form2" class="btn btn-disable btn-block" disabled>THỰC HIỆN THANH TOÁN</button>
+                    </div>
+                </div>
+            </form>
+        </article>
+    </section>
+    <!-- menu mobile -->
+    <section>
+        <div class="navigation d-block d-lg-none">
+            <div class="d-flex align-items-center text-center list-unstyled mb-0 bg-white">
+                <a href="/" class="menu-item home"><img src="~/images/home.png" /><span> Trang chủ</span></a>
+                <a href="/Shopman" class="menu-item news"><img src="~/images/icon_store.png" /><span>Gian hàng</span></a>
+                <a href="/tai-khoan?id=1" class="menu-item noti"><img src="~/images/bell.png" /><span class="count" id="countd"></span><span>Thông báo</span></a>
+                <a href="/tai-khoan" class="menu-item account"><img src="~/images/profile.png" /><span>Tài khoản</span></a>
+            </div>
+
+        </div>
+    </section>
+
+    <div class="modal fade" id="main-popup" tabindex="-1" role="dialog" aria-labelledby="popup" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="text-right mx-1">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modal-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Assets/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Assets/js/select2.min.js"></script>
+    <script src="~/Assets/js/file-upload-with-preview.min.js"></script>
+    <script src="~/Assets/js/swiper-bundle.min.js"></script>
+    <script src="~/Assets/js/jquery.lazy.min.js"></script>
+    <script src="~/Assets/js/lottie-player.js"></script>
+    <script src="~/Assets/js/navScript.js"></script>
+    <script src="~/Assets/js/mmenu.js"></script>
+    <script src="~/Assets/js/custom.js"></script>
+    <script>
+        var ServiceIdPost = null;
+        var BankCode = null;
+        var OrderCode = null;
+        var PricePerMonthPost = 0;
+        var MonthCountPost = 0;
+        var PercentDiscountPost = 0;
+        var Sum = 0;    // Sum = PricePerMonthPost * MonthCountPost;
+        var PriceDiscount = 0; // PriceAfterDiscount =Sum - Sum * ((100 - PercentDiscountPost) / 100);
+        var PriceAfterDiscount = 0; //Sum - PriceDiscount;
+        var VAT = 0; //PriceAfterDiscount * (10 / 100);
+        var Total = 0;
+        var PaymentType_ID = 0;
+        var Discount_ID = 5;
+
+        //gán dịch vụ 2 và thời gian = 12 tháng
+        $(document).ready(function () {
+            if ('@User.Identity.IsAuthenticated' === 'True') {
+                $.ajax({
+                    type: "GET",
+                    url: "/Home/CountNotification",
+                    dataType: "html",
+                    success: function (response) {
+                        if (response > 9) {
+                            document.getElementById("noti-count2").innerHTML = "9+";
+                            document.getElementById("countd").innerHTML = "9+";
+                        }
+                        else {
+                            document.getElementById("noti-count2").innerHTML = "" + response;
+                            document.getElementById("countd").innerHTML = "" + response;
+                        }
+                    },
+                    failure: function (response) {
+
+                    },
+                    error: function (response) {
+
+                    }
+                });
+             }
+
+            //Gán với gói nâng cấp = 2
+            $('input[name="choolseplan"]').each(function () {
+                //Gán gói dịch vụ mặc định
+                ServiceIdPost = 2;
+
+                if (@BrandPackage.ProductBrandTypeId == 1) {
+                    $(this).next('label[for="nomal-plan"]').children('span').html("Đã chọn");
+                    $("#test-nomal").addClass('selected');
+                    $("#block-service-2").addClass('selected');
+
+                    //Ngày kết thúc mặc định 1 năm
+                    var current_datetime = new Date();
+                    current_datetime.setDate(current_datetime.getDate() + 365);
+                    var formatted_date = current_datetime.getDate() + "/" + (current_datetime.getMonth() + 1) + "/" + current_datetime.getFullYear()
+                    endDate = document.getElementById("todate").innerHTML = formatted_date;
+
+                    //Fill giá
+                    getBill();
+                }
+                else {
+                    if (@BrandPackage.ProductBrandTypeId == ServiceIdPost) {
+                        ServiceIdPost = 2;
+                        getBill();
+                        var txtlabel = document.getElementById("label-bill");
+                        txtlabel.innerHTML = "Gia hạn gian hàng quy mô \"Nhà cung cấp Vừa\"";
+                        UpdateLabelTime();
+
+                        $(this).next('label[for="nomal-plan"]').children('span').html("Hiện tại");
+                        $("#test-nomal").addClass('selected');
+                        $("#block-service-2").addClass('selected');
+                    }
+                    else {
+                        ServiceIdPost = 3;
+                        getBill();
+                        var txtlabel = document.getElementById("label-bill");
+                        txtlabel.innerHTML = "Gia hạn gian hàng quy mô \"Nhà cung cấp Lớn\"";
+
+                        $("#test-nomal").removeClass('btn-unticked');
+                        $("#test-nomal").addClass('btn-disable');
+
+                        $(this).next('label[for="big-plan"]').children('span').html("Hiện tại");
+                        $("#test-nomal-2").addClass('selected');
+                        $("#block-service-3").addClass('selected');
+                    }
+                }
+            })
+
+            //thời gian nâng cấp mặc định
+            $('input[name="plan-execute"]').each(function() {
+                $("#test-month").addClass('selected');
+                $("#li-month").addClass('selected');
+                Discount_ID = @BrandPackage.MonthDisCount[3].Discount_ID;
+            })
+
+            //Hình thức thanh toán mặc định
+            PaymentType_ID = ($('input[name=plan-payment]:checked', '#myForm').val());
+
+            //$("#submit-form").removeClass('selected');
+            //$("#submit-form").removeClass('btn-unticked');
+            //$("#submit-form").addClass('btn-disable');
+            var btn = document.getElementById('submit-form');
+            var btn2 = document.getElementById('submit-form2');
+            //btn.style.disable = true;
+
+            var checkbox = document.getElementById('agree');
+            //btn.style.disable = true;
+            if (checkbox.checked == true) {
+                btn.style.display = "block";
+                btn2.style.display = "none";
+            }
+            else {
+                btn2.style.display = "block";
+                btn.style.display = "none";
+            }
+
+            if ('@OrderCodeReturn' != "") {
+                ReturnResult();
+            }
+        });
+
+        //Tạo hóa đơn
+        function getBill() {
+            if (@BrandPackage.ProductBrandTypeId == ServiceIdPost) {
+                if (ServiceIdPost == 2) {
+                    var txtlabel = document.getElementById("label-bill");
+                    txtlabel.innerHTML = "Gia hạn gian hàng quy mô \"Nhà cung cấp Vừa\"";
+                    ServiceIdPost = @BrandPackage.Package[1].ServiceId;
+                    PricePerMonthPost = @BrandPackage.Package[1].PricePerMonth;
+                }
+
+                if (ServiceIdPost == 3) {
+                    var txtlabel = document.getElementById("label-bill");
+                    txtlabel.innerHTML = "Gia hạn gian hàng quy mô \"Nhà cung cấp Lớn\"";
+                    ServiceIdPost = @BrandPackage.Package[2].ServiceId;
+                    PricePerMonthPost = @BrandPackage.Package[2].PricePerMonth;
+                }
+            }
+            else {
+                if (ServiceIdPost == 2) {
+                    var txtlabel = document.getElementById("label-bill");
+                    txtlabel.innerHTML = "Nâng cấp gian hàng lên quy mô \"Nhà cung cấp Vừa\"";
+                    ServiceIdPost = @BrandPackage.Package[1].ServiceId;
+                    PricePerMonthPost = @BrandPackage.Package[1].PricePerMonth;
+                }
+
+                if (ServiceIdPost == 3) {
+                    var txtlabel = document.getElementById("label-bill");
+                    txtlabel.innerHTML = "Nâng cấp gian hàng lên quy mô \"Nhà cung cấp Lớn\"";
+                    ServiceIdPost = @BrandPackage.Package[2].ServiceId;
+                    PricePerMonthPost = @BrandPackage.Package[2].PricePerMonth;
+                }
+            }
+
+            if (Discount_ID == 1) {
+                MonthCountPost = @BrandPackage.MonthDisCount[0].Month;
+                PercentDiscountPost = @BrandPackage.MonthDisCount[0].Percent_Discount;
+                setTime(31);
+            }
+
+            if (Discount_ID == 3) {
+                MonthCountPost = @BrandPackage.MonthDisCount[1].Month;
+                PercentDiscountPost = @BrandPackage.MonthDisCount[1].Percent_Discount;
+                setTime(90);
+            }
+
+            if (Discount_ID == 4) {
+                MonthCountPost = @BrandPackage.MonthDisCount[2].Month;
+                PercentDiscountPost = @BrandPackage.MonthDisCount[2].Percent_Discount;
+                setTime(181);
+            }
+
+            if (Discount_ID == 5) {
+                MonthCountPost = @BrandPackage.MonthDisCount[3].Month;
+                PercentDiscountPost = @BrandPackage.MonthDisCount[3].Percent_Discount;
+                setTime(365);
+            }
+
+            if (Discount_ID == 6) {
+                MonthCountPost = @BrandPackage.MonthDisCount[4].Month;
+                PercentDiscountPost = @BrandPackage.MonthDisCount[4].Percent_Discount;
+                setTime(730);
+            }
+
+            Sum = PricePerMonthPost * MonthCountPost;
+            PriceDiscount = Sum - (Sum * ((100 - PercentDiscountPost) / 100));
+            PriceAfterDiscount = Sum - PriceDiscount;
+            VAT = PriceAfterDiscount * (10 / 100);
+            Total = PriceAfterDiscount + VAT;
+
+            //Giá tiền
+            var txtSum = document.getElementById("Sum");
+            var txtSumExt = new Intl.NumberFormat('vn', { maximumSignificantDigits: 6 }).format(Sum);
+            txtSum.innerHTML = "" + txtSumExt + " đ";
+
+            //Giảm giá
+            var txtDiscountMoney = document.getElementById("DiscountMoney");
+            var txtDiscountMoneyExt = new Intl.NumberFormat('vn', { maximumSignificantDigits: 6 }).format(PriceDiscount);
+            txtDiscountMoney.innerHTML = "" + txtDiscountMoneyExt + " đ";
+
+            //Tiền sau giảm giá
+            var txtMoneyAfterDiscount = document.getElementById("MoneyAfterDiscount");
+            var txtMoneyAfterDiscountExt = new Intl.NumberFormat('vn', { maximumSignificantDigits: 6 }).format(PriceAfterDiscount);
+            txtMoneyAfterDiscount.innerHTML = "" + txtMoneyAfterDiscountExt + " đ";
+
+            //VAT
+            var txtVAT = document.getElementById("VAT");
+            var txtVATExt = new Intl.NumberFormat('vn', { maximumSignificantDigits: 6 }).format(VAT);
+            txtVAT.innerHTML = "" + txtVATExt + " đ";
+
+            var txtTotal = document.getElementById("total-price");
+            var txtTotalExt = new Intl.NumberFormat('vn', { maximumSignificantDigits: 6 }).format(Total);
+            txtTotal.innerHTML = "" + txtTotalExt + " đ";
+        }
+
+        //Tạo hóa đơn
+        function getBillNomalToBig() {
+            if (ServiceIdPost == 3) {
+                var txtlabel = document.getElementById("label-bill-big");
+                txtlabel.innerHTML = "Nâng cấp gian hàng lên quy mô \"Nhà cung cấp Lớn\"";
+                PricePerMonthPost = @BrandPackage.Package[2].PricePerMonth;
+                UpdateLabelTimeBig();
+            }
+
+            if (Discount_ID == 1) {
+                MonthCountPost = @BrandPackage.MonthDisCount[0].Month;
+                PercentDiscountPost = @BrandPackage.MonthDisCount[0].Percent_Discount;
+            }
+
+            if (Discount_ID == 3) {
+                MonthCountPost = @BrandPackage.MonthDisCount[1].Month;
+                PercentDiscountPost = @BrandPackage.MonthDisCount[1].Percent_Discount;
+            }
+
+            if (Discount_ID == 4) {
+                MonthCountPost = @BrandPackage.MonthDisCount[2].Month;
+                PercentDiscountPost = @BrandPackage.MonthDisCount[2].Percent_Discount;
+            }
+
+            if (Discount_ID == 5) {
+                MonthCountPost = @BrandPackage.MonthDisCount[3].Month;
+                PercentDiscountPost = @BrandPackage.MonthDisCount[3].Percent_Discount;
+            }
+
+            if (Discount_ID == 6) {
+                MonthCountPost = @BrandPackage.MonthDisCount[4].Month;
+                PercentDiscountPost = @BrandPackage.MonthDisCount[4].Percent_Discount;
+            }
+            Sum = PricePerMonthPost * MonthCountPost;
+            PriceDiscount = Sum - (Sum * ((100 - PercentDiscountPost) / 100));
+            PriceAfterDiscount = Sum - PriceDiscount;
+
+            PriceAfterDiscountExt = PriceAfterDiscount - @BrandPackage.TotalDeduct;
+            VAT = PriceAfterDiscountExt * (10 / 100);
+            Total = PriceAfterDiscountExt + VAT;
+
+            //Giá tiền
+            var txtSum = document.getElementById("SumBig");
+            var txtSumExt = new Intl.NumberFormat('vn', { maximumSignificantDigits: 6 }).format(Sum);
+            txtSum.innerHTML = "" + txtSumExt + " đ";
+
+            //Giảm giá
+            var txtDiscountMoney = document.getElementById("DiscountMoneyBig");
+            var txtDiscountMoneyExt = new Intl.NumberFormat('vn', { maximumSignificantDigits: 6 }).format(PriceDiscount);
+            txtDiscountMoney.innerHTML = "" + txtDiscountMoneyExt + " đ";
+
+            //Tiền sau giảm giá
+            var txtMoneyAfterDiscount = document.getElementById("MoneyAfterDiscountBig");
+            var txtMoneyAfterDiscountExt = new Intl.NumberFormat('vn', { maximumSignificantDigits: 6 }).format(PriceAfterDiscount);
+            txtMoneyAfterDiscount.innerHTML = "" + txtMoneyAfterDiscountExt + " đ";
+
+            //Tiền 1 tháng khấu trừ
+            var txtMoneyReman = document.getElementById("MoneyReman");
+            var txtMoneyRemanExt = new Intl.NumberFormat('vn', { maximumSignificantDigits: 6 }).format(@BrandPackage.MonthPrice);
+            txtMoneyReman.innerHTML = "" + txtMoneyRemanExt + " đ";
+
+            //Tổng tiền khấu trừ
+            var txtMoneyAfterDiscount1 = document.getElementById("MoneyAfterDiscountBig1");
+            var txtMoneyAfterDiscountExt1 = new Intl.NumberFormat('vn', { maximumSignificantDigits: 6 }).format(@BrandPackage.TotalDeduct);
+            txtMoneyAfterDiscount1.innerHTML = "" + txtMoneyAfterDiscountExt1 + " đ";
+
+            //Tổng sau khấu trừ
+            var txtMoneyAfterDiscount2 = document.getElementById("MoneyAfterDiscountBig2");
+            var txtMoneyAfterDiscountExt2 = new Intl.NumberFormat('vn', { maximumSignificantDigits: 6 }).format(PriceAfterDiscountExt);
+            txtMoneyAfterDiscount2.innerHTML = "" + txtMoneyAfterDiscountExt2 + " đ";
+
+            //VAT
+            var txtVAT = document.getElementById("VATBig");
+            var txtVATExt = new Intl.NumberFormat('vn', { maximumSignificantDigits: 6 }).format(VAT);
+            txtVAT.innerHTML = "" + txtVATExt + " đ";
+
+            var txtTotal = document.getElementById("total-price-big");
+            var txtTotalExt = new Intl.NumberFormat('vn', { maximumSignificantDigits: 6 }).format(Total);
+            txtTotal.innerHTML = "" + txtTotalExt + " đ";
+        }
+
+        function setTime(time) {
+            if (@BrandPackage.ProductBrandTypeId != ServiceIdPost) {
+                if (@BrandPackage.ProductBrandTypeId == 2) {
+                    if (ServiceIdPost != 3) {
+                        var current_datetime = new Date();
+                        current_datetime.setDate(current_datetime.getDate() + time);
+                        var formatted_date = current_datetime.getDate() + "/" + (current_datetime.getMonth() + 1) + "/" + current_datetime.getFullYear()
+                        endDate = document.getElementById("todate").innerHTML = formatted_date;
+                    }
+                }
+
+                else {
+                    var current_datetime = new Date();
+                    current_datetime.setDate(current_datetime.getDate() + time);
+                    var formatted_date = current_datetime.getDate() + "/" + (current_datetime.getMonth() + 1) + "/" + current_datetime.getFullYear()
+                    endDate = document.getElementById("todate").innerHTML = formatted_date;
+                }
+            }
+
+
+        }
+
+        //Chọn gói thời gian nâng cấp
+        $('input[name="plan-execute"]').on('change', function() {
+            $('input[name="plan-execute"]').each(function() {
+                $(this).closest('li').add('label[for="' + this.id + '"] span').toggleClass('selected', this.checked);
+            })
+            $(this).closest('li').add('label[for="' + this.id + '"] span').toggleClass('selected', this.checked);
+        }).trigger('change');
+
+        $(".copytoclipboard").click(function() {
+            $(this).select();
+            document.execCommand("copy");
+        });
+
+        $("#agree").change(function () {
+            //$("#submit-form").removeClass('selected');
+            //$("#submit-form").removeClass('btn-unticked');
+            //$("#submit-form").addClass('btn-disable');
+            var btn = document.getElementById('submit-form');
+            var btn2 = document.getElementById('submit-form2');
+            //btn.style.disable = true;
+
+            var checkbox = document.getElementById('agree');
+            //btn.style.disable = true;
+            if (checkbox.checked == true) {
+                btn.style.display = "block";
+                btn2.style.display = "none";
+            }
+            else {
+                btn2.style.display = "block";
+                btn.style.display = "none";
+            }
+        });
+
+        //Chọn gói nâng cấp
+        $('input[name="choolseplan"]').on('change', function() {
+            $('input[name="choolseplan"]').each(function () {
+                if (@BrandPackage.ProductBrandTypeId != 3) {
+                    $(this).next('label[for="' + this.id + '"]').toggleClass('selected', this.checked);
+                    if (this.checked) {
+                        $(this).next('label[for="' + this.id + '"]').children('span').html("Đã chọn");
+                        $(this).parent().addClass('selected');
+                    } else {
+                        $(this).next('label[for="' + this.id + '"]').children('span').html("Chọn");
+                        $(this).parent().removeClass('selected');
+                    }
+                }
+            })
+        }).trigger('change');
+
+        function SelectService(ServiceId) {
+            if (@BrandPackage.ProductBrandTypeId == 3) {
+                if (ServiceId == 3) {
+                    ServiceIdPost = ServiceId;
+                    getBill();
+                }
+            }
+            else {
+                if (@BrandPackage.ProductBrandTypeId == 2) {
+                    ServiceIdPost = ServiceId;
+                    getBill();
+                    if (ServiceId == 3) {
+                        var x = document.getElementById("update-nomal");
+                        x.style.display = "none";
+
+                        var y = document.getElementById("update-big");
+                        if (y.style.display === "none") {
+                            y.style.display = "block";
+                        }
+                        getBillNomalToBig();
+                    }
+                    else {
+                        var x = document.getElementById("update-nomal");
+                        x.style.display = "block";
+
+                        var y = document.getElementById("update-big");
+                        if (y.style.display === "block") {
+                            y.style.display = "none";
+                        }
+                        getBill();
+                    }
+                }
+                else {
+                    ServiceIdPost = ServiceId;
+
+                    getBill();
+                }
+            }
+        }
+
+        function SelectTime(DiscountId) {
+            Discount_ID = DiscountId;
+            getBill();
+            if (@BrandPackage.ProductBrandTypeId == ServiceIdPost) {
+                UpdateLabelTime();
+            }
+
+            if (@BrandPackage.ProductBrandTypeId == 2) {
+                if (ServiceIdPost == 3) {
+                    getBillNomalToBig();
+                }
+            }
+        }
+
+        //Chi tiết các hình thức thanh toán
+        function SelectPaymentType() {
+            PaymentType_ID = ($('input[name=plan-payment]:checked', '#myForm').val());
+            var x = document.getElementById("myDIVBank");
+            if (PaymentType_ID == 4) {
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                }
+
+                getOrderCodeBanking();
+            }
+            else {
+                x.style.display = "none";
+            }
+
+            var vnpay = document.getElementById("myVNpay");
+            if (PaymentType_ID == 1) {
+                if (vnpay.style.display === "none") {
+                    vnpay.style.display = "block";
+                }
+            }
+            else {
+                vnpay.style.display = "none";
+            }
+
+            var myTD = document.getElementById("myTD");
+            if (PaymentType_ID == 2) {
+                if (myTD.style.display === "none") {
+                    myTD.style.display = "block";
+                }
+            }
+            else {
+                myTD.style.display = "none";
+            }
+
+            if (PaymentType_ID == 3) {
+                BankCode = "@VNPAY[0].BankCode";
+            }
+        }
+
+        function ConfirmPayment() {
+            if (Total <= 0) {
+                toastr["error"]("Đơn hàng không hợp lệ, quý khách vui lòng chọn gói thời gian lớn hơn để tiếp tục!!");
+                return false;
+            }
+            else {
+                if (PaymentType_ID == 1) {
+                    if ($("#BankCodeATM").val() == "") {
+                        toastr["error"]("Vui lòng chọn ngân hàng thanh toán!");
+                        return false;
+                    }
+                    else {
+                        BankCode = $("#BankCodeATM").val();
+                    }
+                }
+
+                if (PaymentType_ID == 2) {
+                    if ($("#BankCodeQT").val() == "") {
+                        toastr["error"]("Vui lòng chọn ngân hàng thanh toán!");
+                        return false;
+                    }
+                    else {
+                        BankCode = $("#BankCodeQT").val();
+                    }
+                }
+
+                if (PaymentType_ID == 3) {
+                    BankCode = "@VNPAY[0].BankCode";
+                }
+
+                if (OrderCode == null) {
+                    if (PaymentType_ID != 4) {
+                        getOrderCode();
+                    }
+                    else {
+                        getOrderCode();
+                    }
+                }
+                else {
+                    PaymentVNPay();
+                }
+            }
+        }
+
+        //Lấy ordercode
+        function getOrderCode() {
+            $.ajax({
+                type: "POST",
+                url: "/Shopman/UpdateStore/UpgradePackageBrand?ServiceId=" + ServiceIdPost + "&Discount_ID=" + Discount_ID,
+                dataType: "html",
+                success: function (response) {
+                    var resResult = JSON.parse(response);
+                    OrderCode = resResult.OrderCode;
+                    PaymentVNPay();
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+        }
+
+        //Lấy ordercode
+        function getOrderCodeBanking() {
+            $.ajax({
+                type: "POST",
+                url: "/Shopman/UpdateStore/UpgradePackageBrand?ServiceId=" + ServiceIdPost + "&Discount_ID=" + Discount_ID,
+                dataType: "html",
+                success: function (response) {
+                    var resResult = JSON.parse(response);
+                    OrderCode = resResult.OrderCode;
+
+                    $("#paymentCodeBill").val(OrderCode);
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+        }
+
+        async function readFileAsDataURL(file) {
+            let result_base64 = await new Promise((resolve) => {
+                let fileReader = new FileReader();
+                fileReader.onload = (e) => resolve(fileReader.result);
+                fileReader.readAsDataURL(file);
+            });
+            var dataImage = {
+                FileName: file.name,
+                ExtensionType: file.type,
+                Base64: result_base64
+            }
+            return dataImage;
+        }
+
+        async function PaymentVNPay() {
+            $.ajax({
+                type: "POST",
+                url: "/Shopman/UpdateStore/PostUrlVNPay?OrderCode=" + OrderCode + "&BankCode=" + BankCode + "&PaymentTypeId=" + PaymentType_ID,
+                dataType: "html",
+                success: function (response) {
+                    if (PaymentType_ID != 4) {
+                        var resResult = JSON.parse(response);
+                        if (resResult.ErrorCode == "00") {
+                            window.location.href = resResult.Message;
+                        }
+                    }
+                    else {
+                        //var objLogoImage = null;
+                        //var LogoImg = $('#chooseFile').val();
+                        //if (LogoImg.files != "") {
+                        //    var files = $('#chooseFile')[0].files;
+                        //    objLogoImage = await readFileAsDataURL(files[0]);
+                        //}
+
+                        //UploadImage(OrderCode, objLogoImage);
+
+                        $('#modal-body').html(response);
+                        $("#main-popup").modal('show');
+                    }
+                }
+            });
+        }
+
+        function ReturnResult() {
+            $.ajax({
+                type: "GET",
+                url: "/Shopman/UpdateStore/ReturnResult?OrderCode=" + "@OrderCodeReturn" + "&ResponseCode="+ "@ResponseCode",
+                dataType: "html",
+                success: function (response) {
+                    $('#modal-body').html(response);
+                    $("#main-popup").modal('show');
+                }
+            });
+        }
+
+        function UploadImage(OrderCode, objLogoImage) {
+            debugger;
+            $.ajax({
+                type: 'POST',
+                url: "/Shopman/UpdateStore/PaymentUploadImage?OrderCode=" + OrderCode + "&ImageUploadDTO=" + objLogoImage,
+                data: JSON.stringify(objLogoImage),
+                dataType: "html",
+                success: function (response) {
+
+                }
+            });
+        }
+
+        function UpdateLabelTime() {
+            var txtDateExp = document.getElementById("DateExp");
+            if (Discount_ID == 1) {
+                txtDateExp.innerHTML = "1 tháng";
+            }
+
+            if (Discount_ID == 3) {
+                txtDateExp.innerHTML = "3 tháng";
+            }
+
+            if (Discount_ID == 4) {
+                txtDateExp.innerHTML = "6 tháng";
+            }
+
+            if (Discount_ID == 5) {
+                txtDateExp.innerHTML = "12 tháng";
+            }
+
+            if (Discount_ID == 6) {
+                txtDateExp.innerHTML = "24 tháng";
+            }
+        }
+
+        function Backform() {
+            if (confirm("Bạn có chắc chắn huỷ đơn hàng này không?")) {
+                window.location.href = "/Shopman/Home/Index";
+            }
+        }
+
+        function UpdateLabelTimeBig() {
+            var txtDateExp = document.getElementById("DateExpBig");
+            if (Discount_ID == 1) {
+                txtDateExp.innerHTML = "1 tháng";
+            }
+
+            if (Discount_ID == 3) {
+                txtDateExp.innerHTML = "3 tháng";
+            }
+
+            if (Discount_ID == 4) {
+                txtDateExp.innerHTML = "6 tháng";
+            }
+
+            if (Discount_ID == 5) {
+                txtDateExp.innerHTML = "12 tháng";
+            }
+
+            if (Discount_ID == 6) {
+                txtDateExp.innerHTML = "24 tháng";
+            }
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha256-3blsJd4Hli/7wCQ+bmgXfOdK7p/ZUMtPXY08jmxSSgk=" crossorigin="anonymous"></script>
+</body>
+
+</html>

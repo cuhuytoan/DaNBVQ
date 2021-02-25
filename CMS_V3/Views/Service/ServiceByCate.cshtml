@@ -1,0 +1,374 @@
+﻿@using Microsoft.Extensions.Configuration
+@using Mono.Web
+@inject IConfiguration Configuration
+@using Kendo.Mvc.UI
+@namespace CMS.Website.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper "*, Kendo.Mvc"
+
+@{
+    ViewBag.Title = $"Chuyên mục dịch vụ {ViewBag.ProductCateName}- HANOMA.VN";
+
+    var MenuMachine = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuMachine;
+    var MenuMaterials = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuMaterials;
+    var MenuServices = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuServices;
+    var ListService = (HNM.DataNC.ModelsNC.ModelsDTO.ProductPaggingDTO)ViewBag.ListService;
+
+    var ListCategory = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.ListCategory;
+
+    int currentPage = ViewBag.Page;
+    int pageSize = ViewBag.PageSize;
+    int TotalPages = ViewBag.TotalPages;
+}
+
+@using PagedList.Mvc
+@using CMS_V3.ViewModel
+@model HNM.DataNC.ModelsNC.ModelsDTO.ProductPaggingDTO
+
+
+@section metatags{
+    <meta name="keywords" content="@HttpUtility.HtmlDecode(@Configuration["DefaultKeyword"])" />
+    <meta name="description" content="@HttpUtility.HtmlDecode(@Configuration["DefaultDescription"])" />
+    <link id="canonical" rel="canonical" href="@Configuration["DomainName"]/dich-vu" />
+
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/style.css" rel="stylesheet" />
+    <link href="~/css/responsive.css" rel="stylesheet" />
+    <link href="https://kendo.cdn.telerik.com/2020.1.114/styles/kendo.bootstrap-v4.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://kendo.cdn.telerik.com/2020.1.114/js/kendo.all.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2020.1.114/js/kendo.aspnetmvc.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2020.1.114/js/cultures/kendo.culture.vi-VN.min.js"></script>
+    <style>
+        @@media only screen and (max-width: 400px) {
+            .input-box {
+                width: 100%;
+            }
+        }
+    </style>
+}
+<!-- Content -->
+<section class="category ">
+    @await Html.PartialAsync("ServiceHeader.cshtml")
+
+    <article>
+        <div class="d-lg-flex d-block mt-3">
+            <div class="col-lg-8 col-md-12 pr-3 pr-lg-0 ">
+                <div class="banner-container swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide"><img src="~/Assets/images/banner/to.webp" /></div>
+                        <div class="swiper-slide"><img src="~/Assets/images/banner/to1.webp" /></div>
+                        <div class="swiper-slide"><img src="~/Assets/images/banner/to2.webp" /></div>
+                        <div class="swiper-slide"><img src="~/Assets/images/banner/to3.webp" /></div>
+                        <div class="swiper-slide"><img src="~/Assets/images/banner/to4.webp" /></div>
+                    </div>
+                    <div class="swiper-pagination paging-right"></div>
+                    <div class="swiper-button-next swiper-button"></div>
+                    <div class="swiper-button-prev swiper-button"></div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-5 d-flex px-0 d-lg-block   mt-3 mt-lg-0">
+                <div class="col-lg-12 col-sm-6 col-6 pr-2 px-sm-3"><img class="mb-3 mb-xl-3 mb-lg-0" src="~/Assets/images/maydeban/maydeban2.webp" /></div>
+                <div class="col-lg-12 col-sm-6 col-6 pl-2 px-sm-3"><img src="~/Assets/images/maydeban/maydeban3.webp" /></div>
+            </div>
+        </div>
+        </div>
+        <div class="container">
+            <div class="menu-container d-block d-lg-flex navbar navbar-expand-lg pb-2 mt-0 mt-lg-3 align-items-center category-list bg-white px-1">
+                <a class="navbar-brand d-inline-block d-lg-none" href="#">Danh mục</a>
+
+                <button class="navbar-toggler bg-black" type="button" data-toggle="collapse" data-target="#navbarNav-catemenu" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="manu navbar navbar-expand-lg category-menu col-12 col-lg-12 col-sm-12 d-block d-lg-flex  align-items-center p-0">
+                    <nav class="collapse " id="navbarNav-catemenu">
+                        <ul>
+                            <li class="nav-item col-2-5">
+                                <div class="link-box d-flex justify-content-between align-items-center">
+                                    <a class="nav-link d-flex justify-content-start" href="/dich-vu">Tất cả dịch vụ</a>
+                                </div>
+                            </li>
+                            @foreach (var item in ListCategory.Data)
+                            {
+                                if (item.ProductCategoryId == ViewBag.ProductCategory_ID)
+                                {
+                                    <li class="nav-item col-2-5 active">
+                                        <div class="link-box d-flex justify-content-between align-items-center">
+                                            <a class="nav-link d-flex justify-content-start" href=@string.Format($"/dich-vu-{@item.URL}.pcat")>@item.Name</a>
+                                        </div>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="nav-item col-2-5">
+                                        <div class="link-box d-flex justify-content-between align-items-center">
+                                            <a class="nav-link d-flex justify-content-start" href=@string.Format($"/dich-vu-{@item.URL}.pcat")>@item.Name</a>
+                                        </div>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                        <div id="pagination" class="pagination">
+                        </div>
+                        @*@await Component.InvokeAsync("Pager", Model)*@
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+    </article>
+    <!-- Bộ loc -->
+    <article>
+        <div class="container">
+            <form>
+                <div class="search-module mt-3 pb-4 bg-white">
+                    <div class="title">
+                        <h3 class="text-uppercase px-2 py-3">Bộ lọc sản phẩm</h3>
+                    </div>
+                    <div class="search-content row m-2 mb-0 mb-md-3">
+                        <div class="row col-md-12 p-2 d-flex" style="margin-left: 0px">
+                            <div class="input-box px-1 col-md-4" style="padding: 0px; margin: 0px">
+                                @*<span class="sm-lable">Thiết bị liên quan</span>*@
+                                @(Html.Kendo().ComboBox()
+                                .Name("ProductCategoryId")
+                                .HtmlAttributes(new {@class = "form-control"})
+                                .Placeholder("Chọn Thiết bị liên quan....")
+                                .DataTextField("Name")
+                                .DataValueField("ProductCategoryId")
+                                .Filter("contains")
+                                .Suggest(true)
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("GetLstProductCateLv1", "Service");
+                                    }).ServerFiltering(false);
+                                })
+                                .Events(e =>
+                                {
+                                    e.Change("onChange").Close("onSelect").Filtering("onFiltering");
+                                }
+                                )
+                            )
+                            </div>
+                            <div class="input-box px-1 col-md-4" style="padding: 0px; margin: 0px">
+                                @*<span class="sm-lable">Hãng sản xuất</span>*@
+                                @(Html.Kendo().ComboBox()
+                                .Name("ProductCategoryIdLv2")
+                                .HtmlAttributes(new {@class = "form-control"})
+                                .Placeholder("Chọn Loại máy....")
+                                .DataTextField("Name")
+                                .DataValueField("ProductCategoryId")
+                                .Filter("contains")
+                                .Suggest(true)
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("GetLstProductCateLv2", "Service").Data("filterModels");
+                                    }).ServerFiltering(true);
+                                })
+                                .Events(e =>
+                                {
+                                    e.Change("onChangeLv2").Close("onSelectLv2").Filtering("onFiltering");
+                                })
+                                .Enable(false)
+                                .AutoBind(false)
+                                .CascadeFrom("ProductCategoryId")
+                            )
+                            </div>
+                            <div class="input-box px-1 col-md-4" style="padding: 0px; margin: 0px">
+                                @(Html.Kendo().ComboBox()
+                                .Name("Location_ID")
+                                .HtmlAttributes(new {@class = "form-control"})
+                                .Placeholder("Chọn Tỉnh/Thành....")
+                                .DataTextField("Name")
+                                .DataValueField("LocationId")
+                                .Filter("contains")
+                                .Suggest(true)
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("GetAllLocation", "Service");
+                                    }).ServerFiltering(false);
+                                })
+                                .Events(e =>
+                                {
+                                    e.Change("onChangeLocation").Close("onSelectLocation").Filtering("onFiltering");
+                                })
+                            )
+                            </div>
+                        </div>
+                    </div>
+
+                    </ul>
+                </div>
+            </form>
+        </div>
+    </article>
+
+
+    <div class="line-seprate">
+        <div class="border-top border-bottom m-3 "></div>
+    </div>
+
+    <!-- Category page -->
+    <article class="category-panel">
+        <div id="data-service">
+
+        </div>
+
+    </article>
+
+    <article>
+        <div class="article-banner d-flex ads-container mx-3 mt-3">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <a href="#"><img src="~/Assets/images/article-banner1.webp" /></a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="#"><img src="~/Assets/images/article-banner3.webp" /></a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="#"><img src="~/Assets/images/article-banner2.webp" /></a>
+                </div>
+            </div>
+        </div>
+    </article>
+
+</section>
+
+@*<script src="~/js/jquery-3.3.1.min.js"></script>*@
+@*<script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/swiper-bundle.min.js"></script>
+    <script src="~/js/jquery.lazy.min.js"></script>
+    <script src="~/js/navScript.js"></script>
+    <script src="~/js/mmenu.js"></script>
+    <script src="~/js/custom.js"></script>*@
+
+<script>
+    var RelateCategoryId = null;
+    var Location_ID = null;
+
+    $(document).ready(function () {
+        LoadData();
+    });
+
+
+    function ChangeUrl(page, pageSize) {
+        var urlChange = "/dich-vu-@ViewBag.ProductCateUrl" + ".pcat?ProductCategory_ID=" + @ViewBag.ProductCategory_ID + "&Location_ID=" + Location_ID + "&RelatedCategoryId=" + RelateCategoryId +"&page=" + page;
+        history.pushState({}, "", urlChange);
+    }
+
+    function LoadData() {
+        $.ajax({
+            type: "GET",
+            url: "/Service/GetPaggingService?ProductCategory_ID=" + '@ViewBag.ProductCategory_ID' + "&Location_ID=" + Location_ID + "&RelatedCategoryId=" + RelateCategoryId + "&page=" + @currentPage + "&pageSize=" + @pageSize,
+            dataType: "html",
+            success: function (response) {
+                $('#data-service').html(response);
+            },
+            failure: function (response) {
+
+            },
+            error: function (response) {
+
+            }
+        });
+    }
+
+    function onChange(e) {
+
+    }
+
+    function onSelect(e) {
+
+    }
+
+    function onFiltering() {
+
+    }
+
+    function onChangeLv2(e) {
+        RelateCategoryId = $("#ProductCategoryIdLv2").val();
+        ReloadData(15)
+    }
+
+    function onSelectLv2(e) {
+
+    }
+
+    function onChangeLocation(e) {
+        Location_ID = $("#Location_ID").val();
+        ReloadData(15)
+    }
+
+    function onSelectLocation(e) {
+
+    }
+
+    function filterModels() {
+        return {
+            ProductCategoryId: $("#ProductCategoryId").val(),
+            modelFilter: $("#ProductCategoryIdLv2").data("kendoComboBox").input.val()
+        };
+    }
+
+    function ReloadData(pageSize) {
+                var urlPaging = window.location.pathname;
+                $.ajax({
+                    type: "GET",
+                    url: "/Service/GetPaggingService?ProductCategory_ID=" + '@ViewBag.ProductCategory_ID' + "&Location_ID=" + Location_ID + "&RelatedCategoryId=" + RelateCategoryId + "&page=" + @currentPage + "&pageSize=" + pageSize,
+                    dataType: "html",
+                    success: function(response) {
+                        $('#data-service').html(response);
+                        var urlChange = urlPaging +
+                            "?ProductCategory_ID=" +
+                            ProductCategoryId +
+                            "&Location_ID=" +
+                            Location_ID +
+                            "&RelatedCategoryId=" +
+                            RelateCategoryId +
+                            "&page=" +
+                            (pageFilter != "" ? pageFilter : window.location.search.slice(-1));
+
+
+                        history.pushState({}, "", urlChange); //Change Parameter in Url not reload page
+
+                    },
+                    failure: function(response) {
+                        alert(response.responseText);
+                    },
+                    error: function(response) {
+                        alert(response.responseText);
+                    }
+
+                });
+        }
+
+</script>
+
+<script type="application/ld+json">
+    {
+    "@@context": "https://schema.org",
+    "@@type": "Service",
+    "mainEntityOfPage": {
+    "@@type": "WebPage",
+    "@@id": "https://hanoma.vn/dich-vu-@ViewBag.ProductCateUrl"
+    },
+    "headline": "Article headline",
+    "author": {
+    "@@type": "Person",
+    "name": "Hanoma.vn"
+    },
+    "publisher": {
+    "@@type": "Organization",
+    "name": "Hanoma.vn",
+    "logo": {
+    "@@type": "ImageObject",
+    "url": "https://hanoma.vn/assets/pages/img/logo_hanoma2.png"
+    }
+    },
+    "description": "@Configuration["DefaultDescription"]"
+    }
+</script>

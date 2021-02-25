@@ -1,0 +1,187 @@
+﻿@using Microsoft.Extensions.Configuration
+@using Mono.Web
+@inject IConfiguration Configuration
+@model HNM.DataNC.ModelsNC.ModelsDTO.LibraryDTO
+@{
+    Layout = "_LayoutArticle";
+    ViewData["Title"] = "Chi tiết kiến thức";
+
+    var MenuMachine = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuMachine;
+    var MenuMaterials = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuMaterials;
+    var MenuServices = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuServices;
+    var MenuHeader = (List<HNM.DataNC.ModelsNC.ModelsDTO.LibraryCategoryDTO>)ViewBag.MenuHeader;
+
+    var SameArticle = (List<HNM.DataNC.ModelsNC.ModelsDTO.LibraryDTO>)ViewBag.SameArticle;
+}
+
+@{
+    var MetaTags = (HNM.DataNC.Models.Setting)ViewBag.MetaTags;
+
+    var MetaDes = Model.Description;
+    if (String.IsNullOrEmpty(MetaDes))
+    {
+        MetaDes = @HttpUtility.HtmlDecode(@Configuration["DefaultKeyword"]);
+    }
+    else
+    {
+        if (MetaDes.Length > 300)
+        {
+            MetaDes = MetaDes.Substring(0, 300);
+        }
+
+    }
+}
+@section metatags{
+    <title>@Model.Title</title>
+    <meta name="keywords" content="@HttpUtility.HtmlDecode(@Configuration["DefaultKeyword"])" />
+    <meta name="description" content="@HttpUtility.HtmlDecode(@Configuration["DefaultDescription"])" />
+    <link id="canonical" rel="canonical" href="@Configuration["DomainName"]/kien-thuc/@Model.URL" />
+    <!-- META FOR FACEBOOK -->
+    <meta property="og:url" content="@Configuration["DomainName"]/kien-thuc/@Model.URL" />
+    <meta property="og:image" itemprop="thumbnailUrl" content="@Configuration["physical_path"]/Library/mainimages/original/@Model.Image" />
+    <meta property="og:description" itemprop="description" content="@HttpUtility.HtmlDecode(MetaDes)" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" itemprop="headline" content="@Model.Title" />
+    <!-- END META FOR FACEBOOK -->
+    <!-- Twitter Card -->
+    <meta name="twitter:url" content="https://hanoma.vn/kien-thuc/@Model.URL">
+    <meta name="twitter:description" content="@HttpUtility.HtmlDecode(MetaDes)">
+    <meta name="twitter:image" content="@Configuration["physical_path"]/Library/mainimages/original/@Model.Image" />
+    <meta name="twitter:title" content="@Model.Title">
+    <!-- End Twitter Card -->
+}
+
+<!-- Content -->
+<section class="category">
+    @await Html.PartialAsync("LibraryHeader.cshtml")
+
+    <article>
+        <div class="bg-white mx-3 mt-2 p-2">
+            <nav aria-label="breadcrumb" class="col-12 col-sm-9 px-3 pl-lg-0 pr-lg-0">
+                <ol class="breadcrumb p-0 m-0">
+                    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a href="/thu-vien-kien-thuc">Kiến thức</a></li>
+                    @{
+                        if (ViewBag.NameCate != null)
+                        {
+                            <li class="breadcrumb-item active" aria-current="page">@ViewBag.NameCate</li>
+                        }
+                    }
+                </ol>
+            </nav>
+        </div>
+        <div class="bg-white mx-3 p-2 px-3">
+            <div class="title my-2">
+                <h1>@Model.Title</h1>
+            </div>
+            <div class="news-info mb-1 ">
+                <span class="time">@Utils.RenderTimeSince(Convert.ToDateTime(Model.LastEditDate))</span>
+                <span class="">Nguồn: <a href="#">Hanoma.vn</a></span>
+            </div>
+            <audio controls>
+                <source src="/horse.ogg" type="audio/ogg">
+                <source src="/horse.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <div class="news-content mt-1  ">
+                <p>
+                    @Model.SubTitle
+                </p>
+                <p>
+                    @Model.Description
+                </p>
+                @*<img src="./images/news-image.jpg" style="width: 100%" />
+                    <p class="center d-block text-center my-2">Hình 1.1: Đây là một cái hình minh hoạ</p>*@
+                <p>
+                    @Html.Raw(Model.Content)
+                </p>
+
+            </div>
+        </div>
+
+
+    </article>
+
+    <!-- Relative post -->
+    <article>
+        <div class="px-3 article-content mt-2">
+            @foreach (var p in SameArticle)
+            {
+                <div class="relavie-post row bg-white py-1">
+
+                    <div class="col-4 ">
+                        <a href="/kien-thuc/@p.URL">
+                            <img src="@p.FullUrlImage" />
+                        </a>
+                    </div>
+                    <div class="col-8 pl-0">
+                        <a href="/kien-thuc/@p.URL">
+                            <h4 class="font-weight-bold mb-3">@p.Title</h4>
+                        </a>
+                        <p>@p.SubTitle</p>
+                        <p>
+                            @p.Description
+                        </p>
+                        <span class="time mt-3 d-block">@Utils.RenderTimeSince(Convert.ToDateTime(p.LastEditDate))</span>
+                    </div>
+
+                </div>
+            }
+        </div>
+    </article>
+</section>
+
+
+<script type="application/ld+json">
+    {
+    "@@context": "https://schema.org",
+    "@@type": "NewsArticle",
+    "mainEntityOfPage": {
+    "@@type": "WebPage",
+    "@@id": "https://hanoma.vn/kien-thuc/@Model.URL"
+    },
+    "headline": "Article headline",
+    "image": [
+    "http://cdn.hanoma.vn/Library/mainimages/original/@Model.Image"
+    ],
+    "datePublished": "@Model.LastEditDate",
+    "dateModified": "@Model.LastEditDate",
+    "author": {
+    "@@type": "Person",
+    "name": "@Model.Author"
+    },
+    "publisher": {
+    "@@type": "Organization",
+    "name": "Hanoma.vn",
+    "logo": {
+    "@@type": "ImageObject",
+    "url": "https://hanoma.vn/assets/pages/img/logo_hanoma2.png"
+    }
+    },
+    "description": "@Model.Description"
+    }
+</script>
+<script type="application/ld+json">
+    {
+    "@@context": "https://schema.org",
+    "@@type": "BreadcrumbList",
+    "itemListElement": [{
+    "@@type": "ListItem",
+    "position": 1,
+    "name": "Home",
+    "item": "https://hanoma.vn"
+    },{
+    "@@type": "ListItem",
+    "position": 2,
+    "name": "@ViewBag.NameCate",
+    "item": "https://hanoma.vn/thu-vien-kien-thuc/"
+    },{
+    "@@type": "ListItem",
+    "position": 3,
+    "name": "@Model.Title",
+    "item": "https://hanoma.vn/kien-thuc/@Model.URL"
+    }
+    ]
+    }
+</script>
+

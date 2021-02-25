@@ -1,0 +1,171 @@
+﻿@{
+    ViewBag.Title = "";
+    var CategoryMenuHeader = ((HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO MenuMachine, HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO MenuMaterials, HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO MenuServices))ViewBag.CategoryMenuHeader;
+    var ListLib = (List<HNM.DataNC.ModelsStore.Library_Search_By_Cate_Result>)ViewBag.ListLib;
+    int currentPage = ViewBag.Page;
+    int pageSize = ViewBag.PageSize;
+    int TotalPages = ViewBag.TotalPages;
+}
+<style>
+    .page-item.active .page-link {
+        z-index: 3;
+        color: #fff;
+        background-color: #FFC107;
+        border-color: #FFC107;
+    }
+</style>
+<section class="content container p-0 category ">
+    <article>
+        <div class="d-flex banner align-items-center">
+            @await Html.PartialAsync("../Shared/CategoryMenuHeader.cshtml")
+            <nav aria-label="breadcrumb" class="col-12 col-sm-9 px-3 pl-lg-0 pr-lg-0 active-style">
+                <ol class="breadcrumb p-0 m-0">
+                    <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
+                </ol>
+            </nav>
+        </div>
+
+    </article>
+    <article>
+        <div class="d-flex mt-3">
+            <div class="col-lg-12 col-md-12 ">
+                <div class="cover-image">
+                    <img src="@Model.UrlBannerImage" data-src="@Model.UrlBannerImage" />
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="com-info com-info-detail border-top pt-2 bg-white">
+                <div class="d-flex align-items-center">
+                    <div class="col-sm-2 col-3 px-2">
+                        <a href="#">
+                            <img src="@Model.UrlBannerImage" data-src="@Model.UrlBannerImage" />
+                        </a>
+                    </div>
+                    <div class="col-sm-10 col-9 pl-1 pr-0">
+                        <a><h4 class="card-title">@Model.Name</h4></a>
+                        <!-- offline class -->
+                        <span class="status online">Đang online</span>
+
+                        <div class="d-sm-flex d-none align-items-top justify-content-center com-details mt-2">
+                            <div class="col-3 px-0 border-right">
+                                <img src="~/images/vn.png" data-src="~/images/vn.png" />
+                                <span class="com-detail text-uppercase">VIET NAM</span>
+                            </div>
+                            <div class="col-3 pl-1 pr-0  border-right">
+                                <span class="year">@HNM.CommonNC.Utils.YearJoinHanoma((DateTime)Model.CreateDate)</span>
+                                <span class="com-detail">NĂM</span>
+                            </div>
+                            <div class="col-3 pl-1 pr-0  border-right">
+                                <img src="~/images/big-com.png" data-src="~/images/big-com.png" />
+                                <span class="com-detail  text-uppercase">NHÀ CUNG CẤP LỚN</span>
+                            </div>
+                            <div class="col-3 pl-1 pr-0">
+                                <span class="total-flow">2000</span>
+                                <span class="com-detail  text-uppercase">NGƯỜI THEO DÕI</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-sm-none d-flex align-items-top justify-content-center com-details mt-2">
+                    <div class="col-3 px-0 border-right">
+                        <img src="~/images/vn.png" data-src="~/images/vn.png" />
+                        <span class="com-detail text-uppercase">VIET NAM</span>
+                    </div>
+                    <div class="col-3 pl-1 pr-0  border-right">
+                        <span class="year">@HNM.CommonNC.Utils.YearJoinHanoma((DateTime)Model.CreateDate)</span>
+                        <span class="com-detail">NĂM</span>
+                    </div>
+                    <div class="col-3 pl-1 pr-0  border-right">
+                        <img src="~/images/big-com.png" data-src="~/images/big-com.png" />
+                        <span class="com-detail  text-uppercase">NHÀ CUNG CẤP LỚN</span>
+                    </div>
+                    <div class="col-3 pl-1 pr-0">
+                        <span class="total-flow">2000</span>
+                        <span class="com-detail  text-uppercase">NGƯỜI THEO DÕI</span>
+                    </div>
+                </div>
+            </div>
+            <div class="menu-module mb-3 pt-2 bg-white">
+                <ul class="swiper-wrapper list-unstyled">
+                    <li class="swiper-slide "><a href=@string.Format($"/{@ViewBag.ProductBrandUrl}.brand")>Danh mục</a></li>
+                    <li class="swiper-slide "><a href=@string.Format($"/dich-vu/{@ViewBag.ProductBrandUrl}.brand")>Dịch vụ</a></li>
+                    <li class="swiper-slide "><a class="active" href=@string.Format($"/thu-vien/{@ViewBag.ProductBrandUrl}.brand")>Thư viện</a></li>
+                    <li class="swiper-slide "><a href=@string.Format($"/gioi-thieu/{@ViewBag.ProductBrandUrl}.brand")>Giới thiệu</a></li>
+                </ul>
+
+            </div>
+        </div>
+
+    </article>
+
+    <!-- Category page -->
+    <article class="category-panel">
+        <div id="data-service" >
+
+        </div>
+    </article>
+
+    <article>
+
+        <div class="article-banner d-flex ads-container mx-3 mt-2">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <a href="#"><img src="~/images/article-banner1.jpg" /></a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="#"><img src="~/images/article-banner3.jpg" /></a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="#"><img src="~/images/article-banner2.jpg" /></a>
+                </div>
+            </div>
+        </div>
+    </article>
+</section>
+
+<script>
+    $(document).ready(function () {
+        LoadData();
+    });
+
+    function ChangeUrl(page, pageSize) {
+        var urlChange = "/kien-thuc/@ViewBag.ProductBrandUrl" + ".brand?ProductBrandId=" + @ViewBag.ProductBrandId +"&page=" + page;
+        history.pushState({}, "", urlChange);
+    }
+
+    function LoadData() {
+        $.ajax({
+            type: "GET",
+            url: "/ProductBrand/GetPaggingLibrary?ProductBrandId=" + '@ViewBag.ProductBrandId' + "&page=" + @currentPage + "&pageSize=" + @pageSize,
+            dataType: "html",
+            success: function (response) {
+                $('#data-service').html(response);
+            },
+            failure: function (response) {
+
+            },
+            error: function (response) {
+
+            }
+        });
+    }
+
+    function LoadDataByPageSize(pageSize) {
+        $.ajax({
+            type: "GET",
+            url: "/ProductBrand/GetPaggingLibrary?ProductBrandId=" + '@ViewBag.ProductBrandId' + "&page=" + @currentPage + "&pageSize=" + pageSize,
+            dataType: "html",
+            success: function (response) {
+                $('#data-service').html(response);
+            },
+            failure: function (response) {
+
+            },
+            error: function (response) {
+
+            }
+        });
+    }
+</script>

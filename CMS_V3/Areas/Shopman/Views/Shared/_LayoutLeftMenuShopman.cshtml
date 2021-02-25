@@ -1,0 +1,102 @@
+﻿@using Newtonsoft.Json;
+@using HNM.DataNC.ModelsNC.ModelsDTO;
+
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextaccessor
+
+@{
+    var UserInfomation = @User.FindFirst("UserInfomation").Value;
+    SumProfileResponseDTO userProfile = new SumProfileResponseDTO();
+    {
+        var jwt = JsonConvert.DeserializeObject<SumProfileResponseDTO>(UserInfomation);
+        userProfile = jwt;
+    }
+}
+<div class="col-lg-2 bg-white menu-left px-0 px-lg-2" id="m-menu">
+    <div class="profile-info">
+        <div class="profile-picture mt-3">
+            <img id="logo" width="72px" height="72px" />
+            <span class="status active"></span>
+        </div>
+        <div class="mt-2 text-center mb-3">
+            <span id="name-brand"></span>
+        </div>
+    </div>
+    <ul class="list-unstyled menu-item-left">
+        <li id="dashboard1" class="">
+            <a href="/Shopman">
+                <div class="img-menu ic_dashboard">
+                </div>
+                <span class="text-menu">Dashboard</span>
+            </a>
+        </li>
+        <li id="QLSP" class="">
+            <a href="@Url.Action("Index", "Product", new { Area = "Shopman"})">
+                <div class="img-menu ic_shopping-bag">
+                </div>
+                <span class="text-menu">Quản lý sản phẩm</span>
+            </a>
+        </li>
+        @*<li class="">
+                <a href="./dashboardqlbv.html">
+                    <div class="img-menu ic_newspaper">
+                    </div>
+                    <span class="text-menu">Quản lý bài viết</span>
+                </a>
+            </li>*@
+        <li class="">
+            <a href="/Shopman/Home/EditProductBrand?ProductBrandId=@userProfile.ProductBrandId">
+                <div class="img-menu ic_settings">
+                </div>
+                <span class="text-menu">Cài đặt gian hàng</span>
+            </a>
+        </li>
+        <li class="">
+            <a href="/Shopman/UpdateStore/Index">
+                <div class="img-menu ic_arrow">
+                </div>
+                <span class="text-menu">Nâng cấp gian hàng</span>
+            </a>
+        </li>
+        <li id="LSNC" class="">
+            <a href="/Shopman/UpdateStore/History">
+                <div class="img-menu ic_history">
+                </div>
+                <span class="text-menu">Lịch sử nâng cấp</span>
+            </a>
+        </li>
+        <li class="">
+            <a href="/tai-khoan">
+                <div class="img-menu ic_user">
+                </div>
+                <span class="text-menu">Tài khoản</span>
+            </a>
+        </li>
+    </ul>
+    <div class="nangcap text-center pt-2">
+        <img src="~/Assets/images/rocket.png">
+        <p>Nâng cấp gian hàng để nhận thêm nhiều tính năng đặc biệt hơn.</p>
+        <a href="/Shopman/UpdateStore/Index" class="btn btn-nangcap mt-2"></a>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: "POST",
+            url: "/ProductBrand/GetBrandDetails?ProductBrandId="+ @userProfile.ProductBrandId,
+            dataType: "html",
+            success: function (response) {
+                var rel = JSON.parse(response);
+                document.getElementById("logo").src = "" + rel.UrlLogoImage;
+                document.getElementById("name-brand").innerHTML = "" + rel.Name;
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    });
+</script>

@@ -1,0 +1,131 @@
+﻿@{
+    var userProfile = (HNM.DataNC.ModelsNC.ModelsDTO.ProfilersDTO)ViewBag.UserProfile;
+    var gender = "";
+    if (userProfile.Gender != null)
+    {
+        gender = (bool)userProfile.Gender ? "Nam" : "Nữ";
+    }
+    else
+    {
+        gender = "Không xác định";
+    }
+}
+
+<div class="tab-pane fade" id="taikhoandoipass" role="tabpanel" aria-labelledby="taikhoandoipass-tab">
+    <div class="bg-white px-3 border-radius d-flex align-items-center pt-3 pt-lg-0">
+        <div class="col-7">
+            <span class="hello">Xin chào, @userProfile.FullName </span>
+            <p>Hãy chú ý bảo vệ tài khoản của mình bằng cách thực hiện đầy đủ các bước theo hướng dẫn của Hanoma, và đặc biệt đừng chia sẻ tài khoản của mình với người khác nhé!</p>
+        </div>
+        <div class="col-5">
+            <img src="~/images/protect.png" />
+        </div>
+    </div>
+    <div class="bg-white mt-3 p-2 border-radius px-md-5 py-md-5 pt-5">
+        <div class="title-page pb-4 mb-4 ">
+            <h5 class="text-uppercase  font-weight-bold">THAY ĐỔI MẬT KHẨU</h5>
+        </div>
+        <div class="content-page  d-flex justify-content-center">
+            <form class="col-12 col-lg-8 col-sm-12 p-0 px-sm-2">
+                <input type="text" name="Email" id="EmailValue" class="form-control" hidden="hidden" value="@userProfile.Phone">
+                <div class="form-group">
+                    <label for="inputAddress">Mật khẩu hiện tại:</label>
+                    <input type="password" name="OldPassword" id="OldPassword" class="form-control" placeholder="Mật khẩu ít nhất 6 ký tự">
+                </div>
+                <div class="form-group">
+                    <label for="inputAddress">Mật khẩu mới:</label>
+                    <input type="password" name="NewPassword" id="NewPassword" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="inputAddress">Nhập lại mật khẩu mới:</label>
+                    <input type="password" id="ConfirmPassword" class="form-control">
+                </div>
+                <div class="col-auto justify-content-center d-flex">
+                    <button type="button" onclick="UpdatePass()" class="btn btn-primary mb-2">Lưu thay đổi</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function UpdatePass() {
+        var Email = $("#EmailValue").val();
+        var OldPassword = $("#OldPassword").val();
+        var NewPassword = $("#NewPassword").val();
+        var ConfirmPassword = $("#ConfirmPassword").val();
+        if (OldPassword == "") {
+            toastr["error"]("Mật khẩu hiện tại không được để trống!");
+            $("#OldPassword").focus();
+            return;
+        }
+        
+        if (OldPassword != "") {
+            if (OldPassword.length < 6) {
+                toastr["error"]("Mật khẩu hiện tại không được nhỏ hơn 6 ký tự!");
+                $("#OldPassword").focus();
+                return;
+            }
+
+            if (OldPassword.length > 100) {
+                toastr["error"]("Mật khẩu hiện tại không được quá 100 ký tự!");
+                $("#OldPassword").focus();
+                return;
+            }
+        }
+
+        if (NewPassword == "") {
+            toastr["error"]("Mật khẩu mới không được để trống!");
+            $("#NewPassword").focus();
+            return;
+        }
+        
+        if (NewPassword != "") {
+            if (NewPassword.length < 6) {
+                toastr["error"]("Mật khẩu mới không được nhỏ hơn 6 ký tự!");
+                $("#NewPassword").focus();
+                return;
+            }
+
+            if (NewPassword.length > 100) {
+                toastr["error"]("Mật khẩu mới không được quá 100 ký tự!");
+                $("#NewPassword").focus();
+                return;
+            }
+        }
+        if (ConfirmPassword == "") {
+            toastr["error"]("Nhập lại mật khẩu mới không được để trống!");
+            $("#ConfirmPassword").focus();
+            return;
+        }
+
+        if (ConfirmPassword != NewPassword) {
+            toastr["error"]("Mật khẩu mới không trùng khớp!");
+            $("#ConfirmPassword").focus();
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/Profile/ChangePass?OldPassword=" + OldPassword + "&NewPassword=" + NewPassword + "&Email=" + Email,
+            dataType: "html",
+            success: function (response) {
+                var result = JSON.parse(response);
+                if (result.ErrorCode == "00") {
+                    toastr["success"](result.Message);
+                }
+                else {
+                    toastr["error"](result.Message);
+                }
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+</script>

@@ -1,0 +1,70 @@
+﻿
+
+@*<div style="text-align: center">
+    <p><a href="/Shopman/Product/EditAccessoriesEquipment/@ViewBag.ProductId">Tiếp tục chỉnh sửa</a></p>
+    <p><a href="/Shopman/Product/CreateAccessoriesEquipment">Đăng tin mới</a></p>
+    <p><a href="/Shopman/Product/">Thoát</a></p>
+</div>*@
+
+@{ 
+    var LinkEdit = ViewBag.LinkEdit;
+    var LinkContinue = ViewBag.LinkContinue;
+}
+
+<style>
+    .action-container a {
+        color: unset;
+        text-decoration: none;
+    }
+
+    .action-container {
+        padding: 15px;
+        cursor: pointer;
+    }
+</style>
+
+<div class="uk-grid" data-uk-grid-margin>
+    <div class="uk-width-medium-1-3">
+    </div>
+    <div class="uk-width-medium-1-3">
+        <div class="md-card md-card-custom">
+            <div class="md-card-content" style="min-height: unset !important;">
+                <div class="row">
+                    <div class="col-12" style=" display: flex; flex-direction: column; align-items: center;">
+                        <div>
+                            <span style="padding: 10px; font-size: 20px; font-weight: 600;">Đã được lưu vào hệ thống</span>
+                        </div>
+                        <div>
+                            <span>
+                                Tin đăng của bạn đã được lưu vào hệ thống
+                                và đang chờ phê duyệt , trong thời gian này
+                                bạn có thể chỉnh sửa hoặc đăng mới sản phẩm khác.
+                            </span>
+                        </div>
+                        <div>
+                            <div class="action-container">
+                                <a href="@LinkEdit">
+                                    <i class="fa fa-caret-left" aria-hidden="true"></i>
+                                    <span>Tiếp tục chỉnh sửa</span>
+                                </a>
+                            </div>
+                            <div class="action-container">
+                                <a href="@LinkContinue">
+                                    <i class="fa fa-caret-left" aria-hidden="true"></i>
+                                    <span>Đăng tin khác</span>
+                                </a>
+                            </div>
+                            <div class="action-container">
+                                <a href="/ShopMan/">
+                                    <i class="fa fa-caret-left" aria-hidden="true"></i>
+                                    <span>Thoát</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

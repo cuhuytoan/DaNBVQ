@@ -1,0 +1,455 @@
+﻿@model HNM.DataNC.ModelsNC.ModelsDTO.PostProductShopManDTO
+@using HNM.DataNC.ModelsNC.ModelsDTO
+
+@{
+    List<AccessoriesFitDTO> accessoriesFitDTOs = new List<AccessoriesFitDTO>();
+}
+<link href="~/Assets/css/custom.css" rel="stylesheet" />
+<div class="bg-white py-1 mx-auto  px-0 px-md-2">
+    <div class="header-box text-center  ">
+        <div class="backtouploadimage" style="display: none;">
+            <button type="button" class="back">
+                <span aria-hidden="true"></span>
+            </button>
+        </div>
+        <h3 class="text-uppercase mt-1">ĐĂNG TIN CẦN MUA PHỤ TÙNG</h3>
+    </div>
+    <div class="content-box  mx-auto ">
+        <form action="/ManagerDemand/NeedBuyAccessories" enctype="multipart/form-data" method="post">
+            <div class="first-form text-center">
+                <div class="row">
+                    <div class="col-12 col-lg-3 col-md-5 pr-md-0 mb-3 mb-md-0">
+                        <div class="custom-file-container" data-upload-id="cover-img">
+                            <label style="display: none;">
+                                Upload File
+                                <a href="javascript:void(0)"
+                                   class="custom-file-container__image-clear"
+                                   title="Clear Image">&times;</a>
+                            </label>
+                            <input type="file"
+                                   class="custom-file-container__custom-file__custom-file-input"
+                                   accept="image/jpeg, image/png, image/gif, image/svg+xml"
+                                   aria-label="Choose File" name="MainImage" id="mainimagedemand" onchange="onSelectMain()" />
+                            <input type="hidden" name="MAX_FILE_SIZE" value="2097152" />
+                            <div class="custom-file-container__image-preview">
+                                <label class="custom-file-container__custom-file">
+
+                                    <span class="custom-file-container__custom-file__custom-file-control"></span>
+                                </label>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-12 col-lg-9 col-md-7">
+                        <div class="custom-file-container" data-upload-id="thumb-img">
+                            <label style="display: none;">
+                                Upload File
+                                <a href="javascript:void(0)"
+                                   class="custom-file-container__image-clear"
+                                   title="Clear Image">&times;</a>
+                            </label>
+                            <input type="file"
+                                   class="custom-file-container__custom-file__custom-file-input"
+                                   accept="image/jpeg, image/png, image/gif, image/svg+xml"
+                                   multiple
+                                   aria-label="Choose File" name="SubImage" id="subimagedemand" onchange="onSelectMain()" />
+                            <input type="hidden" name="MAX_FILE_SIZE" value="2097152" />
+
+                            <div class="custom-file-container__image-preview">
+                                <label class="custom-file-container__custom-file">
+                                    <span class="custom-file-container__custom-file__custom-file-control"></span>
+                                </label>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="note pt-4">
+                        <p>Bước 1: Chọn ảnh cho bài viết (tối đa 20 ảnh)</p>
+                    </div>
+                    <ul class="progressbar-post m-0 d-table">
+                        <li class="step1 active"><div class="counter">1</div></li>
+                        <li class="step2"><div class="counter">2</div></li>
+                    </ul>
+                    <div class=" justify-content-center d-block text-center mt-3">
+                        <button type="button" class="btn btn-primary mb-2 next-form-button">Tiếp theo</button>
+                    </div>
+                </div>
+            </div>
+            <div class="next-form px-lg-custom" style="display: none;">
+                <div class="row form-group">
+                    <div class="col-12 col-sm-6">
+                        <label for="inputAddress">Tên phụ tùng*:</label>
+                        <input type="text" class="form-control" name="Name" id="Name" placeholder="VD: ABC XYZ">
+                    </div>
+                    <div class="col-12 col-sm-6">
+
+                        <label for="StatusMachine">Tình trạng:*</label>
+                        <select name="StatusMachine" id="StatusMachine" class="form-control">
+                            <option value="Mới">Mới</option>
+                            <option value="Đã qua sử dụng">Đã qua sử dụng</option>
+
+                        </select>
+                    </div>
+                </div>
+                <div class="row  ">
+                    <div class="col-12 col-sm-6  form-group">
+                        <label for="AccessoriesModelName">Ký hiệu/ Model:</label>
+                        <input type="text" class="form-control" name="AccessoriesModelName" id="AccessoriesModelName" placeholder="VD: M1234">
+                    </div>
+                    <div class="col-12 col-sm-6  form-group">
+                        <label for="inputAddress">Serial/ Part-number:</label>
+                        <input type="text" class="form-control" name="PartNumber" id="PartNumber" placeholder="VD: 12345">
+                    </div>
+                </div>
+
+                <div class="row ">
+
+                    <div class="col-12 col-sm-6 form-group">
+                        <label for="inputAddress">Dùng cho bộ phận*:</label>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                @(Html.Kendo().ComboBox()
+                                .Name("ProductCategoryId")
+                                .HtmlAttributes(new {@class = "form-control"})
+                                .Placeholder("Dùng cho bộ phận cấp 1....")
+                                .DataTextField("Name")
+                                .DataValueField("ProductCategoryId")
+                                .Filter("contains")
+                                .Suggest(true)
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("GetAllAccessoriCate", "ManagerDemand");
+                                    }).ServerFiltering(false);
+                                })
+                            )
+                            </div>
+
+                            <div class="col-sm-6">
+                                @(Html.Kendo().ComboBox()
+                                .Name("AccessoriesCategoryId")
+                                .HtmlAttributes(new {@class = "form-control"})
+                                .Placeholder("Dùng cho bộ phận....")
+                                .DataTextField("Name")
+                                .DataValueField("ProductCategoryId")
+                                .Filter("contains")
+                                .Suggest(true)
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("GetAllAccessoriLv2", "ManagerDemand").Data("filterModelsAcc");
+                                    }).ServerFiltering(true);
+                                })
+                                .Enable(false)
+                                .AutoBind(false)
+                                .CascadeFrom("ProductCategoryId")
+                            )
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-12 col-sm-6 ">
+                        <div class="row   form-group">
+
+                            <div class="col">
+                                <label for="inputAddress">Số lượng cần mua*:</label>
+                                <div class="input-group-prepend">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text decrease">-</span>
+                                    </div>
+                                    <div class="input-group-prepend">
+                                        <input type="text" class="form-control" id="quantity" name="SellCount" value="1">
+                                    </div>
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text increase">+</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col pl-0 pl-sm-3">
+                                <label for="inputAddress">&nbsp;</label>
+                                @(Html.Kendo().ComboBox()
+                                .Name("Unit")
+                                .HtmlAttributes(new {@class = "form-control"})
+                                .Placeholder("Chọn đơn vị")
+                                .DataTextField("Name")
+                                .DataValueField("Id")
+                                .Filter("contains")
+                                .Suggest(true)
+                                .DataSource(source =>
+                                {
+                                    source.Read(read =>
+                                    {
+                                        read.Action("GetAllUnit", "ManagerDemand");
+                                    }).ServerFiltering(false);
+                                })
+                            )
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputAddress">Phụ tùng này lắp cho các thiết bị sau*:</label>
+                    <!-- <textarea name = "content" class="form-control"></textarea> -->
+                    <input type="hidden" value="" name="thietbi" id="mutiplevalue" />
+                    <div class="box-selected-data"><div class="item-mul"><a href="@Url.Action("ReferAccessories", "ManagerDemand")" class="openPopUp">Thêm</a></div></div>
+
+                </div>
+
+                <div class="form-group">
+                    <label for="inputAddress">Nội dung chi tiết:*</label>
+                    <div>
+                        @(Html.Kendo().Editor()
+                                                 .Name("Content")
+                                                 .HtmlAttributes(new { style = "width:100%;min-height: 50px;", placeholder = "Nhập nội dung mô tả ở đây..", aria_label = "editor"})
+                                                 .Resizable(resizable => resizable.Content(true).Toolbar(true))
+
+                                                 //.Placeholder("Nhập nội dung mô tả ở đây...")
+                                                 .Messages(p =>
+                                                 {
+                                                     p.Bold("Chữ đậm");
+                                                     p.Underline("gạch chân");
+                                                     p.Bold("Chữ đậm");
+                                                     p.Italic("Chữ nghiêng");
+                                                     p.Indent("Thụt lề");
+                                                     p.InsertImage("Thêm ảnh");
+                                                     p.InsertHtml("Thêm HTML");
+                                                     p.FontName("Chọn font");
+                                                     p.ImageWebAddress("Địa chỉ web");
+                                                 })
+                                                 .Tools(tools => tools
+                                                    .Clear()
+                                                     .Bold().Italic().Underline().Strikethrough()
+                                                     .Outdent().Indent()
+                                                     .CreateLink().Unlink()
+                                                     .InsertImage()
+                                                     .InsertFile()
+                                                     .TableEditing()
+                                                     .ViewHtml()
+                                                 )
+                                          .StyleSheets(css => css
+                                              .Add(Url.Content("~/css/Editor.css"))
+                                          )
+                                    )
+
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <div class="note pt-4">
+                        <p>Bước 2: Nhập thông tin</p>
+                    </div>
+                    <ul class="progressbar-post m-0 d-table">
+                        <li class="step1 complete"><div class="counter">1</div></li>
+                        <li class="step2 active"><div class="counter">2</div></li>
+                    </ul>
+                    <div class=" justify-content-center d-block text-center mt-3">
+                        <button type="button" class="btn btn-primary mb-2" id="buttonCreate" onclick="javascript:CreateAccessori()">Đăng bài</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script src="~/Assets/js/file-upload-with-preview.min.js"></script>
+<script src="~/Assets/js/validation-product.js"></script>
+<script>
+
+    var upload = new FileUploadWithPreview("cover-img", {
+        text: {
+            chooseFile: "",
+            browse: "Chọn ảnh đại diện bài viết"
+        },
+    });
+    var upload1 = new FileUploadWithPreview("thumb-img", {
+        maxFileCount: 20,
+        text: {
+            chooseFile: "",
+            browse: "Ảnh mô tả"
+        },
+    });
+
+    async function readFileAsDataURL(file) {
+        let result_base64 = await new Promise((resolve) => {
+            let fileReader = new FileReader();
+            fileReader.onload = (e) => resolve(fileReader.result);
+            fileReader.readAsDataURL(file);
+        });
+        var dataImage = {
+            FileName: file.name,
+            ExtensionType: file.type,
+            Base64: result_base64
+        }
+        return dataImage;
+    }
+
+    async function readSubFileAsDataURL(file) {
+        let result_base64 = await new Promise((resolve) => {
+            let fileReader = new FileReader();
+            fileReader.onload = (e) => resolve(fileReader.result);
+            fileReader.readAsDataURL(file);
+        });
+        var dataImage = {
+            FileName: file.name,
+            ExtensionType: file.type,
+            Base64: result_base64
+        }
+        return dataImage;
+    }
+
+    async function CreateAccessori() {
+        //Lấy dl
+        var ProductCategoryId = $("#ProductCategoryId").val();
+        var NameProduct = $("#Name").val();
+        var StatusMachine = $("#StatusMachine").val();
+        var AccessoriesModelName = $("#AccessoriesModelName").val();
+        var PartNumber = $("#PartNumber").val();
+        var AccessoriesCategoryId = $("#AccessoriesCategoryId").val();
+        var SellCount = $("#quantity").val();
+        var Content = $("#Content").val();
+        var Unit = $("#Unit").val();
+
+        if (NameProduct == "") {
+            toastr["error"]("Tiêu đề bài đăng không được để trống");
+            $("#Name").focus();
+            return false;
+        }
+
+        if (!checkSpecialCharacter(NameProduct)) {
+            toastr["error"]("Tên phụ tùng không được nhập các ký tự đặc biệt");
+            $("#Name").focus();
+            return false;
+        }
+
+        if (NameProduct.length > 70) {
+            toastr["error"]("Tiêu đề không được quá 70 ký tự");
+            $("#Name").focus();
+            return false;
+        }
+
+        if (!checkSpecialCharacter(AccessoriesModelName)) {
+            toastr["error"]("Ký hiệu/ Model không được nhập các ký tự đặc biệt");
+            $("#AccessoriesModelName").focus();
+            return false;
+        }
+
+        if (!checkSpecialCharacter(PartNumber)) {
+            toastr["error"]("PartNumber không được nhập các ký tự đặc biệt");
+            $("#PartNumber").focus();
+            return false;
+        }
+
+        if (ProductCategoryId == "") {
+            toastr["error"]("Dùng cho bộ phận cấp 1 không được để trống");
+            $("#ProductCategoryId").focus();
+            return false;
+        }
+
+        if (isNaN(ProductCategoryId)) {
+            toastr["error"]("Dùng cho bộ phận không tồn tại");
+            $("#ProductCategoryId").focus();
+            return false;
+        }
+
+        if (AccessoriesCategoryId == "") {
+            toastr["error"]("Dùng cho bộ phận cấp 2 không được để trống");
+            $("#AccessoriesCategoryId").focus();
+            return false;
+        }
+
+        if (isNaN(AccessoriesCategoryId)) {
+            toastr["error"]("Dùng cho bộ phận cấp 2 không tồn tại");
+            $("#AccessoriesCategoryId").focus();
+            return false;
+        }
+
+        if (StatusMachine == "") {
+            toastr["error"]("Tình trạng không được để trống");
+            $("#StatusMachine").focus();
+            return false;
+        }
+        if (list.length == 0) {
+            toastr["error"]("Lắp cho thiết bị không được để trống");
+            return false;
+        }
+
+        var content = $("#Content").val();
+
+        if (content == "") {
+            toastr["error"]("Mô tả không để trống");
+            $("#Content").focus();
+            return false;
+        }
+
+        if (content.length < 10) {
+            toastr["error"]("Mô tả không được nhỏ hơn 10 ký tự");
+            $("#Content").focus();
+            return false;
+        }
+
+        if (content.length > 4000) {
+            toastr["error"]("Mô tả không được lớn hơn 4000 ký tự");
+            $("#Content").focus();
+            return false;
+        }
+
+
+        var objMainImage = null;
+        var listSubImage = [];
+
+        //Lấy MainImage
+        var files = $('#mainimagedemand')[0].files;
+        objMainImage = await readFileAsDataURL(files[0]);
+
+        //Lấy SubImage
+        var files2 = document.getElementById("subimagedemand");
+        for (i = 0; i < files2.files.length; i++) {
+            var objSubImage = await readSubFileAsDataURL(files2.files[i]);
+            listSubImage.push(objSubImage);
+        }
+        console.log(listSubImage);
+
+        var objProduct = {
+            "ProductCategoryId": ProductCategoryId,
+            "Name": NameProduct,
+            "StatusMachine": StatusMachine,
+            "AccessoriesModelName": AccessoriesModelName,
+            "PartNumber": PartNumber,
+            "AccessoriesCategoryId": AccessoriesCategoryId,
+            "SellCount": SellCount,
+            "Content": Content,
+            "Unit": Unit
+        }
+
+        var model = {
+            "Product": objProduct,
+            "AccessoriesFit": [],
+            "MainImage": {},
+            "SubImage": {}
+        };
+        model['AccessoriesFit'] = list;
+        model['MainImage'] = objMainImage;
+        model['SubImage'] = listSubImage;
+        document.getElementById("buttonCreate").disabled = true;
+        $.ajax({
+            type: "POST",
+            url: "/ManagerDemand/NeedBuyAccessories",
+            data: JSON.stringify(model),
+            dataType: "json",
+            contentType: "application/json",
+            success: function (data) {
+                toastr.success("Thêm mới nhu cầu cần mua phụ tùng thành công!");
+                window.location.href = "/tai-khoan?id=2";
+            }
+        });
+    }
+
+</script>

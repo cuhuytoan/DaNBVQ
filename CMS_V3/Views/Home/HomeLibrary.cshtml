@@ -1,0 +1,37 @@
+﻿@{
+    var ListArticle = (CMS_V3.ViewModel.ArticleViewModel)ViewBag.ListArticle;
+    var ArticleModel = Tuple.Create(ListArticle.lstBlock1, ListArticle.lstBlock2, ListArticle.highlightArticle);
+}
+
+<!-- Thư Viện -->
+<article>
+    <div class="article-header d-block d-lg-flex my-2">
+        <div class="category-title text-uppercase px-2  align-items-center d-block d-lg-flex">
+            <h3 class="title">Thư Viện</h3>
+            <button class="navbar-toggler d-lg-none d-flex" type="button" data-toggle="collapse" data-target="#navbarNav-tv" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+        <div class="navbar navbar-expand-lg category-menu  pl-4  d-block d-lg-flex  align-items-center">
+            <nav class="collapse" id="navbarNav-tv">
+                <li class="nav-item ml-3"><a class="nav-link" href="/tin-tuc">Tin Tức</a></li>
+                <li class="nav-item ml-3"><a class="nav-link" href="/thu-vien-kien-thuc">Kiến thức</a></li>
+                <li class="nav-item ml-3"><a class="nav-link" href="/chuyen-muc-video">Video</a></li>
+                <li class="nav-item ml-md-3 last readtotoal"><a class="nav-link" href="/tin-tuc">Xem tất cả</a></li>
+            </nav>
+        </div>
+    </div>
+    <div class="article-banner d-flex">
+        <div class="col-4 pr-0">
+            <img class="lazyload" src="Assets/images/article-banner1.jpg" />
+        </div>
+        <div class="col-4 px-2">
+            <img class="lazyload" src="Assets/images/article-banner3.jpg" />
+        </div>
+        <div class="col-4 pl-0">
+            <img class="lazyload" src="Assets/images/article-banner2.jpg" />
+        </div>
+    </div>
+
+    @await Html.PartialAsync("~/Views/Article/ArticleTop.cshtml", ArticleModel)
+</article>

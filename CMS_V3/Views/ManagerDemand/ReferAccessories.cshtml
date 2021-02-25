@@ -1,0 +1,105 @@
+﻿<form class="" action="#" onsubmit="callAjaxModal(this, '#popup')">
+    <div class="form-group">
+        <label for="inputAddress">Chọn chủng loại:*</label>
+        @(Html.Kendo().ComboBox()
+          .Name("ProductCategoryIdParent")
+          .HtmlAttributes(new {@class = "form-control"})
+          .Placeholder("Chọn Thiết bị liên quan....")
+          .DataTextField("Name")
+          .DataValueField("ProductCategoryId")
+          .Filter("contains")
+          .Suggest(true)
+          .DataSource(source =>
+          {
+              source.Read(read =>
+              {
+                  read.Action("GetLstProductCateLv1", "Service");
+              }).ServerFiltering(false);
+          })
+        )
+    </div>
+    <div class="form-group">
+        <label for="inputAddress">Chọn chủng loại c2:*</label>
+        @(Html.Kendo().ComboBox()
+          .Name("ProductCategoryID2")
+          .HtmlAttributes(new {@class = "form-control"})
+          .Placeholder("Chọn Loại máy....")
+          .DataTextField("Name")
+          .DataValueField("ProductCategoryId")
+          .Filter("contains")
+          .Suggest(true)
+          .DataSource(source =>
+          {
+              source.Read(read =>
+              {
+                  read.Action("GetLstProductCateLv2", "Service").Data("filterModelsAccess");
+              }).ServerFiltering(true);
+          })
+          .Enable(false)
+          .AutoBind(false)
+          .CascadeFrom("ProductCategoryIdParent")
+        )
+    </div>
+    <div class="form-group">
+        <label for="inputAddress">Chọn hãng:*</label>
+        @(Html.Kendo().ComboBox()
+            .Name("ManufactoryID")
+            .HtmlAttributes(new {@class = "form-control"})
+            .Placeholder("Chọn Hãng thiết bị....")
+            .DataTextField("Name")
+            .DataValueField("ProductManufactureId")
+            .Filter("contains")
+            .Suggest(true)
+            .DataSource(source =>
+            {
+                source.Read(read =>
+                {
+                    read.Action("GetAllManuByCate", "ManagerDemand");
+                }).ServerFiltering(true);
+            })
+            .Enable(false)
+            .AutoBind(false)
+            .CascadeFrom("ProductCategoryID2")
+        )
+    </div>
+    <div class="form-group">
+        <label for="inputAddress">Model:*</label>
+        @(Html.Kendo().ComboBox()
+         .Name("ModelID")
+         .HtmlAttributes(new {@class = "form-control"})
+         .Placeholder("Chọn Model....")
+         .DataTextField("Name")
+         .DataValueField("ProductModelId")
+         .Filter("contains")
+         .Suggest(true)
+         .DataSource(source =>
+         {
+             source.Read(read =>
+             {
+                 read.Action("GetAllModelByCate", "ManagerDemand").Data("filterModelsModel");
+                 //read.Action("GetAllModelByCate", "ManagerDemand");
+             }).ServerFiltering(true);
+         })
+         .Events(e =>
+         {
+             e.Change("onChangeModel");
+         })
+         .Enable(false)
+         .AutoBind(false)
+         .CascadeFrom("ManufactoryID")
+     )
+    </div>
+    <div class="form-group" id="model-input" style="display:none;">
+        <label for="inputAddress">Thêm Model Khác:*</label>
+        <input type="text" class="form-control" name="tieude" id="othermodel" placeholder="Nhập tên model bạn muốn thêm">
+
+    </div>
+    <div class="form-group d-flex align-items-center">
+        <input type="checkbox" id="checkbox_addmore">
+        <label for="checkbox_addmore" class="ml-1">Thêm nhiều thiết bị</label>
+
+    </div>
+    <div class=" justify-content-center d-block text-center mt-3">
+        <button type="button" class="btn btn-primary mb-2" onclick="javascript:addValue1()">Thêm</button>
+    </div>
+</form>

@@ -1,0 +1,102 @@
+﻿@{
+    var MenuMachine = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuMachine;
+    var MenuMaterials = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuMaterials;
+    var MenuServices = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuServices;
+}
+
+<article>
+    <div class="d-flex banner align-items-center">
+        <div class="menu col-lg-2 d-lg-block d-none">
+            <div class="card">
+                <div class="card-header text-uppercase pl-2 show_menu">
+                    <h4 class="d-flex align-items-center"><img class="mr-2" src="~/Assets/images/category.png" />Danh Mục</h4>
+                </div>
+                <div class="card-body p-0" id="my-menu">
+                    <ul>
+                        <li class="has-child">
+                            <a href="/may-de-ban">Máy để bán</a>
+                            <ul>
+                                @foreach (var p in MenuMachine.Data)
+                                {
+                                    <li><a href=@($"ban-{p.URL}.pcat")>@p.Name</a></li>
+                                }
+
+                            </ul>
+                        </li>
+                        <li class="has-child">
+                            <a href="/cho-thue-may">Máy cho thuê</a>
+                            <ul>
+                                @foreach (var p in MenuMachine.Data)
+                                {
+                                    <li><a href=@($"cho-thue-may-{p.URL}.pcat")>@p.Name</a></li>
+                                }
+
+                            </ul>
+                        </li>
+                        <li class="has-child">
+                            <a href="/ban-phu-tung">Phụ Tùng</a>
+                            <ul>
+                                @foreach (var p in MenuMachine.Data)
+                                {
+                                    <li><a href=@($"ban-phu-tung-{p.URL}.pcat")>@p.Name</a></li>
+                                }
+
+                            </ul>
+                        </li>
+                        <li class="has-child">
+                            <a href="/ban-vat-tu">Vật tư</a>
+                            <ul>
+                                @foreach (var p in MenuMaterials.Data)
+                                {
+                                    <li><a href=@($"ban-vat-tu-{p.URL}.pcat")>@p.Name</a></li>
+                                }
+
+                            </ul>
+                        </li>
+                        <li class="has-child">
+                            <a href="/dich-vu">Dịch vụ</a>
+                            <ul>
+                                @foreach (var p in MenuServices.Data)
+                                {
+                                    <li><a href=@($"dich-vu-{p.URL}.pcat")>@p.Name</a></li>
+                                }
+
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="/ho-so">Hồ sơ xin việc</a>
+                        </li>
+                        <li>
+                            <a href="/viec-lam">Tin tuyển dụng</a>
+                        </li>
+                        <li class="has-child">
+                            <a href="javascript:void(0)">Nhu cầu</a>
+                            <ul>
+                                <li><a href="/can-mua-thiet-bi">Cần mua thiết bị</a></li>
+                                <li><a href="/can-mua-phu-tung">Cần mua phụ tùng</a></li>
+                                <li><a href="/can-mua-vat-tu">Cần mua vật tư</a></li>
+                                <li><a href="/can-thue-thiet-bi">Cần thuê thiết bị</a></li>
+                                <li><a href="/can-thue-dich-vu">Cần thuê dịch vụ</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <nav aria-label="breadcrumb" class="col-sm-12 col-lg-9 px-3 pl-lg-0 pr-lg-0">
+            <ol class="breadcrumb p-0 m-0">
+                <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+                <li class="breadcrumb-item" aria-current="page"><a href="/ho-so">Hồ sơ</a></li>
+                @if (!String.IsNullOrEmpty(ViewBag.CareeName))
+                {
+                    <li class="breadcrumb-item active" aria-current="page"><a href="/ho-so/@ViewBag.UrlCv">@ViewBag.CareeName</a></li>
+                }
+                
+                @if (ViewBag.CurriculumVitaeId != null)
+                {
+                    <li class="breadcrumb-item active" aria-current="page"><a>Chi tiết</a></li>
+                }
+            </ol>
+        </nav>
+    </div>
+</article>

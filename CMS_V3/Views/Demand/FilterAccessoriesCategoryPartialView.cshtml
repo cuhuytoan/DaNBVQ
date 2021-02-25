@@ -1,0 +1,160 @@
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@using Mono.Web
+
+@{
+
+    var CateCurrent = (HNM.DataNC.ModelsNC.ModelsDTO.ProductCategoryDTO)ViewBag.CateCurrent;
+    var ListCateChildren = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.ListCateChildren;
+    var ProductTypeId = (int?)ViewBag.ProductTypeId;
+    var ProductCategoryId = (int?)ViewBag.ProductCategoryId;
+    var ManufactureId = (int?)ViewBag.ManufactureId;
+    var ProductModelId = (int?)ViewBag.ProductModelId;
+    var LocationId = (int?)ViewBag.LocationId;
+    var CurentCategoryId = (int)ViewBag.CurentCategoryId;
+    var MainSystemId = (int?)ViewBag.MainSystemId;
+    var ChildMainSystemId = (int?)ViewBag.ChildMainSystemId;
+    var PartNumber= (String)ViewBag.PartNumber;
+    var StatusMachine = (String)ViewBag.StatusMachine;
+
+    var ListManufactures = (HNM.DataNC.ModelsNC.ModelsDTO.ListManufactureSearchDTO)ViewBag.ListManufactures;
+    var ListModels = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductModelSearchDTO)ViewBag.ListModels;
+    var ListLocations = (HNM.DataNC.ModelsNC.ModelsDTO.ListLocationDTO)ViewBag.ListLocations;
+    var ListPartNumber = (List<HNM.DataNC.ModelsNC.ModelsDTO.PatchNumberDTO>)ViewBag.ListPartNumber;
+    var ListMainSystem = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.ListMainSystem;
+    var ListChildrenMainSystem = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.ListChildrenMainSystem;
+}
+
+    <article>
+        <div class="container">
+            <form>
+                <div class="search-module mt-3 pb-4 bg-white">
+                    <div class="title">
+                        <h3 class="text-uppercase px-2 py-3">Bộ lọc sản phẩm</h3>
+                    </div>
+                    <div class="search-content row m-2 mb-0 mb-md-3">
+                        <span class="font-italic mb-2">*Những mục được đánh số vui lòng chọn theo đúng thứ tự</span>
+                        <div class="col-12 col-md-9 px-0 d-block d-md-flex pr-md-1">
+                            <div class="step input-box px-0 px-md-1 col-12 col-md-2 mb-3">
+                                <select id="filter_category" onchange="filterModuleOnchange();" class="form-control">
+                                    @*<option value="@CateCurrent.ProductCategoryId">Tất cả @CateCurrent.Name</option>*@
+                                    <option value="@CateCurrent.ProductCategoryId">Chủng loại</option>
+                                    @foreach (var item in ListCateChildren.Data)
+                                    {
+                                        <option value="@item.ProductCategoryId">@item.Name</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="step input-box px-0 px-md-1  col-12 col-md-2 mb-3">
+                                <select id="filter_mainSystem" onchange="filterModuleOnchange();" class="form-control">
+                                    <option value="">Hệ thống</option>
+                                    @foreach (var item in ListMainSystem.Data)
+                                    {
+                                        <option value="@item.ProductCategoryId">@item.Name</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="step input-box px-0 px-md-1  col-12 col-md-2 mb-3">
+                                @if (MainSystemId > 0)
+                                {
+                                    <select id="filter_mainSystemChild" onchange="filterModuleOnchange();" class="form-control">
+                                        <option value="">Tên phụ tùng</option>
+                                        @foreach (var item in ListChildrenMainSystem.Data)
+                                        {
+                                            <option value="@item.ProductCategoryId">@item.Name</option>
+                                        }
+                                    </select>
+                                }
+                                else
+                                {
+                                    <select id="filter_mainSystemChild" onchange="filterModuleOnchange();" class="form-control" disabled>
+                                        <option value="">Tên phụ tùng</option>
+                                    </select>
+                                }
+                            </div>
+                            <div class="step input-box px-0 px-md-1  col-12 col-md-2 mb-3">
+                                <select id="filter_manu" onchange="filterModuleOnchange();" class="form-control">
+                                    <option value="">Hãng</option>
+                                    @foreach (var item in ListManufactures.Data)
+                                    {
+                                        <option value="@item.ProductManufactureId">@item.Name</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="step input-box px-0 px-md-1  col-12 col-md-2 mb-3">
+                                @if (ManufactureId > 0)
+                                {
+                                    <select id="filter_model" onchange="filterModuleOnchange();" class="form-control">
+                                        <option value="">Model</option>
+                                        @foreach (var item in ListModels.Data)
+                                        {
+                                            <option value="@item.ProductModelId">@item.Name</option>
+                                        }
+                                    </select>
+                                }
+                                else
+                                {
+                                    <select id="filter_model" onchange="filterModuleOnchange();" disabled class="form-control">
+                                        <option value="">Model</option>
+                                    </select>
+                                }
+                            </div>
+                            <div class="step input-box px-0 px-md-1  col-12 col-md-2 mb-3">
+                                <select id="filter_partnumber" onchange="filterModuleOnchange();" class="form-control">
+                                    <option value="">Partnumber</option>
+                                    @foreach (var item in ListPartNumber.Where(x => x.PartNumber != "").ToList())
+                                    {
+                                        if (item.PartNumber == PartNumber)
+                                        {
+                                            <option value="@item.PartNumber" selected="selected">@item.PartNumber</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.PartNumber">@item.PartNumber</option>
+                                        }
+
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-3 p-0 d-flex">
+                            <div class="input-box px-1 col-6">
+                                <select id="filter_statusMachine" onchange="filterModuleOnchange();" class="form-control">
+                                    <option value="">Tình trạng</option>
+                                    <option value="">Tất cả</option>
+                                    <option value="Mới">Mới</option>
+                                    <option value="Đã qua sử dụng">Đã qua sử dụng</option>
+                                </select>
+                            </div>
+                            <div class="input-box pr-0 col-6">
+                                <select id="filter_location" onchange="filterModuleOnchange();" class="form-control">
+                                    <option value="">Tỉnh thành</option>
+                                    @foreach (var item in ListLocations.Data)
+                                    {
+                                        <option value="@item.LocationId">@item.Name</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </form>
+        </div>
+    </article>
+
+
+    <script>
+    $(document).ready(function () {
+        $('#filter_category option[value=' + @ProductCategoryId + ']').attr('selected', 'selected');
+        $('#filter_manu option[value=' + @ManufactureId + ']').attr('selected', 'selected');
+        $('#filter_model option[value=' + @ProductModelId + ']').attr('selected', 'selected');
+        $('#filter_location option[value=' + @LocationId + ']').attr('selected', 'selected');
+        $('#filter_mainSystem option[value=' + @MainSystemId + ']').attr('selected', 'selected');
+        $('#filter_mainSystemChild option[value=' + @ChildMainSystemId + ']').attr('selected', 'selected');
+        $('#filter_statusMachine option[value=' + @StatusMachine + ']').attr('selected', 'selected');
+    });
+    </script>

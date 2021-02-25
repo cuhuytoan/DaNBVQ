@@ -1,0 +1,1151 @@
+﻿@{
+    var listDemand = (List<HNM.DataNC.ModelsNC.ModelsDTO.TimeLinePostDTO>)ViewBag.listDemand;
+}
+
+<style>
+    .content-page a {
+        color: #000000;
+    }
+
+    .nameproduct:hover {
+        color: #FFC107;
+    }
+</style>
+
+@if (ViewBag.ActiveBlock == 2)
+{
+    <div class="tab-pane fade show active" id="taikhoannc" role="tabpanel" aria-labelledby="taikhoannc-tab">
+        <div class="bg-white px-3 border-radius d-flex align-items-center pt-3 pt-lg-0">
+            <div class="col-12 p-4">
+                <button class="startModal"><span>Bấm vào để đăng nhu cầu</span></button>
+                <div class="mt-4">
+                    <span class="d-inline-block">Gợi ý:</span>
+                    <ul class="nav d-inline-block suggest">
+                        <li class="d-inline-block"><a class="ajaxNCcall" href="@Url.Action("NeedBuyDemand", "ManagerDemand")">Cần mua</a></li>
+                        <li class="d-inline-block"><a class="ajaxNCcall" href="@Url.Action("NeedEmployDemand", "ManagerDemand")">Cần thuê</a></li>
+                        <li class="d-inline-block"><a class="ajaxNCcall" href="@Url.Action("RecruitmentDemand", "ManagerDemand")">Tuyển dụng</a></li>
+                        <li class="d-inline-block"><a class="ajaxNCcall" href="@Url.Action("CVDemand", "ManagerDemand")">Tìm việc</a></li>
+                        @*<li class="d-inline-block"><a class="ajaxNCcall" href="@Url.Action("ShareLibrary", "ManagerDemand")">Chia sẻ</a></li>*@
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+        <div class="bg-white mt-3 border-radius p-2 px-md-5 py-md-5 pt-5">
+
+            <div class="content-page d-block justify-content-center">
+                <div class="time-line">
+                    @foreach (var item in listDemand)
+                    {
+                        <div class="post p-3 my-2">
+                            <div class="post-header">
+                                @if (item.ProductTypeId == 2)
+                                {
+                                    <h6>CẦN MUA THIẾT BỊ</h6>
+                                    <span class="more-action"></span>
+                                    <div class="action" style="display: none">
+                                        <ul>
+                                            <li><a class="ajaxNCpopupcall" href="@Url.Action("EditDemand", "ManagerDemand", new {ProductId = item.ProductId})">Chỉnh sửa</a></li>
+                                            @*@if (item.StatusTypeId != 5)
+                                                        {
+                                                <li><a href="javascript:void(0)" onclick="HidePost(@item.ProductId)">Hủy đăng</a></li>
+                                                        }
+                                                        else
+                                                        {
+                                                <li><a href="javascript:void(0)" onclick="ShowPost(@item.ProductId)">Khôi phục</a></li>
+                                                        }*@
+                                            <li><a href="javascript:void(0)" onclick="DeletePost(@item.ProductId)">Xóa</a></li>
+                                        </ul>
+                                    </div>
+                                }
+
+                                @if (item.ProductTypeId == 4)
+                                {
+                                    <h6>CẦN THUÊ THIẾT BỊ</h6>
+                                    <span class="more-action"></span>
+                                    <div class="action" style="display: none">
+                                        <ul>
+                                            <li><a class="ajaxNCpopupcall" href="@Url.Action("EditEmployDemand", "ManagerDemand", new {ProductId = item.ProductId})">Chỉnh sửa</a></li>
+                                            @*@if (item.StatusTypeId != 5)
+                                                        {
+                                                <li><a href="javascript:void(0)" onclick="HidePost(@item.ProductId)">Hủy đăng</a></li>
+                                                        }
+                                                        else
+                                                        {
+                                                <li><a href="javascript:void(0)" onclick="ShowPost(@item.ProductId)">Khôi phục</a></li>
+                                                        }*@
+                                            <li><a href="javascript:void(0)" onclick="DeletePost(@item.ProductId)">Xóa</a></li>
+                                        </ul>
+                                    </div>
+                                }
+
+
+                                @if (item.ProductTypeId == 6)
+                                {
+                                    <h6>CẦN MUA PHỤ TÙNG</h6>
+                                    <span class="more-action"></span>
+                                    <div class="action" style="display: none">
+                                        <ul>
+                                            <li><a class="ajaxNCpopupcall" href="@Url.Action("EditAccessories", "ManagerDemand", new {ProductId = item.ProductId})">Chỉnh sửa</a></li>
+                                            @*@if (item.StatusTypeId != 5)
+                                                        {
+                                                <li><a href="javascript:void(0)" onclick="HidePost(@item.ProductId)">Hủy đăng</a></li>
+                                                        }
+                                                        else
+                                                        {
+                                                <li><a href="javascript:void(0)" onclick="ShowPost(@item.ProductId)">Khôi phục</a></li>
+                                                        }*@
+                                            <li><a href="javascript:void(0)" onclick="DeletePost(@item.ProductId)">Xóa</a></li>
+                                        </ul>
+                                    </div>
+                                }
+                                @if (item.ProductTypeId == 8)
+                                {
+                                    <h6>CẦN MUA VẬT TƯ</h6>
+                                    <span class="more-action"></span>
+                                    <div class="action" style="display: none">
+                                        <ul>
+                                            <li><a class="ajaxNCpopupcall" href="@Url.Action("EditMaterial", "ManagerDemand", new {ProductId = item.ProductId})">Chỉnh sửa</a></li>
+                                            @*@if (item.StatusTypeId != 5)
+                                                        {
+                                                <li><a href="javascript:void(0)" onclick="HidePost(@item.ProductId)">Hủy đăng</a></li>
+                                                        }
+                                                        else
+                                                        {
+                                                <li><a href="javascript:void(0)" onclick="ShowPost(@item.ProductId)">Khôi phục</a></li>
+                                                        }*@
+                                            <li><a href="javascript:void(0)" onclick="DeletePost(@item.ProductId)">Xóa</a></li>
+                                        </ul>
+                                    </div>
+                                }
+
+                                @if (item.ProductTypeId == 12)
+                                {
+                                    <h6>CẦN THUÊ DỊCH VỤ</h6>
+                                    <span class="more-action"></span>
+                                    <div class="action" style="display: none">
+                                        <ul>
+                                            <li><a class="ajaxNCpopupcall" href="@Url.Action("EditEmployService", "ManagerDemand", new {ProductId = item.ProductId})">Chỉnh sửa</a></li>
+                                            @*@if (item.StatusTypeId != 5)
+                                                        {
+                                                <li><a href="javascript:void(0)" onclick="HidePost(@item.ProductId)">Hủy đăng</a></li>
+                                                        }
+                                                        else
+                                                        {
+                                                <li><a href="javascript:void(0)" onclick="ShowPost(@item.ProductId)">Khôi phục</a></li>
+                                                        }*@
+                                            <li><a href="javascript:void(0)" onclick="DeletePost(@item.ProductId)">Xóa</a></li>
+                                        </ul>
+                                    </div>
+                                }
+
+                                @if (item.TypeName == "Tuyển dụng")
+                                {
+                                    <h6>TUYỂN DỤNG</h6>
+                                    <span class="more-action"></span>
+                                    <div class="action" style="display: none">
+                                        <ul>
+                                            <li><a class="ajaxNCpopupcall" href="@Url.Action("EditRecruitment", "ManagerDemand", new {RecruitmentId = item.RecId})">Chỉnh sửa</a></li>
+                                            @*@if (item.StatusTypeId != 5)
+                                                        {
+                                                <li><a href="javascript:void(0)" onclick="HidePost(@item.LibraryId)">Hủy đăng</a></li>
+                                                        }
+                                                        else
+                                                        {
+                                                <li><a href="javascript:void(0)" onclick="ShowPost(@item.LibraryId)">Khôi phục</a></li>
+                                                        }*@
+                                            <li><a href="javascript:void(0)" onclick="DeleteRecruitment(@item.RecId)">Xóa</a></li>
+                                        </ul>
+                                    </div>
+                                }
+
+                                @if (item.TypeName == "Hồ sơ")
+                                {
+                                    <h6>HỒ SƠ</h6>
+                                    <span class="more-action"></span>
+                                    <div class="action" style="display: none">
+                                        <ul>
+                                            <li><a class="ajaxNCpopupcall" href="@Url.Action("EditCV", "ManagerDemand", new {CVId = item.CVId})">Chỉnh sửa</a></li>
+                                            @*@if (item.StatusTypeId != 5)
+                                                        {
+                                                <li><a href="javascript:void(0)" onclick="HidePost(@item.LibraryId)">Hủy đăng</a></li>
+                                                        }
+                                                        else
+                                                        {
+                                                <li><a href="javascript:void(0)" onclick="ShowPost(@item.LibraryId)">Khôi phục</a></li>
+                                                        }*@
+                                            <li><a href="javascript:void(0)" onclick="DeleteCV(@item.CVId)">Xóa</a></li>
+                                        </ul>
+                                    </div>
+                                }
+
+                                @if (item.LibraryCategoryId != null)
+                                {
+                                    <h6>KIẾN THỨC</h6>
+                                    <span class="more-action"></span>
+                                    <div class="action" style="display: none">
+                                        <ul>
+                                            <li><a class="ajaxNCpopupcall" href="@Url.Action("ShareLibrary", "ManagerDemand", new {LibraryId = item.LibraryId})">Chỉnh sửa</a></li>
+                                            @*@if (item.StatusTypeId != 5)
+                                                        {
+                                                <li><a href="javascript:void(0)" onclick="HidePost(@item.LibraryId)">Hủy đăng</a></li>
+                                                        }
+                                                        else
+                                                        {
+                                                <li><a href="javascript:void(0)" onclick="ShowPost(@item.LibraryId)">Khôi phục</a></li>
+                                                        }*@
+                                            <li><a href="javascript:void(0)" onclick="DeletePost(@item.ProductId)">Xóa</a></li>
+                                        </ul>
+                                    </div>
+                                }
+
+                            </div>
+                            <div class="info">
+                                @if (item.StatusTypeId == 2)
+                                {
+                                    <span class="status waiting">Chờ duyệt</span>
+                                }
+                                @if (item.StatusTypeId == 4)
+                                {
+                                    <span class="status done">Đã đăng</span>
+                                }
+                                @if (item.StatusTypeId == 5)
+                                {
+                                    <span class="status canceled">Hủy đăng</span>
+                                }
+                                <span class="post-date">@Convert.ToDateTime(item.LastEditDate).Day tháng @Convert.ToDateTime(item.LastEditDate).Month, @Convert.ToDateTime(item.LastEditDate).Year</span>
+                            </div>
+
+
+                            @if (item.TypeName != "Tuyển dụng" && item.TypeName != "Hồ sơ")
+                            {
+                                <div class="post-content"><a class="nameproduct" href="/@item.ProductFullUrl">@item.Name</a></div>
+
+                                <div class="post-images">
+                                    @{
+                                        var stt = 1;
+                                    }
+                                    @foreach (var item2 in item.ProductPictures)
+                                    {
+                                        var i = stt++;
+
+                                        if (i <= 5)
+                                        {
+                                            if (i <= 4)
+                                            {
+                                                <img src="@item2.UrlImage" />
+                                            }
+                                            else
+                                            {
+                                                <div class="more-img">
+                                                    <img src="@item2.UrlImage">
+                                                    <span class="more">+@(item.ProductPictures.Count - 5)</span>
+                                                </div>
+                                            }
+                                        }
+
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                if (item.TypeName == "Hồ sơ")
+                                {
+                                    <div class="post-content"><a class="nameproduct" href="/@item.CVFullUrl">@item.Name</a></div>
+
+                                    <div class="post-images">
+                                        @{
+                                            var stt = 1;
+                                        }
+                                        @foreach (var item2 in item.CVPictures)
+                                        {
+                                            var i = stt++;
+
+                                            if (i <= 5)
+                                            {
+                                                if (i <= 4)
+                                                {
+                                                    <img src="@item2.UrlImage" />
+                                                }
+                                                else
+                                                {
+                                                    <div class="more-img">
+                                                        <img src="@item2.UrlImage">
+                                                        <span class="more">+@(item.ProductPictures.Count - 5)</span>
+                                                    </div>
+                                                }
+                                            }
+
+                                        }
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="post-content"><a class="nameproduct" href="/viec-lam/@item.RecFullUrl">@item.Name</a></div>
+
+                                    <div class="post-images">
+                                        @{
+                                            var stt = 1;
+                                        }
+                                        @foreach (var item2 in item.RecruitmentPictures)
+                                        {
+                                            var i = stt++;
+
+                                            if (i <= 5)
+                                            {
+                                                if (i <= 4)
+                                                {
+                                                    <img src="@item2.UrlImage" />
+                                                }
+                                                else
+                                                {
+                                                    <div class="more-img">
+                                                        <img src="@item2.UrlImage">
+                                                        <span class="more">+@(item.RecruitmentPictures.Count - 5)</span>
+                                                    </div>
+                                                }
+                                            }
+
+                                        }
+                                    </div>
+                                }
+
+                            }
+
+                        </div>
+                    }
+                    @*<div class="date">Tháng 7 năm 2020</div>*@
+
+                </div>
+
+            </div>
+        </div>
+        <div class="modal fade" id="startpopup" tabindex="-1" role="dialog" aria-labelledby="popup" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-sm modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="text-right mx-1">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="bg-white py-1 mx-auto px-2">
+                            <div class="header-box text-center  ">
+                                <h3 class="text-uppercase mt-1">CHỌN NHU CẦU CỦA BẠN</h3>
+                            </div>
+                            <div class="content-box  mx-auto text-center">
+                                <ul class="row list-nhucau">
+                                    <li class="col-6">
+                                        <a class="ajaxNCpopupcall" href="@Url.Action("NeedBuyDemand", "ManagerDemand")"><img src="~/images/maydeban.png" />Cần mua thiết bị</a>
+                                    </li>
+                                    <li class="col-6">
+                                        <a class="ajaxNCpopupcall" href="@Url.Action("NeedEmployDemand", "ManagerDemand")"><img src="~/images/canthue.png" />Cần thuê thiết bị</a>
+                                    </li>
+                                    <li class="col-6">
+                                        <a class="ajaxNCpopupcall" href="@Url.Action("NeedBuyAccessories", "ManagerDemand")"><img src="~/images/phutung.png" />Cần mua phụ tùng</a>
+                                    </li>
+                                    <li class="col-6">
+                                        <a class="ajaxNCpopupcall" href="@Url.Action("NeedEmployService", "ManagerDemand")"><img src="~/images/dichvu.png" />Cần thuê dịch vụ</a>
+                                    </li>
+                                    <li class="col-6">
+                                        <a class="ajaxNCpopupcall" href="@Url.Action("NeedBuyMaterial", "ManagerDemand")"><img src="~/images/vattu.png" />Cần mua vật tư</a>
+                                    </li>
+                                    @*<li class="col-6">
+                                            <a class="ajaxNCpopupcall" href="@Url.Action("ShareLibrary", "ManagerDemand")"><img src="~/images/thuviencongdong.png" />Chia sẻ kiến thức</a>
+                                        </li>*@
+                                    <li class="col-6">
+                                        <a class="ajaxNCpopupcall" href="@Url.Action("RecruitmentDemand", "ManagerDemand")"><img src="~/images/tuyendung.png" />Đăng tin tuyển dụng</a>
+                                    </li>
+                                    <li class="col-6">
+                                        <a class="ajaxNCpopupcall" href="@Url.Action("CVDemand", "ManagerDemand")"><img src="~/images/xinviec.png" />Đăng tin tìm việc làm</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="main-popup" tabindex="-1" role="dialog" aria-labelledby="popup" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="text-right mx-1">
+                        <button type="button" class="close closefirstmodal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="Warning" class="modal fade" role="dialog" data-backdrop="false">
+            <div class="modal-dialog modal-dialog-centered text-center col-5 m-auto">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <p>Bạn có chắc chắn muốn thoát không?</p>
+                        <button type="button" class="btn btn-danger confirmclosed">CÓ</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">KHÔNG</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="optionpopup" tabindex="-1" role="dialog" aria-labelledby="popup" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="text-left mx-1">
+                        <button type="button" class="back" data-dismiss="modal" aria-label="Close" data-toggle="modal" data-target="#main-popup">
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="bg-white px-md-5   mx-auto px-2">
+                            <div class="header-box text-center  mb-2">
+                                <h3 class="text-uppercase mt-1">PHỤ TÙNG NÀY LẮP THIẾT BỊ</h3>
+                            </div>
+                            <div class="content-box  mx-auto text-left">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="tab-pane fade" id="taikhoannc" role="tabpanel" aria-labelledby="taikhoannc-tab">
+        <div class="bg-white px-3 border-radius d-flex align-items-center pt-3 pt-lg-0">
+            <div class="col-12 p-4">
+                <button class="startModal"><span>Bấm vào để đăng nhu cầu</span></button>
+                <div class="mt-4">
+                    <span class="d-inline-block">Gợi ý:</span>
+                    <ul class="nav d-inline-block suggest">
+                        <li class="d-inline-block"><a class="ajaxNCcall" href="@Url.Action("NeedBuyDemand", "ManagerDemand")">Cần mua</a></li>
+                        <li class="d-inline-block"><a class="ajaxNCcall" href="@Url.Action("NeedEmployDemand", "ManagerDemand")">Cần thuê</a></li>
+                        <li class="d-inline-block"><a class="ajaxNCcall" href="@Url.Action("RecruitmentDemand", "ManagerDemand")">Tuyển dụng</a></li>
+                        <li class="d-inline-block"><a class="ajaxNCcall" href="@Url.Action("CVDemand", "ManagerDemand")">Tìm việc</a></li>
+                        @*<li class="d-inline-block"><a class="ajaxNCcall" href="@Url.Action("ShareLibrary", "ManagerDemand")">Chia sẻ</a></li>*@
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+        <div class="bg-white mt-3 border-radius p-2 px-md-5 py-md-5 pt-5">
+
+            <div class="content-page d-block justify-content-center">
+                <div class="time-line">
+                    @foreach (var item in listDemand)
+                    {
+                        <div class="post p-3 my-2">
+                            <div class="post-header">
+                                @if (item.ProductTypeId == 2)
+                                {
+                                    <h6>CẦN MUA THIẾT BỊ</h6>
+                                    <span class="more-action"></span>
+                                    <div class="action" style="display: none">
+                                        <ul>
+                                            <li><a class="ajaxNCpopupcall" href="@Url.Action("EditDemand", "ManagerDemand", new {ProductId = item.ProductId})">Chỉnh sửa</a></li>
+                                            @*@if (item.StatusTypeId != 5)
+                                                        {
+                                                <li><a href="javascript:void(0)" onclick="HidePost(@item.ProductId)">Hủy đăng</a></li>
+                                                        }
+                                                        else
+                                                        {
+                                                <li><a href="javascript:void(0)" onclick="ShowPost(@item.ProductId)">Khôi phục</a></li>
+                                                        }*@
+                                            <li><a href="javascript:void(0)" onclick="DeletePost(@item.ProductId)">Xóa</a></li>
+                                        </ul>
+                                    </div>
+                                }
+
+                                @if (item.ProductTypeId == 4)
+                                {
+                                    <h6>CẦN THUÊ THIẾT BỊ</h6>
+                                    <span class="more-action"></span>
+                                    <div class="action" style="display: none">
+                                        <ul>
+                                            <li><a class="ajaxNCpopupcall" href="@Url.Action("EditEmployDemand", "ManagerDemand", new {ProductId = item.ProductId})">Chỉnh sửa</a></li>
+                                            @*@if (item.StatusTypeId != 5)
+                                                        {
+                                                <li><a href="javascript:void(0)" onclick="HidePost(@item.ProductId)">Hủy đăng</a></li>
+                                                        }
+                                                        else
+                                                        {
+                                                <li><a href="javascript:void(0)" onclick="ShowPost(@item.ProductId)">Khôi phục</a></li>
+                                                        }*@
+                                            <li><a href="javascript:void(0)" onclick="DeletePost(@item.ProductId)">Xóa</a></li>
+                                        </ul>
+                                    </div>
+                                }
+
+
+                                @if (item.ProductTypeId == 6)
+                                {
+                                    <h6>CẦN MUA PHỤ TÙNG</h6>
+                                    <span class="more-action"></span>
+                                    <div class="action" style="display: none">
+                                        <ul>
+                                            <li><a class="ajaxNCpopupcall" href="@Url.Action("EditAccessories", "ManagerDemand", new {ProductId = item.ProductId})">Chỉnh sửa</a></li>
+                                            @*@if (item.StatusTypeId != 5)
+                                                        {
+                                                <li><a href="javascript:void(0)" onclick="HidePost(@item.ProductId)">Hủy đăng</a></li>
+                                                        }
+                                                        else
+                                                        {
+                                                <li><a href="javascript:void(0)" onclick="ShowPost(@item.ProductId)">Khôi phục</a></li>
+                                                        }*@
+                                            <li><a href="javascript:void(0)" onclick="DeletePost(@item.ProductId)">Xóa</a></li>
+                                        </ul>
+                                    </div>
+                                }
+                                @if (item.ProductTypeId == 8)
+                                {
+                                    <h6>CẦN MUA VẬT TƯ</h6>
+                                    <span class="more-action"></span>
+                                    <div class="action" style="display: none">
+                                        <ul>
+                                            <li><a class="ajaxNCpopupcall" href="@Url.Action("EditMaterial", "ManagerDemand", new {ProductId = item.ProductId})">Chỉnh sửa</a></li>
+                                            @*@if (item.StatusTypeId != 5)
+                                                        {
+                                                <li><a href="javascript:void(0)" onclick="HidePost(@item.ProductId)">Hủy đăng</a></li>
+                                                        }
+                                                        else
+                                                        {
+                                                <li><a href="javascript:void(0)" onclick="ShowPost(@item.ProductId)">Khôi phục</a></li>
+                                                        }*@
+                                            <li><a href="javascript:void(0)" onclick="DeletePost(@item.ProductId)">Xóa</a></li>
+                                        </ul>
+                                    </div>
+                                }
+
+                                @if (item.ProductTypeId == 12)
+                                {
+                                    <h6>CẦN THUÊ DỊCH VỤ</h6>
+                                    <span class="more-action"></span>
+                                    <div class="action" style="display: none">
+                                        <ul>
+                                            <li><a class="ajaxNCpopupcall" href="@Url.Action("EditEmployService", "ManagerDemand", new {ProductId = item.ProductId})">Chỉnh sửa</a></li>
+                                            @*@if (item.StatusTypeId != 5)
+                                                        {
+                                                <li><a href="javascript:void(0)" onclick="HidePost(@item.ProductId)">Hủy đăng</a></li>
+                                                        }
+                                                        else
+                                                        {
+                                                <li><a href="javascript:void(0)" onclick="ShowPost(@item.ProductId)">Khôi phục</a></li>
+                                                        }*@
+                                            <li><a href="javascript:void(0)" onclick="DeletePost(@item.ProductId)">Xóa</a></li>
+                                        </ul>
+                                    </div>
+                                }
+
+                                @if (item.TypeName == "Tuyển dụng")
+                                {
+                                    <h6>TUYỂN DỤNG</h6>
+                                    <span class="more-action"></span>
+                                    <div class="action" style="display: none">
+                                        <ul>
+                                            <li><a class="ajaxNCpopupcall" href="@Url.Action("EditRecruitment", "ManagerDemand", new {RecruitmentId = item.RecId})">Chỉnh sửa</a></li>
+                                            @*@if (item.StatusTypeId != 5)
+                                                        {
+                                                <li><a href="javascript:void(0)" onclick="HidePost(@item.LibraryId)">Hủy đăng</a></li>
+                                                        }
+                                                        else
+                                                        {
+                                                <li><a href="javascript:void(0)" onclick="ShowPost(@item.LibraryId)">Khôi phục</a></li>
+                                                        }*@
+                                            <li><a href="javascript:void(0)" onclick="DeleteRecruitment(@item.RecId)">Xóa</a></li>
+                                        </ul>
+                                    </div>
+                                }
+
+                                @if (item.TypeName == "Hồ sơ")
+                                {
+                                    <h6>HỒ SƠ</h6>
+                                    <span class="more-action"></span>
+                                    <div class="action" style="display: none">
+                                        <ul>
+                                            <li><a class="ajaxNCpopupcall" href="@Url.Action("EditCV", "ManagerDemand", new {CVId = item.CVId})">Chỉnh sửa</a></li>
+                                            @*@if (item.StatusTypeId != 5)
+                                                        {
+                                                <li><a href="javascript:void(0)" onclick="HidePost(@item.LibraryId)">Hủy đăng</a></li>
+                                                        }
+                                                        else
+                                                        {
+                                                <li><a href="javascript:void(0)" onclick="ShowPost(@item.LibraryId)">Khôi phục</a></li>
+                                                        }*@
+                                            <li><a href="javascript:void(0)" onclick="DeleteCV(@item.CVId)">Xóa</a></li>
+                                        </ul>
+                                    </div>
+                                }
+
+                                @if (item.LibraryCategoryId != null)
+                                {
+                                    <h6>KIẾN THỨC</h6>
+                                    <span class="more-action"></span>
+                                    <div class="action" style="display: none">
+                                        <ul>
+                                            <li><a class="ajaxNCpopupcall" href="@Url.Action("ShareLibrary", "ManagerDemand", new {LibraryId = item.LibraryId})">Chỉnh sửa</a></li>
+                                            @*@if (item.StatusTypeId != 5)
+                                                        {
+                                                <li><a href="javascript:void(0)" onclick="HidePost(@item.LibraryId)">Hủy đăng</a></li>
+                                                        }
+                                                        else
+                                                        {
+                                                <li><a href="javascript:void(0)" onclick="ShowPost(@item.LibraryId)">Khôi phục</a></li>
+                                                        }*@
+                                            <li><a href="javascript:void(0)" onclick="DeletePost(@item.ProductId)">Xóa</a></li>
+                                        </ul>
+                                    </div>
+                                }
+
+                            </div>
+                            <div class="info">
+                                @if (item.StatusTypeId == 2)
+                                {
+                                    <span class="status waiting">Chờ duyệt</span>
+                                }
+                                @if (item.StatusTypeId == 4)
+                                {
+                                    <span class="status done">Đã đăng</span>
+                                }
+                                @if (item.StatusTypeId == 5)
+                                {
+                                    <span class="status canceled">Hủy đăng</span>
+                                }
+                                <span class="post-date">@Convert.ToDateTime(item.LastEditDate).Day tháng @Convert.ToDateTime(item.LastEditDate).Month, @Convert.ToDateTime(item.LastEditDate).Year</span>
+                            </div>
+
+
+                            @if (item.TypeName != "Tuyển dụng" && item.TypeName != "Hồ sơ")
+                            {
+                                <div class="post-content"><a class="nameproduct" href="/@item.ProductFullUrl">@item.Name</a></div>
+
+                                <div class="post-images">
+                                    @{
+                                        var stt = 1;
+                                    }
+                                    @foreach (var item2 in item.ProductPictures)
+                                    {
+                                        var i = stt++;
+
+                                        if (i <= 5)
+                                        {
+                                            if (i <= 4)
+                                            {
+                                                <img src="@item2.UrlImage" />
+                                            }
+                                            else
+                                            {
+                                                <div class="more-img">
+                                                    <img src="@item2.UrlImage">
+                                                    <span class="more">+@(item.ProductPictures.Count - 5)</span>
+                                                </div>
+                                            }
+                                        }
+
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                if (item.TypeName == "Hồ sơ")
+                                {
+                                    <div class="post-content"><a class="nameproduct" href="/@item.CVFullUrl">@item.Name</a></div>
+
+                                    <div class="post-images">
+                                        @{
+                                            var stt = 1;
+                                        }
+                                        @foreach (var item2 in item.CVPictures)
+                                        {
+                                            var i = stt++;
+
+                                            if (i <= 5)
+                                            {
+                                                if (i <= 4)
+                                                {
+                                                    <img src="@item2.UrlImage" />
+                                                }
+                                                else
+                                                {
+                                                    <div class="more-img">
+                                                        <img src="@item2.UrlImage">
+                                                        <span class="more">+@(item.ProductPictures.Count - 5)</span>
+                                                    </div>
+                                                }
+                                            }
+
+                                        }
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="post-content"><a class="nameproduct" href="/viec-lam/@item.RecFullUrl">@item.Name</a></div>
+
+                                    <div class="post-images">
+                                        @{
+                                            var stt = 1;
+                                        }
+                                        @foreach (var item2 in item.RecruitmentPictures)
+                                        {
+                                            var i = stt++;
+
+                                            if (i <= 5)
+                                            {
+                                                if (i <= 4)
+                                                {
+                                                    <img src="@item2.UrlImage" />
+                                                }
+                                                else
+                                                {
+                                                    <div class="more-img">
+                                                        <img src="@item2.UrlImage">
+                                                        <span class="more">+@(item.RecruitmentPictures.Count - 5)</span>
+                                                    </div>
+                                                }
+                                            }
+
+                                        }
+                                    </div>
+                                }
+
+                            }
+
+                        </div>
+                    }
+                    @*<div class="date">Tháng 7 năm 2020</div>*@
+
+                </div>
+
+            </div>
+        </div>
+        <div class="modal fade" id="startpopup" tabindex="-1" role="dialog" aria-labelledby="popup" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-sm modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="text-right mx-1">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="bg-white py-1 mx-auto px-2">
+                            <div class="header-box text-center  ">
+                                <h3 class="text-uppercase mt-1">CHỌN NHU CẦU CỦA BẠN</h3>
+                            </div>
+                            <div class="content-box  mx-auto text-center">
+                                <ul class="row list-nhucau">
+                                    <li class="col-6">
+                                        <a class="ajaxNCpopupcall" href="@Url.Action("NeedBuyDemand", "ManagerDemand")"><img src="~/images/maydeban.png" />Cần mua thiết bị</a>
+                                    </li>
+                                    <li class="col-6">
+                                        <a class="ajaxNCpopupcall" href="@Url.Action("NeedEmployDemand", "ManagerDemand")"><img src="~/images/canthue.png" />Cần thuê thiết bị</a>
+                                    </li>
+                                    <li class="col-6">
+                                        <a class="ajaxNCpopupcall" href="@Url.Action("NeedBuyAccessories", "ManagerDemand")"><img src="~/images/phutung.png" />Cần mua phụ tùng</a>
+                                    </li>
+                                    <li class="col-6">
+                                        <a class="ajaxNCpopupcall" href="@Url.Action("NeedEmployService", "ManagerDemand")"><img src="~/images/dichvu.png" />Cần thuê dịch vụ</a>
+                                    </li>
+                                    <li class="col-6">
+                                        <a class="ajaxNCpopupcall" href="@Url.Action("NeedBuyMaterial", "ManagerDemand")"><img src="~/images/vattu.png" />Cần mua vật tư</a>
+                                    </li>
+                                    @*<li class="col-6">
+                                            <a class="ajaxNCpopupcall" href="@Url.Action("ShareLibrary", "ManagerDemand")"><img src="~/images/thuviencongdong.png" />Chia sẻ kiến thức</a>
+                                        </li>*@
+                                    <li class="col-6">
+                                        <a class="ajaxNCpopupcall" href="@Url.Action("RecruitmentDemand", "ManagerDemand")"><img src="~/images/tuyendung.png" />Đăng tin tuyển dụng</a>
+                                    </li>
+                                    <li class="col-6">
+                                        <a class="ajaxNCpopupcall" href="@Url.Action("CVDemand", "ManagerDemand")"><img src="~/images/xinviec.png" />Đăng tin tìm việc làm</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="main-popup" tabindex="-1" role="dialog" aria-labelledby="popup" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="text-right mx-1">
+                        <button type="button" class="close closefirstmodal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="Warning" class="modal fade" role="dialog" data-backdrop="false">
+            <div class="modal-dialog modal-dialog-centered text-center col-5 m-auto">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <p>Bạn có chắc chắn muốn thoát không?</p>
+                        <button type="button" class="btn btn-danger confirmclosed">CÓ</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">KHÔNG</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="optionpopup" tabindex="-1" role="dialog" aria-labelledby="popup" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="text-left mx-1">
+                        <button type="button" class="back" data-dismiss="modal" aria-label="Close" data-toggle="modal" data-target="#main-popup">
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="bg-white px-md-5   mx-auto px-2">
+                            <div class="header-box text-center  mb-2">
+                                <h3 class="text-uppercase mt-1">PHỤ TÙNG NÀY LẮP THIẾT BỊ</h3>
+                            </div>
+                            <div class="content-box  mx-auto text-left">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    var list = [];
+    function addValue1() {
+        var CategoryId = $("#ProductCategoryID2").val();
+        var CategoryName = $("#ProductCategoryID2").data('kendoComboBox').text();
+        var ManufactureId = $("#ManufactoryID").val();
+        var ManufactureName = $("#ManufactoryID").data('kendoComboBox').text();
+        var ModelId = $("#ModelID").val();
+        var ModelName = $("#ModelID").data('kendoComboBox').text();
+        var OtherModelExt = $("#othermodel").val();
+        var value = $("#ModelID").val();
+
+        if (CategoryId == "") {
+            toastr["error"]("Chủng loại c2 không được để trống!");
+            return false;
+        }
+
+        if (ManufactureId == "") {
+            toastr["error"]("Hãng thiết bị không được để trống!");
+            return false;
+        }
+
+
+        if (value == "0") {
+            value = $("#othermodel").val();
+
+            if (value == "") {
+                toastr["error"]("Tên model không được để trống");
+                return false;
+            }
+
+            if (value != null) {
+                $.ajax({
+                    async: false,
+                    type: "POST",
+                    url: "/ManagerDemand/CreateModel?ProductCategoryID=" + CategoryId + "&ProductManufactureID=" + ManufactureId + "&Name=" + OtherModelExt,
+                    dataType: "json",
+                    success: function (response) {
+                        toastr.success("Thêm mới Model thành công!");
+                        var ModelIdExt = "" + response;
+                        var objAdd = {
+                            CategoryId: CategoryId,
+                            CategoryName: CategoryName,
+                            ManufactureId: ManufactureId,
+                            ManufactureName: ManufactureName,
+                            ModelId: ModelIdExt,
+                            ModelName: value
+                        };
+
+                        list.push(objAdd);
+                        console.log(objAdd);
+                    }
+                });
+            }
+        }
+        else {
+            if (ModelId == "") {
+                toastr["error"]("Model không được để trống");
+                return false;
+            }
+            var obj = {
+                CategoryId: CategoryId,
+                CategoryName: CategoryName,
+                ManufactureId: ManufactureId,
+                ManufactureName: ManufactureName,
+                ModelId: ModelId,
+                ModelName: ModelName
+            };
+
+            list.push(obj);
+        }
+        if (value == null || value == '') {
+            return;
+        }
+        var allvalue = $("#mutiplevalue").val();
+        var listVal = [];
+        if (!allvalue == '') {
+            listVal = allvalue.split("||");
+        }
+        if (!listVal.includes(value)) {
+            listVal.push(value);
+        }
+        $("#mutiplevalue").val(listVal.join("||"));
+        $(".box-selected-data").html("");
+
+        list.forEach(function (item, index) {
+            $(".box-selected-data").append("<div class = 'item-mul'><span>" + item.CategoryName + "-" + item.ManufactureName + "-" + item.ModelName + "</span><span  onclick='RemoveModel(" + index + ")' class = 'remove-item' index = '" + index + "'</div>");
+        });
+        $(".box-selected-data").append("<div class = 'item-mul'><span class = 'openPopUp'>Thêm</span></div>");
+
+        if (!$("#checkbox_addmore").is(':checked')) {
+            $("#main-popup").modal('show');
+            $("#optionpopup").modal('hide');
+        }
+    }
+
+    $("body").on("click", ".remove-item", function () {
+        var index = $(this).attr("index");
+        var allvalue = $("#mutiplevalue").val();
+        var listVal = allvalue.split("||");
+        listVal.splice(index, 1);
+
+        $("#mutiplevalue").val(listVal.join("||"));
+        $(".box-selected-data").html("");
+        list.forEach(function (item, index) {
+            $(".box-selected-data").append("<div class = 'item-mul'><span>" + item.CategoryName + "-" + item.ManufactureName + "-" + item.ModelName + "</span><span onclick='RemoveModel(" + index + ")'  class = 'remove-item' index = '" + index + "'</div>");
+        });
+        $(".box-selected-data").append("<div class = 'item-mul'><span class = 'openPopUp'>Thêm</span></div>");
+
+    });
+
+    function RemoveModel(index) {
+        list.splice(index, 1);
+    }
+
+    function HidePost(productId) {
+        var action = "H";
+        $.ajax({
+            type: "GET",
+            url: "/Product/ActionProductShopMan?ProductId=" + productId + "&ActionString=" + action,
+            dataType: "json",
+            success: function (response) {
+                toastr.success(response);
+                window.location.href = "/tai-khoan?id=2";
+            },
+            failure: function (response) {
+                alert(response.responseText);
+                //toastr.error(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+
+    function ShowPost(productId) {
+        var action = "K";
+        $.ajax({
+            type: "GET",
+            url: "/Product/ActionProductShopMan?ProductId=" + productId + "&ActionString=" + action,
+            dataType: "json",
+            success: function (response) {
+                var resultRes = JSON.parse(JSON.stringify(response));
+                if (resultRes.ErrorCode == "00" || resultRes.ErrorCode == "0") {
+                    toastr.success(resultRes.Message);
+                    window.location.href = "/tai-khoan?id=2";
+                }
+                else {
+                    toastr.error(resultRes.Message);
+                }
+
+            },
+            failure: function (response) {
+                alert(response.responseText);
+                //toastr.error(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+
+    function DeletePost(productId) {
+        var action = "D";
+        $.ajax({
+            type: "GET",
+            url: "/Product/ActionProductShopMan?ProductId=" + productId + "&ActionString=" + action,
+            dataType: "json",
+            success: function (response) {
+                toastr.success(response);
+                window.location.href = "/tai-khoan?id=2";
+            },
+            failure: function (response) {
+                alert(response.responseText);
+                //toastr.error(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+
+    function DeleteCV(Id) {
+        var action = "D";
+        $.ajax({
+            type: "GET",
+            url: "/Product/ActionInCV?Id=" + Id + "&ActionString=" + action,
+            dataType: "json",
+            success: function (response) {
+                toastr.success(response);
+                window.location.href = "/tai-khoan?id=2";
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+
+    function DeleteRecruitment(Id) {
+        var action = "D";
+        $.ajax({
+            type: "GET",
+            url: "/Product/ActionInRec?Id=" + Id + "&ActionString=" + action,
+            dataType: "json",
+            success: function (response) {
+                toastr.success(response);
+                window.location.href = "/tai-khoan?id=2";
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+
+
+    //$('#main-popup').on("hide.bs.modal", function (e) {
+    //    if (confirm("Bạn có chắc chắn thoát tin đăng không?")) return true;
+    //    else return false;
+    //});
+
+    function onFiltering() {
+
+    }
+
+    function onChangeLv2() {
+        return {
+            ProductCategoryId: $("#ProductCategoryIdParent").val(),
+            text: $("#ProductCategoryId").val(),
+            modelFilter: $("#ProductCategoryId").data("kendoComboBox").input.val()
+        };
+    }
+
+    function onSelectLv2(e) {
+
+    }
+
+    function onChangeLocation(e) {
+        LocationName = $("#Location_ID").val();
+    }
+
+    function onSelectLocation(e) {
+
+    }
+
+    function onChangeModel() {
+        var ModelID = $("#ModelID").val();
+        changeModelValue(ModelID);
+    }
+    function filterModels() {
+        return {
+            ProductCategoryId: $("#ProductCategoryIdParent").val(),
+            text: $("#ProductCategoryId").val(),
+            modelFilter: $("#ProductCategoryId").data("kendoComboBox").input.val()
+        };
+    }
+
+    function filterModels() {
+        return {
+            ProductCategoryId: $("#ProductCategoryIdParent").val(),
+            text: $("#ProductCategoryId").val(),
+            modelFilter: 656
+        };
+    }
+
+    function filterModelsExt2() {
+        return {
+            ProductCategoryId: $("#ProductCategoryIdParent").val(),
+            modelFilter: $("#ProductCategoryId").data("kendoComboBox").input.val(),
+            text: $("#RelatedCategoryId").data("kendoComboBox").input.val()
+        };
+    }
+
+    function filterModelsLib() {
+        return {
+            ProductCategoryId: $("#ProductCategoryId").val(),
+            modelFilter: $("#ProductCategoryID2").data("kendoComboBox").input.val()
+        };
+    }
+
+    function filterModelsAccess() {
+        return {
+            ProductCategoryId: $("#ProductCategoryIdParent").val(),
+            modelFilter: $("#ProductCategoryID2").data("kendoComboBox").input.val()
+        };
+    }
+
+    //function filterModelsManu() {
+    //    return {
+    //        ProductCategoryId: $("#ProductCategoryID2").val(),
+    //        modelFilter: $("#ManufactoryID").data("kendoComboBox").input.val()
+    //    };
+    //}
+
+    function filterModelsModel() {
+
+        return {
+            ManufactoryId: $("#ManufactoryID").val(),
+            ProductCategoryId: $("#ProductCategoryID2").val(),
+            modelFilter: $("#ModelID").data("kendoComboBox").input.val(),
+            text: $("#ModelID").data("kendoComboBox").input.val()
+        };
+    }
+
+    function filterModelsMaterial() {
+        return {
+            ProductCategoryId: $("#ProductCategoryIdParent").val(),
+            modelFilter: $("#ProductCategoryId").data("kendoComboBox").input.val()
+        };
+    }
+
+    function filterModelsAcc() {
+        return {
+            ProductCategoryId: $("#ProductCategoryId").val(),
+            modelFilter: $("#AccessoriesCategoryId").data("kendoComboBox").input.val()
+        };
+    }
+
+    $('.closefirstmodal').click(function () {
+        $('#Warning').modal('show').on('show.bs.modal', function () {
+            $('.confirmclosed').click(function () {
+                $('#Warning').modal('hide');
+                $('#main-popup').modal('hide');
+            });
+        });
+    });
+</script>

@@ -1,0 +1,10 @@
+﻿.k-combobox .k-dropdown-wrap {
+    border-color: #F1F1F1;
+    color: #212529;
+    background-color: #F1F1F1;
+}
+
+.k-dropdown .k-dropdown-wrap, .k-dropdowntree .k-dropdown-wrap {
+    border-color: #F1F1F1;
+    background-color: #F1F1F1;
+}

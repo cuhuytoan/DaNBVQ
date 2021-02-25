@@ -1,0 +1,24 @@
+﻿@model HNM.DataNC.ModelsNC.ModelsDTO.LstFCMMessageUser
+
+<ul class="text-left">
+    @if(Model.LstFCMMessage != null){
+        @foreach (var item in Model.LstFCMMessage)
+        {
+            <li class="new">
+                <a href="#" class="d-flex">
+                    <span class="col-3 p-0">
+                        <img src="@item.fullUrlImage" alt="thong-bao" />
+                    </span>
+                    <div class="col-9">
+                        <span class="noti-title unread">@item.Title</span>
+                        <span class="noti-content">@item.Body</span>
+                        <span class="noti-time">@Utils.RenderTimeSince((DateTime)item.CreateDate)</span>
+                    </div>
+                </a>
+            </li>
+        }
+    }
+
+</ul>
+
+<a class="" href="/tai-khoan?id=1">Xem tất cả</a>

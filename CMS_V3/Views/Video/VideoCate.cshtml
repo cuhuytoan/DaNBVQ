@@ -1,0 +1,109 @@
+﻿@using Microsoft.Extensions.Configuration
+@using Mono.Web
+@inject IConfiguration Configuration
+
+@{
+    Layout = "_LayoutArticle";
+}
+
+@{
+    var ListVideoByCate = (IEnumerable<HNM.DataNC.ModelsStore.Video_Search_Mobile_Result>)ViewBag.ListVideoByCate;
+    int currentPage = ViewBag.Page;
+    int pageSize = ViewBag.PageSize;
+    if (ListVideoByCate != null)
+    {
+        int? TotalPages = ViewBag.TotalPages;
+    }
+}
+
+@section metatags{
+    <title>Chuyên mục video @ViewBag.CatName- HANOMA.VN</title>
+    <meta name="keywords" content="@HttpUtility.HtmlDecode(@Configuration["DefaultKeyword"])" />
+    <meta name="description" content="@HttpUtility.HtmlDecode(@Configuration["DefaultDescription"])" />
+    <link id="canonical" rel="canonical" href="@Configuration["DomainName"]/chuyen-muc-video/@ViewBag.UrlVideoCate" />
+}
+
+<section class="category">
+    @await Html.PartialAsync("VideoHeader.cshtml")
+
+    <article>
+        <div id="data-video" >
+
+        </div>
+    </article>
+</section>
+
+<script>
+    $(document).ready(function () {
+        LoadData();
+    });
+
+    function ChangeUrl(page, pageSize) {
+        var urlChange = "/chuyen-muc-video/@ViewBag.UrlVideoCate?CateVideoId=" + @ViewBag.CateVideoId+"&page=" + page +
+            "&pageSize=" + pageSize;
+        history.pushState({}, "", urlChange);
+    }
+
+    function LoadData() {
+        $.ajax({
+            type: "GET",
+            url: "/Video/GetPaggingVideoByCate?CateVideoId=" +@ViewBag.CateVideoId+ "&page=" + @currentPage + "&pageSize=" + @pageSize,
+            dataType: "html",
+            success: function (response) {
+                $('#data-video').html(response);
+            },
+            failure: function (response) {
+
+            },
+            error: function (response) {
+
+            }
+        });
+    }
+
+    function LoadDataByPageSize(pageSize) {
+        $.ajax({
+            type: "GET",
+            url: "/Video/GetPaggingVideoByCate?CateVideoId=" +@ViewBag.CateVideoId+ "&page=" + @currentPage + "&pageSize=" + pageSize,
+            dataType: "html",
+            success: function (response) {
+                $('#data-video').html(response);
+            },
+            failure: function (response) {
+
+            },
+            error: function (response) {
+
+            }
+        });
+    }
+
+</script>
+
+
+
+
+<script type="application/ld+json">
+    {
+    "@@context": "https://schema.org",
+    "@@type": "Article",
+    "mainEntityOfPage": {
+    "@@type": "WebPage",
+    "@@id": "https://hanoma.vn/chuyen-muc-video/@ViewBag.UrlVideoCate"
+    },
+    "headline": "Article headline",
+    "author": {
+    "@@type": "Person",
+    "name": "Hanoma.vn"
+    },
+    "publisher": {
+    "@@type": "Organization",
+    "name": "Hanoma.vn",
+    "logo": {
+    "@@type": "ImageObject",
+    "url": "https://hanoma.vn/assets/pages/img/logo_hanoma2.png"
+    }
+    },
+    "description": "@Configuration["DefaultDescription"]"
+    }
+</script>

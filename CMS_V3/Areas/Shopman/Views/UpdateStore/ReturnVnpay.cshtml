@@ -1,0 +1,286 @@
+﻿@model HNM.DataNC.ModelsNC.ModelsDTO.OrderDetailDTO
+
+<style>
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+</style>
+<div class="bg-white px-0 mx-auto px-lg-5">
+    <div class="header-box text-center noti-success mb-2">
+        @if (ViewBag.ResponseCode == "00")
+        {
+            <lottie-player src="https://assets9.lottiefiles.com/packages/lf20_AHqXch.json" background="transparent" speed="1" style="width: 50px; height: 50px; display: inline-block" loop autoplay></lottie-player>
+            <h3 class="text-uppercase mt-1 text-primary">GIAO DỊCH THÀNH CÔNG</h3>
+        }
+        else
+        {
+            <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_OFPzAN.json" background="transparent" speed="1" style="width: 50px; height: 50px; display: inline-block" loop autoplay></lottie-player>
+            <h3 class="text-uppercase mt-1 text-primary">GIAO DỊCH THẤT BẠI</h3>
+        }
+
+    </div>
+    <div class="content-box mx-auto text-left px-0 px-md-4 my-2 py-4 box-shadow">
+        @if (Model.TotalDeduct != null)
+        {
+            <h4 class="font-weight-bold mb-3">@Model.Description</h4>
+            <ul class="list-unstyled">
+                <li class="d-flex justify-content-between"><span>Mã số giao dịch</span>  <span>@Model.OrderCode</span></li>
+                <li class="d-flex justify-content-between"><span>Thời gian:</span>  <span>@Convert.ToDateTime(Model.StartDate).ToString("dd/MM/yyyy") đến @Convert.ToDateTime(Model.EndDate).ToString("dd/MM/yyyy")</span></li>
+                @if (Model.Price <= 0)
+                {
+                    <li class="d-flex justify-content-between"><span>Giá tiền</span>  <span>0 đ</span></li>
+                }
+                else
+                {
+                    <li class="d-flex justify-content-between"><span>Giá tiền</span>  <span>@HNM.CommonNC.Utils.RenderPrice(Model.Price) đ</span></li>
+                }
+
+                @if (Model.DisCount <= 0)
+                {
+                    <li class="d-flex justify-content-between"><span>Giảm giá</span>  <span>0 đ</span></li>
+                }
+                else
+                {
+                    <li class="d-flex justify-content-between"><span>Giảm giá</span>  <span>@HNM.CommonNC.Utils.RenderPrice(Model.DisCount) đ</span></li>
+                }
+
+                <li class="d-flex justify-content-between"><span>Số tiền sau giảm giá (1):</span>  <span>@HNM.CommonNC.Utils.RenderPrice(Model.Sum) đ</span></li>
+
+            </ul>
+            <h5 class="font-weight-bold my-2">KHẤU TRỪ QUY MÔ VỪA</h5>
+            <ul class="list-unstyled">
+                <li class="d-flex justify-content-between"><span>Số tháng còn lại quy mô vừa</span>  <span>@Model.MonthRemain tháng</span></li>
+                <li class="d-flex justify-content-between"><span>Số tiền 1 tháng</span>  <span>@HNM.CommonNC.Utils.RenderPrice(Model.TotalDeduct / Model.MonthRemain) đ</span></li>
+                @if (Model.TotalDeduct <= 0)
+                {
+                    <li class="d-flex justify-content-between"><span>Giá tiền</span>  <span>0 đ</span></li>
+                }
+                else
+                {
+                    <li class="d-flex justify-content-between"><span>Tổng tiền khấu trừ (2)</span>  <span>@HNM.CommonNC.Utils.RenderPrice(Model.TotalDeduct) đ</span></li>
+                }
+                <li class="d-flex justify-content-between"><span>Tổng tiền sau khấu trừ (1)-(2):</span>  <span>@HNM.CommonNC.Utils.RenderPrice(Model.Sum - Model.TotalDeduct) đ</span></li>
+                <li class="d-flex justify-content-between"><span>VAT (10%):</span>  <span>@HNM.CommonNC.Utils.RenderPrice(Model.Total - (Model.Sum - Model.TotalDeduct)) đ</span></li>
+            </ul>
+            <ul class="list-unstyled">
+                <li class="d-flex justify-content-between"><span class="h6 font-weight-bold">Thành tiền:</span>  <span class="h6 font-weight-bold">@HNM.CommonNC.Utils.RenderPrice(Model.Total) đ</span></li>
+            </ul>
+        }
+        else
+        {
+            <h4 class="font-weight-bold mb-3">@Model.Description</h4>
+            <ul class="list-unstyled">
+                <li class="d-flex justify-content-between"><span>Mã số giao dịch:</span>  <span>@Model.OrderCode</span></li>
+                <li class="d-flex justify-content-between"><span>Thời gian:</span>  <span>@Convert.ToDateTime(Model.StartDate).ToString("dd/MM/yyyy") đến @Convert.ToDateTime(Model.EndDate).ToString("dd/MM/yyyy")</span></li>
+                @if (Model.Price <= 0)
+                {
+                    <li class="d-flex justify-content-between"><span>Giá tiền</span>  <span>0 đ</span></li>
+                }
+                else
+                {
+                    <li class="d-flex justify-content-between"><span>Giá tiền</span>  <span>@HNM.CommonNC.Utils.RenderPrice(Model.Price) đ</span></li>
+                }
+
+                @if (Model.DisCount <= 0)
+                {
+                    <li class="d-flex justify-content-between"><span>Giảm giá</span>  <span>0 đ</span></li>
+                }
+                else
+                {
+                    <li class="d-flex justify-content-between"><span>Giảm giá</span>  <span>@HNM.CommonNC.Utils.RenderPrice(Model.DisCount) đ</span></li>
+                }
+                <li class="d-flex justify-content-between"><span>Số tiền sau giảm giá:</span>  <span>@HNM.CommonNC.Utils.RenderPrice(Model.Sum) đ</span></li>
+                <li class="d-flex justify-content-between"><span>VAT:</span>  <span>@HNM.CommonNC.Utils.RenderPrice(Model.VAT) đ</span></li>
+            </ul>
+            <ul class="list-unstyled">
+                <li class="d-flex justify-content-between"><span class="h6 font-weight-bold">Thành tiền:</span>  <span class="h6 font-weight-bold">@HNM.CommonNC.Utils.RenderPrice(Model.Total) đ</span></li>
+            </ul>
+        }
+    </div>
+    @if (ViewBag.ResponseCode == "00")
+    {
+        <div class="form-group d-flex align-items-center my-2" id="myForm">
+            <input name="tt" value="1" id="xuathoadon" class="" type="radio">
+            <label for="xuathoadon" class=" my-0 mx-2"> Xuất hoá đơn VAT</label>
+        </div>
+        <form>
+            <div class="tax-info" style="display: none;">
+                <div class="row form-group">
+                    <div class="col-12 col-sm-6">
+                        <label for="inputAddress">Tên công ty *</label>
+                        <input type="text" class="form-control" name="CompanyName" id="CompanyName" placeholder="Hà Nội Máy">
+                        <input type="text" value="@Model.OrderCode" id="OrderCode" hidden="hidden" />
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <label for="inputAddress">Mã số thuế *</label>
+                        <input type="number" class="form-control" name="TaxCode" id="TaxCode" placeholder="123456789">
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-12 col-sm-6">
+                        <label for="inputAddress">Địa chỉ (như đăng ký kinh doanh) *</label>
+                        <input type="text" class="form-control" name="CompanyAddress" id="CompanyAddress" placeholder="Cầu Giấy, Hà Nội">
+
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <label for="inputAddress">Email nhận hóa đơn điện tử *</label>
+                        <input type="text" class="form-control" name="Email" id="Email" placeholder="info@hanoma.vn">
+                    </div>
+                </div>
+            </div>
+
+            <div class=" justify-content-center d-block text-center mt-3">
+                <button type="button" class="btn btn-primary mb-2" onclick="ExportVAT()">Hoàn tất</button>
+            </div>
+        </form>
+    }
+    else
+    {
+        <div class=" justify-content-center d-block text-center mt-3">
+            <a href="/Shopman/UpdateStore/Index" class="btn btn-primary mb-2">Hoàn tất</a>
+        </div>
+    }
+    <script>
+        $('#xuathoadon').on("change", function (e) {
+            $('.tax-info').slideDown();
+        })
+
+        function checkSpecialCharacter(data) {
+            var check = true;
+            console.log("data:" + data);
+            var iChars = "!#$%^&*+=[]\\\';/{}|\":<>?~_";
+            for (var i = 0; i < data.length; i++) {
+                console.log("dataitem:" + data.charAt(i));
+                if (iChars.indexOf(data.charAt(i)) != -1) {
+                    console.log("Your string has special characters. \n These are not allowed.");
+                    check = false;
+                    break;
+                }
+            }
+            return check;
+        }
+
+        function ExportVAT() {
+            var resultExpVAT = $('input[name="tt"]:checked').val();
+            if (resultExpVAT == 1) {
+                var companyName = $("#CompanyName").val();
+                if (companyName == "") {
+                    toastr["error"]("Tên công ty không được để trống!");
+                    return;
+                }
+
+                if (companyName != "") {
+                    if (companyName.length < 10) {
+                        toastr["error"]("Tên công ty phải trên 10 ký tự!");
+                        $("#CompanyName").focus();
+                        return;
+                    }
+
+                    if (companyName.length > 100) {
+                        toastr["error"]("Tên công ty không được quá 100 ký tự!");
+                        $("#CompanyName").focus();
+                        return;
+                    }
+                }
+
+                var taxCodeExp = $("#TaxCode").val();
+                if (taxCodeExp == "") {
+                    toastr["error"]("Mã số thuế không được để trống!");
+                    return;
+                }
+
+                if (taxCodeExp != "") {
+                    if (taxCodeExp.length < 5) {
+                        toastr["error"]("Mã số thuế phải trên 5 ký tự!");
+                        $("#TaxCode").focus();
+                        return;
+                    }
+
+                    if (taxCodeExp.length > 20) {
+                        toastr["error"]("Mã số thuế không được quá 20 ký tự!");
+                        $("#TaxCode").focus();
+                        return;
+                    }
+                }
+
+                if (!checkSpecialCharacter(taxCodeExp)) {
+                    toastr["error"]("Mã số thuế không được nhập các ký tự đặc biệt");
+                    $("#TaxCode").focus();
+                    return false;
+                }
+
+                var companyAddressExt = $("#CompanyAddress").val();
+                if (companyAddressExt == "") {
+                    toastr["error"]("Địa chỉ công ty không được để trống!");
+                    return;
+                }
+
+                if (companyAddressExt != "") {
+                    if (companyAddressExt.length < 10) {
+                        toastr["error"]("Địa chỉ phải trên 10 ký tự!");
+                        $("#CompanyAddress").focus();
+                        return;
+                    }
+
+                    if (companyAddressExt.length > 100) {
+                        toastr["error"]("Địa chỉ không được quá 100 ký tự!");
+                        $("#CompanyAddress").focus();
+                        return;
+                    }
+                }
+
+                var EmailExt = $("#Email").val();
+
+                if (EmailExt == "") {
+                    toastr["error"]("Email không được để trống!");
+                    $("#Email").focus();
+                    return;
+                }
+
+                if (EmailExt.length > 100) {
+                    toastr["error"]("Email không được quá 100 ký tự!");
+                    $("#Email").focus();
+                    return;
+                }
+
+                var OrderCode = $("#OrderCode").val();
+                var CompanyName = $("#CompanyName").val();
+                var TaxCode = $("#TaxCode").val();
+                var CompanyAddress = $("#CompanyAddress").val();
+                var EmailAddress = $("#Email").val();
+                $.ajax({
+                    type: "POST",
+                    url: "/Shopman/UpdateStore/CreateExpVAT?OrderCode=" + OrderCode + "&CompanyName=" + CompanyName + "&TaxCode=" + TaxCode + "&CompanyAddress=" + CompanyAddress + "&Email=" + EmailAddress,
+                    dataType: "html",
+                    success: function (response) {
+                        var resultRes = JSON.parse(response);
+                        if (resultRes.ErrorCode == "00") {
+                            toastr["success"](resultRes.Message);
+                            window.location.href = "/ShopMan/Home/Index";
+                        } else {
+                            toastr["error"](resultRes.Message);
+                            window.location.href = "/ShopMan/Home/Index";
+                        }
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            }
+            else {
+                window.location.href = "/ShopMan/Home/Index";
+                //alert("Lỗi")
+            }
+        }
+    </script>
+</div>
+
