@@ -48,7 +48,7 @@ namespace HNM.WebApiNC.Controllers
             return output;
         }
         [HttpGet]
-        public async Task<ListProductCategoryDTO> GetProdCateByParentID(string keyword = "",int parentId = 656)
+        public async Task<ListProductCategoryDTO> GetProdCateByParentID(int? parentId,string keyword = "")
         {
             var output = new ListProductCategoryDTO();
             var cacheKey = $"ProductCategory_GetProdCateByParentID{keyword}{parentId}";

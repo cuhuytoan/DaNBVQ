@@ -532,33 +532,15 @@ namespace HNM.WebApiNC.Controllers
                     int ProductId = _repoWrapper.Product.PostProductShopman(productModel, model.MainImage, model.SubImage, model.UserId);
                     if (ProductId != 0)
                     {
-                        var modelImgRabbit = new ImageUploadAWSDTO();
-                        modelImgRabbit.MainImage = model.MainImage;
-                        modelImgRabbit.SubImage = model.SubImage;
-                        modelImgRabbit.ParameterId = ProductId;
-                        modelImgRabbit.Type = "Product";
-                        //Push To rabbit
-                        Task.Run(() =>  _repoWrapper.Product.PushAWSImageToRabbit(modelImgRabbit, _configuration["AWS_ImageRabbit"]));
                         //Save MainImage
-                        //SaveMainImage(model.MainImage, ProductId);
-
-                       
+                        SaveMainImage(model.MainImage, ProductId);
                         //Save Sub Image
-                        //SaveIllustrationImages(model.SubImage, ProductId);
+                        SaveIllustrationImages(model.SubImage, ProductId);
                         output.ProductId = ProductId;
                         output.ErrorCode = "00";
                         output.Message = "Thêm mới thành công";
 
-                        Task.Run(() =>_repoWrapper.FCMMessage.PushNotificationToRabitMQ(new NotificationRabitMQModel
-                        {
-                            Type = "ONDEMAND",
-                            NotificationCode = "DTCD",
-                            ChannelSend = "ALL",
-                            UsingTemplate = true,
-                            UserId = model.UserId,
-                            ObjectId = ProductId,
-                            ObjectType = "PRODUCT_DEMAND"
-                        }));
+                      
                     }
                     else
                     {
@@ -641,25 +623,14 @@ namespace HNM.WebApiNC.Controllers
                             modelImgRabbit.SubImage = model.SubImage;
                             modelImgRabbit.ParameterId = ProductId;
                             modelImgRabbit.Type = "Product";
-                            //Push To rabbit
-                            Task.Run(() => _repoWrapper.Product.PushAWSImageToRabbit(modelImgRabbit, _configuration["AWS_ImageRabbit"]));
+                            
                         }
                        
                         output.ProductId = ProductId;
                         output.ErrorCode = "00";
                         output.Message = "Update thành công";
 
-                        Task.Run(() => _repoWrapper.FCMMessage.PushNotificationToRabitMQ(new NotificationRabitMQModel
-                        {
-                            Type = "ONDEMAND",
-                            NotificationCode = "DTCD",
-                            ChannelSend = "ALL",
-                            UsingTemplate = true,
-                            UserId = model.UserId,
-                            ObjectId = ProductId,
-                            ObjectType = "PRODUCT_DEMAND",
-                            
-                        }));
+                       
 
                     }
                     else
@@ -783,7 +754,7 @@ namespace HNM.WebApiNC.Controllers
             var urlProduct = _repoWrapper.Product.CreateImageURL(ProductId);
             MainImage.FileName = String.Format("{0}-mobile-00-{1}.{2}", urlProduct, timestamp, MainImage.ExtensionType.Replace("image/", ""));
             MainImage.PathSave = "product/mainimages/original";
-            
+
             UploadImage(MainImage,MainImage.PathSave, "product/mainimages/small", "product/mainimages/thumb");
             
             ///Update Image Name
@@ -808,40 +779,7 @@ namespace HNM.WebApiNC.Controllers
                 _repoWrapper.Product.UpdateIllustrationImages(p.FileName, ProductId);
             }
         }
-        [ApiExplorerSettings(IgnoreApi = true)]
-        private async Task<bool> UploadImage(ImageUploadDTO model,string pathMain,string pathSmall, string pathThumb)
-        {
-            try
-            {
-                var imageDataByteArray = Convert.FromBase64String(model.Base64);
-                var imageDataStream = new MemoryStream(imageDataByteArray);
-                imageDataStream.Position = 0;
-                //Image watermark
-                var inputStreamEnd = Util.WaterMarkStream(imageDataStream);
-                //Image Small
-                var inputStreamSmall = Util.ResizeImageStream(inputStreamEnd, 500, 500);
-                //Image Thumb
-                var inputStreamThumb = Util.ResizeImageStream(inputStreamEnd, 120, 120);
-                var file = File(imageDataByteArray, model.ExtensionType);
-                var fileName = model.FileName;
-                if (file.FileContents.Length > 0)
-                {
-                     Util.UploadS3(model.FileName, pathMain, inputStreamEnd, model.ExtensionType);
-                     Util.UploadS3(model.FileName, pathSmall, inputStreamSmall, file.ContentType);
-                     Util.UploadS3(model.FileName, pathThumb, inputStreamThumb, file.ContentType);
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Upload Product Image: " + ex.ToString());
-                return false;
-            }
-        }
+        
         [HttpGet]
         public async Task<List<PatchNumber_SearchByCategory_Result>> GetPatchNumberByCategory(int? ProductCategory_Id, int? ProductType_ID, string text)
         {
@@ -896,6 +834,46 @@ namespace HNM.WebApiNC.Controllers
             }
             return output;
         }
+        private async Task UploadImage(ImageUploadDTO model)
+        {
+            try
+            {
+
+                var pathAbsolute = @"C:\Domains\DaNBVQ\wwwroot";
+                var imageDataByteArray = Convert.FromBase64String(model.Base64);
+
+                var imageDataStream = new MemoryStream(imageDataByteArray);
+                imageDataStream.Position = 0;
+
+                var file = File(imageDataByteArray, model.ExtensionType);
+                var fileName = model.FileName;
+                var pathToSave = Path.Combine(pathAbsolute, model.PathSave);
+                var outPath = Path.Combine(pathToSave, fileName);
+
+
+                if (file.FileContents.Length > 0)
+                {
+                    using (MemoryStream ms = new MemoryStream(imageDataByteArray))
+                    {
+                        using (Bitmap bm2 = new Bitmap(ms))
+                        {
+                            bm2.Save(Path.Combine(pathToSave, fileName));
+                        }
+                    }
+
+
+                }
+                else
+                {
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
         public void Dispose()
         {
             GC.SuppressFinalize(this);

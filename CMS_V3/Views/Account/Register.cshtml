@@ -58,14 +58,14 @@
     <div class="content-box  mx-auto text-left">
         <form id="registerStep2" class="">
             <div class="form-group">
-                <label for="inputAddress">Nhập mã OTP:</label>
+                <label for="inputAddress">Nhập mã code xác thực: 123456</label>
                 <input id="verifyCode" type="text" pattern="\d*" maxlength="6" class="form-control" placeholder="Nhập mã OTP" onkeydown="javascript: return event.keyCode === 8 ||event.keyCode === 46 ? true : !isNaN(Number(event.key))">
-                <span class="time-otp">Mã OTP sẽ được gửi đến trong <span class="time-count">60</span>s</span>
-                <button type="button" class="btn btn-success btn-block" id="resend" style="color: white" onclick="resendOTP()">Gửi lại OTP <span id="timedown"></span></button>
+                @*<span class="time-otp">Mã OTP sẽ được gửi đến trong <span class="time-count">60</span>s</span>*@
+                @*<button type="button" class="btn btn-success btn-block" id="resend" style="color: white" onclick="resendOTP()">Gửi lại OTP <span id="timedown"></span></button>*@
             </div>
 
             <div class="note  pt-4">
-                <p>Bước 2: Nhập mã OTP được gửi về số điện thoại </p>
+                <p>Bước 2: Nhập mã xác thực </p>
             </div>
 
             <ul class="progressbar-account m-0 d-table">

@@ -872,28 +872,14 @@ namespace HNM.RepositoriesNC.Repositories
         public string CreateImageURL(int Product_ID)
         {
             string[] P1 = new string[11];
-            P1[1] = "ban";
-            P1[2] = "can-mua";
-            P1[3] = "cho-thue";
-            P1[4] = "can-thue";
-            P1[5] = "ban-phu-tung";
-            P1[6] = "can-mua-phu-tung";
-            P1[7] = "ban-vat-tu";
-            P1[8] = "can-mua-vat-tu";
-            P1[9] = "tuyen-dung";
-            P1[10] = "tim-viec";
-
+            P1[1] = "ban";    
             try
             {
 
                 var currentProduct = (from a in HanomaContext.Product
                                       where a.Product_ID == Product_ID
-                                      select a).First();
-                var cateName = HanomaContext.ProductCategory.FirstOrDefault(x => x.ProductCategory_ID == currentProduct.ProductCategory_ID)?.Name;
-                var manuName = HanomaContext.ProductManufacture.FirstOrDefault(x => x.ProductManufacture_ID == currentProduct.ProductManufacture_ID)?.Name;
-                var modelName = HanomaContext.ProductModel.FirstOrDefault(x => x.ProductModel_ID == currentProduct.ProductModel_ID)?.Name;
-                var P2 = String.Format("{0} {1} {2}", cateName, manuName, modelName);
-                return FormatURL(P2) + "-" + Product_ID.ToString();
+                                      select a).First();                
+                return FormatURL(currentProduct.Name) + "-" + Product_ID.ToString();
 
             }
             catch

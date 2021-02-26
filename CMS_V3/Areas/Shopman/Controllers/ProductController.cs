@@ -401,7 +401,7 @@ namespace CMS_V3.Areas.Shopman.Controllers
 
         public async Task<JsonResult> GetLstProductCateLv1(string text)
         {
-            var result = await _repoWrapper.Product.GetProdCateByParentID(text, 654);
+            var result = await _repoWrapper.Product.GetProdCateByParentID(text, null);
             return Json(result.Data);
         }
 

@@ -13,7 +13,7 @@ namespace HNM.RepositoriesNC.Repositories
 {
     public interface IProductCategoryRepository : IRepositoryBase<ProductCategory>
     {
-        Task<IEnumerable<ProductCategory>> GetTopCateByParentId(string keyword,int parentId);
+        Task<IEnumerable<ProductCategory>> GetTopCateByParentId(string keyword,int? parentId);
         Task<IEnumerable<ProductCategory>> GetTopCateByParentIdTakeTop(int parentId, int Top);
         Task<IEnumerable<ProductCategory>> GetProdCateByBrand(int? ProductBrandID);
         Task<IEnumerable<ProductCategoryTwoLevelDTO>> GetListProductCategoryTwoLevelDTO(string keyword, int? ProductCategoryId);
@@ -30,8 +30,8 @@ namespace HNM.RepositoriesNC.Repositories
         {
         }
 
-        public async Task<IEnumerable<ProductCategory>> GetTopCateByParentId(string keyword,int parentId)
-        {
+        public async Task<IEnumerable<ProductCategory>> GetTopCateByParentId(string keyword,int? parentId)
+        {          
             if(!string.IsNullOrEmpty(keyword))
             {
                 return await HanomaContext.ProductCategory.Where(x => x.Parent_ID == parentId && x.Name.Contains(keyword)).OrderBy(x => x.Sort)

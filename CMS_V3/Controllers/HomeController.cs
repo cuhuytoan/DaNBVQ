@@ -44,11 +44,12 @@ namespace CMS_V3.Controllers
             return View();
         }
 
-        public async Task<ActionResult> GetHomeProductCategory(string BlockName , int ProductCategoryId)
+        public async Task<ActionResult> GetHomeProductCategory(string BlockName,string Url , int ProductCategoryId)
         {
             ViewBag.MenuMachine = await GetLstMenuByParentId(ProductCategoryId);
             var jsonResult = await GetHomeBlockProduct(1, ProductCategoryId);
             ViewBag.BlockName = BlockName;
+            ViewBag.Url = Url;
             return PartialView("HomeSellProduct", jsonResult);
         }
  

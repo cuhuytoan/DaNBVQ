@@ -571,7 +571,7 @@ namespace HNM.WebApiNC.Controllers
             var productBrand = _repoWrapper.Brand.FirstOrDefault(x => x.ProductBrand_ID == ProductBrandId);
             MainImage.FileName = String.Format("{0}-mobile-logo-{1}.{2}", ProductBrandId, timestamp, MainImage.ExtensionType.Replace("image/", ""));
             MainImage.PathSave = "productbrand/logo/original";            
-            await UploadImage(MainImage, MainImage.PathSave, "productbrand/logo/thumb");
+            await UploadImage(MainImage);
             await _repoWrapper.Brand.UpdateImgLogoProductBrand(MainImage.FileName, ProductBrandId);
 
 
@@ -583,15 +583,16 @@ namespace HNM.WebApiNC.Controllers
             var productBrand = _repoWrapper.Brand.FirstOrDefault(x => x.ProductBrand_ID == ProductBrandId);
             MainImage.FileName = String.Format("{0}-mobile-banner-{1}.{2}", ProductBrandId, timestamp, MainImage.ExtensionType.Replace("image/", ""));
             MainImage.PathSave = "productbrand/banner/original";
-            await UploadImage(MainImage, MainImage.PathSave, "productbrand/banner/small");
+            await UploadImage(MainImage);
             await _repoWrapper.Brand.UpdateImgBannerProductBrand(MainImage.FileName, ProductBrandId);
 
         }
-        [ApiExplorerSettings(IgnoreApi = true)]
-        private async Task<bool> UploadImage(ImageUploadDTO model,string pathMain, string pathThumb)
+        private async Task UploadImage(ImageUploadDTO model)
         {
             try
             {
+
+                var pathAbsolute = @"C:\Domains\DaNBVQ\wwwroot";
                 var imageDataByteArray = Convert.FromBase64String(model.Base64);
 
                 var imageDataStream = new MemoryStream(imageDataByteArray);
@@ -599,29 +600,30 @@ namespace HNM.WebApiNC.Controllers
 
                 var file = File(imageDataByteArray, model.ExtensionType);
                 var fileName = model.FileName;
+                var pathToSave = Path.Combine(pathAbsolute, model.PathSave);
+                var outPath = Path.Combine(pathToSave, fileName);
 
-                //Image 
-                var inputStreamEnd = imageDataStream;
-                
-                //Image Thumb
-                var inputStreamThumb = Util.ResizeImageStream(inputStreamEnd, 120, 120);
 
                 if (file.FileContents.Length > 0)
                 {
-                    await Util.UploadS3(model.FileName, pathMain, inputStreamEnd, model.ExtensionType);                    
-                    await Util.UploadS3(model.FileName, pathThumb, inputStreamThumb, file.ContentType);
+                    using (MemoryStream ms = new MemoryStream(imageDataByteArray))
+                    {
+                        using (Bitmap bm2 = new Bitmap(ms))
+                        {
+                            bm2.Save(Path.Combine(pathToSave, fileName));
+                        }
+                    }
 
-                    return true;
+                  
                 }
                 else
                 {
-                    return false;
+                 
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError($"UploadImage: " + ex.ToString());
-                return false;
+               
             }
         }
 

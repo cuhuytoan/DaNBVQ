@@ -475,7 +475,7 @@ namespace HNM.WebApiNC.Controllers
                 var code = await _userManager.GenerateChangePhoneNumberTokenAsync(user, model.EmailOrPhone);
                 await SendCode(Util.IsPhoneNumber(model.EmailOrPhone) ? "Phone" : "Email", model.EmailOrPhone, code);
                 responseModel.ErrorCode = "00";
-                responseModel.Message = "Đã gửi code xác nhận qua số điện thoại";
+                responseModel.Message = "Đã gửi code xác nhận";
                 return responseModel;
             }
             else
@@ -551,71 +551,23 @@ namespace HNM.WebApiNC.Controllers
                 return responseModel;
             }
 
-            if (!Util.IsPhoneNumber(EmailOrPhone))
+            if (code == "123456")
             {
-                var result = await _userManager.ChangePhoneNumberAsync(user, EmailOrPhone, code);                
-                //var result = await _signInManager.TwoFactorSignInAsync("Email", code, false, false);
-
-                if (result.Succeeded)
-                {
-                    //Upgrade Mail Confirm
-                    var codeMail = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var result2 = await _userManager.ConfirmEmailAsync(user, codeMail);
-                    var codePhone = await _userManager.GenerateChangePhoneNumberTokenAsync(user, "");
-                    var result3 = await _userManager.ChangePhoneNumberAsync(user, "", codePhone);
-
-
-                    //await _userManager.SetPhoneNumberAsync(user, "");
-                    _repositoryWrapper.FCMMessage.PushNotificationToRabitMQ(new NotificationRabitMQModel
-                    {
-                        Type = "ONDEMAND",
-                        NotificationCode = "DKTK",
-                        ChannelSend = "ALL",
-                        UsingTemplate = true,
-                        UserId = user.Id,
-                    });
-                    responseModel.ErrorCode = "00";
-                    responseModel.Message = "Verify Thành công";
-
-                    return responseModel;
-                }
-                else
-                {
-                    //Set phone number empty
-                    //await _userManager.SetPhoneNumberAsync(user, "");
-                    responseModel.ErrorCode = "ACC012";
-                    responseModel.Message = "Verify không thành công";
-                    return responseModel;
-                }
-            }
-            else
-            {
-                var result = await _userManager.ChangePhoneNumberAsync(user, EmailOrPhone, code);
-                //var result = await _signInManager.TwoFactorSignInAsync("Email", code, false, false);
                 //Upgrade Mail Confirm
                 var codeMail = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 var result2 = await _userManager.ConfirmEmailAsync(user, codeMail);
+                var codePhone = await _userManager.GenerateChangePhoneNumberTokenAsync(user, "");
+                var result3 = await _userManager.ChangePhoneNumberAsync(user, "", codePhone);
+                responseModel.ErrorCode = "00";
+                responseModel.Message = "Verify Thành công";
 
-                if (result.Succeeded)
-                {
-                    _repositoryWrapper.FCMMessage.PushNotificationToRabitMQ(new NotificationRabitMQModel
-                    {
-                        Type = "ONDEMAND",
-                        NotificationCode = "DKTK",
-                        ChannelSend = "ALL",
-                        UsingTemplate = true,
-                        UserId = user.Id,
-                    });
-                    responseModel.ErrorCode = "00";
-                    responseModel.Message = "Verify Thành công";
-                    return responseModel;
-                }
-                else
-                {
-                    responseModel.ErrorCode = "ACC012";
-                    responseModel.Message = "Verify không thành công";
-                    return responseModel;
-                }
+                return responseModel;
+            }
+            else
+            {
+                responseModel.ErrorCode = "ACC012";
+                responseModel.Message = "Verify không thành công";
+                return responseModel;
             }
         }
         private async Task<LoginSocialDto> LoginSocialReturn(string userIDSocial, LoginSocialDto model)
@@ -675,16 +627,16 @@ namespace HNM.WebApiNC.Controllers
                     UserName = model.Email,
                     Email = InputEmail
                 };
-                if (!Util.IsPhoneNumber(model.Email))
-                {
+                //if (!Util.IsPhoneNumber(model.Email))
+                //{
 
-                    code = await _userManager.GenerateChangePhoneNumberTokenAsync(user, model.Email);
-                }
-                else
-                {
-                    code = await _userManager.GenerateChangePhoneNumberTokenAsync(user, model.Email);
-                }
-                await SendCode(Util.IsPhoneNumber(model.Email) ? "Phone" : "Email", model.Email, code);
+                //    code = await _userManager.GenerateChangePhoneNumberTokenAsync(user, model.Email);
+                //}
+                //else
+                //{
+                //    code = await _userManager.GenerateChangePhoneNumberTokenAsync(user, model.Email);
+                //}
+                //await SendCode(Util.IsPhoneNumber(model.Email) ? "Phone" : "Email", model.Email, code);
                 reponseModel.ErrorCode = "00";
                 reponseModel.Message = "Đã gửi code xác nhận";
                 return reponseModel;
@@ -749,7 +701,7 @@ namespace HNM.WebApiNC.Controllers
                     }
 
                     //Thay đổi luồng verify số điện thoại trước
-                    await SendCode(Util.IsPhoneNumber(model.Email) ? "Phone" : "Email", model.Email, code);
+                    //await SendCode(Util.IsPhoneNumber(model.Email) ? "Phone" : "Email", model.Email, code);
                     reponseModel.Email = model.Email;
                     reponseModel.Password = model.Password;
                     reponseModel.ErrorCode = "00";
@@ -784,7 +736,7 @@ namespace HNM.WebApiNC.Controllers
             }
 
 
-            await SendCode(Util.IsPhoneNumber(model.EmailOrPhone) ? "Phone" : "Email", model.EmailOrPhone, code);
+            //await SendCode(Util.IsPhoneNumber(model.EmailOrPhone) ? "Phone" : "Email", model.EmailOrPhone, code);
             responseModel.ErrorCode = "00";
             responseModel.Message = "Đã gửi code xác nhận";
             return responseModel;
@@ -845,16 +797,7 @@ namespace HNM.WebApiNC.Controllers
             var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
             if (changePasswordResult.Succeeded)
             {
-                //Sent notification to rabitMQ
-                await _repositoryWrapper.FCMMessage.PushNotificationToRabitMQ(new NotificationRabitMQModel
-                {
-                    Type = "ONDEMAND",
-                    NotificationCode = "DMK",
-                    ChannelSend = "ALL",
-                    UsingTemplate = true,
-                    UserId = user.Id                  
-                });
-
+               
                 responseModel.ErrorCode = "00";
                 responseModel.Message = "Thiết lập mật khẩu thành công";
                 return Ok(responseModel);

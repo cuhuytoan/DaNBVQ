@@ -6,12 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="wwwroot\css\style.css" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="favicon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="favicon.ico" />
+    <Content Remove="wwwroot\favicon.ico" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.0.1" />
@@ -173,6 +168,7 @@
     <None Include="wwwroot\Assets\js\paged.js" />
     <None Include="wwwroot\Assets\js\swiper-bundle.min.js" />
     <None Include="wwwroot\css\style.css" />
+    <None Include="wwwroot\favicon.ico" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="nlog.config">
