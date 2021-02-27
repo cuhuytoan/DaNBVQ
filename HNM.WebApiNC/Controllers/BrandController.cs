@@ -575,7 +575,6 @@ namespace HNM.WebApiNC.Controllers
             await _repoWrapper.Brand.UpdateImgLogoProductBrand(MainImage.FileName, ProductBrandId);
 
 
-
         }
         private async Task SaveBannerImage(ImageUploadDTO MainImage, int ProductBrandId)
         {

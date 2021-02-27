@@ -749,14 +749,28 @@ namespace HNM.WebApiNC.Controllers
 
         private async Task SaveMainImage(ImageUploadDTO MainImage, int ProductId)
         {
-            if (MainImage.Base64 == null) return;
-            var timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
+            var pathAbsolute = @"C:\Domains\DaNBVQ\wwwroot";
             var urlProduct = _repoWrapper.Product.CreateImageURL(ProductId);
-            MainImage.FileName = String.Format("{0}-mobile-00-{1}.{2}", urlProduct, timestamp, MainImage.ExtensionType.Replace("image/", ""));
+            MainImage.FileName = String.Format("{0}-00.{1}", urlProduct, MainImage.ExtensionType.Replace("image/", ""));
             MainImage.PathSave = "product/mainimages/original";
+            var PatchToSave = Path.Combine(pathAbsolute, MainImage.PathSave);
+            var physicalPath = Path.Combine(PatchToSave, MainImage.FileName);
+            await UploadImage(MainImage);
+            //Utils.Util.WaterMark(physicalPath, MainImage.FileName);
+            //Make Thumb & small
+            try
+            {
+                var PatchSmall = "product/mainimages/small";
+                var PatchThumb = "product/mainimages/thumb";
+                Utils.Util.EditSize(physicalPath, Path.Combine(pathAbsolute, PatchSmall, MainImage.FileName), 500, 500);
+                Utils.Util.EditSize(physicalPath, Path.Combine(pathAbsolute, PatchThumb, MainImage.FileName), 200, 200);
 
-            UploadImage(MainImage,MainImage.PathSave, "product/mainimages/small", "product/mainimages/thumb");
-            
+            }
+            catch (Exception ex)
+            {
+
+            }
+
             ///Update Image Name
             _repoWrapper.Product.UpdateMainImageProduct(MainImage.FileName, ProductId);
 
@@ -773,7 +787,7 @@ namespace HNM.WebApiNC.Controllers
                 var urlProduct = _repoWrapper.Product.CreateImageURL(ProductId);
                 p.FileName = String.Format("{0}-mobile-0{1}-{2}.{3}", urlProduct, count,timestamp, p.ExtensionType.Replace("image/", ""));
                 p.PathSave = "productpicture/mainimages/original";              
-                UploadImage(p,p.PathSave, "productpicture/mainimages/small", "productpicture/mainimages/thumb");
+                await UploadImage(p,p.PathSave, "productpicture/mainimages/small", "productpicture/mainimages/thumb");
                 
                 //Update Image Name
                 _repoWrapper.Product.UpdateIllustrationImages(p.FileName, ProductId);
