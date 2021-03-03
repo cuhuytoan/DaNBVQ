@@ -9,6 +9,7 @@ using AutoMapper;
 using HNM.CommonNC;
 using System;
 using X.PagedList;
+using System.Collections.Generic;
 
 namespace CMS_V3.Controllers
 {
@@ -35,7 +36,7 @@ namespace CMS_V3.Controllers
         }
         public async Task<IActionResult> Index(string search = "", int? typeSearch = 1, int? page = 1, int? pageSize = 20)
         {
-            ViewBag.CategoryMenuHeader = await GetCategoryMenu();
+            ViewBag.CategoryMenuHeader = await GetAllProductCategory();
             ViewBag.TypeSearch = typeSearch ?? 1;
             ViewBag.PageCurrent = page ?? 1;
             ViewBag.SearchString = search;
@@ -43,7 +44,21 @@ namespace CMS_V3.Controllers
 
             return View();
         }
+        public async Task<List<ListAllProductCategoryDTO>> GetAllProductCategory()
+        {
+            List<ListAllProductCategoryDTO> output = new List<ListAllProductCategoryDTO>();
+            try
+            {
 
+                output = await _repoWrapper.ProductCategory.GetAllProductCategory();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"HomeController- GetAllProductCategory {ex.ToString()}");
+            }
+
+            return output;
+        }
         public async Task<IActionResult> IndexPs(string search = "", int? typeSearch = 1, int? page = 1, int? pageSize = 20)
         {
             var url = RouteData.Values["url"];

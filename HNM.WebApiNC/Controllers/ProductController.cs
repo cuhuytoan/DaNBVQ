@@ -599,13 +599,8 @@ namespace HNM.WebApiNC.Controllers
                         //Save MainImage    
                         if (model.MainImage != null)
                         {
-                            var modelImgRabbit = new ImageUploadAWSDTO();
-                            modelImgRabbit.MainImage = model.MainImage;
-                            //modelImgRabbit.SubImage = model.SubImage;
-                            modelImgRabbit.ParameterId = ProductId;
-                            modelImgRabbit.Type = "Product";
-                            //Push To rabbit
-                            Task.Run(() => _repoWrapper.Product.PushAWSImageToRabbit(modelImgRabbit, _configuration["AWS_ImageRabbit"]));
+                            //Save MainImage
+                            SaveMainImage(model.MainImage, ProductId);
                         }
                         
                         //Save Sub Image                        
@@ -617,13 +612,8 @@ namespace HNM.WebApiNC.Controllers
                                 await _repoWrapper.Product.DeleteIllustrationImages(model.DeleteProdPicture);
                             }
 
-
-                            var modelImgRabbit = new ImageUploadAWSDTO();
-                            //modelImgRabbit.MainImage = model.MainImage;
-                            modelImgRabbit.SubImage = model.SubImage;
-                            modelImgRabbit.ParameterId = ProductId;
-                            modelImgRabbit.Type = "Product";
-                            
+                            //Save Sub Image
+                            SaveIllustrationImages(model.SubImage, ProductId);
                         }
                        
                         output.ProductId = ProductId;
@@ -786,9 +776,28 @@ namespace HNM.WebApiNC.Controllers
                 count += 1;                
                 var urlProduct = _repoWrapper.Product.CreateImageURL(ProductId);
                 p.FileName = String.Format("{0}-mobile-0{1}-{2}.{3}", urlProduct, count,timestamp, p.ExtensionType.Replace("image/", ""));
-                p.PathSave = "productpicture/mainimages/original";              
-                await UploadImage(p,p.PathSave, "productpicture/mainimages/small", "productpicture/mainimages/thumb");
+                p.PathSave = "productpicture/mainimages/original";       
+                var pathAbsolute = @"C:\Domains\DaNBVQ\wwwroot";
                 
+                var PatchToSave = Path.Combine(pathAbsolute, p.PathSave);
+                var physicalPath = Path.Combine(PatchToSave, p.FileName);
+                UploadImage(p);
+                Utils.Util.WaterMark(physicalPath, p.FileName);
+                //Make Thumb & small
+                try
+                {
+                    var PatchSmall = "productpicture/mainimages/small";
+                    var PatchThumb = "productpicture/mainimages/thumb";
+                    Utils.Util.EditSize(physicalPath, Path.Combine(pathAbsolute, PatchSmall, p.FileName), 500, 500);
+                    Utils.Util.EditSize(physicalPath, Path.Combine(pathAbsolute, PatchThumb, p.FileName), 200, 200);
+
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+
                 //Update Image Name
                 _repoWrapper.Product.UpdateIllustrationImages(p.FileName, ProductId);
             }

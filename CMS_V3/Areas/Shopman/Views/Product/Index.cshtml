@@ -30,19 +30,7 @@
                         <li class="swiper-slide "><a href="#">Không hợp lệ</a></li>
                     </ul>
                 </div>
-                <div class="search-content row m-2 mb-3">
-                    <div class=" pl-0 col-12 col-sm-6 col-md-3 form-group">
-                        @(Html.Kendo().ComboBox()
-                                .Name("ProductTypeId")
-                                .Placeholder("Chọn loại tin....")
-                                .DataTextField("Text")
-                                .DataValueField("Value")
-                                .BindTo(ProductTypeId)
-                                .HtmlAttributes(new {@class = "form-control"})
-                                .Suggest(true)
-                                .Filter("contains")
-                                )
-                    </div>
+                <div class="search-content row m-2 mb-3">                  
                     <div class="  pl-0  col-12 col-sm-6 col-md-3  form-group">
                         @(Html.Kendo().ComboBox()
                                 .Name("ProductCategoryId")

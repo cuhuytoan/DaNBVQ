@@ -31,17 +31,17 @@ namespace HNM.WebApiNC.Controllers
         public async Task<ProductPaggingDTO> ElasticProductSearch(int page , int pageSize , string search = "")
         {
             var output = new ProductPaggingDTO();
-            try
-            {
-                var outSearchElastic = await _repoWrapper.Elastic.SearchProducts(page , pageSize , search);
-                output.PageSize = pageSize;
-                output.CurrentPage = page;
-                output.TotalRecord = (int)outSearchElastic.TotalRecord;
-                output.TotalPage = (output.TotalRecord - 1) / pageSize + 1;
-                output.Data = _mapper.Map<IEnumerable<ProductSearchResultDTO>>(outSearchElastic.Products);
-            }
-            catch (Exception ex)
-            {
+            //try
+            //{
+            //    var outSearchElastic = await _repoWrapper.Elastic.SearchProducts(page , pageSize , search);
+            //    output.PageSize = pageSize;
+            //    output.CurrentPage = page;
+            //    output.TotalRecord = (int)outSearchElastic.TotalRecord;
+            //    output.TotalPage = (output.TotalRecord - 1) / pageSize + 1;
+            //    output.Data = _mapper.Map<IEnumerable<ProductSearchResultDTO>>(outSearchElastic.Products);
+            //}
+            //catch (Exception ex)
+            //{
                 var parameters = new ProductFilter
                 {
                     Keyword = search,
@@ -56,7 +56,7 @@ namespace HNM.WebApiNC.Controllers
                 output.TotalPage = (totalRow - 1) / pageSize + 1;
                 output.Data = _mapper.Map<IEnumerable<ProductSearchResultDTO>>(result);
                 return output;
-            }
+            //}
             return output;
         }
         [HttpGet]

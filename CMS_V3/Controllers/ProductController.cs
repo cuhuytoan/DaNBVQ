@@ -13,6 +13,7 @@ using System.Linq;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 using CMS_V3.Helper;
+using System.Collections.Generic;
 
 namespace CMS_V3.Controllers
 {
@@ -121,7 +122,7 @@ namespace CMS_V3.Controllers
         }
         public async Task<IActionResult> SellingProductDetails()
         {
-            ViewBag.CategoryMenuHeader = await GetCategoryMenu();
+            ViewBag.CategoryMenuHeader = await GetAllProductCategory();
 
             var url = RouteData.Values["url"];
             int productId = Utils.RegexRouteIdFromUrl(url.ToString());
@@ -147,136 +148,15 @@ namespace CMS_V3.Controllers
 
         }
 
-        public async Task<IActionResult> RentProduct()
-        {
-            ViewBag.CategoryMenuHeader = await GetCategoryMenu();
-            ViewBag.SubMenu656 = await _repoWrapper.ProductCategory.GetLstMenuByParentId(656); // máy công trình
-            ViewBag.SubMenu1902 = await _repoWrapper.ProductCategory.GetLstMenuByParentId(1902); // xe hơi
-            ViewBag.SubMenu669 = await _repoWrapper.ProductCategory.GetLstMenuByParentId(669); // xe tải chở hàng
-
-            ViewBag.ProductOfCate656 = await _repoWrapper.Product.GetListProductPagging(new ProductFilter { Page = 1, PageSize = 10, StatusTypeId = 4, ProductCategoryId = 656, ProductTypeId = 3 });
-            ViewBag.ProductOfCate1902 = await _repoWrapper.Product.GetListProductPagging(new ProductFilter { Page = 1, PageSize = 10, StatusTypeId = 4, ProductCategoryId = 1902, ProductTypeId = 3 });
-            ViewBag.ProductOfCate669 = await _repoWrapper.Product.GetListProductPagging(new ProductFilter { Page = 1, PageSize = 10, StatusTypeId = 4, ProductCategoryId = 669, ProductTypeId = 3 });
-
-
-            ViewBag.CategoryMenuTakeTop = await _repoWrapper.ProductCategory.GetLstMenuByParentId(654);
-            ViewBag.CateMenus = await _repoWrapper.ProductCategory.GetProdCateTwoLevel(654);
-
-            return View();
-        }
-
-        public async Task<IActionResult> RentProductDetails()
-        {
-            ViewBag.CategoryMenuHeader = await GetCategoryMenu();
-            var url = RouteData.Values["url"];
-            int productId = Utils.RegexRouteIdFromUrl(url.ToString());
-            ViewBag.MetaTags = await _repoWrapper.Setting.GetSetting();
-            var productTypeId = 3;
-
-            ProductDetailsDTO model = await _repoWrapper.Service.GetProductDetails(productId);
-            if (model.ErrorCode == "00" || model.ErrorCode == "0")
-            {
-                ViewBag.ListProductAds = await _repoWrapper.Product.GetSponsorBannerProduct(model.ProductDetails.ProductCategory_ID ?? 654, productTypeId, 5);
-                ViewBag.ListProductByCate = await _repoWrapper.Product.GetListProductPagging(new ProductFilter { Page = 1, PageSize = 10, StatusTypeId = 4, ProductCategoryId = model.ProductDetails.ProductCategory_ID ?? 654, ProductTypeId = productTypeId });
-                ViewBag.ListProductByProductBrand = await _repoWrapper.Product.GetListProductPagging(new ProductFilter { Page = 1, PageSize = 10, StatusTypeId = 4, ProductBrandId = model.ProductDetails.ProductBrand_ID, ProductTypeId = productTypeId });
-                ViewBag.ProductCategoryCurrent = await _repoWrapper.ProductCategory.GetDetailProductCategory((int)model.ProductDetails.ProductCategory_ID);
-                return View(model);
-            }
-            else
-            {
-                return Redirect("/Error/404");
-            }
-        }
-        public async Task<IActionResult> SellingMaterial()
-        {
-            ViewBag.CategoryMenuHeader = await GetCategoryMenu();
-            ViewBag.SubMenu1567 = await _repoWrapper.ProductCategory.GetLstMenuByParentId(1567); // vật tư thiết bị
-            ViewBag.SubMenu1568 = await _repoWrapper.ProductCategory.GetLstMenuByParentId(1568); // vật tư bảo hộ lao động 
-            ViewBag.SubMenu1569 = await _repoWrapper.ProductCategory.GetLstMenuByParentId(1569); // vật tư ngành nước
-
-            ViewBag.ProductOfCate1567 = await _repoWrapper.Product.GetListProductPagging(new ProductFilter { Page = 1, PageSize = 10, StatusTypeId = 4, ProductCategoryId = 1567, ProductTypeId = 7 });
-            ViewBag.ProductOfCate1568 = await _repoWrapper.Product.GetListProductPagging(new ProductFilter { Page = 1, PageSize = 10, StatusTypeId = 4, ProductCategoryId = 1568, ProductTypeId = 7 });
-            ViewBag.ProductOfCate1569 = await _repoWrapper.Product.GetListProductPagging(new ProductFilter { Page = 1, PageSize = 10, StatusTypeId = 4, ProductCategoryId = 1569, ProductTypeId = 7 });
-
-
-            ViewBag.CategoryMenuTakeTop = await _repoWrapper.ProductCategory.GetLstMenuByParentId(652);
-            ViewBag.CateMenus = await _repoWrapper.ProductCategory.GetProdCateTwoLevel(652);
-
-            return View();
-        }
-
-        public async Task<IActionResult> SellingMaterialDetails()
-        {
-            ViewBag.CategoryMenuHeader = await GetCategoryMenu();
-            var url = RouteData.Values["url"];
-            int productId = Utils.RegexRouteIdFromUrl(url.ToString());
-            ViewBag.MetaTags = await _repoWrapper.Setting.GetSetting();
-            var productTypeId = 7;
-
-            ProductDetailsDTO model = await _repoWrapper.Service.GetProductDetails(productId);
-            if (model.ErrorCode == "00" || model.ErrorCode == "0")
-            {
-                ViewBag.ListProductAds = await _repoWrapper.Product.GetSponsorBannerProduct(model.ProductDetails.ProductCategory_ID ?? 654, productTypeId, 5);
-                ViewBag.ListProductByCate = await _repoWrapper.Product.GetListProductPagging(new ProductFilter { Page = 1, PageSize = 10, StatusTypeId = 4, ProductCategoryId = model.ProductDetails.ProductCategory_ID ?? 654, ProductTypeId = productTypeId });
-                ViewBag.ListProductByProductBrand = await _repoWrapper.Product.GetListProductPagging(new ProductFilter { Page = 1, PageSize = 10, StatusTypeId = 4, ProductBrandId = model.ProductDetails.ProductBrand_ID, ProductTypeId = productTypeId });
-                ViewBag.ProductCategoryCurrent = await _repoWrapper.ProductCategory.GetDetailProductCategory((int)model.ProductDetails.ProductCategory_ID);
-                return View(model);
-            }
-            else
-            {
-                return Redirect("/Error/404");
-            }
-        }
-
-        public async Task<IActionResult> Accessories()
-        {
-            ViewBag.CategoryMenuHeader = await GetCategoryMenu();
-            ViewBag.SubMenu656 = await _repoWrapper.ProductCategory.GetLstMenuByParentId(656); // máy công trình
-            ViewBag.SubMenu1902 = await _repoWrapper.ProductCategory.GetLstMenuByParentId(1902); // xe hơi
-            ViewBag.SubMenu669 = await _repoWrapper.ProductCategory.GetLstMenuByParentId(669); // xe tải chở hàng
-
-            ViewBag.ProductOfCate656 = await _repoWrapper.Product.GetListProductPagging(new ProductFilter { Page = 1, PageSize = 10, StatusTypeId = 4, ProductCategoryId = 656, ProductTypeId = 5 });
-            ViewBag.ProductOfCate1902 = await _repoWrapper.Product.GetListProductPagging(new ProductFilter { Page = 1, PageSize = 10, StatusTypeId = 4, ProductCategoryId = 1902, ProductTypeId = 5 });
-            ViewBag.ProductOfCate669 = await _repoWrapper.Product.GetListProductPagging(new ProductFilter { Page = 1, PageSize = 10, StatusTypeId = 4, ProductCategoryId = 669, ProductTypeId = 5 });
-
-
-            ViewBag.CategoryMenuTakeTop = await _repoWrapper.ProductCategory.GetLstMenuByParentId(654);
-            ViewBag.CateMenus = await _repoWrapper.ProductCategory.GetProdCateTwoLevel(654);
-
-            return View();
-        }
-
-        public async Task<IActionResult> AccessoriesDetails()
-        {
-            ViewBag.CategoryMenuHeader = await GetCategoryMenu();
-            var url = RouteData.Values["url"];
-            int productId = Utils.RegexRouteIdFromUrl(url.ToString());
-            ViewBag.MetaTags = await _repoWrapper.Setting.GetSetting();
-            var productTypeId = 5;
-
-            ProductDetailsDTO model = await _repoWrapper.Service.GetProductDetails(productId);
-            if (model.ErrorCode == "00" || model.ErrorCode == "0")
-            {
-                ViewBag.ListProductAds = await _repoWrapper.Product.GetSponsorBannerProduct(model.ProductDetails.ProductCategory_ID ?? 654, productTypeId, 5);
-                ViewBag.ListProductByCate = await _repoWrapper.Product.GetListProductPagging(new ProductFilter { Page = 1, PageSize = 10, StatusTypeId = 4, ProductCategoryId = model.ProductDetails.ProductCategory_ID ?? 654, ProductTypeId = productTypeId });
-                ViewBag.ListProductByProductBrand = await _repoWrapper.Product.GetListProductPagging(new ProductFilter { Page = 1, PageSize = 10, StatusTypeId = 4, ProductBrandId = model.ProductDetails.ProductBrand_ID, ProductTypeId = productTypeId });
-                ViewBag.ProductCategoryCurrent = await _repoWrapper.ProductCategory.GetDetailProductCategory((int)(model.ProductDetails.ProductCategory_ID ?? model.ProductDetails.AccessoriesCategoryId ?? -1));
-                return View(model);
-            }
-            else
-            {
-                return Redirect("/Error/404");
-            }
-        }
 
         public async Task<IActionResult> SellingProductCategory()
         {
-            ViewBag.CategoryMenuHeader = await GetCategoryMenu();
+            ViewBag.CategoryMenuHeader = await GetAllProductCategory();
             var url = RouteData.Values["url"];
             int cateId = Utils.RegexRouteIdFromUrl(url.ToString());
 
-            ViewBag.CategoryMenuTakeTop = await _repoWrapper.ProductCategory.GetLstMenuByParentId(654);
-            ViewBag.CateMenus = await _repoWrapper.ProductCategory.GetProdCateTwoLevel(654);
+            ViewBag.CategoryMenuTakeTop = await _repoWrapper.ProductCategory.GetLstMenuByParentId(cateId);
+            ViewBag.CateMenus = await _repoWrapper.ProductCategory.GetProdCateTwoLevel(cateId);
             var curentCate = await _repoWrapper.ProductCategory.GetDetailProductCategory(cateId);
             ViewBag.ProductCategoryCurrent = curentCate;
             ViewBag.ProductCategoryParent = await _repoWrapper.ProductCategory.GetDetailProductCategory((int)curentCate.ParentId);
@@ -286,62 +166,22 @@ namespace CMS_V3.Controllers
 
             return View();
         }
-        //RentProductCategory
-        public async Task<IActionResult> RentProductCategory()
+        public async Task<List<ListAllProductCategoryDTO>> GetAllProductCategory()
         {
-            ViewBag.CategoryMenuHeader = await GetCategoryMenu();
-            var url = RouteData.Values["url"];
-            int cateId = Utils.RegexRouteIdFromUrl(url.ToString());
+            List<ListAllProductCategoryDTO> output = new List<ListAllProductCategoryDTO>();
+            try
+            {
 
-            ViewBag.CategoryMenuTakeTop = await _repoWrapper.ProductCategory.GetLstMenuByParentId(654);
-            ViewBag.CateMenus = await _repoWrapper.ProductCategory.GetProdCateTwoLevel(654);
-            var curentCate = await _repoWrapper.ProductCategory.GetDetailProductCategory(cateId);
-            ViewBag.ProductCategoryCurrent = curentCate;
-            ViewBag.ProductCategoryParent = await _repoWrapper.ProductCategory.GetDetailProductCategory((int)curentCate.ParentId);
-            ViewBag.CurrentCategoryId = cateId;
+                output = await _repoWrapper.ProductCategory.GetAllProductCategory();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"HomeController- GetAllProductCategory {ex.ToString()}");
+            }
 
-            ViewBag.ListProductAds = await _repoWrapper.Product.GetSponsorBannerProduct(cateId, null, 5);
-
-            return View();
+            return output;
         }
-        //AccessoriesProductCategory
-        public async Task<IActionResult> AccessoriesProductCategory()
-        {
-            ViewBag.CategoryMenuHeader = await GetCategoryMenu();
-            var url = RouteData.Values["url"];
-            int cateId = Utils.RegexRouteIdFromUrl(url.ToString());
-
-            ViewBag.CategoryMenuTakeTop = await _repoWrapper.ProductCategory.GetLstMenuByParentId(654);
-            ViewBag.CateMenus = await _repoWrapper.ProductCategory.GetProdCateTwoLevel(654);
-            ViewBag.ProductCategoryCurrent = await _repoWrapper.ProductCategory.GetDetailProductCategory(cateId);
-            var curentCate = await _repoWrapper.ProductCategory.GetDetailProductCategory(cateId);
-            ViewBag.ProductCategoryCurrent = curentCate;
-            ViewBag.ProductCategoryParent = await _repoWrapper.ProductCategory.GetDetailProductCategory((int)curentCate.ParentId);
-            ViewBag.CurrentCategoryId = cateId;
-
-            ViewBag.ListProductAds = await _repoWrapper.Product.GetSponsorBannerProduct(cateId, null, 5);
-
-            return View();
-        }
-        //MaterialProductCategory
-        public async Task<IActionResult> MaterialProductCategory()
-        {
-            ViewBag.CategoryMenuHeader = await GetCategoryMenu();
-            var url = RouteData.Values["url"];
-            int cateId = Utils.RegexRouteIdFromUrl(url.ToString());
-
-            ViewBag.CategoryMenuTakeTop = await _repoWrapper.ProductCategory.GetLstMenuByParentId(652);
-            ViewBag.CateMenus = await _repoWrapper.ProductCategory.GetProdCateTwoLevel(652);
-            ViewBag.ProductCategoryCurrent = await _repoWrapper.ProductCategory.GetDetailProductCategory(cateId);
-            var curentCate = await _repoWrapper.ProductCategory.GetDetailProductCategory(cateId);
-            ViewBag.ProductCategoryCurrent = curentCate;
-            ViewBag.ProductCategoryParent = await _repoWrapper.ProductCategory.GetDetailProductCategory((int)curentCate.ParentId);
-            ViewBag.CurrentCategoryId = cateId;
-
-            ViewBag.ListProductAds = await _repoWrapper.Product.GetSponsorBannerProduct(cateId, null, 5);
-
-            return View();
-        }
+       
         public async Task<ActionResult> FilterPartialView(int? productTypeId, int? productCategoryId, int? manufactureId, int? productModelId, int? locationId, int curentCategoryId)
         {
             ViewBag.CateCurrent = await _repoWrapper.ProductCategory.GetDetailProductCategory(curentCategoryId);

@@ -1,63 +1,31 @@
-﻿@{
-    var CategoryMenuHeader = ((HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO MenuMachine, HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO MenuMaterials, HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO MenuServices))ViewBag.CategoryMenuHeader;
-}
+﻿@{ var Menu = (List<HNM.DataNC.ModelsNC.ModelsDTO.ListAllProductCategoryDTO>)ViewBag.CategoryMenuHeader; }
 
-    <div class="menu col-lg-2 d-lg-block d-none">
-        <div class="card">
-            <div class="card-header text-uppercase pl-2 show_menu">
-                <h4 class="d-flex align-items-center"><img class="mr-2" src="~/Assets/images/category.png" />Danh Mục</h4>
-            </div>
-            <div class="card-body p-0" id="my-menu">
-                <ul>
+<div class="menu col-lg-2 d-lg-block d-none">
+    <div class="card">
+        <div class="card-header text-uppercase pl-2 show_menu">
+            <h4 class="d-flex align-items-center"><img class="mr-2" src="~/Assets/images/category.png" />Danh Mục</h4>
+        </div>
+        <div class="card-body p-0" id="my-menu">
+            <ul>
+                @foreach (var p in Menu)
+                {
                     <li class="has-child">
-                        <a href="/lang-mo-da">Lăng mộ đá</a>
+                        <a href=@($"ban-{p.Parent.URL}.pcat")>@p.Parent.Name</a>
                         <ul>
-                            @foreach (var p in CategoryMenuHeader.MenuMachine.Data)
-                            {
-                                <li><a href=@($"ban-{p.URL}.pcat")>@p.Name</a></li>
-                            }
+                            @{
+                                if (p.Child.Count() > 0)
+                                {
+                                    foreach (var x in p.Child)
+                                    {
+                                        <li><a href=@($"ban-{x.URL}.pcat")>@x.Name</a></li>
+                                    }
+                                }
 
-                        </ul>
-                    </li>
-                    <li class="has-child">
-                        <a href="/do-tho-da">Đồ thờ đá</a>
-                        <ul>
-                            @foreach (var p in CategoryMenuHeader.MenuMachine.Data)
-                            {
-                                <li><a href=@($"ban-phu-tung-{p.URL}.pcat")>@p.Name</a></li>
-                            }
-
-                        </ul>
-                    </li>
-                    <li class="has-child">
-                        <a href="/noi-ngoai-that-da">Nội ngoại thất đá</a>
-                        <ul>
-                            @foreach (var p in CategoryMenuHeader.MenuMaterials.Data)
-                            {
-                                <li><a href=@($"ban-vat-tu-{p.URL}.pcat")>@p.Name</a></li>
-                            }
-
-                        </ul>
-                    </li>
-                    <li class="has-child">
-                        <a href="/tuong-da">Tượng đá</a>
-                        <ul>
-                            @foreach (var p in CategoryMenuHeader.MenuMachine.Data)
-                            {
-                                <li><a href=@($"cho-thue-may-{p.URL}.pcat")>@p.Name</a></li>
                             }
                         </ul>
                     </li>
-                    <li class="has-child">
-                        <a href="/san-pham-khac">Sản phẩm khác</a>
-                        <ul>
-                            @foreach (var p in CategoryMenuHeader.MenuServices.Data)
-                            {
-                                <li><a href=@($"dich-vu-{p.URL}.pcat")>@p.Name</a></li>
-                            }
-                        </ul>
-                    </li>                   
-                </ul>
-            </div>
+                }
+            </ul>
         </div>
     </div>
+</div>

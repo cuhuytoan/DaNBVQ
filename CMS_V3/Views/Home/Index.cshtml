@@ -5,60 +5,69 @@
 @model HNM.DataNC.ModelsNC.ModelsDTO.ListAdvertisingCarouselDTO;
 @{
     var MenuServices = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuServices;
-    var HomeSellProduct = (HNM.DataNC.ModelsNC.ModelsDTO.ProductPaggingDTO)ViewBag.HomeSellProduct;    
-    ViewBag.Title = "HANOMA.VN - SÀN GIAO DỊCH THIẾT BỊ HẠNG NẶNG";
+    var HomeLMD = (HNM.DataNC.ModelsNC.ModelsDTO.ProductPaggingDTO)ViewBag.HomeLMD;
+    var HomeDTD = (HNM.DataNC.ModelsNC.ModelsDTO.ProductPaggingDTO)ViewBag.HomeDTD;
+    var HomeTD = (HNM.DataNC.ModelsNC.ModelsDTO.ProductPaggingDTO)ViewBag.HomeTD;
+    ViewBag.Title = "ĐÁ NINH BÌNH VINH QUANG";
 }
 
 @section metatags{
 
-    <meta name="keywords" content="máy xúc đào bánh xích, máy xúc đào bánh xích komatsu, máy xúc đào bánh xích 55, máy xúc đào bánh xích doosan 300, máy xúc đào bánh xích doosan, máy xúc đào bánh xích kobelco, máy xúc đào bánh xích komatsu mới, bán máy xúc đàobánh xích cũ, giá máy xúc đào bánh xích, bán máy xúc đào bánh xích cần dài" />
-    <meta name="description" content="Mua bán, cho thuê máy móc, thiết bị, phụ tùng và các loại phương tiện vận tải, nguồn cung ứng lao động việc làm, trang thông tin tổng hợp chuyên về các  ngành xây dựng, giao thông vận tải, khai khoáng, cơ khí chế tạo, công nông lâm ngư nghiệp đầu tiên tại Việt Nam." />
+    <meta name="keywords" content="@Configuration["DefaultKeyword"]" />
+    <meta name="description" content="@Configuration["DefaultDescription"]" />
     <link id="canonical" rel="canonical" href="@Configuration["DomainName"]" />
 }
 
 <!--HomeBanner-->
 @await Html.PartialAsync("HomeBanner.cshtml")
 <!--HomeSellProduct-->
-@*@await Html.PartialAsync("HomeSellProduct.cshtml", HomeSellProduct)*@
+@await Html.PartialAsync("HomeLMD.cshtml", HomeLMD)
+<!--HomeSellProduct-->
+@await Html.PartialAsync("HomeDTD.cshtml", HomeDTD)
+<!--HomeSellProduct-->
+@await Html.PartialAsync("HomeTD.cshtml", HomeTD)
+<!--HomeLibrary-->
+@*@await Html.PartialAsync("HomeLibrary.cshtml")*@
 
-<div id="home-lang-mo-da">
+@*<div id="home-lang-mo-da">
 
-</div>
-<div id="home-do-tho-da">
+    </div>
+    <div id="home-do-tho-da">
 
-</div>
-<div id="home-tuong-da">
+    </div>
+    <div id="home-tuong-da">
 
-</div>
-<div id="home-library">
+    </div>
+    <div id="home-library">
 
-</div>
+    </div>*@
 
 
-<script>
+@*<script>
     var fired = false;
     $(document).scroll(function (e) {
 
-        // grab the scroll amount and the window height
+        //// grab the scroll amount and the window height
         var scrollAmount = $(window).scrollTop();
-        var documentHeight = $(document).height();
+        //var documentHeight = $(document).height();
 
-        // calculate the percentage the user has scrolled down the page
-        var scrollPercent = (scrollAmount / documentHeight) * 100;
-        //if (scrollPercent > 50) {
-        if (scrollAmount >= 50 && fired === false) {
+        //// calculate the percentage the user has scrolled down the page
+        //var scrollPercent = (scrollAmount / documentHeight) * 100;
+        ////if (scrollPercent > 50) {
+        if (scrollAmount >= 1 && fired === false) {
             // run a function called doSomething
+
             doSomething();
             fired = true;
 
         }
 
         function doSomething() {
+
             $.ajax({
                 type: "GET",
                 url: "/Home/GetHomeProductCategory?BlockName=Lăng Mộ Đá&ProductCategoryId=1924",
                 dataType: "html",
-                cache: true,
                 success: function (response) {
                     $('#home-lang-mo-da').html(response);
                 },
@@ -74,7 +83,6 @@
                 type: "GET",
                 url: "/Home/GetHomeProductCategory?BlockName=Đồ Thờ Đá&ProductCategoryId=1925",
                 dataType: "html",
-                cache: true,
                 success: function (response) {
                     $('#home-do-tho-da').html(response);
                 },
@@ -90,7 +98,6 @@
                 type: "GET",
                 url: "/Home/GetHomeProductCategory?BlockName=Tượng Đá&ProductCategoryId=1928",
                 dataType: "html",
-                cache: true,
                 success: function (response) {
                     $('#home-tuong-da').html(response);
                 },
@@ -101,12 +108,11 @@
                     alert(response.responseText);
                 }
             });
-           
+
             $.ajax({
                 type: "GET",
                 url: "/Home/GetHomeLibrary",
                 dataType: "html",
-                cache: true,
                 success: function (response) {
                     $('#home-library').html(response);
                 },
@@ -121,4 +127,4 @@
         }
 
     });
-</script>
+</script>*@

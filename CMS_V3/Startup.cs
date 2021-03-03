@@ -114,7 +114,7 @@ namespace CMS_V3
             services.AddDistributedRedisCache(option =>
             {
                 option.Configuration = "localhost";
-                option.InstanceName = "Hanoma";
+                option.InstanceName = "danvbq";
             });
 
         }

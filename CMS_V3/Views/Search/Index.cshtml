@@ -5,7 +5,7 @@
     var SearchString = Html.Raw(ViewBag.SearchString);
     var TypeSearch = (int)ViewBag.TypeSearch;
     var pageCurrent = (int)ViewBag.PageCurrent;
-    var CategoryMenuHeader = ((HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO MenuMachine, HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO MenuMaterials, HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO MenuServices))ViewBag.CategoryMenuHeader;
+    var CategoryMenuHeader = (List<HNM.DataNC.ModelsNC.ModelsDTO.ListAllProductCategoryDTO>)ViewBag.CategoryMenuHeader;
     var pageSize = (int)ViewBag.PageSize;
     ViewBag.Title = String.Format("Tìm kiếm với từ khóa \"{0}\" - Hanoma.vn", SearchString);
 

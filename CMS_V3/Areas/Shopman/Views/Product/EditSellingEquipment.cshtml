@@ -103,11 +103,11 @@
             </div>
             <div class="form-group">
                 <label for="inputAddress">Tiêu đề bài đăng:*</label>
-                <input type="text" class="form-control" value="@Model.ProductDetails.Name" id="Name" name="Name" placeholder="VD: Cần mua máy xúc đào bánh xích">
+                <input type="text" class="form-control" value="@Model.ProductDetails.Name" id="Name" name="Name" placeholder="VD: Tượng đá">
             </div>
             <div class="row form-group">
                 <div class="col-12 col-sm-6">
-                    <label for="inputAddress">Chọn chủng loại máy cấp 1:*</label>
+                    <label for="inputAddress">Chọn chủng loại cấp 1:*</label>
                     @(Html.Kendo().ComboBox()
                         .Text(Model.ProductDetails.ParenfProductCategoryName)
                         .Value(Model.ProductDetails.ParenfProductCategory_ID.ToString())
@@ -128,7 +128,7 @@
                     )
                 </div>
                 <div class="col-12 col-sm-6">
-                    <label for="inputAddress">Chọn chủng loại máy cấp 2:*</label>
+                    <label for="inputAddress">Chọn chủng loại cấp 2:*</label>
                     @(Html.Kendo().ComboBox()
                       .Text(Model.ProductDetails.ProductCategoryName)
                       .Value(Model.ProductDetails.ProductCategory_ID.ToString())
@@ -153,122 +153,7 @@
                 </div>
             </div>
 
-            <div class="row form-group">
-                <div class="col-12 col-sm-6">
-                    <label for="inputAddress">Hãng sản xuất:*</label>
-                    @(Html.Kendo().ComboBox()
-                        .Text(Model.ProductDetails.ProductManufactureName)
-                        .Value(Model.ProductDetails.ProductManufacture_ID.ToString())
-                        .Name("ProductManufactureId")
-                        .HtmlAttributes(new {@class = "form-control"})
-                        .Placeholder("Chọn Hãng thiết bị....")
-                        .DataTextField("Name")
-                        .DataValueField("ProductManufactureId")
-                        .Filter("contains")
-                        .Suggest(true)
-                        .DataSource(source =>
-                        {
-                            source.Read(read =>
-                            {
-                                read.Action("GetAllManuByCate", "Product");
-                            }).ServerFiltering(false);
-                        })
-                    )
-                </div>
-                <div class="col-12 col-sm-6">
-                    <label for="inputAddress">Model:*</label>
-                    @(Html.Kendo().ComboBox()
-                         .Text(Model.ProductDetails.ProductModelName)
-                         .Value(Model.ProductDetails.ProductModel_ID.ToString())
-                         .Name("ProductModelId")
-                         .HtmlAttributes(new {@class = "form-control"})
-                         .Placeholder("Chọn Model....")
-                         .DataTextField("Name")
-                         .DataValueField("ProductModelId")
-                         .Filter("contains")
-                         .Suggest(true)
-                         .DataSource(source =>
-                         {
-                             source.Read(read =>
-                             {
-                                 read.Action("GetAllModelByCate", "Product").Data("filterModelsModel");
-                             }).ServerFiltering(true);
-                         })
-                         .Events(e =>
-                         {
-                             e.Change("onChangeModel");
-                         })
-                         .Enable(false)
-                         .AutoBind(false)
-                         .CascadeFrom("ProductManufactureId")
-                     )
-                </div>
-            </div>
-
-            <div class="form-group" id="model-input" style="display:none;">
-                <label for="inputAddress">Thêm Model Khác:*</label>
-                <input type="text" class="form-control" name="tieude" id="othermodel" placeholder="Nhập tên model bạn muốn thêm">
-
-            </div>
-
-            <div class="row ">
-                <div class="col-12 col-sm-6  form-group">
-                    <div class="row form-group">
-                        <div class="col">
-                            <label for="inputAddress">Số Serial:</label>
-                            <input type="text" class="form-control" value="@Model.ProductDetails.SerialNumber" name="SerialNumber" id="SerialNumber" placeholder="VD: 12345">
-                        </div>
-                        <div class="col pl-0 pl-sm-3">
-                            <label for="inputAddress">Xuất sứ</label>
-                            @(Html.Kendo().ComboBox()
-                                .Text(Model.ProductDetails.CountryName)
-                                .Value(Model.ProductDetails.Country_ID.ToString())
-                                .Name("MadeCountryId")
-                                .HtmlAttributes(new {@class = "form-control"})
-                                .Placeholder("Chọn Quốc gia....")
-                                .DataTextField("Name")
-                                .DataValueField("CountryId")
-                                .Filter("contains")
-                                .Suggest(true)
-                                .DataSource(source =>
-                                {
-                                    source.Read(read =>
-                                    {
-                                        read.Action("GetAllCountry", "Product");
-                                    }).ServerFiltering(false);
-                                })
-                            )
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6 ">
-                    <div class="row form-group">
-                        <div class="col">
-                            <label for="inputAddress">Giá bán:</label>
-                            <input type="number" value="@Convert.ToInt64(Convert.ToDecimal(Model.ProductDetails.Price))" class="form-control" name="Price" id="Price" placeholder="VD: 10000000">
-                        </div>
-                        <div class="col pl-0 pl-sm-3">
-                            <label for="inputAddress">&nbsp;</label>
-                            @(Html.Kendo().DropDownList()
-                                .Text(Model.ProductDetails.UnitName)
-                                .Value(Model.ProductDetails.Unit)
-                                .Name("Unit")
-                                .HtmlAttributes(new {@class = "form-control"})
-                                .DataTextField("Name")
-                                .DataValueField("Id")
-                                .Filter("contains")
-                                .DataSource(source =>
-                                {
-                                    source.Read(read =>
-                                    {
-                                        read.Action("GetAllUnit", "Product");
-                                    }).ServerFiltering(false);
-                                })
-                                )
-                        </div>
-                    </div>
-                </div>
-            </div>
+     
 
             <div class="row ">
                 <div class="col-12 col-sm-6  form-group">
@@ -305,60 +190,37 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-sm-6 " id="blockStatus">
-                    <div class="row form-group">
-                        <div class="col">
-                            <label for="inputAddress">Số giờ hoạt động hoặc số Km đã đi:</label>
-                            <input type="number" class="form-control" id="HoursOfWork" value="@Model.ProductDetails.HoursOfWork" name="HoursOfWork" placeholder="VD: 1000">
-                        </div>
-                        <div class="col pl-0 pl-sm-3">
-                            <label for="inputAddress">&nbsp;</label>
-                            @if (Model.ProductDetails.HourOfWorkType == 1)
-                            {
-                                <select name="HourOfWorkType" id="HourOfWorkType" class="form-control">
-                                    <option selected="selected" value="1">Km</option>
-                                    <option value="0">Giờ</option>
-                                </select>
-                            }
-                            else
-                            {
-                                <select name="HourOfWorkType" id="HourOfWorkType" class="form-control">
-                                    <option value="1">Km</option>
-                                    <option selected="selected" value="0">Giờ</option>
-                                </select>
-                            }
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row ">
                 <div class="col-12 col-sm-6 ">
                     <div class="row form-group">
                         <div class="col">
-                            <label for="inputAddress">Địa điểm đặt máy:*</label>
-                            @(Html.Kendo().ComboBox()
-                                .Text(Model.ProductDetails.SaleLocationName)
-                                .Value(Model.ProductDetails.SaleLocation_ID.ToString())
-                                .Name("SaleLocationId")
+                            <label for="inputAddress">Giá bán:</label>
+                            <input type="number" value="@Convert.ToInt64(Convert.ToDecimal(Model.ProductDetails.Price))" class="form-control" name="Price" id="Price" placeholder="VD: 10000000">
+                        </div>
+                        <div class="col pl-0 pl-sm-3">
+                            <label for="inputAddress">&nbsp;</label>
+                            @(Html.Kendo().DropDownList()
+                                .Text(Model.ProductDetails.UnitName)
+                                .Value(Model.ProductDetails.Unit)
+                                .Name("Unit")
                                 .HtmlAttributes(new {@class = "form-control"})
-                                .Placeholder("Chọn Tỉnh/Thành....")
                                 .DataTextField("Name")
-                                .DataValueField("LocationId")
+                                .DataValueField("Id")
                                 .Filter("contains")
-                                .Suggest(true)
                                 .DataSource(source =>
                                 {
                                     source.Read(read =>
                                     {
-                                        read.Action("GetAllLocation", "Product");
+                                        read.Action("GetAllUnit", "Product");
                                     }).ServerFiltering(false);
                                 })
-                            )
+                                )
                         </div>
-
                     </div>
                 </div>
             </div>
+
+        
+            
 
             <div class="form-group">
                 <label for="inputAddress">Nội dung chi tiết:*</label>
@@ -494,85 +356,9 @@
             toastr["error"]("Loại máy không tồn tại");
             return false;
         }
-        var ProductManufactureId = $("#ProductManufactureId").val();
-        if (ProductManufactureId < 1) {
-            toastr["error"]("Hãng sản xuất không được để trống");
-            $("#ProductManufactureId").focus();
-            return false;
-        }
+     
 
-        if (isNaN(ProductManufactureId)) {
-            toastr["error"]("Hãng sản xuất không tồn tại");
-            $("#ProductManufactureId").focus();
-            return false;
-        }
-        
 
-        var value = $("#ProductModelId").val();
-        if (value == "0") {
-            value = $("#othermodel").val();
-            if (value == "") {
-                toastr["error"]("Tên model không được để trống");
-                $("#othermodel").focus();
-                return false;
-            }
-
-            if (!checkSpecialCharacter(value)) {
-                toastr["error"]("Model không chứa ký tự đặc biệt");
-                $("#othermodel").focus();
-                return false;
-            }
-
-            if (value.length > 20) {
-                toastr["error"]("Model nhập quá 20 ký tự cho phép");
-                $("#othermodel").focus();
-                return false;
-            }
-            
-
-            if (value != null) {
-                $.ajax({
-                    async: false,
-                    type: "POST",
-                    url: "/Shopman/Product/CreateModel?ProductCategoryID=" + productcateId + "&ProductManufactureID=" + ProductManufactureId + "&Name=" + value,
-                    dataType: "json",
-                    success: function (response) {
-                        var resultRes = JSON.parse(JSON.stringify(response));
-                        if (resultRes.ErrorCode == null) {
-                            $("#ProductModelId").val(resultRes.ProductModelID);
-                            ProductModelId = resultRes.ProductModelID;
-                            ProductModelName = resultRes.Name;
-                        }
-                        else {
-                            toastr.error(resultRes.Message);
-                        }
-                    }
-                });
-            }
-        }
-
-        if (ProductModelId < 1) {
-            toastr["error"]("Model không được để trống");
-            $("#ProductModelId").focus();
-            return false;
-        }
-
-        if (isNaN(ProductModelId)) {
-            toastr["error"]("Model không tồn tại");
-            $("#ProductModelId").focus();
-            return false;
-        }
-
-        if ($("#SaleLocationId").val() < 1) {
-            toastr["error"]("Địa điểm đặt máy không được để trống");
-            $("#SaleLocationId").focus();
-            return false;
-        }
-        if (isNaN($("#SaleLocationId").val())) {
-            toastr["error"]("Địa điểm đặt máy không tồn tại");
-            $("#SaleLocationId").focus();
-            return false;
-        }
 
         if ($("#StatusMachine").val().length < 1) {
             toastr["error"](validationMessage.StatusMachine_Empty);
@@ -585,22 +371,7 @@
             return false;
         }
 
-        if (!checkSpecialCharacter($("#SerialNumber").val())) {
-            toastr["error"]("Số serial không được nhập các ký tự đặc biệt");
-            $("#SerialNumber").focus();
-            return false;
-        }
-        if ($("#SerialNumber").val() == null || $("#SerialNumber").val().length > 20) {
-            toastr["error"](validationMessage.SerialNumber_MaxLength);
-            $("#SerialNumber").focus();
-            return false;
-        }
-
-        if (/^[a-zA-Z0-9- ]*$/.test($("#SerialNumber").val()) == false) {
-            toastr["error"](validationMessage.Serial_Special);
-            $("#SerialNumber").focus();
-            return false;
-        }
+      
 
         var content = $("#Content").val();
 

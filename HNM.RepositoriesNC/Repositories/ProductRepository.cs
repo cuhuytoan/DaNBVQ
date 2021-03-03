@@ -107,7 +107,7 @@ namespace HNM.RepositoriesNC.Repositories
                         model.Active = false;
                         model.Counter = 0;
                         model.ViewCount = 0;
-                        model.StatusType_ID = 2;
+                        model.StatusType_ID = 4;
                         if (model.Country_ID == 0 || model.Country_ID == null)
                         {
                             model.Country_ID = model.MadeCountryId ?? 0;
@@ -153,7 +153,7 @@ namespace HNM.RepositoriesNC.Repositories
                         productSave.SerialNumber = model.SerialNumber;
                         productSave.SaleLocation_ID = model.SaleLocation_ID;
                         productSave.Price = model.Price;
-                        productSave.StatusType_ID = 2;
+                        productSave.StatusType_ID = 4;
                         productSave.HasNewModel = model.HasNewModel;
                         productSave.ReferralCode = model.ReferralCode;
                         productSave.MadeCountryId = model.MadeCountryId;

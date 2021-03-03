@@ -39,8 +39,20 @@ namespace CMS_V3.Controllers
         {
             //Get Home Carousel
             await GetHomeCarousel();
+            ViewBag.MenuMachine = await GetLstMenuByParentId(1924);
             //Get Menu
             ViewBag.ProductCategory = await GetAllProductCategory();
+            //Get Sell Product
+          
+            ViewBag.HomeLMD = await GetHomeBlockProduct(1, 1924);
+            //Get Sell Product
+          
+            ViewBag.HomeDTD = await GetHomeBlockProduct(1, 1925);
+            //Get Sell Product
+           
+            ViewBag.HomeTD = await GetHomeBlockProduct(1, 1928);
+            
+
             return View();
         }
 
@@ -73,17 +85,9 @@ namespace CMS_V3.Controllers
             ListAdvertisingCarouselDTO lstCarousel = new ListAdvertisingCarouselDTO();
             try
             {
-                var cacheKey = $"GetHomeCarousel";
-                var redisEncode = await _distributedCache.GetStringAsync(cacheKey);
-                if (redisEncode != null)
-                {
-                    lstCarousel = JsonConvert.DeserializeObject<ListAdvertisingCarouselDTO>(redisEncode);
-                }
-                else
-                {
+               
                     lstCarousel = await _repoWrapper.Advertising.GetHomeCarousel();
-                    await _distributedCache.SetStringAsync(cacheKey, JsonConvert.SerializeObject(lstCarousel), CommonHelper.RedisOptions());
-                }
+               
             }
             catch (Exception ex)
             {
@@ -98,17 +102,8 @@ namespace CMS_V3.Controllers
             ListProductCategoryDTO output = new ListProductCategoryDTO();
             try
             {
-                var cacheKey = $"GetLstMenuByParentId-{parentId}";
-                var redisEncode = await _distributedCache.GetStringAsync(cacheKey);
-                if (redisEncode != null)
-                {
-                    output = JsonConvert.DeserializeObject<ListProductCategoryDTO>(redisEncode);
-                }
-                else
-                {
-                    output = await _repoWrapper.ProductCategory.GetLstMenuByParentId(parentId);
-                    await _distributedCache.SetStringAsync(cacheKey, JsonConvert.SerializeObject(output), CommonHelper.RedisOptions());
-                }
+
+                output = await _repoWrapper.ProductCategory.GetLstMenuByParentId(parentId);
             }
             catch (Exception ex)
             {
@@ -149,18 +144,8 @@ namespace CMS_V3.Controllers
             parameter.ProductTypeId = productTypeId;
             parameter.ProductCategoryId = productCategoryId;
             try
-            {
-                var cacheKey = $"GetHomeBlockProduct-{productTypeId}-{productCategoryId}";
-                var redisEncode = await _distributedCache.GetStringAsync(cacheKey);
-                if (redisEncode != null)
-                {
-                    output = JsonConvert.DeserializeObject<ProductPaggingDTO>(redisEncode);
-                }
-                else
-                {
-                    output = await _repoWrapper.Product.GetListProductPagging(parameter);
-                    await _distributedCache.SetStringAsync(cacheKey, JsonConvert.SerializeObject(output), CommonHelper.RedisOptions());
-                }
+            {                
+                    output = await _repoWrapper.Product.GetListProductPagging(parameter);               
             }
             catch (Exception ex)
             {

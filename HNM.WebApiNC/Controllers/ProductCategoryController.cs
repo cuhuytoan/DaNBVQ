@@ -32,18 +32,18 @@ namespace HNM.WebApiNC.Controllers
         public async Task<ProductCategoryDTO> GetDetailProductCategory(int ProductCategoryId)
         {
             var output = new ProductCategoryDTO();
-            var cacheKey = $"ProductCategory_GetDetailProductCategory{ProductCategoryId}";
-            var redisEncode = await _distributedCache.GetStringAsync(cacheKey);
-            if (redisEncode != null)
-            {
-                output = JsonConvert.DeserializeObject<ProductCategoryDTO>(redisEncode);
-            }
-            else
-            {
+            //var cacheKey = $"ProductCategory_GetDetailProductCategory{ProductCategoryId}";
+            //var redisEncode = await _distributedCache.GetStringAsync(cacheKey);
+            //if (redisEncode != null)
+            //{
+            //    output = JsonConvert.DeserializeObject<ProductCategoryDTO>(redisEncode);
+            //}
+            //else
+            //{
                 var result = await _repoWrapper.ProductCategory.SingleOrDefaultAsync(p => p.ProductCategory_ID == ProductCategoryId);
                 output = _mapper.Map<ProductCategoryDTO>(result);
-                await _distributedCache.SetStringAsync(cacheKey, JsonConvert.SerializeObject(output), Utils.Util.RedisOptions());
-            }
+            //    await _distributedCache.SetStringAsync(cacheKey, JsonConvert.SerializeObject(output), Utils.Util.RedisOptions());
+            //}
 
             return output;
         }
@@ -51,18 +51,18 @@ namespace HNM.WebApiNC.Controllers
         public async Task<ListProductCategoryDTO> GetProdCateByParentID(int? parentId,string keyword = "")
         {
             var output = new ListProductCategoryDTO();
-            var cacheKey = $"ProductCategory_GetProdCateByParentID{keyword}{parentId}";
-            var redisEncode = await _distributedCache.GetStringAsync(cacheKey);
-            if (redisEncode != null)
-            {
-                output = JsonConvert.DeserializeObject<ListProductCategoryDTO>(redisEncode);
-            }
-            else
-            {                
+            //var cacheKey = $"ProductCategory_GetProdCateByParentID{keyword}{parentId}";
+            //var redisEncode = await _distributedCache.GetStringAsync(cacheKey);
+            //if (redisEncode != null)
+            //{
+            //    output = JsonConvert.DeserializeObject<ListProductCategoryDTO>(redisEncode);
+            //}
+            //else
+            //{                
                 var result = await _repoWrapper.ProductCategory.GetTopCateByParentId(keyword,parentId);
                 output.Data = _mapper.Map<IEnumerable<ProductCategoryDTO>>(result);
-                await _distributedCache.SetStringAsync(cacheKey, JsonConvert.SerializeObject(output), Utils.Util.RedisOptions());
-            }
+            //    await _distributedCache.SetStringAsync(cacheKey, JsonConvert.SerializeObject(output), Utils.Util.RedisOptions());
+            //}
             return output;
         }
 
@@ -103,18 +103,18 @@ namespace HNM.WebApiNC.Controllers
         public async Task<IEnumerable<ProductCategoryDTO>> GetProdCateByParentIDTakeTop(int parentId, int top)
         {
             var output = new List<ProductCategoryDTO>();
-            var cacheKey = $"ProductCategory_GetProdCateByParentIDTakeTop{parentId}{top}";
-            var redisEncode = await _distributedCache.GetStringAsync(cacheKey);
-            if (redisEncode != null)
-            {
-                output = JsonConvert.DeserializeObject<List<ProductCategoryDTO>>(redisEncode);
-            }
-            else
-            {
-                var result = await _repoWrapper.ProductCategory.GetTopCateByParentIdTakeTop(parentId, top);
+            //var cacheKey = $"ProductCategory_GetProdCateByParentIDTakeTop{parentId}{top}";
+            //var redisEncode = await _distributedCache.GetStringAsync(cacheKey);
+            //if (redisEncode != null)
+            //{
+            //    output = JsonConvert.DeserializeObject<List<ProductCategoryDTO>>(redisEncode);
+            //}
+            //else
+            //{
+               var result = await _repoWrapper.ProductCategory.GetTopCateByParentIdTakeTop(parentId, top);
                 output = _mapper.Map<List<ProductCategoryDTO>>(result);
-                await _distributedCache.SetStringAsync(cacheKey, JsonConvert.SerializeObject(output), Utils.Util.RedisOptions());
-            }
+            //    await _distributedCache.SetStringAsync(cacheKey, JsonConvert.SerializeObject(output), Utils.Util.RedisOptions());
+            //}
 
             return output;
         }
@@ -146,18 +146,18 @@ namespace HNM.WebApiNC.Controllers
         {
             _logger.LogInfo("GetListHighLightCategory");
             var output = new ListHighLightCategoryDTO();
-            var cacheKey = "ProductCategory_GetListHighLightCategory";
-            var redisEncode = await _distributedCache.GetStringAsync(cacheKey);
-            if (redisEncode != null)
-            {
-                output = JsonConvert.DeserializeObject<ListHighLightCategoryDTO>(redisEncode);
-            }
-            else
-            {
+            //var cacheKey = "ProductCategory_GetListHighLightCategory";
+            //var redisEncode = await _distributedCache.GetStringAsync(cacheKey);
+            //if (redisEncode != null)
+            //{
+            //    output = JsonConvert.DeserializeObject<ListHighLightCategoryDTO>(redisEncode);
+            //}
+            //else
+            //{
                 var result = await _repoWrapper.PageLayout.GetPageLayout();
                 output.Data = _mapper.Map<IEnumerable<ProductCategoryHighLightDTO>>(result);
-                await _distributedCache.SetStringAsync(cacheKey, JsonConvert.SerializeObject(output), Utils.Util.RedisOptions());
-            }
+            //    await _distributedCache.SetStringAsync(cacheKey, JsonConvert.SerializeObject(output), Utils.Util.RedisOptions());
+            //}
 
             return output;
         }

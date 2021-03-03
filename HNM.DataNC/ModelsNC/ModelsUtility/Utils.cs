@@ -43,12 +43,12 @@ namespace HNM.DataNC.ModelsNC.ModelsUtility
 
         public static string CloudPath()
         {
-            return "https://cdn.hanoma.vn";
+            return "https://daninhbinhvinhquang.vn";
         }
 
         public static string CdnPath()
         {
-            return "https://cdn.hanoma.vn";
+            return "https://daninhbinhvinhquang.vn";
         }
     }
 }

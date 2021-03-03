@@ -89,7 +89,7 @@ namespace CMS_V3.Services
             services.AddHttpClient<IRepositoryWrapper, RepositoryWrapper>(client =>
             {
                 //client.BaseAddress = new Uri("http://api.hanoma.vn/");
-                client.BaseAddress = new Uri("http://localhost:64900/");
+                client.BaseAddress = new Uri("http://103.153.68.101:8011/");
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json")); 
