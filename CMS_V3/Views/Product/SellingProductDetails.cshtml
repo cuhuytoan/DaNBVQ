@@ -58,8 +58,7 @@
             @await Html.PartialAsync("../Shared/CategoryMenuHeader.cshtml")
             <nav aria-label="breadcrumb" class="col-12 col-sm-9 px-3 pl-lg-0 pr-lg-0">
                 <ol class="breadcrumb p-0 m-0">
-                    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-                    <li class="breadcrumb-item"><a href="/may-de-ban">Máy để bán</a></li>
+                    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>                    
                     <li class="breadcrumb-item"><a href="@string.Format($" ban" + "-{0}.pcat" , ProductCategoryCurrent.URL)">@Model.ProductDetails.ProductCategoryName</a></li>
                     <li class="breadcrumb-item active" aria-current="page"><a>Chi tiết</a></li>
                 </ol>
@@ -126,7 +125,7 @@
 
                         <tr><td>Thời gian đăng:</td><td>@(Convert.ToDateTime(Model.ProductDetails.LastEditDate).ToString("dd/MM/yyyy"))</td></tr>
 
-                        <tr><td>Địa điểm:</td><td>Làng đá mỹ nghệ Ninh Vấn</td></tr>
+                        <tr><td>Địa điểm:</td><td>Làng đá mỹ nghệ Ninh Vân</td></tr>
                      
 
 
@@ -150,10 +149,10 @@
                 </div>
                 <div class="d-md-flex d-block align-items-center my-3">
                     <div class="call col-lg-6 col-md-6 col-sm-12 col-12 mb-2">
-                        <a href="call:@Model.ProductDetails.SalePhone"><img src="./images/call.png" />@Model.ProductDetails.SalePhone</a>
+                        <a href="tel:@Model.ProductDetails.SalePhone"><img src="./images/call.png" />@Model.ProductDetails.SalePhone</a>
                     </div>
                     <div class="message col-lg-6 col-md-6 col-sm-12 col-12 mb-2">
-                        <a href="mail:@Model.ProductDetails.SalePhone"><img src="./images/message.png" />Nhắn tin</a>
+                        <a href="#"><img src="./images/cart16.png" />Thêm giỏ hàng</a>
                     </div>
                 </div>
 

@@ -40,7 +40,7 @@ namespace CMS_V3.Controllers
         public async Task<IActionResult> Index(int? id)
         {
             //Get Menu
-            ViewBag.CategoryMenuHeader = await GetCategoryMenu();
+            ViewBag.CategoryMenuHeader = await GetAllProductCategory();
 
             //User Info
             ViewBag.UserProfile = await _repoWrapper.Profile.Profilers();
@@ -69,7 +69,21 @@ namespace CMS_V3.Controllers
             ViewBag.AllLocation = await _repoWrapper.Profile.GetAllLocation2();
             return View();
         }
+        public async Task<List<ListAllProductCategoryDTO>> GetAllProductCategory()
+        {
+            List<ListAllProductCategoryDTO> output = new List<ListAllProductCategoryDTO>();
+            try
+            {
 
+                output = await _repoWrapper.ProductCategory.GetAllProductCategory();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"HomeController- GetAllProductCategory {ex.ToString()}");
+            }
+
+            return output;
+        }
         public async Task<JsonResult> FCMHasRead(int FCMMessageID, int NotiSpecType)
         {
             int HasRead = 1;

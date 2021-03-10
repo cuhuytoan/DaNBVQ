@@ -43,7 +43,7 @@ namespace HNM.WebApiNC.Controllers
 
                 var product = _repoWrapper.Product.FirstOrDefault(x => x.Product_ID == model.ProductId);
                 var productBrand = _repoWrapper.Brand.FirstOrDefault(x => x.ProductBrand_ID == product.ProductBrand_ID);
-                var productUrl = String.Format("{0}/{1}", "https://hanoma.vn", product.FullURL);
+                var productUrl = String.Format("{0}/{1}", "https://daninhbinhvinhquang.vn", product.FullURL);
                 var productbrandName = productBrand?.Name != null ? productBrand.Name : product.SaleContactName;
                 IDictionary<string, string> map = new Dictionary<string, string>()
                     {

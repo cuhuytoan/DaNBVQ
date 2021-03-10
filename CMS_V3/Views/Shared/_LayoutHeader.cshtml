@@ -88,7 +88,7 @@
                             <a class="nav-link" href="/tai-khoan"><img class="lazyload" src="~/Assets/images/user.webp" alt="nguoi-dung" /></a>
                         </li>
                         <li class="nav-item ml-3  ml-sm-1">
-                            <a class="nav-link" href="#"><img class="lazyload" src="~/Assets/images/f-vn.webp" alt="ngon-ngu" /></a>
+                            <a class="nav-link" href="javascript: onClickCart()"><img src="~/Assets/images/shopping-cart.png" /></a>
                         </li>
                     </nav>
                 </div>
@@ -105,7 +105,7 @@
                             @Html.ActionLink("Đăng ký", "Register", "Account", null, new { @class = "nav-link ajaxcall" })
                         </li>
                         <li class="nav-item ml-3  ml-sm-1">
-                            <a class="nav-link" href="#"><img src="~/Assets/images/f-vn.webp" /></a>
+                            <a class="nav-link" href="javascript: onClickCart()"><img src="~/Assets/images/shopping-cart.png" /></a>
                         </li>
                     </nav>
                 </div>
@@ -160,4 +160,8 @@
         }
 
     });
+
+    function onClickCart() {
+        alert('Chức năng đang trong giai đoạn phát triển!');
+    }
 </script>

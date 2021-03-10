@@ -30,7 +30,7 @@ namespace HNM.DataNC.ModelsStore
         public Nullable<System.Guid> LastEditBy { get; set; }
         public Nullable<System.DateTime> LastEditDate { get; set; }
         public string URL { get; set; }
-        public string FullUrl => $"https://hanoma.vn/kien-thuc/{URL}";
+        public string FullUrl => $"https://daninhbinhvinhquang.vn/kien-thuc/{URL}";
         public string Tag { get; set; }
         public string Keyword { get; set; }
         public Nullable<bool> AllowComment { get; set; }

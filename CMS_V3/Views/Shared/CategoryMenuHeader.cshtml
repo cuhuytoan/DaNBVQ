@@ -9,21 +9,22 @@
             <ul>
                 @foreach (var p in Menu)
                 {
-                    <li class="has-child">
-                        <a href=@($"ban-{p.Parent.URL}.pcat")>@p.Parent.Name</a>
-                        <ul>
-                            @{
+                <li class="has-child">
+                    @*<a href=@($"ban-{p.Parent.URL}.pcat")>@p.Parent.Name</a>*@
+                    <a href="#">@p.Parent.Name</a>
+                    <ul>
+                        @{
                                 if (p.Child.Count() > 0)
                                 {
                                     foreach (var x in p.Child)
                                     {
-                                        <li><a href=@($"ban-{x.URL}.pcat")>@x.Name</a></li>
+                            <li><a href=@($"ban-{x.URL}.pcat")>@x.Name</a></li>
                                     }
                                 }
 
-                            }
-                        </ul>
-                    </li>
+                        }
+                    </ul>
+                </li>
                 }
             </ul>
         </div>

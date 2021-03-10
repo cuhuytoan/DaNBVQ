@@ -39,7 +39,9 @@ namespace CMS_V3.Controllers
         {
             //Get Home Carousel
             await GetHomeCarousel();
-            ViewBag.MenuMachine = await GetLstMenuByParentId(1924);
+            ViewBag.MenuHomeLMD = await GetLstMenuByParentId(1924);
+            ViewBag.MenuHomeDTD = await GetLstMenuByParentId(1925);
+            ViewBag.MenuHomeTD = await GetLstMenuByParentId(1928);
             //Get Menu
             ViewBag.ProductCategory = await GetAllProductCategory();
             //Get Sell Product

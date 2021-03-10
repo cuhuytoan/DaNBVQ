@@ -739,7 +739,7 @@ namespace HNM.WebApiNC.Controllers
 
         private async Task SaveMainImage(ImageUploadDTO MainImage, int ProductId)
         {
-            var pathAbsolute = @"C:\Domains\DaNBVQ\wwwroot";
+            var pathAbsolute =@"C:\Domains\DaNBVQ\wwwroot\";
             var urlProduct = _repoWrapper.Product.CreateImageURL(ProductId);
             MainImage.FileName = String.Format("{0}-00.{1}", urlProduct, MainImage.ExtensionType.Replace("image/", ""));
             MainImage.PathSave = "product/mainimages/original";
@@ -777,7 +777,7 @@ namespace HNM.WebApiNC.Controllers
                 var urlProduct = _repoWrapper.Product.CreateImageURL(ProductId);
                 p.FileName = String.Format("{0}-mobile-0{1}-{2}.{3}", urlProduct, count,timestamp, p.ExtensionType.Replace("image/", ""));
                 p.PathSave = "productpicture/mainimages/original";       
-                var pathAbsolute = @"C:\Domains\DaNBVQ\wwwroot";
+                var pathAbsolute =@"C:\Domains\DaNBVQ\wwwroot\";
                 
                 var PatchToSave = Path.Combine(pathAbsolute, p.PathSave);
                 var physicalPath = Path.Combine(PatchToSave, p.FileName);
@@ -862,7 +862,7 @@ namespace HNM.WebApiNC.Controllers
             try
             {
 
-                var pathAbsolute = @"C:\Domains\DaNBVQ\wwwroot";
+                var pathAbsolute =@"C:\Domains\DaNBVQ\wwwroot\";
                 var imageDataByteArray = Convert.FromBase64String(model.Base64);
 
                 var imageDataStream = new MemoryStream(imageDataByteArray);

@@ -63,19 +63,19 @@ namespace HNM.WebApiNC.Controllers
         public async Task<BrandPaggingDTO> ElasticBrandSearch(int page, int pageSize, string search = "")
         {
             var output = new BrandPaggingDTO();
-            try
-            {
-                var outSearchElastic = await _repoWrapper.Elastic.SearchProductBrandPagination(page, pageSize, search);
-                output.PageSize = pageSize;
-                output.CurrentPage = page;
-                output.TotalRecord = (int)outSearchElastic.TotalRecord;
-                output.TotalPage = (output.TotalRecord - 1) / pageSize + 1;
-                output.Data = _mapper.Map<IEnumerable<ProductBrandSearchDTO>>(outSearchElastic.Brands);
-                output.Data.ToList().ForEach(x => x.Description = HttpUtility.HtmlDecode(Common.CommonUtil.StripHTML(HttpUtility.HtmlDecode(x.Description))));
-                output.Data.Select(c => { c.LocationName = Util.LocationDictionary[(int)c.LocationId]; return c; }).ToList();
-            }
-            catch (Exception ex)
-            {
+            //try
+            //{
+            //    var outSearchElastic = await _repoWrapper.Elastic.SearchProductBrandPagination(page, pageSize, search);
+            //    output.PageSize = pageSize;
+            //    output.CurrentPage = page;
+            //    output.TotalRecord = (int)outSearchElastic.TotalRecord;
+            //    output.TotalPage = (output.TotalRecord - 1) / pageSize + 1;
+            //    output.Data = _mapper.Map<IEnumerable<ProductBrandSearchDTO>>(outSearchElastic.Brands);
+            //    output.Data.ToList().ForEach(x => x.Description = HttpUtility.HtmlDecode(Common.CommonUtil.StripHTML(HttpUtility.HtmlDecode(x.Description))));
+            //    output.Data.Select(c => { c.LocationName = Util.LocationDictionary[(int)c.LocationId]; return c; }).ToList();
+            //}
+            //catch (Exception ex)
+            //{
                 var result = await _repoWrapper.Brand.GetListBrandPagging(page, pageSize,null, 1, productCategoryId: null, keyword: search);
                 int totalRow = result.Item1;
                 output.PageSize = pageSize;
@@ -86,7 +86,7 @@ namespace HNM.WebApiNC.Controllers
                 output.Data.ToList().ForEach(x => x.Description = HttpUtility.HtmlDecode(Common.CommonUtil.StripHTML(HttpUtility.HtmlDecode(x.Description))));
                 output.Data.Select(c => { c.LocationName = Util.LocationDictionary[(int)c.LocationId]; return c; }).ToList();
                 return output;
-            }
+            //}
             return output;
         }
 

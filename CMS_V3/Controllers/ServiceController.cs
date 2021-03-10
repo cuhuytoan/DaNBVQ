@@ -62,7 +62,7 @@ namespace CMS_V3.Controllers
             if (ProductCategory_ID == 0) // Error Redirect 301
             {
                 //Response.StatusCode = 301;
-                //Response.Headers("Location", "https://hanoma.vn/may-de-ban");
+                //Response.Headers("Location", "https://daninhbinhvinhquang.vn/may-de-ban");
                 //Response.End();
             }
             else
@@ -120,7 +120,7 @@ namespace CMS_V3.Controllers
             if (Service_ID == 0) // Error Redirect 301
             {
                 //Response.StatusCode = 301;
-                //Response.Headers("Location", "https://hanoma.vn/may-de-ban");
+                //Response.Headers("Location", "https://daninhbinhvinhquang.vn/may-de-ban");
                 //Response.End();
             }
             ViewBag.MenuMachine = await _repoWrapper.ProductCategory.GetLstMenuByParentId(654);

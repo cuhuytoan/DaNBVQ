@@ -175,7 +175,7 @@ namespace HNM.WebApiNC.Controllers
                     fCMMessage.NotiSpecType = 1;
                     fCMMessage.FullUrlImage = $"https://hanoma-cdn.s3.cloud.cmctelecom.vn/DataMobile/Notify/notifyDefault.png";
                     fCMMessage.Content = msgSS;
-                    fCMMessage.FullUrl = "https://hanoma.vn/ShopMan/DashBoard";
+                    fCMMessage.FullUrl = "https://daninhbinhvinhquang.vn/ShopMan/DashBoard";
 
 
                     fCMMessage.HasRead = 0;
@@ -389,7 +389,7 @@ namespace HNM.WebApiNC.Controllers
                                                 fCMMessage.NotiSpecType = 1;
                                                 fCMMessage.FullUrlImage = $"https://hanoma-cdn.s3.cloud.cmctelecom.vn/DataMobile/Notify/notifyDefault.png";
                                                 fCMMessage.Content = msgSS;
-                                                fCMMessage.FullUrl = "https://hanoma.vn/ShopMan/DashBoard";
+                                                fCMMessage.FullUrl = "https://daninhbinhvinhquang.vn/ShopMan/DashBoard";
 
 
                                                 fCMMessage.HasRead = 0;
@@ -438,7 +438,7 @@ namespace HNM.WebApiNC.Controllers
                                                 fCMMessage.CategoryId = notiModel.Data.categoryId;
                                                 fCMMessage.NotiSpecType = 1;
                                                 fCMMessage.FullUrlImage = $"https://hanoma-cdn.s3.cloud.cmctelecom.vn/DataMobile/Notify/notifyDefault.png";
-                                                fCMMessage.FullUrl = "https://hanoma.vn/ShopMan/DashBoard";
+                                                fCMMessage.FullUrl = "https://daninhbinhvinhquang.vn/ShopMan/DashBoard";
                                                 fCMMessage.HasRead = 0;
                                                 fCMMessage.Content = "Nâng cấp gian hàng không thành công";
                                                 await _repoWrapper.FCMMessage.AddNewFCMMessage(fCMMessage);
@@ -483,7 +483,7 @@ namespace HNM.WebApiNC.Controllers
                                             fCMMessage.CategoryId = notiModel.Data.categoryId;
                                             fCMMessage.NotiSpecType = 1;
                                             fCMMessage.FullUrlImage = $"https://hanoma-cdn.s3.cloud.cmctelecom.vn/DataMobile/Notify/notifyDefault.png";
-                                            fCMMessage.FullUrl = "https://hanoma.vn/ShopMan/DashBoard";
+                                            fCMMessage.FullUrl = "https://daninhbinhvinhquang.vn/ShopMan/DashBoard";
                                             fCMMessage.HasRead = 0;
                                             fCMMessage.Content = "Nâng cấp gian hàng không thành công";
                                             await _repoWrapper.FCMMessage.AddNewFCMMessage(fCMMessage);
@@ -524,7 +524,7 @@ namespace HNM.WebApiNC.Controllers
                                         fCMMessage.CategoryId = notiModel.Data.categoryId;
                                         fCMMessage.NotiSpecType = 1;
                                         fCMMessage.FullUrlImage = $"https://hanoma-cdn.s3.cloud.cmctelecom.vn/DataMobile/Notify/notifyDefault.png";
-                                        fCMMessage.FullUrl = "https://hanoma.vn/ShopMan/DashBoard";
+                                        fCMMessage.FullUrl = "https://daninhbinhvinhquang.vn/ShopMan/DashBoard";
                                         fCMMessage.HasRead = 0;
                                         fCMMessage.Content = "Nâng cấp gian hàng không thành công";
                                         await _repoWrapper.FCMMessage.AddNewFCMMessage(fCMMessage);
@@ -574,7 +574,7 @@ namespace HNM.WebApiNC.Controllers
                                 fCMMessage.CategoryId = notiModel.Data.categoryId;
                                 fCMMessage.NotiSpecType = 1;
                                 fCMMessage.FullUrlImage = $"https://hanoma-cdn.s3.cloud.cmctelecom.vn/DataMobile/Notify/notifyDefault.png";
-                                fCMMessage.FullUrl = "https://hanoma.vn/ShopMan/DashBoard";
+                                fCMMessage.FullUrl = "https://daninhbinhvinhquang.vn/ShopMan/DashBoard";
                                 fCMMessage.HasRead = 0;
                                 fCMMessage.Content = "Nâng cấp gian hàng không thành công";
                                 await _repoWrapper.FCMMessage.AddNewFCMMessage(fCMMessage);

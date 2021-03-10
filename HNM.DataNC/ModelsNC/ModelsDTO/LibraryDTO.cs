@@ -33,7 +33,7 @@ namespace HNM.DataNC.ModelsNC.ModelsDTO
         /// <summary>
         /// Full Url
         /// </summary>
-        public string FullUrl => $"https://hanoma.vn/thu-vien-kien-thuc/{URL}";
+        public string FullUrl => $"https://daninhbinhvinhquang.vn/thu-vien-kien-thuc/{URL}";
         public string LastEditDate { get; set; }
     }
 

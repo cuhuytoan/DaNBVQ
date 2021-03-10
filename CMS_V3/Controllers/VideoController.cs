@@ -31,9 +31,8 @@ namespace CMS_V3.Controllers
         public async Task<IActionResult> Index(int? page = 1, int? pageSize = 8)
         {
             //Get Menu
-            ViewBag.MenuMachine = await _repoWrapper.ProductCategory.GetLstMenuByParentId(654);
-            ViewBag.MenuMaterials = await _repoWrapper.ProductCategory.GetLstMenuByParentId(652);
-            ViewBag.MenuServices = await _repoWrapper.ProductCategory.GetLstMenuByParentId(651);
+            //Get Menu
+            ViewBag.ProductCategory = await GetAllProductCategory();
             ViewBag.MenuHeader = await _repoWrapper.Video.GetLstVideoCate();
             ViewBag.ListVideo = await _repoWrapper.Video.GetListVideo((int)page, (int)pageSize);
             ViewBag.Page = page ?? 1;
@@ -43,7 +42,21 @@ namespace CMS_V3.Controllers
             //await GetPaggingVideo(1, 8);
             return View();
         }
+        public async Task<List<ListAllProductCategoryDTO>> GetAllProductCategory()
+        {
+            List<ListAllProductCategoryDTO> output = new List<ListAllProductCategoryDTO>();
+            try
+            {
 
+                output = await _repoWrapper.ProductCategory.GetAllProductCategory();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"HomeController- GetAllProductCategory {ex.ToString()}");
+            }
+
+            return output;
+        }
         [HttpGet]
         public async Task<ActionResult> GetPaggingVideo(int? page = 1, int? pageSize=8)
         {
@@ -150,7 +163,7 @@ namespace CMS_V3.Controllers
             if (Article_ID == 0) // Error Redirect 301
             {
                 //Response.StatusCode = 301;
-                //Response.Headers("Location", "https://hanoma.vn/may-de-ban");
+                //Response.Headers("Location", "https://daninhbinhvinhquang.vn/may-de-ban");
                 //Response.End();
             }
             //Get Menu

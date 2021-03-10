@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
+    <UserSecretsId>e4f1c824-6afc-46d0-aed0-f480836da582</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <Content Remove="wwwroot\css\style.css" />
     <Content Remove="wwwroot\favicon.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -38,6 +38,14 @@
     <Folder Include="Areas\Shopman\Data\" />
     <Folder Include="Areas\Shopman\Models\" />
     <Folder Include="Logging\" />
+    <Folder Include="wwwroot\article\mainimages\original\" />
+    <Folder Include="wwwroot\article\mainimages\small\" />
+    <Folder Include="wwwroot\article\mainimages\thumb\" />
+    <Folder Include="wwwroot\productbrand\banner\original\" />
+    <Folder Include="wwwroot\productbrand\banner\small\" />
+    <Folder Include="wwwroot\productbrand\banner\thumb\" />
+    <Folder Include="wwwroot\productbrand\logo\small\" />
+    <Folder Include="wwwroot\productbrand\logo\thumb\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="wwwroot\Assets\css\bootstrap.min.css" />
@@ -167,7 +175,6 @@
     <None Include="wwwroot\Assets\js\navScript.js" />
     <None Include="wwwroot\Assets\js\paged.js" />
     <None Include="wwwroot\Assets\js\swiper-bundle.min.js" />
-    <None Include="wwwroot\css\style.css" />
     <None Include="wwwroot\favicon.ico" />
   </ItemGroup>
   <ItemGroup>

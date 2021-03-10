@@ -591,7 +591,7 @@ namespace HNM.WebApiNC.Controllers
             try
             {
 
-                var pathAbsolute = @"C:\Domains\DaNBVQ\wwwroot";
+                var pathAbsolute =@"C:\Domains\DaNBVQ\wwwroot\data\";
                 var imageDataByteArray = Convert.FromBase64String(model.Base64);
 
                 var imageDataStream = new MemoryStream(imageDataByteArray);

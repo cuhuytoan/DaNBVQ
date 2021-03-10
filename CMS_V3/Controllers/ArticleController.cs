@@ -30,11 +30,9 @@ namespace CMS_V3.Controllers
             _repoWrapper = repoWrapper;
         }
         public async Task<IActionResult> Index()
-        {
+        {            
             //Get Menu
-            ViewBag.MenuMachine = await _repoWrapper.ProductCategory.GetLstMenuByParentId(654);
-            ViewBag.MenuMaterials = await _repoWrapper.ProductCategory.GetLstMenuByParentId(652);
-            ViewBag.MenuServices = await _repoWrapper.ProductCategory.GetLstMenuByParentId(651);
+            ViewBag.ProductCategory = await GetAllProductCategory();
             ViewBag.MenuHeader = await _repoWrapper.Article.GetLstArticleCate();
             ViewBag.MetaTags = await _repoWrapper.Setting.GetSetting();
 
@@ -58,7 +56,21 @@ namespace CMS_V3.Controllers
 
             return View(articleViewModel);
         }
+        public async Task<List<ListAllProductCategoryDTO>> GetAllProductCategory()
+        {
+            List<ListAllProductCategoryDTO> output = new List<ListAllProductCategoryDTO>();
+            try
+            {
 
+                output = await _repoWrapper.ProductCategory.GetAllProductCategory();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"HomeController- GetAllProductCategory {ex.ToString()}");
+            }
+
+            return output;
+        }
         public async Task<IActionResult> ArticleCate()
         {
             //Get Menu
@@ -89,7 +101,7 @@ namespace CMS_V3.Controllers
             if(Article_ID == 0) // Error Redirect 301
             {
                 //Response.StatusCode = 301;
-                //Response.Headers("Location", "https://hanoma.vn/may-de-ban");
+                //Response.Headers("Location", "https://daninhbinhvinhquang.vn/may-de-ban");
                 //Response.End();
             }    
             //Get Menu

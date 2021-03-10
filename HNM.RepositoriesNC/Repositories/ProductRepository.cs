@@ -151,7 +151,7 @@ namespace HNM.RepositoriesNC.Repositories
                         productSave.ProductCategory_ID = model.ProductCategory_ID;
                         productSave.ProductModel_ID = model.ProductModel_ID;
                         productSave.SerialNumber = model.SerialNumber;
-                        productSave.SaleLocation_ID = model.SaleLocation_ID;
+                        productSave.SaleLocation_ID = 37; //Default
                         productSave.Price = model.Price;
                         productSave.StatusType_ID = 4;
                         productSave.HasNewModel = model.HasNewModel;

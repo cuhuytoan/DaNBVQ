@@ -40,7 +40,7 @@ namespace HNM.DataNC.ModelsStore
         /// <summary>
         /// Full Url Link
         /// </summary>
-        public string FullUrl => $"https://hanoma.vn/bai-viet/{URL}";
+        public string FullUrl => $"https://daninhbinhvinhquang.vn/bai-viet/{URL}";
         public string Tag { get; set; }
         public string Keyword { get; set; }
         public Nullable<bool> AllowComment { get; set; }

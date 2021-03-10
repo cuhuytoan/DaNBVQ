@@ -90,7 +90,7 @@ namespace HNM.WebApiNC.Controllers
                         //File Extension Type
 
                         model.FileName = profile.UserId + "-" + DateTime.Now.ToString("dd-MM-yyyy") + "-" + DateTime.Now.ToString("HH-mm-ss") + "." + model.ExtensionType.Replace("image/", "");
-                        var responseUpload = await UploadSingleImage(model);
+                        var responseUpload = await UploadImage(model);
                         if (responseUpload)
                         {
                             response.UserId = model.UserId;
@@ -153,7 +153,46 @@ namespace HNM.WebApiNC.Controllers
                 _logger.LogError($"UploadSingleImage: " + ex.ToString());
                 return false;
             }
-        }     
+        }
+        private async Task<bool> UploadImage(ImageUploadAvatarDTO model)
+        {
+            try
+            {
+
+                var pathAbsolute = @"C:\Domains\DaNBVQ\wwwroot\";
+                var imageDataByteArray = Convert.FromBase64String(model.Base64);
+
+                var imageDataStream = new MemoryStream(imageDataByteArray);
+                imageDataStream.Position = 0;
+
+                var file = File(imageDataByteArray, model.ExtensionType);
+                var fileName = model.FileName;
+                var pathToSave = Path.Combine(pathAbsolute, model.PathSave);
+                var outPath = Path.Combine(pathToSave, fileName);
+
+
+                if (file.FileContents.Length > 0)
+                {
+                    using (MemoryStream ms = new MemoryStream(imageDataByteArray))
+                    {
+                        using (Bitmap bm2 = new Bitmap(ms))
+                        {
+                            bm2.Save(Path.Combine(pathToSave, fileName));
+                        }
+                    }
+                    return true;
+
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
 
     }
 }

@@ -1,7 +1,5 @@
 ﻿@{
-    var MenuMachine = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuMachine;
-    var MenuMaterials = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuMaterials;
-    var MenuServices = (HNM.DataNC.ModelsNC.ModelsDTO.ListProductCategoryDTO)ViewBag.MenuServices;
+    var Menu = (List<HNM.DataNC.ModelsNC.ModelsDTO.ListAllProductCategoryDTO>)ViewBag.ProductCategory;
     var MenuHeader = (List<HNM.DataNC.ModelsNC.ModelsDTO.LibraryCategoryDTO>)ViewBag.MenuHeader;
 }
 
@@ -15,70 +13,30 @@
                     </div>
                     <div class="card-body p-0" id="my-menu">
                         <ul>
-                            <li class="has-child">
-                                <a href="/may-de-ban">Máy để bán</a>
-                                <ul>
-                                    @foreach (var p in MenuMachine.Data)
-                                    {
-                                        <li><a href=@($"/ban-{p.URL}.pcat")>@p.Name</a></li>
-                                    }
+                            @foreach (var p in Menu)
+                            {
+                                <li class="has-child">
+                                    <a href="#" )>@p.Parent.Name</a>
+                                    <ul>
+                                        @{
+                                            if (p.Child.Count() > 0)
+                                            {
+                                                foreach (var x in p.Child)
+                                                {
+                                                    <li><a href=@($"ban-{x.URL}.pcat")>@x.Name</a></li>
+                                                }
+                                            }
 
-                                </ul>
-                            </li>
-                            <li class="has-child">
-                                <a href="/cho-thue-may">Máy cho thuê</a>
-                                <ul>
-                                    @foreach (var p in MenuMachine.Data)
-                                    {
-                                        <li><a href=@($"/cho-thue-may-{p.URL}.pcat")>@p.Name</a></li>
-                                    }
-
-                                </ul>
-                            </li>
-                            <li class="has-child">
-                                <a href="/ban-phu-tung">Phụ Tùng</a>
-                                <ul>
-                                    @foreach (var p in MenuMachine.Data)
-                                    {
-                                        <li><a href=@($"/ban-phu-tung-{p.URL}.pcat")>@p.Name</a></li>
-                                    }
-
-                                </ul>
-                            </li>
-                            <li class="has-child">
-                                <a href="/ban-vat-tu">Vật tư</a>
-                                <ul>
-                                    @foreach (var p in MenuMaterials.Data)
-                                    {
-                                        <li><a href=@($"/ban-vat-tu-{p.URL}.pcat")>@p.Name</a></li>
-                                    }
-
-                                </ul>
-                            </li>
-                            <li class="has-child">
-                                <a href="/dich-vu">Dịch vụ</a>
-                                <ul>
-                                    @foreach (var p in MenuServices.Data)
-                                    {
-                                        <li><a href=@($"/dich-vu-{p.URL}.pcat")>@p.Name</a></li>
-                                    }
-
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="/ho-so">Hồ sơ xin việc</a>
-                            </li>
-
-                            <li>
-                                <a href="/viec-lam">Tuyển dụng</a>
-                            </li>
+                                        }
+                                    </ul>
+                                </li>
+                            }
                         </ul>
                     </div>
                 </div>
             </div>
             <ul class="nav   my-0">
-                <li class="nav-item"><a href="/tin-tuc">Tin tức</a></li>
-                <li class="nav-item"><a href="/thu-vien-kien-thuc">Kiến thức</a></li>
+                <li class="nav-item"><a href="/tin-tuc">Tin tức</a></li>                
                 <li class="nav-item"><a class="active" href="/chuyen-muc-video">Video</a></li>
             </ul>
         </div>
@@ -90,36 +48,6 @@
 
         <button class="navbar-toggler d-inline-block d-lg-none btn-news-menu" type="button" data-toggle="collapse" data-target="#navbarNav-catemenu" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
-        </button>
-        <ul class="nav my-0 py-2 col-xl-11 col-lg-10 menu-news-bottom collapse" id="navbarNav-catemenu">
-            @if (ViewBag.CateVideoId != null)
-            {
-                <li class="nav-item"><a href="/chuyen-muc-video">Trang chủ</a></li>
-            }
-            else
-            {
-                <li class="nav-item"><a class="active"  href="/chuyen-muc-video">Trang chủ</a></li>
-            }
-
-            @foreach (var item in MenuHeader)
-            {
-                if (ViewBag.CateVideoId == item.LibraryCategory_ID)
-                {
-                    <li class="nav-item"><a class="active" href="/chuyen-muc-video/@item.URL">@item.Name</a></li>
-                }
-                else
-                {
-                    <li class="nav-item"><a href="/chuyen-muc-video/@item.URL">@item.Name</a></li>
-                }
-            }
-        </ul>
-
-        <div class="col-xl-1 col-lg-2 p-0 border-left news-more d-none d-lg-block">
-            <a class="more-news" href="#">Thêm</a>
-            <div class="more-news-dropdow" style="display: none;">
-                <ul class="list-unstyled my-2">
-                    <!-- auto set values li -->
-            </div>
-        </div>
+        </button>       
     </div>
 </article>

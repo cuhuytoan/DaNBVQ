@@ -36,15 +36,15 @@
     <link id="canonical" rel="canonical" href="@Configuration["DomainName"]/bai-viet/@Model.URL" />
     @*META FOR FACEBOOK*@
     <meta property="og:url" content="@Configuration["DomainName"]/bai-viet/@Model.URL" />
-    <meta property="og:image" itemprop="thumbnailUrl" content="@Configuration["Cdn_Path"]/article/mainimages/original/@Model.Image" />
+    <meta property="og:image" itemprop="thumbnailUrl" content="@Configuration["Cloud_News"]/article/mainimages/original/@Model.Image" />
     <meta property="og:description" itemprop="description" content="@MetaDes" />
     <meta property="og:type" content="article" />
     <meta property="og:title" itemprop="headline" content="@Model.Title" />
     @*END META FOR FACEBOOK*@
     @*Twitter Card*@
-    <meta name="twitter:url" content="https://hanoma.vn/bai-viet/@Model.URL">
+    <meta name="twitter:url" content="https://daninhbinhvinhquang.vn/bai-viet/@Model.URL">
     <meta name="twitter:description" content="@MetaDes">
-    <meta name="twitter:image" content="@Configuration["Cdn_Path"]/article/mainimages/original/@Model.Image" />
+    <meta name="twitter:image" content="@Configuration["Cloud_News"]/article/mainimages/original/@Model.Image" />
     <meta name="twitter:title" content="@Model.Title">
     @*End Twitter Card*@
 
@@ -150,7 +150,7 @@
     "@@type": "NewsArticle",
     "mainEntityOfPage": {
     "@@type": "WebPage",
-    "@@id": "https://hanoma.vn/bai-viet/@Model.URL"
+    "@@id": "https://daninhbinhvinhquang.vn/bai-viet/@Model.URL"
     },
     "headline": "Article headline",
     "image": [
@@ -167,7 +167,7 @@
     "name": "Hanoma.vn",
     "logo": {
     "@@type": "ImageObject",
-    "url": "https://hanoma.vn/assets/pages/img/logo_hanoma2.png"
+    "url": "https://daninhbinhvinhquang.vn/assets/pages/img/logo_hanoma2.png"
     }
     },
     "description": "@Model.Description"
@@ -186,12 +186,12 @@
         "@@type": "ListItem",
         "position": 2,
         "namfe": "@ArticleCate.Name",
-        "item": "https://hanoma.vn/chuyen-muc/@ArticleCate.URL"
+        "item": "https://daninhbinhvinhquang.vn/chuyen-muc/@ArticleCate.URL"
         }*@,{
     "@@type": "ListItem",
     "position": 3,
     "name": "@Model.Title",
-    "item": "https://hanoma.vn/bai-viet/@Model.URL"
+    "item": "https://daninhbinhvinhquang.vn/bai-viet/@Model.URL"
     }
     ]
     }

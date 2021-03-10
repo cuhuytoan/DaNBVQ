@@ -67,7 +67,7 @@ namespace HNM.DataNC.ModelsNC.ModelsDTO
         /// <summary>
         /// Full Url
         /// </summary>
-        public string FullUrl => $"https://hanoma.vn/chuyen-muc/{URL}";
+        public string FullUrl => $"https://daninhbinhvinhquang.vn/chuyen-muc/{URL}";
         public string LastEditDate { get; set; }
     }
     public class VideoCategoryDTO : ModelBase
@@ -87,7 +87,7 @@ namespace HNM.DataNC.ModelsNC.ModelsDTO
         /// <summary>
         /// Full Url
         /// </summary>
-        public string FullUrl => $"https://hanoma.vn/chuyen-muc/{URL}";
+        public string FullUrl => $"https://daninhbinhvinhquang.vn/chuyen-muc/{URL}";
         public string LastEditDate { get; set; }
     }
     public class ArticleVoiceDTO : ModelBase

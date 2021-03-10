@@ -80,7 +80,7 @@ namespace HNM.RepositoriesNC.Repositories
             var brand = HanomaContext.ProductBrand.FirstOrDefault(p => p.ProductBrand_ID == BrandId);
             string MailBody = "";
             WebClient client = new WebClient();
-            Stream stream = client.OpenRead("https://hanoma.vn/Content/Emailtemplate/contact-to-productbrand.html");
+            Stream stream = client.OpenRead("https://daninhbinhvinhquang.vn/Content/Emailtemplate/contact-to-productbrand.html");
             using (StreamReader reader =
                 new StreamReader(stream))
             {
