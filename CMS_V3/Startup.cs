@@ -110,6 +110,8 @@ namespace CMS_V3
             services.Configure<PasswordHasherOptions>(options => options.CompatibilityMode = PasswordHasherCompatibilityMode.IdentityV2);
             //HttpClient
             services.ConfigureHttpClient();
+            //
+            services.AddMemoryCache();
             //Caching Redis
             services.AddDistributedRedisCache(option =>
             {

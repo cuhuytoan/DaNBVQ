@@ -40,7 +40,7 @@
     <!-- META FOR FACEBOOK -->
     <meta property="og:title" itemprop="headline" content="@Model.ProductDetails.Name" />
     <meta property="og:type" content="product" />
-    <meta property="og:url" content="@Configuration["DomainName"]/@Model.ProductDetails.FullUrl" />
+    <meta property="og:url" content="@Configuration[" DomainName"] /@Model.ProductDetails.FullUrl" />
     <meta property="og:image" itemprop="thumbnailUrl" content="@String.Format(" {0}{1}{2}", @Configuration["Cloud_Path"], "/product/mainimages/original/" , Model.ProductDetails.Image)" />
     <meta property="og:image:width" content="400" />
     <meta property="og:image:height" content="300" />
@@ -50,7 +50,96 @@
 <link href="~/css/bootstrap.min.css" rel="stylesheet" />
 <link href="~/css/style.css" rel="stylesheet" />
 <link href="~/css/responsive.css" rel="stylesheet" />
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
 
+#myImg {
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#myImg:hover {opacity: 0.7;}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+
+/* Modal Content (image) */
+.modal-content {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+}
+
+/* Caption of Modal Image */
+#caption {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+  text-align: center;
+  color: #ccc;
+  padding: 10px 0;
+  height: 150px;
+}
+
+/* Add Animation */
+.modal-content, #caption {
+  -webkit-animation-name: zoom;
+  -webkit-animation-duration: 0.6s;
+  animation-name: zoom;
+  animation-duration: 0.6s;
+}
+
+@@-webkit-keyframes zoom {
+  from {-webkit-transform:scale(0)}
+  to {-webkit-transform:scale(1)}
+}
+
+@@keyframes zoom {
+  from {transform:scale(0)}
+  to {transform:scale(1)}
+}
+
+/* The Close Button */
+.close {
+  position: absolute;
+  top: 110px;
+  right: 20px;
+  color: red;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+  z-index:999;
+}
+
+.close:hover,
+.close:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+@@media only screen and (max-width: 700px){
+  .modal-content {
+    width: 100%;
+  }
+}
+</style>
 <!-- Content -->
 <section class="category">
     <article>
@@ -58,7 +147,7 @@
             @await Html.PartialAsync("../Shared/CategoryMenuHeader.cshtml")
             <nav aria-label="breadcrumb" class="col-12 col-sm-9 px-3 pl-lg-0 pr-lg-0">
                 <ol class="breadcrumb p-0 m-0">
-                    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>                    
+                    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
                     <li class="breadcrumb-item"><a href="@string.Format($" ban" + "-{0}.pcat" , ProductCategoryCurrent.URL)">@Model.ProductDetails.ProductCategoryName</a></li>
                     <li class="breadcrumb-item active" aria-current="page"><a>Chi tiết</a></li>
                 </ol>
@@ -75,7 +164,7 @@
                     <div class="swiper-wrapper">
                         @foreach (var item in Model.ProductPictures)
                         {
-                            <div class="swiper-slide"><div class="img-wrap"><img src="@item.UrlImage" /></div></div>
+                            <div class="swiper-slide"><div class="img-wrap"><img id="@item.ProductPicture_ID" onclick="javascript:OnClickImgDetail('@item.ProductPicture_ID')" src="@item.UrlImage" alt="@Model.ProductDetails.Name"/></div></div>
                         }
                     </div>
                     <div class="swiper-pagination paging-right"></div>
@@ -87,7 +176,7 @@
 
                         @foreach (var item in Model.ProductPictures)
                         {
-                            <div class="swiper-slide"><div class="img-wrap"><img src="@item.UrlImage" /></div></div>
+                            <div class="swiper-slide"><div class="img-wrap"><img id="@item.ProductPicture_ID" onclick="javascript:OnClickImgDetail('@item.ProductPicture_ID')"  src="@item.UrlImage" alt="@Model.ProductDetails.Name"/></div></div>
                         }
                     </div>
                     <!-- Add Scrollbar -->
@@ -126,7 +215,7 @@
                         <tr><td>Thời gian đăng:</td><td>@(Convert.ToDateTime(Model.ProductDetails.LastEditDate).ToString("dd/MM/yyyy"))</td></tr>
 
                         <tr><td>Địa điểm:</td><td>Làng đá mỹ nghệ Ninh Vân</td></tr>
-                     
+
 
 
                     </table>
@@ -145,7 +234,7 @@
                             <span class="status online">Đang online</span>
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="d-md-flex d-block align-items-center my-3">
                     <div class="call col-lg-6 col-md-6 col-sm-12 col-12 mb-2">
@@ -176,6 +265,9 @@
                         <a class="nav-link" id="profile-tab" data-toggle="tab" href="#suggest" role="tab" aria-controls="suggest" aria-selected="false"></a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#suggest" role="tab" aria-controls="suggest" aria-selected="false"></a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" id="contact-tab" data-toggle="tab" href="#tag" role="tab" aria-controls="tag" aria-selected="false">Tag</a>
                     </li>
                 </ul>
@@ -198,6 +290,16 @@
 
                         </ul>
                     </div>*@<div class="tab-pane fade" id="suggest" role="tabpanel" aria-labelledby="suggest-tab">
+                    <h3 class="my-2"></h3>
+                    <ul class="d-flex flex-column match-prod">
+                        <li><span class="model-name"></span><span class="model"></span></li>
+                        <li><span class="model-name"></span><span class="model"></span></li>
+                        <li><span class="model-name"></span><span class="model"></span></li>
+                        <li><span class="model-name"></span><span class="model"></span></li>
+                        <li><span class="model-name"></span><span class="model"></span></li>
+
+                    </ul>
+                </div><div class="tab-pane fade" id="suggest" role="tabpanel" aria-labelledby="suggest-tab">
                     <h3 class="my-2"></h3>
                     <ul class="d-flex flex-column match-prod">
                         <li><span class="model-name"></span><span class="model"></span></li>
@@ -275,8 +377,42 @@
 
 
 </section>
+<!-- The Modal -->
+<div id="myModal" class="modal">
 
+    <!-- The Close Button -->
+    <span class="close">&times;</span>
+
+    <!-- Modal Content (The Image) -->
+    <img class="modal-content" id="img01">
+
+    <!-- Modal Caption (Image Text) -->
+    <div id="caption"></div>
+</div>
 <script src="~/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    function OnClickImgDetail(productPicId) {
+        // Get the modal
+        var modal = document.getElementById("myModal");
+
+        // Get the image and insert it inside the modal - use its "alt" text as a caption
+        var img = document.getElementById(productPicId);
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+
+        modal.style.display = "block";
+        modalImg.src = img.src;
+        captionText.innerHTML = img.alt;
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+    }
+</script>
 <script type="application/ld+json">
     {
     "@@context": "https://schema.org/",
